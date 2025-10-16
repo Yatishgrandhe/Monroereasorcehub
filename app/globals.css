@@ -14,31 +14,53 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold text-secondary-900;
+    @apply font-bold text-secondary-900 leading-tight;
+    font-family: 'Inter', system-ui, sans-serif;
   }
   
   h1 {
     @apply text-4xl md:text-5xl lg:text-6xl;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    letter-spacing: -0.025em;
   }
   
   h2 {
     @apply text-3xl md:text-4xl lg:text-5xl;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
   
   h3 {
     @apply text-2xl md:text-3xl lg:text-4xl;
+    color: #1e293b;
+    font-weight: 700;
+    letter-spacing: -0.015em;
   }
   
   h4 {
     @apply text-xl md:text-2xl lg:text-3xl;
+    color: #334155;
+    font-weight: 600;
   }
   
   h5 {
     @apply text-lg md:text-xl lg:text-2xl;
+    color: #475569;
+    font-weight: 600;
   }
   
   h6 {
     @apply text-base md:text-lg lg:text-xl;
+    color: #64748b;
+    font-weight: 600;
   }
   
   p {
@@ -148,6 +170,49 @@
   
   .text-gradient {
     @apply bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-dark {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-gradient-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #075985 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-gradient-accent {
+    background: linear-gradient(135deg, #eab308 0%, #ca8a04 50%, #a16207 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .title-hero {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 30%, #475569 60%, #0284c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .title-section {
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #0284c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .loading-spinner {

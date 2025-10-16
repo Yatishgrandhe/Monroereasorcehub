@@ -145,9 +145,9 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative container-custom section-padding">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="title-hero mb-6">
               Welcome to Monroe
-              <span className="block text-accent-400">Resource Hub</span>
+              <span className="block text-gradient-accent">Resource Hub</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
               Your one-stop destination for community resources, services, and opportunities in Monroe, North Carolina. 

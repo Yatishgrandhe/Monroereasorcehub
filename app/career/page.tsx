@@ -75,7 +75,7 @@ export default function CareerCenterPage() {
                 <Briefcase className="h-10 w-10" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 font-sans">
+            <h1 className="title-hero mb-6">
               Career Center
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed font-sans">
@@ -104,7 +104,7 @@ export default function CareerCenterPage() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4 font-sans">
+            <h2 className="title-section mb-4">
               Career Tools & Resources
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto font-sans">
@@ -146,7 +146,7 @@ export default function CareerCenterPage() {
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-6 font-sans">
+              <h2 className="title-section mb-6">
                 Why Choose Our Career Center?
               </h2>
               <p className="text-lg text-secondary-600 mb-8 font-sans">
@@ -184,7 +184,7 @@ export default function CareerCenterPage() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4 font-sans">
+            <h2 className="title-section mb-4">
               Success Stories
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto font-sans">
@@ -220,7 +220,7 @@ export default function CareerCenterPage() {
       <section className="section-padding bg-gradient-to-r from-primary-600 to-primary-700 text-white">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 font-sans">
+            <h2 className="title-section mb-6">
               Ready to Advance Your Career?
             </h2>
             <p className="text-xl mb-8 text-white/90 font-sans">

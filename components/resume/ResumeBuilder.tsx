@@ -559,7 +559,7 @@ export function ResumeBuilder() {
     <div className="min-h-screen bg-secondary-50">
       <div className="container-custom section-padding">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4 font-sans">
+          <h1 className="title-section mb-4">
             AI-Powered Resume Builder
           </h1>
           <p className="text-xl text-secondary-600 max-w-3xl font-sans">

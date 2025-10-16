@@ -189,7 +189,7 @@ export function ResourceDirectory() {
       <div className="container-custom section-padding">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+          <h1 className="title-section mb-4">
             Community Resources
           </h1>
           <p className="text-xl text-secondary-600 max-w-3xl">
