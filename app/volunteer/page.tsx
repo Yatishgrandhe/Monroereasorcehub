@@ -180,6 +180,56 @@ export default function VolunteerPage() {
         </div>
       </section>
 
+      {/* Community Spotlight */}
+      <section className="section-padding bg-gradient-logo text-white">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Community Spotlight
+            </h2>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto">
+              Meet some of our amazing volunteers making a difference in Monroe
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {volunteerOpportunities.slice(0, 3).map((volunteer, index) => (
+              <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300">
+                <div className="relative h-48 w-full mb-4 rounded-lg overflow-hidden">
+                  <img 
+                    src={volunteer.image} 
+                    alt={volunteer.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h3 className="text-lg font-semibold text-white mb-1">{volunteer.title}</h3>
+                    <p className="text-white/90 text-sm">{volunteer.organization}</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <p className="text-white/90 text-sm">
+                    {volunteer.description}
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-white/80">
+                    <Clock className="h-4 w-4" />
+                    <span>{volunteer.timeCommitment}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-white/80">
+                    <MapPin className="h-4 w-4" />
+                    <span>{volunteer.location}</span>
+                  </div>
+                  <Button variant="outline" size="sm" className="w-full mt-4 border-white/30 text-white hover:bg-white/20">
+                    <Mail className="h-4 w-4 mr-2" />
+                    Get Involved
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Volunteer Opportunities */}
       <section className="section-padding bg-secondary-50">
         <div className="container-custom">
