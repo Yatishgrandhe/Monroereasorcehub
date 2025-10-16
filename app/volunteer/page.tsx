@@ -12,7 +12,8 @@ const volunteerOpportunities = [
     timeCommitment: '2-4 hours per week',
     skills: ['Gardening', 'Physical activity', 'Teamwork'],
     contact: 'garden@monroenc.org',
-    phone: '(704) 283-1234'
+    phone: '(704) 283-1234',
+    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
   },
   {
     title: 'Food Bank Assistant',
@@ -22,7 +23,8 @@ const volunteerOpportunities = [
     timeCommitment: '3-6 hours per week',
     skills: ['Organization', 'Customer service', 'Physical activity'],
     contact: 'volunteer@secondharvestmetrolina.org',
-    phone: '(704) 376-1785'
+    phone: '(704) 376-1785',
+    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
   },
   {
     title: 'Tutoring Volunteer',
@@ -32,7 +34,8 @@ const volunteerOpportunities = [
     timeCommitment: '1-3 hours per week',
     skills: ['Teaching', 'Patience', 'Communication'],
     contact: 'volunteer@ucps.k12.nc.us',
-    phone: '(704) 283-4000'
+    phone: '(704) 283-4000',
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
   },
   {
     title: 'Senior Companion',
@@ -42,7 +45,8 @@ const volunteerOpportunities = [
     timeCommitment: '2-4 hours per week',
     skills: ['Compassion', 'Communication', 'Reliability'],
     contact: 'seniors@monroenc.org',
-    phone: '(704) 283-5678'
+    phone: '(704) 283-5678',
+    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
   },
   {
     title: 'Event Planning Assistant',
@@ -52,7 +56,8 @@ const volunteerOpportunities = [
     timeCommitment: 'Variable (event-based)',
     skills: ['Organization', 'Event planning', 'Communication'],
     contact: 'events@unioncountychamber.org',
-    phone: '(704) 283-9999'
+    phone: '(704) 283-9999',
+    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
   },
   {
     title: 'Animal Shelter Helper',
@@ -62,7 +67,8 @@ const volunteerOpportunities = [
     timeCommitment: '2-5 hours per week',
     skills: ['Animal care', 'Compassion', 'Physical activity'],
     contact: 'volunteer@unioncountync.gov',
-    phone: '(704) 283-1111'
+    phone: '(704) 283-1111',
+    image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
   }
 ];
 
@@ -102,15 +108,23 @@ export default function VolunteerPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white">
-        <div className="container-custom section-padding">
+      <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            alt="Volunteers working together"
+            className="w-full h-full object-cover opacity-20"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-600/90 via-primary-700/90 to-primary-800/90"></div>
+        <div className="relative container-custom section-padding">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex justify-center mb-6">
               <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center">
                 <Heart className="h-10 w-10" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <h1 className="title-hero mb-6">
               Volunteer Opportunities
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
@@ -118,11 +132,11 @@ export default function VolunteerPage() {
               that match your interests, skills, and schedule.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30">
+              <Button size="lg" variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30 force-white-text">
                 <Users className="mr-2 h-5 w-5" />
                 Find Opportunities
               </Button>
-              <Button size="lg" variant="ghost" className="text-white hover:bg-white/20">
+              <Button size="lg" variant="ghost" className="text-white hover:bg-white/20 force-white-text">
                 <Calendar className="mr-2 h-5 w-5" />
                 Upcoming Events
               </Button>
@@ -135,7 +149,7 @@ export default function VolunteerPage() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+            <h2 className="title-section mb-4">
               Why Volunteer in Monroe?
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
@@ -170,7 +184,7 @@ export default function VolunteerPage() {
       <section className="section-padding bg-secondary-50">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+            <h2 className="title-section mb-4">
               Current Opportunities
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
@@ -180,18 +194,22 @@ export default function VolunteerPage() {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {volunteerOpportunities.map((opportunity, index) => (
-              <Card key={index} hover>
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <CardTitle className="text-xl mb-2">{opportunity.title}</CardTitle>
-                      <CardDescription className="text-primary-600 font-medium">
-                        {opportunity.organization}
-                      </CardDescription>
-                    </div>
+              <Card key={index} hover className="overflow-hidden">
+                <div className="relative h-48 w-full">
+                  <img 
+                    src={opportunity.image} 
+                    alt={opportunity.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <CardTitle className="text-xl mb-2 text-white">{opportunity.title}</CardTitle>
+                    <CardDescription className="text-white/90 font-medium">
+                      {opportunity.organization}
+                    </CardDescription>
                   </div>
-                </CardHeader>
-                <CardContent>
+                </div>
+                <CardContent className="p-6">
                   <p className="text-secondary-700 mb-4">
                     {opportunity.description}
                   </p>
@@ -239,7 +257,7 @@ export default function VolunteerPage() {
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+              <h2 className="title-section mb-4">
                 Volunteer Requirements
               </h2>
               <p className="text-xl text-secondary-600">
@@ -269,7 +287,7 @@ export default function VolunteerPage() {
       <section className="section-padding bg-secondary-50">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-6">
+            <h2 className="title-section mb-6">
               Ready to Get Started?
             </h2>
             <p className="text-xl text-secondary-600 mb-8">
@@ -332,7 +350,7 @@ export default function VolunteerPage() {
       <section className="section-padding bg-gradient-to-r from-primary-600 to-primary-700 text-white">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            <h2 className="title-section mb-6">
               Make Monroe Better Together
             </h2>
             <p className="text-xl mb-8 text-white/90">

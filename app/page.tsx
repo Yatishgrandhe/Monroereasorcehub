@@ -105,7 +105,8 @@ const features = [
   {
     icon: Heart,
     title: 'Get Involved',
-    description: 'Discover volunteer opportunities and ways to give back to your community.'
+    description: 'Discover volunteer opportunities and ways to give back to your community.',
+    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
   }
 ];
 
@@ -270,9 +271,22 @@ export default async function HomePage() {
               const IconComponent = feature.icon;
               return (
                 <div key={index} className="text-center">
-                  <div className="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <IconComponent className="h-8 w-8" />
-                  </div>
+                  {feature.image ? (
+                    <div className="relative w-24 h-24 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg">
+                      <img 
+                        src={feature.image} 
+                        alt={feature.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-primary-600/20 flex items-center justify-center">
+                        <IconComponent className="h-8 w-8 text-white" />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <IconComponent className="h-8 w-8" />
+                    </div>
+                  )}
                   <h3 className="text-xl font-semibold text-secondary-900 mb-3">
                     {feature.title}
                   </h3>
