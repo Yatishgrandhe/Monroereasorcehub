@@ -289,6 +289,74 @@
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(6, 182, 212, 0.05) 50%, rgba(249, 115, 22, 0.05) 100%);
   }
   
+  .nav-link {
+    position: relative;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #f97316 100%);
+    transition: left 0.3s ease;
+    z-index: -1;
+  }
+  
+  .nav-link:hover::before {
+    left: 0;
+  }
+  
+  .nav-link:hover {
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+  
+  .nav-link.active {
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #f97316 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+  }
+  
+  .nav-link.active::before {
+    display: none;
+  }
+  
+  .nav-button-glow {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-button-glow::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #f97316 100%);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+  
+  .nav-button-glow:hover::after {
+    opacity: 0.2;
+  }
+  
+  .nav-button-glow:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  }
+  
   .title-hero {
     font-size: clamp(2.5rem, 8vw, 6rem);
     font-weight: 800;

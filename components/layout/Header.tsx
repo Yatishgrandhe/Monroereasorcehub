@@ -52,7 +52,7 @@ export function Header() {
   };
 
   return (
-    <header className="bg-white shadow-soft border-b border-secondary-200 sticky top-0 z-50">
+    <header className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-secondary-200 sticky top-0 z-50">
       <nav className="container-custom" aria-label="Global">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -72,16 +72,14 @@ export function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-8">
+          <div className="hidden md:flex md:items-center md:space-x-2">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  'text-sm font-medium transition-colors duration-200',
-                  pathname === item.href
-                    ? 'text-primary-600'
-                    : 'text-secondary-600 hover:text-primary-600'
+                  'nav-link text-sm font-medium',
+                  pathname === item.href ? 'active' : 'text-secondary-600'
                 )}
               >
                 {item.name}
@@ -90,37 +88,37 @@ export function Header() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex md:items-center md:space-x-4">
-            <Button variant="ghost" size="sm" asChild href="/resources">
+          <div className="hidden md:flex md:items-center md:space-x-3">
+            <Button variant="ghost" size="sm" className="nav-button-glow" asChild href="/resources">
               <Search className="h-4 w-4 mr-2" />
               Search
             </Button>
-            <Button variant="outline" size="sm" asChild href="/submit-resource">
+            <Button variant="outline" size="sm" className="nav-button-glow" asChild href="/submit-resource">
               Submit Resource
             </Button>
             
             {user ? (
               <div className="flex items-center space-x-2">
-                <Button variant="primary" size="sm" asChild href="/career/resume-builder">
+                <Button variant="gradient" size="sm" className="nav-button-glow" asChild href="/career/resume-builder">
                   <UserIcon className="h-4 w-4 mr-2" />
                   Resume Builder
                 </Button>
-                <div className="flex items-center space-x-2 px-3 py-1 bg-secondary-100 rounded-lg">
-                  <UserCircle className="h-4 w-4 text-secondary-600" />
-                  <span className="text-sm text-secondary-700">
+                <div className="flex items-center space-x-2 px-3 py-1 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
+                  <UserCircle className="h-4 w-4 text-primary-600" />
+                  <span className="text-sm text-secondary-700 font-medium">
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
-                <Button variant="ghost" size="sm" onClick={handleSignOut}>
+                <Button variant="ghost" size="sm" className="nav-button-glow" onClick={handleSignOut}>
                   <LogOut className="h-4 w-4" />
                 </Button>
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm" asChild href="/auth/signin">
+                <Button variant="outline" size="sm" className="nav-button-glow" asChild href="/auth/signin">
                   Sign In
                 </Button>
-                <Button variant="primary" size="sm" asChild href="/auth/signup">
+                <Button variant="gradient" size="sm" className="nav-button-glow" asChild href="/auth/signup">
                   Sign Up
                 </Button>
               </div>
@@ -133,13 +131,13 @@ export function Header() {
               variant="ghost"
               size="sm"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2"
+              className="p-2 nav-button-glow"
             >
               <span className="sr-only">Open main menu</span>
               {mobileMenuOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-6 w-6 transition-transform duration-200 rotate-180" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-6 w-6 transition-transform duration-200" />
               )}
             </Button>
           </div>
@@ -147,17 +145,17 @@ export function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-secondary-200">
+          <div className="md:hidden animate-slide-up">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm border-t border-secondary-200">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'block px-3 py-2 text-base font-medium transition-colors duration-200',
+                    'block px-3 py-2 text-base font-medium transition-all duration-200 rounded-lg',
                     pathname === item.href
-                      ? 'text-primary-600 bg-primary-50'
-                      : 'text-secondary-600 hover:text-primary-600 hover:bg-secondary-50'
+                      ? 'active text-white'
+                      : 'text-secondary-600 hover:text-white hover:bg-gradient-logo'
                   )}
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -165,33 +163,33 @@ export function Header() {
                 </Link>
               ))}
               <div className="pt-4 space-y-2">
-                <Button variant="outline" size="sm" className="w-full" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="outline" size="sm" className="w-full nav-button-glow" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
                   Submit Resource
                 </Button>
                 
                 {user ? (
                   <>
-                    <Button variant="primary" size="sm" className="w-full" asChild href="/career/resume-builder" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="gradient" size="sm" className="w-full nav-button-glow" asChild href="/career/resume-builder" onClick={() => setMobileMenuOpen(false)}>
                       Resume Builder
                     </Button>
-                    <div className="flex items-center justify-between px-3 py-2 bg-secondary-100 rounded-lg">
+                    <div className="flex items-center justify-between px-3 py-2 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
                       <div className="flex items-center space-x-2">
-                        <UserCircle className="h-4 w-4 text-secondary-600" />
-                        <span className="text-sm text-secondary-700">
+                        <UserCircle className="h-4 w-4 text-primary-600" />
+                        <span className="text-sm text-secondary-700 font-medium">
                           {user.user_metadata?.full_name || user.email?.split('@')[0]}
                         </span>
                       </div>
-                      <Button variant="ghost" size="sm" onClick={handleSignOut}>
+                      <Button variant="ghost" size="sm" className="nav-button-glow" onClick={handleSignOut}>
                         <LogOut className="h-4 w-4" />
                       </Button>
                     </div>
                   </>
                 ) : (
                   <>
-                    <Button variant="outline" size="sm" className="w-full" asChild href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full nav-button-glow" asChild href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
                       Sign In
                     </Button>
-                    <Button variant="primary" size="sm" className="w-full" asChild href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="gradient" size="sm" className="w-full nav-button-glow" asChild href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
                       Sign Up
                     </Button>
                   </>
