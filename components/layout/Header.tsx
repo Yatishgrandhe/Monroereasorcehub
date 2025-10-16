@@ -56,7 +56,7 @@ export function Header() {
       <nav className="container-custom" aria-label="Global">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center">
+          <div className="flex items-center flex-shrink-0">
             <Link href="/" className="flex items-center space-x-3 logo-container">
               <div className="w-10 h-10 rounded-lg overflow-hidden shadow-lg">
                 <img 
@@ -72,7 +72,7 @@ export function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-2">
+          <div className="hidden md:flex md:items-center md:space-x-4 flex-1 justify-center">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -88,7 +88,7 @@ export function Header() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex md:items-center md:space-x-3">
+          <div className="hidden md:flex md:items-center md:space-x-4 flex-shrink-0">
             <Button variant="ghost" size="sm" className="nav-button-glow" asChild href="/resources">
               <Search className="h-4 w-4 mr-2" />
               Search
@@ -146,13 +146,13 @@ export function Header() {
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden animate-slide-up">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm border-t border-secondary-200">
+            <div className="px-4 pt-3 pb-4 space-y-2 bg-white/95 backdrop-blur-sm border-t border-secondary-200">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'block px-3 py-2 text-base font-medium transition-all duration-200 rounded-lg',
+                    'block px-4 py-3 text-base font-medium transition-all duration-200 rounded-lg',
                     pathname === item.href
                       ? 'active text-white'
                       : 'text-secondary-600 hover:text-white hover:bg-gradient-logo'
@@ -162,7 +162,7 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
-              <div className="pt-4 space-y-2">
+              <div className="pt-4 space-y-3">
                 <Button variant="outline" size="sm" className="w-full nav-button-glow" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
                   Submit Resource
                 </Button>
