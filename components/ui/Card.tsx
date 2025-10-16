@@ -3,15 +3,16 @@ import { cn } from '@/lib/utils';
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   hover?: boolean;
+  glow?: boolean;
   padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, hover = false, padding = 'md', children, ...props }, ref) => {
+  ({ className, hover = false, glow = false, padding = 'md', children, ...props }, ref) => {
     return (
       <div
         className={cn(
-          'card',
+          glow ? 'card-glow' : 'card',
           hover && 'card-hover',
           {
             'p-0': padding === 'none',

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'gradient';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   asChild?: boolean;
@@ -19,6 +19,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         'btn-secondary': variant === 'secondary',
         'btn-outline': variant === 'outline',
         'btn-ghost': variant === 'ghost',
+        'btn-gradient': variant === 'gradient',
         'bg-error-600 text-white hover:bg-error-700 focus:ring-error-500': variant === 'destructive',
         'btn-sm': size === 'sm',
         'btn-lg': size === 'lg',

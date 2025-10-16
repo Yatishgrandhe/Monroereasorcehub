@@ -12,70 +12,70 @@ const categories = [
     icon: Utensils,
     description: 'Food banks, pantries, and meal programs',
     href: '/resources?category=Food Assistance',
-    color: 'bg-orange-100 text-orange-800'
+    color: 'bg-coral-100 text-coral-800'
   },
   {
     name: 'Healthcare',
     icon: Stethoscope,
     description: 'Medical services, clinics, and health programs',
     href: '/resources?category=Healthcare',
-    color: 'bg-red-100 text-red-800'
+    color: 'bg-primary-100 text-primary-800'
   },
   {
     name: 'Education',
     icon: GraduationCap,
     description: 'Schools, tutoring, and educational programs',
     href: '/resources?category=Education',
-    color: 'bg-blue-100 text-blue-800'
+    color: 'bg-accent-100 text-accent-800'
   },
   {
     name: 'Housing',
     icon: Home,
     description: 'Housing assistance, shelters, and rental help',
     href: '/resources?category=Housing',
-    color: 'bg-green-100 text-green-800'
+    color: 'bg-teal-100 text-teal-800'
   },
   {
     name: 'Family Support',
     icon: Baby,
     description: 'Family services, childcare, and support programs',
     href: '/resources?category=Family Support',
-    color: 'bg-pink-100 text-pink-800'
+    color: 'bg-coral-100 text-coral-800'
   },
   {
     name: 'Senior Services',
     icon: UserCheck,
     description: 'Services for seniors and elderly care',
     href: '/resources?category=Senior Services',
-    color: 'bg-purple-100 text-purple-800'
+    color: 'bg-primary-100 text-primary-800'
   },
   {
     name: 'Mental Health',
     icon: Brain,
     description: 'Counseling, therapy, and mental health support',
     href: '/resources?category=Mental Health',
-    color: 'bg-indigo-100 text-indigo-800'
+    color: 'bg-accent-100 text-accent-800'
   },
   {
     name: 'Legal Aid',
     icon: Scale,
     description: 'Legal assistance and advocacy services',
     href: '/resources?category=Legal Aid',
-    color: 'bg-yellow-100 text-yellow-800'
+    color: 'bg-teal-100 text-teal-800'
   },
   {
     name: 'Employment',
     icon: Briefcase,
     description: 'Job training, placement, and career services',
     href: '/resources?category=Employment',
-    color: 'bg-teal-100 text-teal-800'
+    color: 'bg-coral-100 text-coral-800'
   },
   {
     name: 'Transportation',
     icon: Car,
     description: 'Public transit and transportation assistance',
     href: '/resources?category=Transportation',
-    color: 'bg-gray-100 text-gray-800'
+    color: 'bg-primary-100 text-primary-800'
   }
 ];
 
@@ -142,13 +142,13 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
+      <section className="relative bg-gradient-logo text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative container-custom section-padding">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="title-hero mb-6">
               Welcome to Monroe
-              <span className="block text-gradient-accent">Resource Hub</span>
+              <span className="block text-gradient-coral">Resource Hub</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
               Your one-stop destination for community resources, services, and opportunities in Monroe, North Carolina. 
@@ -164,7 +164,7 @@ export default async function HomePage() {
                   placeholder="Search for resources, services, or organizations..."
                   className="w-full pl-12 pr-4 py-4 text-lg rounded-xl border-0 shadow-lg text-secondary-900 placeholder-secondary-500 focus:ring-2 focus:ring-white/50"
                 />
-                <Button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary-600 hover:bg-primary-700 text-white">
+                <Button variant="gradient" className="absolute right-2 top-1/2 transform -translate-y-1/2">
                   Search
                 </Button>
               </div>
@@ -183,12 +183,12 @@ export default async function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-secondary-50">
+      <section className="py-16 section-gradient">
         <div className="container-custom">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary-600 mb-2">
+                <div className="text-3xl md:text-4xl font-bold text-gradient-logo mb-2">
                   {stat.value}
                 </div>
                 <div className="text-secondary-600 font-medium">
@@ -216,7 +216,7 @@ export default async function HomePage() {
       </section>
 
       {/* Categories Grid */}
-      <section className="section-padding bg-secondary-50">
+      <section className="section-padding section-gradient">
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
@@ -231,7 +231,7 @@ export default async function HomePage() {
             {categories.map((category) => {
               const IconComponent = category.icon;
               return (
-                <Card key={category.name} hover className="text-center group">
+                <Card key={category.name} glow className="text-center group">
                   <CardHeader className="pb-4">
                     <div className={`w-16 h-16 ${category.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200`}>
                       <IconComponent className="h-8 w-8" />
@@ -301,7 +301,7 @@ export default async function HomePage() {
       </section>
 
       {/* Call to Action */}
-      <section className="section-padding bg-gradient-to-r from-primary-600 to-primary-700 text-white">
+      <section className="section-padding bg-gradient-logo text-white">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -316,7 +316,7 @@ export default async function HomePage() {
                 <Search className="mr-2 h-5 w-5" />
                 Find Resources
               </Button>
-              <Button size="lg" variant="ghost" className="text-white hover:bg-white/20" asChild href="/career/resume-builder">
+              <Button size="lg" variant="gradient" asChild href="/career/resume-builder">
                 <Briefcase className="mr-2 h-5 w-5" />
                 Build Your Resume
               </Button>
