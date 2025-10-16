@@ -93,11 +93,11 @@
   }
   
   .btn-outline {
-    @apply btn bg-transparent text-white hover:bg-primary-50 focus:ring-primary-500 border border-primary-300;
+    @apply btn bg-white/10 text-secondary-700 hover:bg-primary-50 hover:text-primary-700 focus:ring-primary-500 border border-primary-300;
   }
   
   .btn-ghost {
-    @apply btn bg-transparent text-white hover:bg-secondary-100 focus:ring-secondary-500;
+    @apply btn bg-white/10 text-secondary-700 hover:bg-secondary-100 hover:text-secondary-800 focus:ring-secondary-500;
   }
   
   .btn-sm {
@@ -350,12 +350,12 @@
   }
   
   .nav-button-glow:hover::after {
-    opacity: 0.2;
+    opacity: 0.1;
   }
   
   .nav-button-glow:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
   }
   
   .title-hero {
