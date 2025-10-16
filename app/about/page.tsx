@@ -281,13 +281,13 @@ export default function AboutPage() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="primary" size="lg" asChild>
+              <Button variant="primary" size="lg" className="text-white" asChild>
                 <a href="mailto:info@monroeresourcehub.org">
                   <Mail className="mr-2 h-5 w-5" />
                   Contact Us
                 </a>
               </Button>
-              <Button variant="outline" size="lg" asChild>
+              <Button variant="outline" size="lg" className="text-white" asChild>
                 <a href="/submit-resource">
                   <Plus className="mr-2 h-5 w-5" />
                   Suggest a Resource
