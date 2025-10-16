@@ -57,11 +57,15 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">M</span>
+            <Link href="/" className="flex items-center space-x-3 logo-container">
+              <div className="w-10 h-10 rounded-lg overflow-hidden shadow-lg">
+                <img 
+                  src="/logo.png" 
+                  alt="Monroe Resource Hub Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <span className="text-xl font-bold text-secondary-900">
+              <span className="text-xl font-bold logo-title">
                 Monroe Resource Hub
               </span>
             </Link>
