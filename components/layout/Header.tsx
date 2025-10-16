@@ -53,11 +53,11 @@ export function Header() {
 
   return (
     <header className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-secondary-200 sticky top-0 z-50">
-      <nav className="container-custom" aria-label="Global">
-        <div className="flex items-center justify-between h-16">
+      <nav className="w-full" aria-label="Global">
+        <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
           {/* Logo */}
-          <div className="flex items-center flex-shrink-0">
-            <Link href="/" className="flex items-center space-x-3 logo-container">
+          <div className="flex items-center flex-shrink-0 -ml-2">
+            <Link href="/" className="flex items-center space-x-3 logo-container pl-2">
               <div className="w-10 h-10 rounded-lg overflow-hidden shadow-lg">
                 <img 
                   src="/logo.png" 
@@ -146,7 +146,7 @@ export function Header() {
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden animate-slide-up">
-            <div className="px-4 pt-3 pb-4 space-y-2 bg-white/95 backdrop-blur-sm border-t border-secondary-200">
+            <div className="px-2 pt-3 pb-4 space-y-2 bg-white/95 backdrop-blur-sm border-t border-secondary-200">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
