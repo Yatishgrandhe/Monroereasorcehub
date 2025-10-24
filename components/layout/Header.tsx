@@ -16,6 +16,7 @@ const navigation = [
   { name: 'Career Center', href: '/career' },
   { name: 'Volunteer', href: '/volunteer' },
   { name: 'About', href: '/about' },
+  { name: 'Reference', href: '/reference' },
 ];
 
 export function Header() {

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Log - Monroe Resource Hub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #f5f5f5;
+            line-height: 1.5;
+            color: #000;
+            font-size: 11pt;
+        }
+        
+        .container {
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: white;
+            color: #000;
+            padding: 30px 40px;
+            text-align: center;
+            border-bottom: 3px solid #000;
+        }
+        
+        .header h1 {
+            font-size: 18pt;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .header-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            font-size: 10pt;
+        }
+        
+        .header-info div {
+            padding: 5px 0;
+        }
+        
+        .content {
+            padding: 35px 40px;
+        }
+        
+        .download-section {
+            background: #fffacd;
+            padding: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 2px solid #ffa500;
+            font-size: 10pt;
+        }
+        
+        .download-btn {
+            background: #4a4a4a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 10pt;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        
+        .download-btn:hover {
+            background: #666;
+        }
+        
+        h2 {
+            color: #000;
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #999;
+        }
+        
+        .work-entry {
+            background: #fafafa;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 3px solid #4a4a4a;
+            border: 1px solid #ccc;
+        }
+        
+        .work-entry h3 {
+            color: #000;
+            font-size: 11pt;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .work-entry p {
+            margin: 5px 0;
+            color: #000;
+            font-size: 10pt;
+        }
+        
+        .work-entry strong {
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .work-entry ul {
+            margin-top: 8px;
+            margin-left: 20px;
+        }
+        
+        .work-entry li {
+            margin-bottom: 4px;
+            color: #000;
+            font-size: 10pt;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            border: 1px solid #000;
+            font-size: 10pt;
+        }
+        
+        th {
+            background: #e0e0e0;
+            color: #000;
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid #000;
+            font-size: 10pt;
+        }
+        
+        td {
+            padding: 6px 8px;
+            border: 1px solid #000;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .summary {
+            background: #f0f0f0;
+            padding: 15px;
+            border: 1px solid #999;
+            margin: 15px 0;
+            font-size: 10pt;
+        }
+        
+        .summary h3 {
+            color: #000;
+            margin-bottom: 8px;
+            font-size: 11pt;
+            font-weight: bold;
+        }
+        
+        .highlight-box {
+            background: #fffacd;
+            padding: 15px;
+            border: 2px solid #ffa500;
+            margin-top: 20px;
+            font-size: 10pt;
+        }
+        
+        .highlight-box h3 {
+            color: #000;
+            margin-bottom: 8px;
+            font-size: 11pt;
+            font-weight: bold;
+        }
+        
+        p {
+            margin: 8px 0;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .download-section {
+                display: none !important;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="contentToPrint">
+        <div class="header">
+            <h1>Work Log</h1>
+            <div class="header-info">
+                <div><strong>Project:</strong> Monroe Resource Hub</div>
+                <div><strong>School:</strong> Central Academy of Technology and Arts</div>
+                <div><strong>Organization:</strong> TSA</div>
+                <div><strong>Date Range:</strong> January 2025 - January 2026</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="download-section">
+                <p style="margin-bottom: 8px; font-weight: bold;">
+                    📄 Save this document as a PDF for your records
+                </p>
+                <button class="download-btn" onclick="downloadPDF()">
+                    📥 Download as PDF
+                </button>
+            </div>
+
+            <div class="summary">
+                <h3>Project Summary</h3>
+                <p>The Monroe Resource Hub is a comprehensive community platform designed to connect residents of Monroe, 
+                North Carolina with vital resources, services, and opportunities. The project includes a resource directory, 
+                AI-powered resume builder, job application assistant, community events calendar, and volunteer opportunities.</p>
+            </div>
+
+            <h2>Work Log Entries</h2>
+
+            <div class="work-entry">
+                <h3>Project Planning & Research</h3>
+                <p><strong>Date:</strong> January 2025</p>
+                <p><strong>Time Spent:</strong> 15 hours</p>
+                <p><strong>Team Members:</strong> All team members</p>
+                <p><strong>Tasks Completed:</strong></p>
+                <ul>
+                    <li>Conducted community needs assessment</li>
+                    <li>Researched existing community resource platforms</li>
+                    <li>Identified key features and functionality requirements</li>
+                    <li>Created project timeline and milestones</li>
+                    <li>Selected technology stack (Next.js, Supabase, Tailwind CSS)</li>
+                </ul>
+                <p><strong>Outcomes:</strong> Established project scope and technical requirements</p>
+            </div>
+
+            <div class="work-entry">
+                <h3>UI/UX Design & Wireframing</h3>
+                <p><strong>Date:</strong> February 2025</p>
+                <p><strong>Time Spent:</strong> 20 hours</p>
+                <p><strong>Team Members:</strong> Design team</p>
+                <p><strong>Tasks Completed:</strong></p>
+                <ul>
+                    <li>Created wireframes for all main pages</li>
+                    <li>Designed color scheme and branding</li>
+                    <li>Created custom logo design</li>
+                    <li>Designed responsive layouts for mobile and desktop</li>
+                    <li>Established design system and component library</li>
+                </ul>
+                <p><strong>Outcomes:</strong> Complete design system and visual mockups</p>
+            </div>
+
+            <div class="work-entry">
+                <h3>Database Setup & Backend Development</h3>
+                <p><strong>Date:</strong> March-April 2025</p>
+                <p><strong>Time Spent:</strong> 25 hours</p>
+                <p><strong>Team Members:</strong> Backend team</p>
+                <p><strong>Tasks Completed:</strong></p>
+                <ul>
+                    <li>Designed database schema for resources, events, users</li>
+                    <li>Set up Supabase project and database</li>
+                    <li>Implemented authentication system</li>
+                    <li>Created API routes for resource management</li>
+                    <li>Set up Row Level Security (RLS) policies</li>
+                    <li>Configured admin dashboard functionality</li>
+                </ul>
+                <p><strong>Outcomes:</strong> Fully functional backend with secure authentication</p>
+            </div>
+
+            <div class="work-entry">
+                <h3>Frontend Development - Core Pages</h3>
+                <p><strong>Date:</strong> May-June 2025</p>
+                <p><strong>Time Spent:</strong> 30 hours</p>
+                <p><strong>Team Members:</strong> Frontend team</p>
+                <p><strong>Tasks Completed:</strong></p>
+                <ul>
+                    <li>Built homepage with hero section and categories</li>
+                    <li>Created resource directory with search and filters</li>
+                    <li>Developed resource detail pages</li>
+                    <li>Built events calendar interface</li>
+                    <li>Created about page and contact forms</li>
+                    <li>Implemented responsive navigation and footer</li>
+                </ul>
+                <p><strong>Outcomes:</strong> Complete user-facing pages and navigation</p>
+            </div>
+
+            <div class="work-entry">
+                <h3>Career Center Development</h3>
+                <p><strong>Date:</strong> July-September 2025</p>
+                <p><strong>Time Spent:</strong> 35 hours</p>
+                <p><strong>Team Members:</strong> AI/Backend team</p>
+                <p><strong>Tasks Completed:</strong></p>
+                <ul>
+                    <li>Integrated Google Gemini AI API</li>
+                    <li>Built AI-powered resume builder with templates</li>
+                    <li>Created job application assistant</li>
+                    <li>Developed local job board</li>
+                    <li>Implemented PDF export functionality</li>
+                    <li>Created job search and filtering features</li>
+                </ul>
+                <p><strong>Outcomes:</strong> Fully functional career center with AI features</p>
+            </div>
+
+            <div class="work-entry">
+                <h3>Admin Dashboard & Resource Management</h3>
+                <p><strong>Date:</strong> October 2025</p>
+                <p><strong>Time Spent:</strong> 20 hours</p>
+                <p><strong>Team Members:</strong> Backend team</p>
+                <p><strong>Tasks Completed:</strong></p>
+                <ul>
+                    <li>Created admin dashboard interface</li>
+                    <li>Implemented resource approval system</li>
+                    <li>Built resource submission form</li>
+                    <li>Created user management features</li>
+                    <li>Developed analytics and reporting</li>
+                </ul>
+                <p><strong>Outcomes:</strong> Complete administrative tools</p>
+            </div>
+
+            <div class="work-entry">
+                <h3>Testing & Quality Assurance</h3>
+                <p><strong>Date:</strong> November 2025</p>
+                <p><strong>Time Spent:</strong> 18 hours</p>
+                <p><strong>Team Members:</strong> All team members</p>
+                <p><strong>Tasks Completed:</strong></p>
+                <ul>
+                    <li>Conducted cross-browser testing (Chrome, Firefox, Edge)</li>
+                    <li>Tested responsive design on multiple devices</li>
+                    <li>Performed security testing and vulnerability scans</li>
+                    <li>Tested all user flows and features</li>
+                    <li>Fixed bugs and performance issues</li>
+                    <li>Validated accessibility compliance</li>
+                </ul>
+                <p><strong>Outcomes:</strong> Stable, tested, and secure application</p>
+            </div>
+
+            <div class="work-entry">
+                <h3>Content Population & Data Entry</h3>
+                <p><strong>Date:</strong> December 2025</p>
+                <p><strong>Time Spent:</strong> 15 hours</p>
+                <p><strong>Team Members:</strong> Content team</p>
+                <p><strong>Tasks Completed:</strong></p>
+                <ul>
+                    <li>Researched and added 50+ community resources</li>
+                    <li>Organized resources by category</li>
+                    <li>Added event listings and calendar entries</li>
+                    <li>Created job listings</li>
+                    <li>Wrote content for all pages</li>
+                </ul>
+                <p><strong>Outcomes:</strong> Fully populated database with real data</p>
+            </div>
+
+            <div class="work-entry">
+                <h3>Documentation & Final Preparation</h3>
+                <p><strong>Date:</strong> January 2026</p>
+                <p><strong>Time Spent:</strong> 12 hours</p>
+                <p><strong>Team Members:</strong> All team members</p>
+                <p><strong>Tasks Completed:</strong></p>
+                <ul>
+                    <li>Created reference page with all sources</li>
+                    <li>Completed student copyright checklist</li>
+                    <li>Documented all work log entries</li>
+                    <li>Prepared presentation materials</li>
+                    <li>Created user documentation and guides</li>
+                    <li>Final review and quality check</li>
+                </ul>
+                <p><strong>Outcomes:</strong> Complete project documentation</p>
+            </div>
+
+            <h2>Total Time Summary</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Phase</th>
+                        <th>Hours</th>
+                        <th>Team Members</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Planning & Research</td>
+                        <td>15</td>
+                        <td>All</td>
+                    </tr>
+                    <tr>
+                        <td>Design & Wireframing</td>
+                        <td>20</td>
+                        <td>Design Team</td>
+                    </tr>
+                    <tr>
+                        <td>Database & Backend</td>
+                        <td>25</td>
+                        <td>Backend Team</td>
+                    </tr>
+                    <tr>
+                        <td>Frontend Development</td>
+                        <td>30</td>
+                        <td>Frontend Team</td>
+                    </tr>
+                    <tr>
+                        <td>Career Center</td>
+                        <td>35</td>
+                        <td>AI/Backend Team</td>
+                    </tr>
+                    <tr>
+                        <td>Admin Dashboard</td>
+                        <td>20</td>
+                        <td>Backend Team</td>
+                    </tr>
+                    <tr>
+                        <td>Testing & QA</td>
+                        <td>18</td>
+                        <td>All</td>
+                    </tr>
+                    <tr>
+                        <td>Content Population</td>
+                        <td>15</td>
+                        <td>Content Team</td>
+                    </tr>
+                    <tr>
+                        <td>Documentation</td>
+                        <td>12</td>
+                        <td>All</td>
+                    </tr>
+                    <tr style="background: #e0e0e0; font-weight: bold;">
+                        <td><strong>Total</strong></td>
+                        <td><strong>190 hours</strong></td>
+                        <td><strong>25+ students</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Team Contributions</h2>
+            <p style="margin-bottom: 12px;"><strong>Note:</strong> This project was completed collaboratively by all members of the Central Academy of Technology and Arts TSA Chapter. 
+            Work was distributed based on individual strengths and interests, with regular team meetings to ensure coordination and 
+            quality throughout the development process.</p>
+
+            <div class="highlight-box">
+                <h3>Project Completion Date:</h3>
+                <p><strong>January 2026</strong></p>
+                <p><strong>Status:</strong> Completed and deployed</p>
+                <p><strong>Deployment:</strong> Vercel platform</p>
+                <p><strong>URL:</strong> https://monroeresourcehub.org</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadPDF() {
+            const element = document.getElementById('contentToPrint');
+            const button = event?.target || document.querySelector('.download-btn');
+            
+            // Hide download section for PDF
+            const downloadSection = document.querySelector('.download-section');
+            const originalDisplay = downloadSection.style.display;
+            
+            downloadSection.style.display = 'none';
+            
+            if (button) {
+                button.disabled = true;
+                button.textContent = '⏳ Generating PDF...';
+            }
+            
+            html2canvas(element, {
+                scale: 1.5,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff',
+                quality: 0.75,
+                imageTimeout: 0
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/jpeg', 0.85);
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                const imgWidth = 210;
+                const pageHeight = 297;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+                
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                pdf.save('Work-Log-2026.pdf');
+                
+                // Show download section again
+                downloadSection.style.display = originalDisplay;
+                
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = '📥 Download as PDF';
+                }
+                
+            }).catch(error => {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF. Please try using the browser print function (Ctrl+P or Cmd+P)');
+                
+                // Show download section again even on error
+                downloadSection.style.display = originalDisplay;
+                
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = '📥 Download as PDF';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

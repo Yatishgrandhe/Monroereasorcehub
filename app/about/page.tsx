@@ -1,4 +1,4 @@
-import { Heart, Users, Target, Award, MapPin, Phone, Mail, Globe, Plus } from 'lucide-react';
+import { Heart, Users, Target, Award, MapPin, Phone, Mail, Globe, Plus, Code } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -211,6 +211,26 @@ export default function AboutPage() {
             </p>
           </div>
           
+          <Card className="max-w-4xl mx-auto mb-8 border-2 border-primary-200">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Code className="h-6 w-6 text-primary-600" />
+                Framework Usage Statement
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-secondary-700 mb-4">
+                This website is built using the <strong>Next.js framework</strong> (version 15.5.5) with React 19.1.0, 
+                TypeScript 5, and Tailwind CSS 3.4.18.
+              </p>
+              <p className="text-secondary-700 font-semibold">
+                Important: We affirm that all templates, themes, components, and designs used in this project were 
+                custom-built by the Monroe High School TSA Chapter team. No pre-built templates or themes were used. 
+                All code, styling, and design elements were developed from scratch specifically for this project.
+              </p>
+            </CardContent>
+          </Card>
+          
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { name: 'Next.js', description: 'React Framework' },
@@ -320,6 +340,12 @@ export default function AboutPage() {
                 <a href="/submit-resource">
                   <Plus className="mr-2 h-5 w-5" />
                   Add a Resource
+                </a>
+              </Button>
+              <Button size="lg" variant="ghost" className="text-white hover:bg-white/20" asChild>
+                <a href="/reference">
+                  <Globe className="mr-2 h-5 w-5" />
+                  View References
                 </a>
               </Button>
             </div>

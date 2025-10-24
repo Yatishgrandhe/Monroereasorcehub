@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Copyright Checklist - Monroe Resource Hub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #f5f5f5;
+            line-height: 1.5;
+            color: #000;
+            font-size: 11pt;
+        }
+        
+        .container {
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: white;
+            color: #000;
+            padding: 30px 40px;
+            text-align: center;
+            border-bottom: 3px solid #000;
+        }
+        
+        .header h1 {
+            font-size: 18pt;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .header-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            font-size: 10pt;
+        }
+        
+        .header-info div {
+            padding: 5px 0;
+        }
+        
+        .content {
+            padding: 35px 40px;
+        }
+        
+        .download-section {
+            background: #fffacd;
+            padding: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 2px solid #ffa500;
+            font-size: 10pt;
+        }
+        
+        .download-btn {
+            background: #4a4a4a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 10pt;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        
+        .download-btn:hover {
+            background: #666;
+        }
+        
+        h2 {
+            color: #000;
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #999;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            border: 1px solid #000;
+            font-size: 10pt;
+        }
+        
+        th {
+            background: #e0e0e0;
+            color: #000;
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid #000;
+            font-size: 10pt;
+        }
+        
+        td {
+            padding: 6px 8px;
+            border: 1px solid #000;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .notes {
+            background: #f0f0f0;
+            padding: 12px;
+            border: 1px solid #999;
+            margin: 15px 0;
+            font-size: 10pt;
+        }
+        
+        .notes strong {
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .signature-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #000;
+            page-break-before: always;
+        }
+        
+        .signature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .signature-box {
+            background: #fafafa;
+            padding: 10px;
+            border: 1px solid #666;
+            max-width: 100%;
+            box-sizing: border-box;
+            font-size: 9pt;
+        }
+        
+        .signature-box p {
+            margin: 5px 0;
+            font-size: 9pt;
+        }
+        
+        .signature-line {
+            margin-top: 25px;
+            background: #fafafa;
+            padding: 15px;
+            border: 1px solid #666;
+        }
+        
+        .signature-text {
+            margin: 8px 0;
+            color: #000;
+            min-height: 15px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 2px;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        
+        .warning-box {
+            background: #ffe6e6;
+            padding: 12px;
+            border: 2px solid #cc0000;
+            margin-top: 20px;
+            font-size: 10pt;
+        }
+        
+        .warning-box h3 {
+            color: #000;
+            margin-bottom: 8px;
+            font-size: 11pt;
+        }
+        
+        ul {
+            margin-left: 20px;
+            margin-top: 6px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        p {
+            margin: 8px 0;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .download-section {
+                display: none !important;
+            }
+            .warning-box {
+                display: none !important;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="contentToPrint">
+        <div class="header">
+            <h1>Student Copyright Checklist</h1>
+            <div class="header-info">
+                <div><strong>Project:</strong> Monroe Resource Hub</div>
+                <div><strong>School:</strong> Central Academy of Technology and Arts</div>
+                <div><strong>Organization:</strong> TSA</div>
+                <div><strong>Date:</strong> 2026</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="download-section">
+                <p style="margin-bottom: 8px; font-weight: bold;">
+                    📄 Save this document as a PDF for your records
+                </p>
+                <button class="download-btn" onclick="downloadPDF()">
+                    📥 Download as PDF
+                </button>
+            </div>
+
+            <div class="notes">
+                <strong>Note:</strong> This checklist must be completed for all copyrighted materials used in the project. 
+                Failure to properly document copyrighted materials may result in disqualification.
+            </div>
+
+            <h2>1. Images</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image Description</th>
+                        <th>Source</th>
+                        <th>License/Permission</th>
+                        <th>Location Used</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Unsplash Stock Photos</td>
+                        <td>Unsplash.com</td>
+                        <td>Unsplash License (Free use)</td>
+                        <td>Hero sections, featured content</td>
+                    </tr>
+                    <tr>
+                        <td>Custom Logo</td>
+                        <td>Original Design</td>
+                        <td>N/A - Original Work</td>
+                        <td>Website branding</td>
+                    </tr>
+                    <tr>
+                        <td>Community Images</td>
+                        <td>Original Photos</td>
+                        <td>N/A - Original Work</td>
+                        <td>Various pages</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>2. Text Content</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Text Description</th>
+                        <th>Source</th>
+                        <th>License/Permission</th>
+                        <th>Location Used</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Community Resource Information</td>
+                        <td>Public organizations</td>
+                        <td>Public Information</td>
+                        <td>Resource Directory</td>
+                    </tr>
+                    <tr>
+                        <td>All website content</td>
+                        <td>Original Writing</td>
+                        <td>N/A - Original Work</td>
+                        <td>Entire website</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>3. Code & Libraries</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Library/Framework</th>
+                        <th>Version</th>
+                        <th>License</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Next.js</td>
+                        <td>15.5.5</td>
+                        <td>MIT License</td>
+                        <td>Core framework</td>
+                    </tr>
+                    <tr>
+                        <td>React</td>
+                        <td>19.1.0</td>
+                        <td>MIT License</td>
+                        <td>UI library</td>
+                    </tr>
+                    <tr>
+                        <td>Tailwind CSS</td>
+                        <td>3.4.18</td>
+                        <td>MIT License</td>
+                        <td>Styling</td>
+                    </tr>
+                    <tr>
+                        <td>Supabase</td>
+                        <td>Latest</td>
+                        <td>Apache License 2.0</td>
+                        <td>Backend services</td>
+                    </tr>
+                    <tr>
+                        <td>Lucide React</td>
+                        <td>0.545.0</td>
+                        <td>ISC License</td>
+                        <td>Icons</td>
+                    </tr>
+                    <tr>
+                        <td>Google Gemini AI</td>
+                        <td>Latest</td>
+                        <td>Terms of Service</td>
+                        <td>AI features</td>
+                    </tr>
+                    <tr>
+                        <td>Other libraries</td>
+                        <td>See package.json</td>
+                        <td>MIT/Apache Licenses</td>
+                        <td>Various</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>4. Written Permissions</h2>
+            <p>All materials used are either:</p>
+            <ul>
+                <li>Original work created by the team</li>
+                <li>Licensed under permissive open-source licenses (MIT, Apache, ISC)</li>
+                <li>Free to use under their respective licenses (Unsplash License)</li>
+                <li>Public domain information</li>
+            </ul>
+
+            <div class="notes">
+                <strong>Permission Statement:</strong> No copyrighted materials requiring written permission were used 
+                in this project. All materials are either original work, licensed under permissive licenses, or in the 
+                public domain.
+            </div>
+
+            <h2>5. Framework Template Statement</h2>
+            <div class="notes">
+                <strong>Declaration:</strong> We affirm that all templates, themes, components, and designs used in this 
+                project were custom-built by the Central Academy of Technology and Arts TSA team. No pre-built templates 
+                or themes were used.
+            </div>
+
+            <div class="signature-section">
+                <h2>6. Student Signatures</h2>
+                <p style="margin-bottom: 15px;">By signing below, the student(s) certify that all information in this checklist is accurate and complete.</p>
+                
+                <div class="signature-grid">
+                    <div class="signature-box">
+                        <p><strong>Student Name:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                        <p style="margin-top: 8px;"><strong>Signature:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                        <p style="margin-top: 8px;"><strong>Date:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                    </div>
+                    <div class="signature-box">
+                        <p><strong>Student Name:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                        <p style="margin-top: 8px;"><strong>Signature:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                        <p style="margin-top: 8px;"><strong>Date:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                    </div>
+                </div>
+
+                <div class="signature-grid">
+                    <div class="signature-box">
+                        <p><strong>Student Name:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                        <p style="margin-top: 8px;"><strong>Signature:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                        <p style="margin-top: 8px;"><strong>Date:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                    </div>
+                    <div class="signature-box">
+                        <p><strong>Student Name:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                        <p style="margin-top: 8px;"><strong>Signature:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                        <p style="margin-top: 8px;"><strong>Date:</strong></p>
+                        <div class="signature-text">_____________________</div>
+                    </div>
+                </div>
+
+                <div class="signature-line">
+                    <p><strong>Advisor Name:</strong></p>
+                    <div class="signature-text">_____________________________</div>
+                    <p style="margin-top: 10px;"><strong>Signature:</strong></p>
+                    <div class="signature-text">_____________________________</div>
+                    <p style="margin-top: 10px;"><strong>Date:</strong></p>
+                    <div class="signature-text">_____________________________</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadPDF() {
+            const element = document.getElementById('contentToPrint');
+            const button = event?.target || document.querySelector('.download-btn');
+            
+            // Hide download section and warning box for PDF
+            const downloadSection = document.querySelector('.download-section');
+            const warningBox = document.querySelector('.warning-box');
+            const originalDisplayDownload = downloadSection.style.display;
+            const originalDisplayWarning = warningBox.style.display;
+            
+            downloadSection.style.display = 'none';
+            warningBox.style.display = 'none';
+            
+            if (button) {
+                button.disabled = true;
+                button.textContent = '⏳ Generating PDF...';
+            }
+            
+            html2canvas(element, {
+                scale: 1.5,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff',
+                quality: 0.75,
+                imageTimeout: 0
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/jpeg', 0.85);
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                const imgWidth = 210;
+                const pageHeight = 297;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+                
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                pdf.save('Student-Copyright-Checklist-2026.pdf');
+                
+                // Show elements again
+                downloadSection.style.display = originalDisplayDownload;
+                warningBox.style.display = originalDisplayWarning;
+                
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = '📥 Download as PDF';
+                }
+                
+            }).catch(error => {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF. Please try using the browser print function (Ctrl+P or Cmd+P)');
+                
+                // Show elements again even on error
+                downloadSection.style.display = originalDisplayDownload;
+                warningBox.style.display = originalDisplayWarning;
+                
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = '📥 Download as PDF';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -13,6 +13,14 @@ export const metadata: Metadata = {
   authors: [{ name: 'Monroe High School TSA Chapter' }],
   creator: 'Monroe High School TSA Chapter',
   publisher: 'Monroe Resource Hub',
+  icons: {
+    icon: [
+      { url: '/logo-icon.png', sizes: 'any' },
+      { url: '/logo-icon.png', type: 'image/png' },
+    ],
+    apple: '/logo-icon.png',
+    shortcut: '/logo-icon.png',
+  },
   formatDetection: {
     email: false,
     address: false,
@@ -29,7 +37,7 @@ export const metadata: Metadata = {
     siteName: 'Monroe Resource Hub',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/logo-icon.png',
         width: 1200,
         height: 630,
         alt: 'Monroe Resource Hub - Community Resources',
@@ -42,7 +50,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Monroe Resource Hub - Community Resources & Services',
     description: 'Connecting Monroe, North Carolina residents with vital community resources, services, and opportunities.',
-    images: ['/og-image.jpg'],
+    images: ['/logo-icon.png'],
   },
   robots: {
     index: true,

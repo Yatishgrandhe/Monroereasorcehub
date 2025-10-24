@@ -96,6 +96,11 @@ export function Footer() {
                     Contact Us
                   </Link>
                 </li>
+                <li>
+                  <Link href="/reference" className="text-secondary-300 hover:text-white transition-colors">
+                    Reference Page
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -110,6 +115,9 @@ export function Footer() {
               <span>for Monroe, NC</span>
             </div>
             <div className="flex items-center space-x-6 text-sm text-secondary-400">
+              <Link href="/reference" className="hover:text-white transition-colors font-semibold">
+                Reference & Documents
+              </Link>
               <Link href="/privacy" className="hover:text-white transition-colors">
                 Privacy Policy
               </Link>

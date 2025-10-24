@@ -22,6 +22,19 @@ const nextConfig = {
           { key: 'Access-Control-Allow-Headers', value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version' },
         ],
       },
+      {
+        source: '/documents/:path*.html',
+        headers: [
+          { key: 'Content-Type', value: 'text/html' },
+        ],
+      },
+      {
+        source: '/documents/:path*.pdf',
+        headers: [
+          { key: 'Content-Type', value: 'application/pdf' },
+          { key: 'Content-Disposition', value: 'inline' },
+        ],
+      },
     ];
   },
 };
