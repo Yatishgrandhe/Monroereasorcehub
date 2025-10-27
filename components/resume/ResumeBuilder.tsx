@@ -11,6 +11,7 @@ import { TemplateSelector } from './TemplateSelector';
 import { supabase } from '@/lib/supabase/client';
 import { generateSummaryAction, enhanceBulletPointAction, suggestSkillsAction } from '@/app/actions/ai';
 import { generateId } from '@/lib/utils';
+import { exportResumeToPDF } from '@/lib/utils/pdf-export';
 import type { ResumeData } from '@/lib/ai/gemini';
 
 const initialResumeData: ResumeData = {
@@ -217,9 +218,17 @@ export function ResumeBuilder() {
     }
   };
 
-  const exportToPDF = () => {
-    // This would integrate with jsPDF to export the resume
-    alert('PDF export functionality will be implemented with jsPDF integration.');
+  const exportToPDF = async () => {
+    try {
+      setLoading(true);
+      await exportResumeToPDF(resumeData, selectedTemplate);
+      alert('Resume exported successfully!');
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      alert('Failed to export PDF. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const renderStepContent = () => {
@@ -540,7 +549,7 @@ export function ResumeBuilder() {
                   <Save className="h-4 w-4 mr-2" />
                   Save Resume
                 </Button>
-                <Button variant="primary" size="sm" onClick={exportToPDF}>
+                <Button variant="primary" size="sm" onClick={exportToPDF} loading={loading}>
                   <Download className="h-4 w-4 mr-2" />
                   Export PDF
                 </Button>

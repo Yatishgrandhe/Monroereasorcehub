@@ -10,6 +10,12 @@ import {
   type ResumeData,
   type JobPosting
 } from '@/lib/ai/gemini';
+import {
+  generateProfessionalSummaryLocal,
+  enhanceBulletPointLocal,
+  suggestSkillsLocal,
+  shouldUseLocalAI
+} from '@/lib/ai/local-ai';
 import { createClient } from '@/lib/supabase/server';
 
 export async function generateSummaryAction(experience: ResumeData['experience']) {
@@ -22,7 +28,18 @@ export async function generateSummaryAction(experience: ResumeData['experience']
       return { success: false, error: 'Authentication required' };
     }
 
-    const summary = await generateProfessionalSummary(experience);
+    let summary: string;
+    if (shouldUseLocalAI()) {
+      summary = generateProfessionalSummaryLocal(experience);
+    } else {
+      try {
+        summary = await generateProfessionalSummary(experience);
+      } catch (error) {
+        console.error('Gemini failed, using local AI fallback:', error);
+        summary = generateProfessionalSummaryLocal(experience);
+      }
+    }
+    
     return { success: true, summary };
   } catch (error) {
     console.error('Error generating summary:', error);
@@ -40,7 +57,18 @@ export async function enhanceBulletPointAction(originalText: string, context?: s
       return { success: false, error: 'Authentication required' };
     }
 
-    const enhanced = await enhanceBulletPoint(originalText, context);
+    let enhanced: string;
+    if (shouldUseLocalAI()) {
+      enhanced = enhanceBulletPointLocal(originalText, context);
+    } else {
+      try {
+        enhanced = await enhanceBulletPoint(originalText, context);
+      } catch (error) {
+        console.error('Gemini failed, using local AI fallback:', error);
+        enhanced = enhanceBulletPointLocal(originalText, context);
+      }
+    }
+
     return { success: true, enhanced };
   } catch (error) {
     console.error('Error enhancing bullet point:', error);
@@ -58,7 +86,18 @@ export async function suggestSkillsAction(jobDescription: string, currentSkills:
       return { success: false, error: 'Authentication required' };
     }
 
-    const skills = await suggestSkills(jobDescription, currentSkills);
+    let skills: string[];
+    if (shouldUseLocalAI()) {
+      skills = suggestSkillsLocal(jobDescription, currentSkills);
+    } else {
+      try {
+        skills = await suggestSkills(jobDescription, currentSkills);
+      } catch (error) {
+        console.error('Gemini failed, using local AI fallback:', error);
+        skills = suggestSkillsLocal(jobDescription, currentSkills);
+      }
+    }
+
     return { success: true, skills };
   } catch (error) {
     console.error('Error suggesting skills:', error);
