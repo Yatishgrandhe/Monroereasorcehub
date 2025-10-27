@@ -52,6 +52,11 @@ export function Header() {
     router.push('/');
   };
 
+  // Filter out "Career Center" from main nav when logged in to avoid duplication
+  const filteredNavigation = user 
+    ? navigation.filter(item => item.name !== 'Career Center')
+    : navigation;
+
   return (
     <header className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-secondary-200 sticky top-0 z-50">
       <nav className="w-full" aria-label="Global">
@@ -74,12 +79,13 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:space-x-4 flex-1 justify-center">
-            {navigation.map((item) => (
+            {filteredNavigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  'nav-link text-sm font-medium whitespace-nowrap',
+                  'nav-link font-medium whitespace-nowrap',
+                  user ? 'text-xs' : 'text-sm',
                   pathname === item.href ? 'active' : 'text-secondary-600'
                 )}
               >
@@ -90,28 +96,28 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex md:items-center md:space-x-3 flex-shrink-0">
-            <Button variant="ghost" size="sm" className="nav-button-glow px-3" asChild href="/resources">
-              <Search className="h-4 w-4 mr-1" />
+            <Button variant="ghost" size="sm" className={cn("nav-button-glow px-3", user && "text-xs")} asChild href="/resources">
+              <Search className={cn("mr-1", user ? "h-3 w-3" : "h-4 w-4")} />
               Search
             </Button>
-            <Button variant="outline" size="sm" className="nav-button-glow px-3" asChild href="/submit-resource">
+            <Button variant="outline" size="sm" className={cn("nav-button-glow px-3", user && "text-xs")} asChild href="/submit-resource">
               Submit Resource
             </Button>
             
             {user ? (
               <div className="flex items-center space-x-2 ml-2">
-                <Button variant="gradient" size="sm" className="nav-button-glow px-3 whitespace-nowrap leading-tight" asChild href="/career/resume-builder">
-                  <UserIcon className="h-4 w-4 mr-1 flex-shrink-0" />
-                  <span className="whitespace-nowrap">Career Center</span>
+                <Button variant="gradient" size="sm" className="nav-button-glow px-3 whitespace-nowrap leading-tight text-xs" asChild href="/career/resume-builder">
+                  <UserIcon className="h-3 w-3 mr-1 flex-shrink-0" />
+                  <span className="whitespace-nowrap">Resume</span>
                 </Button>
                 <div className="flex items-center space-x-2 px-3 py-1.5 h-8 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap">
-                  <UserCircle className="h-4 w-4 text-primary-600 flex-shrink-0" />
-                  <span className="text-sm text-secondary-700 font-medium max-w-[120px] truncate">
+                  <UserCircle className="h-3 w-3 text-primary-600 flex-shrink-0" />
+                  <span className="text-xs text-secondary-700 font-medium max-w-[120px] truncate">
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
                 <Button variant="ghost" size="sm" className="nav-button-glow p-2" onClick={handleSignOut}>
-                  <LogOut className="h-4 w-4" />
+                  <LogOut className="h-3 w-3" />
                 </Button>
               </div>
             ) : (
@@ -148,7 +154,7 @@ export function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden animate-slide-up">
             <div className="px-2 pt-3 pb-4 space-y-2 bg-white/95 backdrop-blur-sm border-t border-secondary-200">
-              {navigation.map((item) => (
+              {filteredNavigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
@@ -171,7 +177,7 @@ export function Header() {
                 {user ? (
                   <>
                     <Button variant="gradient" size="sm" className="w-full nav-button-glow" asChild href="/career/resume-builder" onClick={() => setMobileMenuOpen(false)}>
-                      Resume Builder
+                      Resume
                     </Button>
                     <div className="flex items-center justify-between px-3 py-2 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
                       <div className="flex items-center space-x-2">
