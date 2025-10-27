@@ -55,9 +55,9 @@ export function Header() {
   return (
     <header className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-secondary-200 sticky top-0 z-50">
       <nav className="w-full" aria-label="Global">
-        <div className="flex items-start justify-between h-16 px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
           {/* Logo */}
-          <div className="flex items-center flex-shrink-0 -ml-2 pt-1">
+          <div className="flex items-center flex-shrink-0 -ml-2">
             <Link href="/" className="flex items-center space-x-3 logo-container pl-2">
               <div className="w-10 h-10 rounded-lg overflow-hidden shadow-lg">
                 <img 
@@ -73,7 +73,7 @@ export function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-4 flex-1 justify-center pt-1">
+          <div className="hidden md:flex md:items-center md:space-x-4 flex-1 justify-center">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -89,7 +89,7 @@ export function Header() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex md:items-center md:space-x-3 flex-shrink-0 pt-1">
+          <div className="hidden md:flex md:items-center md:space-x-3 flex-shrink-0">
             <Button variant="ghost" size="sm" className="nav-button-glow px-3" asChild href="/resources">
               <Search className="h-4 w-4 mr-1" />
               Search
@@ -104,7 +104,7 @@ export function Header() {
                   <UserIcon className="h-4 w-4 mr-1" />
                   Resume
                 </Button>
-                <div className="flex items-center space-x-2 px-2 py-1 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap">
+                <div className="flex items-center space-x-2 px-3 py-1.5 h-8 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap">
                   <UserCircle className="h-4 w-4 text-primary-600 flex-shrink-0" />
                   <span className="text-sm text-secondary-700 font-medium max-w-[120px] truncate">
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
@@ -127,7 +127,7 @@ export function Header() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden pt-1">
+          <div className="md:hidden">
             <Button
               variant="ghost"
               size="sm"
