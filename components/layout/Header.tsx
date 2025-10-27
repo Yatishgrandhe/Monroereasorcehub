@@ -79,7 +79,7 @@ export function Header() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  'nav-link text-sm font-medium',
+                  'nav-link text-sm font-medium whitespace-nowrap',
                   pathname === item.href ? 'active' : 'text-secondary-600'
                 )}
               >
