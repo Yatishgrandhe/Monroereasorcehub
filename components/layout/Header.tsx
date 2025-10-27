@@ -100,9 +100,9 @@ export function Header() {
             
             {user ? (
               <div className="flex items-center space-x-2 ml-2">
-                <Button variant="gradient" size="sm" className="nav-button-glow px-3 whitespace-nowrap" asChild href="/career/resume-builder">
-                  <UserIcon className="h-4 w-4 mr-1" />
-                  Resume
+                <Button variant="gradient" size="sm" className="nav-button-glow px-3 whitespace-nowrap leading-tight" asChild href="/career/resume-builder">
+                  <UserIcon className="h-4 w-4 mr-1 flex-shrink-0" />
+                  <span className="whitespace-nowrap">Career Center</span>
                 </Button>
                 <div className="flex items-center space-x-2 px-3 py-1.5 h-8 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap">
                   <UserCircle className="h-4 w-4 text-primary-600 flex-shrink-0" />
