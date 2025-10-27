@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Save, Download, Sparkles, User, Briefcase, GraduationCap, Award, Globe, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -33,6 +34,7 @@ const initialResumeData: ResumeData = {
 };
 
 export function ResumeBuilder() {
+  const searchParams = useSearchParams();
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTemplate, setSelectedTemplate] = useState('modern');
@@ -40,6 +42,57 @@ export function ResumeBuilder() {
   const [saving, setSaving] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [targetJob, setTargetJob] = useState('');
+  const [loadedFromStorage, setLoadedFromStorage] = useState(false);
+
+  // Load saved resume data from sessionStorage when viewing
+  useEffect(() => {
+    if (loadedFromStorage) return;
+    
+    const viewParam = searchParams?.get('view');
+    if (viewParam && typeof window !== 'undefined') {
+      const savedData = sessionStorage.getItem('viewingResume');
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData);
+          setResumeData(parsed);
+          setCurrentStep(6); // Go directly to preview
+          setLoadedFromStorage(true);
+          
+          // Clean up sessionStorage after loading
+          sessionStorage.removeItem('viewingResume');
+        } catch (error) {
+          console.error('Error loading saved resume:', error);
+        }
+      } else {
+        // If viewing but no data in storage, try to load from database
+        loadResumeFromDatabase(viewParam);
+      }
+    }
+    setLoadedFromStorage(true);
+  }, [searchParams, loadedFromStorage]);
+
+  const loadResumeFromDatabase = async (resumeId: string) => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('resumes')
+        .select('resume_data')
+        .eq('id', resumeId)
+        .single();
+
+      if (error) throw error;
+      
+      if (data && data.resume_data) {
+        setResumeData(data.resume_data);
+        setCurrentStep(6); // Go directly to preview
+      }
+    } catch (error) {
+      console.error('Error loading resume from database:', error);
+      alert('Failed to load resume. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const steps = [
     { id: 1, name: 'Personal Info', icon: User },
@@ -561,16 +614,30 @@ export function ResumeBuilder() {
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Resume Preview</h3>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={saveResume} loading={saving}>
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Resume
-                </Button>
+                {!isViewingMode && (
+                  <Button variant="outline" size="sm" onClick={saveResume} loading={saving}>
+                    <Save className="h-4 w-4 mr-2" />
+                    Save Resume
+                  </Button>
+                )}
                 <Button variant="primary" size="sm" onClick={exportToPDF} loading={loading}>
                   <Download className="h-4 w-4 mr-2" />
                   Export PDF
                 </Button>
               </div>
             </div>
+            
+            {/* Template Selector for Viewing Mode */}
+            {isViewingMode && (
+              <div className="bg-primary-50 border border-primary-200 rounded-lg p-4">
+                <h4 className="font-semibold text-sm mb-3 text-primary-800">Choose Template</h4>
+                <TemplateSelector
+                  selectedTemplate={selectedTemplate}
+                  onTemplateChange={setSelectedTemplate}
+                />
+              </div>
+            )}
+            
             <ResumePreview resumeData={resumeData} template={selectedTemplate} />
           </div>
         );
@@ -580,100 +647,118 @@ export function ResumeBuilder() {
     }
   };
 
+  const isViewingMode = searchParams?.get('view');
+
   return (
     <div className="min-h-screen bg-secondary-50">
       <div className="container-custom section-padding">
         <div className="mb-8">
           <h1 className="title-section mb-4">
-            AI-Powered Resume Builder
+            {isViewingMode ? 'View Saved Resume' : 'AI-Powered Resume Builder'}
           </h1>
-          <p className="text-xl text-secondary-600 max-w-3xl font-sans">
-            Create a professional resume with the help of AI. Our intelligent assistant will help you craft compelling summaries, enhance bullet points, and suggest relevant skills.
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-xl text-secondary-600 max-w-3xl font-sans">
+              {isViewingMode 
+                ? 'Review your saved resume. You can export it as PDF or make changes.'
+                : 'Create a professional resume with the help of AI. Our intelligent assistant will help you craft compelling summaries, enhance bullet points, and suggest relevant skills.'
+              }
+            </p>
+            {isViewingMode && (
+              <Button variant="outline" size="sm" asChild href="/career/saved-resumes">
+                ← Back to My Resumes
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Resume Builder</CardTitle>
-                <CardDescription>
-                  Complete each step to build your resume
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {steps.map((step) => {
-                    const IconComponent = step.icon;
-                    return (
-                      <button
-                        key={step.id}
-                        onClick={() => setCurrentStep(step.id)}
-                        className={`w-full flex items-center space-x-3 p-3 rounded-lg text-left transition-colors ${
-                          currentStep === step.id
-                            ? 'bg-primary-100 text-primary-700'
-                            : 'hover:bg-secondary-100 text-secondary-700'
-                        }`}
-                      >
-                        <IconComponent className="h-5 w-5" />
-                        <span className="font-medium">{step.name}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-
-            {currentStep === 6 && (
-              <Card className="mt-6">
+          {!isViewingMode && (
+            <div className="lg:col-span-1">
+              <Card>
                 <CardHeader>
-                  <CardTitle>Template</CardTitle>
+                  <CardTitle>Resume Builder</CardTitle>
                   <CardDescription>
-                    Choose a resume template
+                    Complete each step to build your resume
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <TemplateSelector
-                    selectedTemplate={selectedTemplate}
-                    onTemplateChange={setSelectedTemplate}
-                  />
+                  <div className="space-y-2">
+                    {steps.map((step) => {
+                      const IconComponent = step.icon;
+                      return (
+                        <button
+                          key={step.id}
+                          onClick={() => setCurrentStep(step.id)}
+                          className={`w-full flex items-center space-x-3 p-3 rounded-lg text-left transition-colors ${
+                            currentStep === step.id
+                              ? 'bg-primary-100 text-primary-700'
+                              : 'hover:bg-secondary-100 text-secondary-700'
+                          }`}
+                        >
+                          <IconComponent className="h-5 w-5" />
+                          <span className="font-medium">{step.name}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </CardContent>
               </Card>
-            )}
-          </div>
+
+              {currentStep === 6 && (
+                <Card className="mt-6">
+                  <CardHeader>
+                    <CardTitle>Template</CardTitle>
+                    <CardDescription>
+                      Choose a resume template
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <TemplateSelector
+                      selectedTemplate={selectedTemplate}
+                      onTemplateChange={setSelectedTemplate}
+                    />
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          )}
 
           {/* Main Content */}
-          <div className="lg:col-span-3">
+          <div className={isViewingMode ? 'lg:col-span-4' : 'lg:col-span-3'}>
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle>{steps[currentStep - 1]?.name}</CardTitle>
-                    <CardDescription>
-                      Step {currentStep} of {steps.length}
-                    </CardDescription>
-                  </div>
-                  <div className="flex gap-2">
-                    {currentStep > 1 && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setCurrentStep(currentStep - 1)}
-                      >
-                        Previous
-                      </Button>
-                    )}
-                    {currentStep < steps.length && (
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        onClick={() => setCurrentStep(currentStep + 1)}
-                      >
-                        Next
-                      </Button>
+                    {!isViewingMode && (
+                      <CardDescription>
+                        Step {currentStep} of {steps.length}
+                      </CardDescription>
                     )}
                   </div>
+                  {!isViewingMode && (
+                    <div className="flex gap-2">
+                      {currentStep > 1 && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setCurrentStep(currentStep - 1)}
+                        >
+                          Previous
+                        </Button>
+                      )}
+                      {currentStep < steps.length && (
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          onClick={() => setCurrentStep(currentStep + 1)}
+                        >
+                          Next
+                        </Button>
+                      )}
+                    </div>
+                  )}
                 </div>
               </CardHeader>
               <CardContent>

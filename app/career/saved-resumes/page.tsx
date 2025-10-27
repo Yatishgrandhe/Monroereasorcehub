@@ -82,10 +82,15 @@ export default function SavedResumesPage() {
     }
   };
 
-  const handleView = (resumeData: any, resumeId: string) => {
-    // Store resume data in sessionStorage for viewing
-    sessionStorage.setItem('viewingResume', JSON.stringify(resumeData));
-    router.push(`/career/resume-builder?view=${resumeId}`);
+  const handleView = async (resumeData: any, resumeId: string) => {
+    try {
+      // Store resume data in sessionStorage for viewing
+      sessionStorage.setItem('viewingResume', JSON.stringify(resumeData));
+      router.push(`/career/resume-builder?view=${resumeId}`);
+    } catch (error) {
+      console.error('Error viewing resume:', error);
+      alert('Failed to view resume. Please try again.');
+    }
   };
 
   if (loading) {
