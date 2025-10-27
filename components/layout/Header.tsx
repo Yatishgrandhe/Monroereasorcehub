@@ -19,6 +19,10 @@ const navigation = [
   { name: 'Reference', href: '/reference' },
 ];
 
+const loggedInNavigation = [
+  { name: 'My Resumes', href: '/career/saved-resumes', icon: 'FileText' },
+];
+
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
@@ -80,6 +84,18 @@ export function Header() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:space-x-4 flex-1 justify-center">
             {filteredNavigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={cn(
+                  'nav-link text-sm font-medium whitespace-nowrap',
+                  pathname === item.href ? 'active' : 'text-secondary-600'
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+            {user && loggedInNavigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
@@ -154,6 +170,21 @@ export function Header() {
           <div className="md:hidden animate-slide-up">
             <div className="px-2 pt-3 pb-4 space-y-2 bg-white/95 backdrop-blur-sm border-t border-secondary-200">
               {filteredNavigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    'block px-4 py-3 text-base font-medium transition-all duration-200 rounded-lg',
+                    pathname === item.href
+                      ? 'active text-white'
+                      : 'text-secondary-600 hover:text-white hover:bg-gradient-logo'
+                  )}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
+              {user && loggedInNavigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
