@@ -14,11 +14,12 @@ import {
   generateProfessionalSummaryLocal,
   enhanceBulletPointLocal,
   suggestSkillsLocal,
-  shouldUseLocalAI
+  shouldUseLocalAI,
+  type ResumeExperience
 } from '@/lib/ai/local-ai';
 import { createClient } from '@/lib/supabase/server';
 
-export async function generateSummaryAction(experience: ResumeData['experience']) {
+export async function generateSummaryAction(experience: ResumeData['experience'], targetJob?: string) {
   try {
     // Check authentication
     const supabase = await createClient();
@@ -30,13 +31,13 @@ export async function generateSummaryAction(experience: ResumeData['experience']
 
     let summary: string;
     if (shouldUseLocalAI()) {
-      summary = generateProfessionalSummaryLocal(experience);
+      summary = generateProfessionalSummaryLocal(experience as ResumeExperience[], targetJob);
     } else {
       try {
         summary = await generateProfessionalSummary(experience);
       } catch (error) {
         console.error('Gemini failed, using local AI fallback:', error);
-        summary = generateProfessionalSummaryLocal(experience);
+        summary = generateProfessionalSummaryLocal(experience as ResumeExperience[], targetJob);
       }
     }
     

@@ -39,6 +39,7 @@ export function ResumeBuilder() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
+  const [targetJob, setTargetJob] = useState('');
 
   const steps = [
     { id: 1, name: 'Personal Info', icon: User },
@@ -153,7 +154,7 @@ export function ResumeBuilder() {
 
     setAiLoading(true);
     try {
-      const result = await generateSummaryAction(resumeData.experience);
+      const result = await generateSummaryAction(resumeData.experience, targetJob);
       if (result.success && result.summary) {
         setResumeData(prev => ({ ...prev, summary: result.summary }));
       } else {
@@ -286,7 +287,22 @@ export function ResumeBuilder() {
 
       case 2:
         return (
-          <div className="space-y-4">
+          <div className="space-y-6">
+            <div className="bg-primary-50 border border-primary-200 rounded-lg p-4">
+              <h4 className="font-semibold text-sm text-primary-800 mb-2">
+                💡 Pro Tip: Add Your Target Job for Better AI Suggestions
+              </h4>
+              <Input
+                label="Target Job Position (Optional)"
+                value={targetJob}
+                onChange={(e) => setTargetJob(e.target.value)}
+                placeholder="e.g., Software Engineer, Marketing Manager, Data Analyst"
+              />
+              <p className="text-xs text-primary-600 mt-2">
+                Providing your target job helps AI generate a more tailored professional summary
+              </p>
+            </div>
+            
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Professional Summary</h3>
               <Button
