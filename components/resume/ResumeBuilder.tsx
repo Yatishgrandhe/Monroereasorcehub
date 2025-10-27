@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/Badge';
 import { ResumePreview } from './ResumePreview';
 import { TemplateSelector } from './TemplateSelector';
+import { AIAssistant } from './AIAssistant';
 import { supabase } from '@/lib/supabase/client';
 import { generateSummaryAction, enhanceBulletPointAction, suggestSkillsAction } from '@/app/actions/ai';
 import { generateId } from '@/lib/utils';
@@ -768,6 +769,9 @@ export function ResumeBuilder() {
           </div>
         </div>
       </div>
+      
+      {/* AI Assistant */}
+      <AIAssistant resumeData={resumeData} targetJob={targetJob} />
     </div>
   );
 }

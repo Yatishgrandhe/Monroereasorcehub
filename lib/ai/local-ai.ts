@@ -101,6 +101,64 @@ function generateStandardSummary(position: string, years: number, experience: Re
 }
 
 /**
+ * Rewrite experience bullet points for maximum impact
+ */
+export function rewriteBulletPointForImpact(originalText: string, context?: string): string {
+  if (!originalText.trim()) return originalText;
+
+  let rewritten = originalText.trim();
+
+  // Remove weak language
+  const weakPhrases = ['responsible for', 'worked on', 'helped with', 'was involved in', 'assisted in'];
+  weakPhrases.forEach(phrase => {
+    rewritten = rewritten.replace(new RegExp(phrase, 'gi'), '');
+  });
+
+  // Add strong action verb
+  if (!/^[A-Z][a-z]+ed\s/.test(rewritten)) {
+    const actionVerb = selectOptimalActionVerb(rewritten.toLowerCase(), context);
+    rewritten = actionVerb + ' ' + rewritten;
+  }
+
+  // Add impact statements
+  if (!/\d+|percent|%/.test(rewritten)) {
+    rewritten = rewritten.replace(/(improved|increased|decreased|reduced)/gi, (match) => {
+      return match + ' significantly';
+    });
+  }
+
+  return rewritten.charAt(0).toUpperCase() + rewritten.slice(1);
+}
+
+/**
+ * Generate multiple bullet point variations
+ */
+export function generateBulletVariations(originalText: string, context?: string): string[] {
+  const variations: string[] = [];
+  
+  // Original enhanced version
+  variations.push(enhanceBulletPointLocal(originalText, context));
+  
+  // Quantified version (if no numbers exist)
+  if (!/\d+/.test(originalText)) {
+    const quantified = originalText.replace(/many/g, '15+').replace(/multiple/g, '10+').replace(/various/g, 'several');
+    variations.push(enhanceBulletPointLocal(quantified, context));
+  }
+  
+  // Result-focused version
+  const resultFocused = originalText.replace(/work|task|project/gi, 'achievements');
+  variations.push(enhanceBulletPointLocal(resultFocused, context));
+  
+  // Leadership version (if context suggests it)
+  if (context && /team|manage|lead/i.test(context)) {
+    const leadership = 'Led cross-functional teams to ' + originalText.toLowerCase();
+    variations.push(enhanceBulletPointLocal(leadership, context));
+  }
+  
+  return [...new Set(variations)].slice(0, 3);
+}
+
+/**
  * Enhanced skill suggestion using intelligent keyword extraction
  */
 export function suggestSkillsLocal(jobDescription: string, currentSkills: string[] = []): string[] {
@@ -374,5 +432,105 @@ function selectOptimalActionVerb(text: string, context?: string): string {
   if (/develop|build|create|design/i.test(text)) return 'Developed';
   
   return 'Executed';
+}
+
+/**
+ * Auto-fix common resume issues
+ */
+export function autoFixResume(resumeData: ResumeData): ResumeData {
+  const fixed = { ...resumeData };
+  
+  // Fix email format if missing @
+  if (fixed.personalInfo.email && !fixed.personalInfo.email.includes('@')) {
+    // Try to add common domain
+    fixed.personalInfo.email = fixed.personalInfo.email + '@gmail.com';
+  }
+  
+  // Fix phone format
+  if (fixed.personalInfo.phone) {
+    // Remove non-digit characters and format
+    const digitsOnly = fixed.personalInfo.phone.replace(/\D/g, '');
+    if (digitsOnly.length === 10) {
+      fixed.personalInfo.phone = `(${digitsOnly.slice(0, 3)}) ${digitsOnly.slice(3, 6)}-${digitsOnly.slice(6)}`;
+    }
+  }
+  
+  // Capitalize first letter of all skills
+  fixed.skills = fixed.skills.map(skill => 
+    skill.charAt(0).toUpperCase() + skill.slice(1)
+  );
+  
+  // Fix experience dates
+  fixed.experience = fixed.experience.map(exp => {
+    const fixedExp = { ...exp };
+    
+    // Ensure end date is after start date
+    if (fixedExp.startDate && fixedExp.endDate && !exp.current) {
+      const start = new Date(fixedExp.startDate);
+      const end = new Date(fixedExp.endDate);
+      if (start > end) {
+        [fixedExp.startDate, fixedExp.endDate] = [fixedExp.endDate, fixedExp.startDate];
+      }
+    }
+    
+    // Capitalize company and position
+    fixedExp.company = fixedExp.company.charAt(0).toUpperCase() + fixedExp.company.slice(1);
+    fixedExp.position = fixedExp.position.charAt(0).toUpperCase() + fixedExp.position.slice(1);
+    
+    // Fix achievements
+    fixedExp.achievements = fixedExp.achievements
+      .filter(ach => ach.trim().length > 0)
+      .map(ach => {
+        // Ensure each achievement starts with capital and has proper punctuation
+        ach = ach.trim();
+        if (!ach.endsWith('.') && !ach.endsWith('!')) {
+          ach += '.';
+        }
+        return ach.charAt(0).toUpperCase() + ach.slice(1);
+      });
+    
+    return fixedExp;
+  });
+  
+  // Fix education
+  fixed.education = fixed.education.map(edu => {
+    const fixedEdu = { ...edu };
+    fixedEdu.institution = fixedEdu.institution.charAt(0).toUpperCase() + fixedEdu.institution.slice(1);
+    fixedEdu.degree = fixedEdu.degree.charAt(0).toUpperCase() + fixedEdu.degree.slice(1);
+    fixedEdu.field = fixedEdu.field.charAt(0).toUpperCase() + fixedEdu.field.slice(1);
+    return fixedEdu;
+  });
+  
+  return fixed;
+}
+
+/**
+ * Generate performance indicators for achievements
+ */
+export function suggestPerformanceMetrics(achievement: string): string[] {
+  const metrics: string[] = [];
+  const lower = achievement.toLowerCase();
+  
+  if (lower.includes('increase') || lower.includes('grow') || lower.includes('improve')) {
+    metrics.push('by 20-50%');
+    metrics.push('by $X amount');
+  }
+  
+  if (lower.includes('reduce') || lower.includes('decrease') || lower.includes('cut')) {
+    metrics.push('by 15-30%');
+    metrics.push('costs by $X');
+  }
+  
+  if (lower.includes('team')) {
+    metrics.push('of 5-10 members');
+    metrics.push('across 3+ departments');
+  }
+  
+  if (lower.includes('project')) {
+    metrics.push('delivered on time and under budget');
+    metrics.push('reducing timelines by 25%');
+  }
+  
+  return [...new Set(metrics)].slice(0, 2);
 }
 
