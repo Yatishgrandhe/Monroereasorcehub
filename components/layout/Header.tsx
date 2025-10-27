@@ -89,37 +89,37 @@ export function Header() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex md:items-center md:space-x-4 flex-shrink-0 pt-1">
-            <Button variant="ghost" size="sm" className="nav-button-glow" asChild href="/resources">
-              <Search className="h-4 w-4 mr-2" />
+          <div className="hidden md:flex md:items-center md:space-x-3 flex-shrink-0 pt-1">
+            <Button variant="ghost" size="sm" className="nav-button-glow px-3" asChild href="/resources">
+              <Search className="h-4 w-4 mr-1" />
               Search
             </Button>
-            <Button variant="outline" size="sm" className="nav-button-glow" asChild href="/submit-resource">
+            <Button variant="outline" size="sm" className="nav-button-glow px-3" asChild href="/submit-resource">
               Submit Resource
             </Button>
             
             {user ? (
-              <div className="flex items-center space-x-2">
-                <Button variant="gradient" size="sm" className="nav-button-glow" asChild href="/career/resume-builder">
-                  <UserIcon className="h-4 w-4 mr-2" />
-                  Resume Builder
+              <div className="flex items-center space-x-2 ml-2">
+                <Button variant="gradient" size="sm" className="nav-button-glow px-3 whitespace-nowrap" asChild href="/career/resume-builder">
+                  <UserIcon className="h-4 w-4 mr-1" />
+                  Resume
                 </Button>
-                <div className="flex items-center space-x-2 px-3 py-1 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
-                  <UserCircle className="h-4 w-4 text-primary-600" />
-                  <span className="text-sm text-secondary-700 font-medium">
+                <div className="flex items-center space-x-2 px-2 py-1 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap">
+                  <UserCircle className="h-4 w-4 text-primary-600 flex-shrink-0" />
+                  <span className="text-sm text-secondary-700 font-medium max-w-[120px] truncate">
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
-                <Button variant="ghost" size="sm" className="nav-button-glow" onClick={handleSignOut}>
+                <Button variant="ghost" size="sm" className="nav-button-glow p-2" onClick={handleSignOut}>
                   <LogOut className="h-4 w-4" />
                 </Button>
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm" className="nav-button-glow" asChild href="/auth/signin">
+                <Button variant="outline" size="sm" className="nav-button-glow px-3" asChild href="/auth/signin">
                   Sign In
                 </Button>
-                <Button variant="gradient" size="sm" className="nav-button-glow" asChild href="/auth/signup">
+                <Button variant="gradient" size="sm" className="nav-button-glow px-3" asChild href="/auth/signup">
                   Sign Up
                 </Button>
               </div>
