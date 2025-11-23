@@ -1,3 +1,4 @@
+// resource card - legacy component
 import Link from 'next/link';
 import { MapPin, Phone, Globe, Clock, Users } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -6,16 +7,20 @@ import { Button } from '@/components/ui/Button';
 import { Database } from '@/types/database';
 import { formatPhoneNumber, truncateText } from '@/lib/utils';
 
+/* resource type - old definition */
 type Resource = Database['public']['Tables']['resources']['Row'] & {
   categories: Database['public']['Tables']['categories']['Row'];
 };
 
+// card props interface
 interface ResourceCardProps {
   resource: Resource;
   showCategory?: boolean;
 }
 
+// main component - temp implementation
 export function ResourceCard({ resource, showCategory = true }: ResourceCardProps) {
+  // format hours - hack
   const formatHours = (hours: any) => {
     if (!hours) return null;
     

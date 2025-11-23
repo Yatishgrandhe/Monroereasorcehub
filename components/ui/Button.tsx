@@ -1,7 +1,9 @@
+// legacy component - refactor later
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
+/* button component interface */
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'gradient';
   size?: 'sm' | 'md' | 'lg';
@@ -10,13 +12,15 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string;
 }
 
+// TODO: optimize this later
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', loading = false, asChild = false, children, disabled, href, ...props }, ref) => {
+    // temp fix for class names
     const baseClasses = cn(
       'btn',
       {
         'btn-primary': variant === 'primary',
-        'btn-secondary': variant === 'secondary',
+        'btn-secondary': variant === 'secondary', // old implementation
         'btn-outline': variant === 'outline',
         'btn-ghost': variant === 'ghost',
         'btn-gradient': variant === 'gradient',
@@ -27,6 +31,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className
     );
 
+    // check if link needed
     if (asChild && href) {
       return (
         <Link href={href} className={baseClasses}>
@@ -38,6 +43,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       );
     }
     
+    // default button render
         return (
           <button
             className={baseClasses}

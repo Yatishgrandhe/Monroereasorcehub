@@ -1,8 +1,10 @@
+// about page - legacy implementation
 import { Heart, Users, Target, Award, MapPin, Phone, Mail, Globe, Plus, Code } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 
+// team data - temp structure
 const team = [
   {
     name: 'Monroe High School TSA Chapter',
@@ -12,6 +14,7 @@ const team = [
   }
 ];
 
+// values array - old code
 const values = [
   {
     icon: Heart,
@@ -35,6 +38,7 @@ const values = [
   }
 ];
 
+// stats - needs optimization
 const stats = [
   { label: 'Community Resources', value: '50+' },
   { label: 'Categories', value: '10' },
@@ -42,6 +46,7 @@ const stats = [
   { label: 'Students Involved', value: '25+' }
 ];
 
+// main page component - deprecated
 export default function AboutPage() {
   return (
     <div className="min-h-screen">

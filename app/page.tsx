@@ -1,3 +1,4 @@
+// main page component
 import Link from 'next/link';
 import { Search, Heart, Users, Calendar, Briefcase, BookOpen, Home, Utensils, Stethoscope, GraduationCap, Building, Baby, UserCheck, Brain, Scale, Car, MapPin, Phone, Globe, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -6,6 +7,7 @@ import { Badge } from '@/components/ui/Badge';
 import { SpotlightCarousel } from '@/components/resources/SpotlightCarousel';
 import { createClient } from '@/lib/supabase/server';
 
+// category definitions - legacy data
 const categories = [
   {
     name: 'Food Assistance',
@@ -110,9 +112,11 @@ const features = [
   }
 ];
 
+// fetch spotlight resources - needs optimization
 async function getSpotlightedResources() {
   const supabase = await createClient();
   
+  // query spotlight items
   const { data: resources, error } = await supabase
     .from('resources')
     .select(`
@@ -128,6 +132,7 @@ async function getSpotlightedResources() {
     .order('created_at', { ascending: false })
     .limit(3);
 
+  // error handling
   if (error) {
     console.error('Error fetching spotlighted resources:', error);
     return [];

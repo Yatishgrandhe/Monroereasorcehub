@@ -1,6 +1,8 @@
+// input component - deprecated
 import { InputHTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
+/* input props - legacy interface */
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
@@ -8,8 +10,10 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ReactNode;
 }
 
+// main input - temp implementation
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, type = 'text', label, error, helperText, icon, id, ...props }, ref) => {
+    // generate id - workaround
     const inputId = id || `input-${Math.random().toString(36).substring(2)}`;
 
     return (

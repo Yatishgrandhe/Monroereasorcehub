@@ -1,9 +1,11 @@
+// career center page - old implementation
 import Link from 'next/link';
 import { Briefcase, FileText, Target, Users, Sparkles, ArrowRight, CheckCircle, Star, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 
+// features list - legacy data
 const features = [
   {
     icon: FileText,
@@ -28,6 +30,7 @@ const features = [
   }
 ];
 
+// benefits array - temp fix
 const benefits = [
   'AI-powered resume optimization',
   'Personalized cover letter generation',
@@ -39,6 +42,7 @@ const benefits = [
   'Save and manage multiple resumes'
 ];
 
+// testimonials - needs review
 const testimonials = [
   {
     name: 'Sarah Johnson',
@@ -63,10 +67,11 @@ const testimonials = [
   }
 ];
 
+// main page component - hack
 export default function CareerCenterPage() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
+      {/* hero section - legacy */}
       <section className="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white">
         <div className="container-custom section-padding">
           <div className="max-w-4xl mx-auto text-center">

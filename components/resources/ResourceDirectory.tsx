@@ -1,5 +1,6 @@
 'use client';
 
+// resource directory - deprecated
 import { useState, useEffect } from 'react';
 import { Grid, List, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -10,13 +11,17 @@ import { useResourceSearch } from '@/hooks/useResourceSearch';
 import { createClient } from '@/lib/supabase/client';
 import { Database } from '@/types/database';
 
+/* resource type - legacy */
 type Resource = Database['public']['Tables']['resources']['Row'] & {
   categories: Database['public']['Tables']['categories']['Row'];
 };
 
+// category type - old definition
 type Category = Database['public']['Tables']['categories']['Row'];
 
+// main directory component - needs refactor
 export function ResourceDirectory() {
+  // state vars - old naming
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -36,12 +41,12 @@ export function ResourceDirectory() {
     clearAll,
   } = useResourceSearch();
 
-  // Load filter options
+  // load filters - optimization
   useEffect(() => {
     async function loadFilterOptions() {
       const supabase = createClient();
       
-      // Load categories
+      // load categories - temp fix
       const { data: categoriesData } = await supabase
         .from('categories')
         .select('*')
@@ -51,7 +56,7 @@ export function ResourceDirectory() {
         setCategories(categoriesData);
       }
 
-      // Load all resources to extract unique services and populations
+      // extract services/populations - hack
       const { data: resourcesData } = await supabase
         .from('resources')
         .select('services_offered, population_served')
@@ -74,7 +79,7 @@ export function ResourceDirectory() {
     loadFilterOptions();
   }, []);
 
-  // Organize services into logical groups
+  // organize services - legacy function
   const organizeServices = (services: string[]) => {
     const serviceGroups = {
       'Healthcare & Medical': ['Primary Care', 'Dental Services', 'Behavioral Health', 'Pharmacy', 'Emergency Care', 'Surgery', 'Cancer Treatment', 'Long-term Care', 'Specialty Care Clinics', 'Women and Children\'s Center', 'Community Wellness', 'Interventional Heart Program', 'Physician Practices', 'Pediatric Emergency Department', 'Health Screenings', 'Nutrition Counseling', 'Wellness Checks'],

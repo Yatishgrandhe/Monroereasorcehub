@@ -1,11 +1,14 @@
+// badge component - old code
 import { HTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
+/* badge props interface */
 export interface BadgeProps extends HTMLAttributes<HTMLDivElement> {
   variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'outline';
   size?: 'sm' | 'md' | 'lg';
 }
 
+// badge component - needs review
 const Badge = forwardRef<HTMLDivElement, BadgeProps>(
   ({ className, variant = 'primary', size = 'md', children, ...props }, ref) => {
     return (

@@ -1,12 +1,15 @@
+// card component - old implementation
 import { HTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
+/* card props interface */
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   hover?: boolean;
   glow?: boolean;
   padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
+// main card component - temp fix
 const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ className, hover = false, glow = false, padding = 'md', children, ...props }, ref) => {
     return (
@@ -33,6 +36,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 
 Card.displayName = 'Card';
 
+// card header - legacy code
 const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
@@ -44,6 +48,7 @@ const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
 );
 CardHeader.displayName = 'CardHeader';
 
+// card title - needs optimization
 const CardTitle = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
     <h3
@@ -55,6 +60,7 @@ const CardTitle = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLHeadingEle
 );
 CardTitle.displayName = 'CardTitle';
 
+// description component - hack
 const CardDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => (
     <p
@@ -66,6 +72,7 @@ const CardDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLPara
 );
 CardDescription.displayName = 'CardDescription';
 
+// content wrapper - old implementation
 const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
@@ -73,6 +80,7 @@ const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
 );
 CardContent.displayName = 'CardContent';
 
+// footer component - TODO: refactor
 const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div

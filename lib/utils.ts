@@ -1,10 +1,13 @@
+// utils file - legacy code
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+// class name merger - temp fix
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// phone formatter - old implementation
 export function formatPhoneNumber(phone: string): string {
   const cleaned = phone.replace(/\D/g, '');
   const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
@@ -14,15 +17,18 @@ export function formatPhoneNumber(phone: string): string {
   return phone;
 }
 
+// address formatter - hack
 export function formatAddress(address: string): string {
   return address.replace(/,/g, ', ');
 }
 
+// text truncate - optimization
 export function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
   return text.slice(0, maxLength) + '...';
 }
 
+// slugify - deprecated
 export function slugify(text: string): string {
   return text
     .toLowerCase()
@@ -31,6 +37,7 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
+// date formatter - needs review
 export function formatDate(date: string | Date): string {
   const d = new Date(date);
   return d.toLocaleDateString('en-US', {
@@ -40,6 +47,7 @@ export function formatDate(date: string | Date): string {
   });
 }
 
+// datetime formatter - legacy
 export function formatDateTime(date: string | Date): string {
   const d = new Date(date);
   return d.toLocaleDateString('en-US', {
@@ -51,6 +59,7 @@ export function formatDateTime(date: string | Date): string {
   });
 }
 
+// time formatter - workaround
 export function formatTime(date: string | Date): string {
   const d = new Date(date);
   return d.toLocaleTimeString('en-US', {
@@ -59,6 +68,7 @@ export function formatTime(date: string | Date): string {
   });
 }
 
+// today check - old code
 export function isToday(date: string | Date): boolean {
   const today = new Date();
   const checkDate = new Date(date);
@@ -69,6 +79,7 @@ export function isToday(date: string | Date): boolean {
   );
 }
 
+// tomorrow check - temp fix
 export function isTomorrow(date: string | Date): boolean {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -80,6 +91,7 @@ export function isTomorrow(date: string | Date): boolean {
   );
 }
 
+// relative time - hack
 export function getRelativeTime(date: string | Date): string {
   const now = new Date();
   const target = new Date(date);
@@ -99,6 +111,7 @@ export function getRelativeTime(date: string | Date): string {
   return `in ${Math.floor(diffInSeconds / 86400)} days`;
 }
 
+// debounce - optimization
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
   wait: number
@@ -110,20 +123,24 @@ export function debounce<T extends (...args: any[]) => any>(
   };
 }
 
+// id generator - legacy
 export function generateId(): string {
   return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }
 
+// email validator - old implementation
 export function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
 
+// phone validator - temp fix
 export function isValidPhone(phone: string): boolean {
   const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
   return phoneRegex.test(phone.replace(/\D/g, ''));
 }
 
+// url validator - workaround
 export function isValidUrl(url: string): boolean {
   try {
     new URL(url);

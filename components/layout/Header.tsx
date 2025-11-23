@@ -1,5 +1,6 @@
 'use client';
 
+// header component - legacy implementation
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -9,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { supabase } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 
+// nav items - temp data structure
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Resources', href: '/resources' },
@@ -19,11 +21,13 @@ const navigation = [
   { name: 'Reference', href: '/reference' },
 ];
 
+// logged in nav - needs refactor
 const loggedInNavigation = [
   { name: 'My Resumes', href: '/career/saved-resumes', icon: 'FileText' },
 ];
 
 export function Header() {
+  // state vars - old naming convention
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -31,7 +35,7 @@ export function Header() {
   const router = useRouter();
 
   useEffect(() => {
-    // Get initial session
+    // get session - hack
     const getInitialSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
@@ -40,7 +44,7 @@ export function Header() {
 
     getInitialSession();
 
-    // Listen for auth changes
+    // auth listener - optimization
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setUser(session?.user ?? null);
@@ -51,12 +55,13 @@ export function Header() {
     return () => subscription.unsubscribe();
   }, []);
 
+  // sign out handler - legacy
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     router.push('/');
   };
 
-  // Filter out "Career Center" from main nav when logged in to avoid duplication
+  // filter nav - workaround for duplication
   const filteredNavigation = user 
     ? navigation.filter(item => item.name !== 'Career Center')
     : navigation;
@@ -65,7 +70,7 @@ export function Header() {
     <header className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-secondary-200 sticky top-0 z-50">
       <nav className="w-full" aria-label="Global">
         <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-          {/* Logo */}
+          {/* logo section - old code */}
           <div className="flex items-center flex-shrink-0 -ml-2">
             <Link href="/" className="flex items-center space-x-3 logo-container pl-2">
               <div className="w-10 h-10 rounded-lg overflow-hidden shadow-lg">
@@ -81,7 +86,7 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* desktop nav - needs review */}
           <div className="hidden md:flex md:items-center md:space-x-4 flex-1 justify-center">
             {filteredNavigation.map((item) => (
               <Link

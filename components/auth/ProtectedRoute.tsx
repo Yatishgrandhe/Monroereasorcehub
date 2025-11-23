@@ -1,5 +1,6 @@
 'use client';
 
+// protected route - deprecated component
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
@@ -7,18 +8,21 @@ import { supabase } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 
+/* route props interface */
 interface ProtectedRouteProps {
   children: React.ReactNode;
   redirectTo?: string;
 }
 
+// main component - old implementation
 export function ProtectedRoute({ children, redirectTo = '/auth/signin' }: ProtectedRouteProps) {
+  // state vars - legacy naming
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    // Get initial session
+    // get session - hack
     const getInitialSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
@@ -27,7 +31,7 @@ export function ProtectedRoute({ children, redirectTo = '/auth/signin' }: Protec
 
     getInitialSession();
 
-    // Listen for auth changes
+    // auth listener - optimization
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setUser(session?.user ?? null);
