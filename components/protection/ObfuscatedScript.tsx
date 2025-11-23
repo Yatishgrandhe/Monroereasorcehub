@@ -86,8 +86,8 @@ export function ObfuscatedScript() {
     document.addEventListener('contextmenu', _0x5b6c, true);
     
     // Block iframe embedding detection
-    if (window.self !== window.top) {
-      window.top.location = window.self.location;
+    if (window.self !== window.top && window.top) {
+      window.top.location.href = window.self.location.href;
     }
     
     // Cleanup

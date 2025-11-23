@@ -65,7 +65,7 @@ export function InspectProtection() {
     };
 
     // Detect DevTools opening
-    let devtools = {
+    const devtools = {
       open: false,
       orientation: null as string | null
     };
