@@ -8,6 +8,14 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Database } from '@/types/database';
 
+const FALLBACK_IMAGES = [
+  'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Volunteers
+  'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Hands together
+  'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Group meeting
+  'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Food/Helping
+  'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Social services
+];
+
 type Resource = Database['public']['Tables']['resources']['Row'] & {
   categories: Database['public']['Tables']['categories']['Row'];
 };
@@ -24,7 +32,7 @@ export function SpotlightCarousel({ resources }: SpotlightCarouselProps) {
     if (spotlightedResources.length === 0) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => 
+      setCurrentIndex((prevIndex) =>
         prevIndex === spotlightedResources.length - 1 ? 0 : prevIndex + 1
       );
     }, 5000);
@@ -73,7 +81,7 @@ export function SpotlightCarousel({ resources }: SpotlightCarouselProps) {
                   <p className="text-lg text-white/90 mb-6 leading-relaxed">
                     {resource.spotlight_story || resource.description}
                   </p>
-                  
+
                   {/* Contact Info */}
                   <div className="space-y-2 mb-6">
                     {resource.contact_info?.phone && (
@@ -110,20 +118,20 @@ export function SpotlightCarousel({ resources }: SpotlightCarouselProps) {
 
                 {/* Image Placeholder */}
                 <div className="flex items-center justify-center">
-                  <div className="w-full h-64 lg:h-80 bg-white/10 rounded-xl flex items-center justify-center">
-                    {resource.spotlight_image_url ? (
-                      <img 
-                        src={resource.spotlight_image_url} 
-                        alt={resource.name}
-                        className="w-full h-full object-cover rounded-xl"
-                      />
-                    ) : (
-                      <div className="text-center text-white/70">
-                        <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <span className="text-2xl">{resource.categories.icon}</span>
+                  <div className="w-full h-64 lg:h-80 bg-white/10 rounded-xl flex items-center justify-center overflow-hidden relative">
+                    <img
+                      src={resource.spotlight_image_url || FALLBACK_IMAGES[index % FALLBACK_IMAGES.length]}
+                      alt={resource.name}
+                      className="w-full h-full object-cover rounded-xl hover:scale-105 transition-transform duration-500"
+                    />
+                    {!resource.spotlight_image_url && (
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
+                        <div className="flex items-center gap-3 text-white/90">
+                          <div className="p-2 bg-white/20 backdrop-blur-sm rounded-full">
+                            <span className="text-xl">{resource.categories.icon}</span>
+                          </div>
+                          <span className="font-medium text-sm tracking-wide uppercase">{resource.categories.name}</span>
                         </div>
-                        <p className="text-lg font-medium">{resource.name}</p>
-                        <p className="text-sm">{resource.categories.name}</p>
                       </div>
                     )}
                   </div>
@@ -142,9 +150,8 @@ export function SpotlightCarousel({ resources }: SpotlightCarouselProps) {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                index === currentIndex ? 'bg-primary-600' : 'bg-secondary-300'
-              }`}
+              className={`w-3 h-3 rounded-full transition-colors duration-200 ${index === currentIndex ? 'bg-primary-600' : 'bg-secondary-300'
+                }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}

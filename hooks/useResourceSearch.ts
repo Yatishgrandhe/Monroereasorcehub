@@ -37,7 +37,7 @@ const defaultState: SearchState = {
 export function useResourceSearch() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   const [state, setState] = useState<SearchState>(() => {
     const query = searchParams.get('q') || '';
     const category = searchParams.get('category')?.split(',').filter(Boolean) || [];
@@ -47,7 +47,7 @@ export function useResourceSearch() {
     const sortBy = (searchParams.get('sortBy') as SearchState['sortBy']) || 'relevance';
     const sortOrder = (searchParams.get('sortOrder') as SearchState['sortOrder']) || 'desc';
     const page = parseInt(searchParams.get('page') || '1');
-    
+
     return {
       ...defaultState,
       query,
@@ -65,7 +65,7 @@ export function useResourceSearch() {
   // Update URL when state changes
   const updateURL = useCallback((newState: SearchState) => {
     const params = new URLSearchParams();
-    
+
     if (newState.query) params.set('q', newState.query);
     if (newState.filters.category.length > 0) params.set('category', newState.filters.category.join(','));
     if (newState.filters.services.length > 0) params.set('services', newState.filters.services.join(','));
@@ -74,10 +74,15 @@ export function useResourceSearch() {
     if (newState.sortBy !== 'relevance') params.set('sortBy', newState.sortBy);
     if (newState.sortOrder !== 'desc') params.set('sortOrder', newState.sortOrder);
     if (newState.page > 1) params.set('page', newState.page.toString());
-    
-    const url = params.toString() ? `?${params.toString()}` : '/resources';
-    router.push(url, { scroll: false });
-  }, [router]);
+
+    const newQueryString = params.toString();
+    const currentQueryString = searchParams.toString();
+
+    if (newQueryString !== currentQueryString) {
+      const url = newQueryString ? `?${newQueryString}` : '/resources';
+      router.push(url, { scroll: false });
+    }
+  }, [router, searchParams]);
 
   // Debounced search function
   const debouncedSearch = useCallback(
@@ -85,7 +90,7 @@ export function useResourceSearch() {
       setIsLoading(true);
       try {
         const params = new URLSearchParams();
-        
+
         if (searchState.query) params.set('q', searchState.query);
         if (searchState.filters.category.length > 0) params.set('category', searchState.filters.category.join(','));
         if (searchState.filters.services.length > 0) params.set('services', searchState.filters.services.join(','));
@@ -95,10 +100,10 @@ export function useResourceSearch() {
         params.set('sortOrder', searchState.sortOrder);
         params.set('page', searchState.page.toString());
         params.set('limit', searchState.limit.toString());
-        
+
         const response = await fetch(`/api/resources/search?${params.toString()}`);
         const data = await response.json();
-        
+
         setResults(data.resources || []);
         setTotalCount(data.totalCount || 0);
       } catch (error) {
@@ -127,10 +132,10 @@ export function useResourceSearch() {
   }, []);
 
   const updateFilters = useCallback((filters: Partial<SearchFilters>) => {
-    setState(prev => ({ 
-      ...prev, 
+    setState(prev => ({
+      ...prev,
       filters: { ...prev.filters, ...filters },
-      page: 1 
+      page: 1
     }));
   }, []);
 

@@ -9,7 +9,13 @@ const nextConfig = {
     },
   },
   images: {
-    domains: ['fjzkpunuonshouhmqfzs.supabase.co', 'isvreazremcmjqsdqnuj.supabase.co'],
+    domains: ['fjzkpunuonshouhmqfzs.supabase.co', 'isvreazremcmjqsdqnuj.supabase.co', 'images.unsplash.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
   },
   async headers() {
     return [
