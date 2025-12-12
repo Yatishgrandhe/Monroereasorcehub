@@ -118,28 +118,28 @@ const features = [
   {
     icon: Search,
     title: 'Find Help',
-    description: 'Search through all the local resources we\'ve gathered. We tried to make it simple so you can find what you need without getting frustrated.',
+    description: 'We went ahead and collected all the local resources we could find. Honestly, we tried our best to keep it simple - nobody likes clicking through a million pages just to find one thing, right?',
     color: 'text-primary-600',
     bg: 'bg-primary-50'
   },
   {
     icon: Briefcase,
     title: 'Grow Your Career',
-    description: 'We built some free tools to help you put together a resume and figure out job applications. It\'s all free, so give it a try.',
+    description: 'We put together some tools that are completely free - no catch, no hidden fees. They\'ll help you build a resume and navigate the whole job application process. Seriously, just try them out.',
     color: 'text-accent-600',
     bg: 'bg-accent-50'
   },
   {
     icon: Calendar,
     title: 'Join In',
-    description: 'Check out what\'s going on around Monroe. We keep a calendar of local events, workshops, and other stuff happening in town.',
+    description: 'Want to know what\'s happening around here? We\'ve got a calendar that shows all the local events, workshops, and basically anything interesting going on in Monroe.',
     color: 'text-coral-600',
     bg: 'bg-coral-50'
   },
   {
     icon: Heart,
     title: 'Give Back',
-    description: 'Looking to help out? We\'ve got a list of volunteer opportunities and other ways you can pitch in and support folks in Monroe.',
+    description: 'Feeling like you want to give back? We\'ve compiled a bunch of volunteer opportunities and other ways you can get involved and actually make a difference for people here in Monroe.',
     color: 'text-teal-600',
     bg: 'bg-teal-50'
   }
@@ -199,7 +199,7 @@ export default async function HomePage() {
             </h1>
 
             <p className="text-xl md:text-2xl mb-10 text-secondary-600 max-w-3xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
-              We've put together everything Monroe has to offer in one spot. Whether you're looking for help, trying to find opportunities, or just want to get more involved - you're in the right place.
+              So here's the thing - we spent a lot of time gathering up everything Monroe has to offer and putting it all in one place. Need help with something? Looking for opportunities? Or maybe you just want to see what's going on around town? You've come to the right spot, honestly.
             </p>
 
             {/* Search Bar */}
@@ -261,8 +261,8 @@ export default async function HomePage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="title-section mb-4">What's Going On Around Town</h2>
-            <p className="text-xl text-secondary-600 max-w-2xl mx-auto">
-              Check out what's happening in Monroe and all the different services we've got available for folks around here.
+              <p className="text-xl text-secondary-600 max-w-2xl mx-auto">
+              Take a look at what's going on in Monroe - there's actually quite a bit happening. Plus, we've rounded up all the different services available for people who live here.
             </p>
           </div>
           <div className="rounded-3xl overflow-hidden shadow-2xl ring-8 ring-white">
@@ -282,7 +282,7 @@ export default async function HomePage() {
                 Local Organizations Making a Difference
               </h2>
               <p className="text-xl text-secondary-600">
-                These are the groups and organizations that are really doing the work to help people in Monroe every single day.
+                These are the groups and organizations that are actually out there doing the work. They're helping people in Monroe every single day, and honestly, they deserve some recognition.
               </p>
             </div>
             <Button variant="outline" asChild href="/resources?featured=true">
@@ -302,7 +302,7 @@ export default async function HomePage() {
               Find What You Need
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              We've organized everything into categories so you can find what you're looking for without having to dig around too much.
+              We went ahead and sorted everything into categories. That way you don't have to spend forever searching through stuff - you can just jump right to what you need.
             </p>
           </div>
 
@@ -386,7 +386,7 @@ export default async function HomePage() {
               Ready to Get Started?
             </h2>
             <p className="text-xl md:text-2xl mb-10 text-white/90 font-medium">
-              Lots of people in Monroe are already using this site to find what they need, discover new opportunities, and stay connected with what's happening around town.
+              A bunch of people in Monroe are already using this site. They're finding what they need, stumbling across new opportunities, and keeping up with everything going on around here. You could too, you know?
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-white text-primary-600 hover:bg-secondary-50 border-none shadow-lg hover:shadow-xl" asChild href="/resources">

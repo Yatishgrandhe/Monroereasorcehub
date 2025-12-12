@@ -17,9 +17,9 @@ export function Footer() {
                 <span className="text-xl font-bold">Monroe Resource Hub</span>
               </div>
               <p className="text-secondary-300 mb-6 max-w-md">
-                We're trying to make it easier for people in Monroe to find the help they need, discover services that 
-                are available, and find opportunities that might work for them. It's all about building a stronger community 
-                where people actually help each other out.
+                We're really trying to make it easier for people in Monroe to find the help they need, discover services that 
+                are actually available, and find opportunities that might work for them. At the end of the day, it's all about building a stronger community 
+                where people actually help each other out instead of just looking out for themselves.
               </p>
               <div className="space-y-2">
                 <div className="flex items-center space-x-2 text-secondary-300">

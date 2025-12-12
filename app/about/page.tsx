@@ -19,22 +19,22 @@ const values = [
   {
     icon: Heart,
     title: 'Community at Heart',
-    description: 'This whole thing was built with our neighbors in mind. Every single feature we added was because we thought it might actually help someone in Monroe.'
+    description: 'This whole project was built with our neighbors in mind from the start. Every single feature we added? We did it because we genuinely thought it might help someone in Monroe. That\'s it, really.'
   },
   {
     icon: Users,
     title: 'Open to Everyone',
-    description: 'It doesn\'t matter who you are or where you\'re from - if you\'re in Monroe and you need help, these resources are here for you. Simple as that.'
+    description: 'It really doesn\'t matter who you are or where you came from. If you\'re in Monroe and you need help, these resources are here for you. That\'s all there is to it.'
   },
   {
     icon: Target,
     title: 'Always Improving',
-    description: 'We keep trying to make things better. We use modern tech because it helps us make finding help easier and faster for everyone who uses the site.'
+    description: 'We\'re constantly trying to make things better around here. We use modern tech because honestly, it just makes everything easier and faster for people who use the site. Why make things harder than they need to be?'
   },
   {
     icon: Award,
     title: 'Trustworthy',
-    description: 'We really care about getting things right. When you find information here, you can trust that we\'ve done our best to make sure it\'s accurate.'
+    description: 'We actually care about getting things right. When you find information here, you can trust that we\'ve done our best to make sure it\'s accurate. We\'re not perfect, but we try.'
   }
 ];
 
@@ -63,8 +63,8 @@ export default function AboutPage() {
               Made with Love for Monroe
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-              We're just a bunch of local students who thought it'd be cool to make things easier for people around here. 
-              We wanted to help our neighbors find what they need, discover new opportunities, and actually connect with each other.
+              Honestly, we're just a group of local students who got this idea that maybe we could make things a little easier for people around here. 
+              The whole point was to help our neighbors find what they need, maybe discover some opportunities they didn't know about, and actually get people to connect with each other for once.
             </p>
           </div>
         </div>
@@ -83,9 +83,9 @@ export default function AboutPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-secondary-700 leading-relaxed">
-                  Basically, we're trying to make it easier for people in Monroe to find help. The idea was to take all 
-                  the great resources our town has and put them in one spot that's actually easy to use. Nobody should have 
-                  to jump through hoops just to find the help they need, you know?
+                  Look, we're basically just trying to make it easier for people in Monroe to find help when they need it. The whole idea started with taking all 
+                  the great resources our town has and putting them in one spot that people can actually use without getting confused. Seriously, nobody should have 
+                  to deal with a bunch of hassle just to find the help they need. That's just ridiculous.
                 </p>
               </CardContent>
             </Card>
@@ -99,9 +99,9 @@ export default function AboutPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-secondary-700 leading-relaxed">
-                  We're hoping for a Monroe where people actually feel like they're part of something. Where if you need help, 
-                  you can find it without too much trouble. And where technology actually helps bring people together instead of 
-                  making everyone feel isolated.
+                  What we're really hoping for is a Monroe where people actually feel like they belong somewhere. Where if you need help, 
+                  you can find it without having to make a million phone calls or fill out a bunch of forms. And honestly, where technology actually does what it's supposed to - bringing people together instead of 
+                  making everyone feel like they're on their own.
                 </p>
               </CardContent>
             </Card>
@@ -228,21 +228,21 @@ export default function AboutPage() {
             <CardContent>
               <p className="text-secondary-700 mb-4">
                 We built this site using Next.js 16.0.10, React 19.2.3, TypeScript 5.8.2, and Tailwind CSS 3.4.18. 
-                Basically, we went with the latest versions of everything because we wanted to make sure things would work well.
+                We went with the latest versions of everything because honestly, we wanted to make sure things would actually work well and not break on us halfway through.
               </p>
               <div className="text-secondary-700 space-y-4">
                 <p className="font-semibold text-primary-700">
                   Just So You Know:
                 </p>
                 <p>
-                  Our team at Central Academy of Technology and Arts TSA Chapter built this whole thing ourselves. 
+                  Our team at Central Academy of Technology and Arts TSA Chapter built this whole thing ourselves, no joke. 
                   We didn't grab any pre-made themes or templates - everything from how it looks to how it works, we put together ourselves. 
-                  Every single piece of code and design came from our team.
+                  Every single piece of code and design came from our team, and we're pretty proud of that.
                 </p>
                 <p>
                   The way everything looks and works together is completely our own thing. Yeah, we use some open source libraries 
-                  (you can see them listed below) because that's just how building websites works, but we didn't use any pre-made 
-                  templates or themes. Everything you see was built from scratch by us.
+                  (you can see them listed below) because that's just how building websites works these days, but we didn't use any pre-made 
+                  templates or themes. Everything you see was built from scratch by us, and it took a while, let me tell you.
                 </p>
               </div>
             </CardContent>
@@ -282,7 +282,7 @@ export default function AboutPage() {
               Let's Chat
             </h2>
             <p className="text-xl text-secondary-600 mb-8">
-              Got questions? Have ideas? Just want to chat? We'd actually love to hear from you.
+              Got questions? Have ideas? Just want to chat? We'd actually love to hear from you - seriously, reach out anytime.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -344,7 +344,7 @@ export default function AboutPage() {
             </h2>
             <p className="text-xl mb-8 text-white/90">
               Want to help make Monroe a better place? Whether you're just a regular person, part of an organization, 
-              or looking to volunteer - we've got a spot for you here.
+              or looking to volunteer - we've got a spot for you here. No experience needed, just a willingness to help out.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30" asChild>
