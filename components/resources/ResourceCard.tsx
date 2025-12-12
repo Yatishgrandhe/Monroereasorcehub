@@ -31,7 +31,18 @@ export function ResourceCard({ resource, showCategory = true }: ResourceCardProp
       return 'Closed today';
     }
     
-    return `Open ${todayHours.open} - ${todayHours.close}`;
+    // Convert 24-hour format to 12-hour AM/PM EST
+    const formatTime12Hour = (time24: string): string => {
+      if (!time24) return '';
+      const [hours, minutes] = time24.split(':').map(Number);
+      if (isNaN(hours) || isNaN(minutes)) return time24;
+      const period = hours >= 12 ? 'PM' : 'AM';
+      const hours12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+      const minutesStr = minutes.toString().padStart(2, '0');
+      return `${hours12}:${minutesStr} ${period} EST`;
+    };
+    
+    return `Open ${formatTime12Hour(todayHours.open)} - ${formatTime12Hour(todayHours.close)}`;
   };
 
   return (

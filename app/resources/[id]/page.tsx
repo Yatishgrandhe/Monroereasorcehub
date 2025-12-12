@@ -95,6 +95,17 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
   const formatHours = (hours: any) => {
     if (!hours) return null;
     
+    // Convert 24-hour format to 12-hour AM/PM EST
+    const formatTime12Hour = (time24: string): string => {
+      if (!time24) return '';
+      const [hours, minutes] = time24.split(':').map(Number);
+      if (isNaN(hours) || isNaN(minutes)) return time24;
+      const period = hours >= 12 ? 'PM' : 'AM';
+      const hours12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+      const minutesStr = minutes.toString().padStart(2, '0');
+      return `${hours12}:${minutesStr} ${period} EST`;
+    };
+    
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     
@@ -103,7 +114,7 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
       if (!dayHours || dayHours.closed) {
         return { day: dayNames[index], hours: 'Closed' };
       }
-      return { day: dayNames[index], hours: `${dayHours.open} - ${dayHours.close}` };
+      return { day: dayNames[index], hours: `${formatTime12Hour(dayHours.open)} - ${formatTime12Hour(dayHours.close)}` };
     });
   };
 
@@ -291,6 +302,32 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
                       <Globe className="h-4 w-4 mr-2" />
                       Visit Website
                     </Button>
+                  </div>
+                )}
+
+                {/* Branch Locations */}
+                {(resource.contact_info as any)?.branches && Array.isArray((resource.contact_info as any).branches) && (resource.contact_info as any).branches.length > 0 && (
+                  <div className="pt-4 border-t border-secondary-200">
+                    <h4 className="font-semibold text-secondary-900 mb-3">Branch Locations</h4>
+                    <div className="space-y-3">
+                      {(resource.contact_info as any).branches.map((branch: any, index: number) => (
+                        <div key={index} className="p-3 bg-secondary-50 rounded-lg">
+                          <p className="font-medium text-secondary-900 mb-1">{branch.name || `Branch ${index + 1}`}</p>
+                          {branch.address && (
+                            <p className="text-sm text-secondary-600 mb-1">
+                              <MapPin className="h-3 w-3 inline mr-1" />
+                              {branch.address}
+                            </p>
+                          )}
+                          {branch.phone && (
+                            <p className="text-sm text-secondary-600">
+                              <Phone className="h-3 w-3 inline mr-1" />
+                              {formatPhoneNumber(branch.phone)}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </CardContent>
