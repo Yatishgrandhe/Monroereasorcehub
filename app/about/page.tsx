@@ -9,7 +9,7 @@ const team = [
   {
     name: 'Central Academy of Technology and Arts High School TSA Chapter',
     role: 'Development Team',
-    description: 'We\'re students from Central Academy of Technology and Arts who wanted to do something meaningful for our community. This whole project came from us wanting to help out our neighbors.',
+    description: 'We are the students of the Central Academy of Technology and Arts, and we wanted to do something big for our community. The whole thing was our idea of helping our neighbors.',
     image: '/team/tsa-team.jpg'
   }
 ];
@@ -24,17 +24,17 @@ const values = [
   {
     icon: Users,
     title: 'Open to Everyone',
-    description: 'It really doesn\'t matter who you are or where you came from. If you\'re in Monroe and you need help, these resources are here for you. That\'s all there is to it.'
+    description: 'It still wouldn\'t matter what kind of person you were or where you came from. If you were in Monroe and needed help, these would be the resources that would be available to you. That\'s it.'
   },
   {
     icon: Target,
     title: 'Always Improving',
-    description: 'We\'re constantly trying to make things better around here. We use modern tech because honestly, it just makes everything easier and faster for people who use the site. Why make things harder than they need to be?'
+    description: 'We don\'t rest from our work to improve things here. We are not shy to admit that we do use modern technology mainly because it just makes things easier and quicker for the people who use the site. Why would you complicate things more than they already are?'
   },
   {
     icon: Award,
     title: 'Trustworthy',
-    description: 'We actually care about getting things right. When you find information here, you can trust that we\'ve done our best to make sure it\'s accurate. We\'re not perfect, but we try.'
+    description: 'We put a lot of effort into the correct doing things correctly. It is always your presumption that we have made our best effort to be accurate if you find information here. We are not perfect, but we make an effort.'
   }
 ];
 
@@ -63,8 +63,7 @@ export default function AboutPage() {
               Made with Love for Monroe
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Honestly, we're just a group of local students who got this idea that maybe we could make things a little easier for people around here. 
-              The whole point was to help our neighbors find what they need, maybe discover some opportunities they didn't know about, and actually get people to connect with each other for once.
+              As local students, we have recognized the necessity for improved services in the community. We would like to complete the project to make it easy for our neighbors to have more access to resources and, at the same time, establish a network among the residents.
             </p>
           </div>
         </div>
@@ -83,9 +82,7 @@ export default function AboutPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-secondary-700 leading-relaxed">
-                  Look, we're basically just trying to make it easier for people in Monroe to find help when they need it. The whole idea started with taking all 
-                  the great resources our town has and putting them in one spot that people can actually use without getting confused. Seriously, nobody should have 
-                  to deal with a bunch of hassle just to find the help they need. That's just ridiculous.
+                  We want to create a platform where the citizens of Monroe do not have any difficulty in obtaining the kind of help they need. Our main goal is to take the best from each service provider locally and create a single list that is accessible to everyone. This will allow the people living in our town not to waste their time searching for the right provider when they are in need of help. The fact that it may only be possible for someone to face numerous obstacles before reaching the service they are looking for is really outrageous.
                 </p>
               </CardContent>
             </Card>
@@ -99,9 +96,7 @@ export default function AboutPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-secondary-700 leading-relaxed">
-                  What we're really hoping for is a Monroe where people actually feel like they belong somewhere. Where if you need help, 
-                  you can find it without having to make a million phone calls or fill out a bunch of forms. And honestly, where technology actually does what it's supposed to - bringing people together instead of 
-                  making everyone feel like they're on their own.
+                  Constructing a community in which the people of Monroe will feel that their concerns are our top priority. We want everyone to be certain of the fact that help exists without the need to make several phone calls or fill out numerous forms. Moreover, we want to assure that technology is still a medium that unites people instead of giving them a feeling of loneliness.
                 </p>
               </CardContent>
             </Card>
@@ -227,15 +222,14 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent>
               <p className="text-secondary-700 mb-4">
-                We built this site using Next.js 16.0.10, React 19.2.3, TypeScript 5.8.2, and Tailwind CSS 3.4.18. 
-                We went with the latest versions of everything because honestly, we wanted to make sure things would actually work well and not break on us halfway through.
+                We created this platform using Next.js 16.0.10, React 19.2.3, TypeScript 5.8.2, and Tailwind CSS 3.4.18. We picked the latest versions of everything. To be honest, we wanted to be sure that things would actually go smoothly and not fall apart halfway through.
               </p>
               <div className="text-secondary-700 space-y-4">
                 <p className="font-semibold text-primary-700">
                   Just So You Know:
                 </p>
                 <p>
-                  Our team at Central Academy of Technology and Arts TSA Chapter built this whole thing ourselves, no joke. 
+                  Our team at Central Academy of Technology and Arts TSA Chapter built this whole thing ourselves. 
                   We didn't grab any pre-made themes or templates - everything from how it looks to how it works, we put together ourselves. 
                   Every single piece of code and design came from our team, and we're pretty proud of that.
                 </p>

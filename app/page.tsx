@@ -386,7 +386,7 @@ export default async function HomePage() {
               Ready to Get Started?
             </h2>
             <p className="text-xl md:text-2xl mb-10 text-white/90 font-medium">
-              A bunch of people in Monroe are already using this site. They're finding what they need, stumbling across new opportunities, and keeping up with everything going on around here. You could too, you know?
+              In Monroe, many residents already utilize this resource; as a result, they have located the resources they needed, explored new resource opportunities, and stayed up-to-date with the happenings of their community.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-white text-primary-600 hover:bg-secondary-50 border-none shadow-lg hover:shadow-xl" asChild href="/resources">
