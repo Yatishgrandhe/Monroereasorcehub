@@ -222,7 +222,7 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent>
               <p className="text-secondary-700 mb-4">
-                We created this platform using Next.js 16.0.10, React 19.2.3, TypeScript 5.8.2, and Tailwind CSS 3.4.18. We picked the latest versions of everything. To be honest, we wanted to be sure that things would actually go smoothly and not fall apart halfway through.
+                We created this platform using Next.js 16.0.10, React 19.2.3, TypeScript 5.9.3, and Tailwind CSS 3.4.18. We picked the latest versions of everything. To be honest, we wanted to be sure that things would actually go smoothly and not fall apart halfway through.
               </p>
               <div className="text-secondary-700 space-y-4">
                 <p className="font-semibold text-primary-700">
@@ -244,22 +244,25 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { name: 'Next.js', description: 'React Framework' },
-              { name: 'Supabase', description: 'Database & Auth' },
-              { name: 'Tailwind CSS', description: 'Styling' },
-              { name: 'Gemini AI', description: 'AI Assistant' },
-              { name: 'TypeScript', description: 'Type Safety' },
-              { name: 'Vercel', description: 'Deployment' },
-              { name: 'React', description: 'UI Library' },
-              { name: 'PostgreSQL', description: 'Database' }
+              { name: 'Next.js', description: 'React Framework', version: '16.0.10' },
+              { name: 'Supabase', description: 'Database & Auth', version: '2.75.0' },
+              { name: 'Tailwind CSS', description: 'Styling', version: '3.4.18' },
+              { name: 'Gemini AI', description: 'AI Assistant', version: '0.24.1' },
+              { name: 'TypeScript', description: 'Type Safety', version: '5.9.3' },
+              { name: 'Vercel', description: 'Deployment', version: 'Platform' },
+              { name: 'React', description: 'UI Library', version: '19.2.3' },
+              { name: 'PostgreSQL', description: 'Database', version: 'via Supabase' }
             ].map((tech, index) => (
               <Card key={index} className="text-center">
                 <CardContent className="p-4">
                   <h3 className="font-semibold text-secondary-900 mb-1">
                     {tech.name}
                   </h3>
-                  <p className="text-sm text-secondary-600">
+                  <p className="text-sm text-secondary-600 mb-2">
                     {tech.description}
+                  </p>
+                  <p className="text-xs text-secondary-500 font-mono">
+                    v{tech.version}
                   </p>
                 </CardContent>
               </Card>

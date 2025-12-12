@@ -129,9 +129,12 @@ export function ResourceCard({ resource, showCategory = true }: ResourceCardProp
         {/* Actions */}
         <div className="mt-auto pt-4 border-t border-secondary-200">
           <div className="flex flex-col sm:flex-row gap-2">
-            <Button variant="primary" size="sm" className="flex-1" asChild href={`/resources/${resource.id}`}>
+            <Link 
+              href={`/resources/${resource.id}`}
+              className="btn btn-primary btn-sm flex-1 text-center"
+            >
               View Details
-            </Button>
+            </Link>
             
             {resource.website && (
               <Button variant="outline" size="sm" asChild href={resource.website}>

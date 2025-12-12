@@ -105,11 +105,14 @@ export function SpotlightCarousel({ resources }: SpotlightCarouselProps) {
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Button variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30" asChild href={`/resources/${resource.id}`}>
+                    <Link 
+                      href={`/resources/${resource.id}`}
+                      className="btn btn-outline bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold"
+                    >
                       Learn More
-                    </Button>
+                    </Link>
                     {resource.website && (
-                      <Button variant="ghost" className="text-white hover:bg-white/20" asChild href={resource.website}>
+                      <Button variant="ghost" className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold" asChild href={resource.website}>
                         Visit Website
                       </Button>
                     )}

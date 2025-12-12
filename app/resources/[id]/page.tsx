@@ -14,12 +14,13 @@ type Resource = Database['public']['Tables']['resources']['Row'] & {
 };
 
 interface ResourceDetailPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: ResourceDetailPageProps) {
+  const { id } = await params;
   const supabase = await createClient();
   
   const { data: resource } = await supabase
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: ResourceDetailPageProps) {
         icon
       )
     `)
-    .eq('id', params.id)
+    .eq('id', id)
     .eq('is_approved', true)
     .single();
 
@@ -54,6 +55,7 @@ export async function generateMetadata({ params }: ResourceDetailPageProps) {
 }
 
 export default async function ResourceDetailPage({ params }: ResourceDetailPageProps) {
+  const { id } = await params;
   const supabase = await createClient();
   
   const { data: resource, error } = await supabase
@@ -66,7 +68,7 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
         icon
       )
     `)
-    .eq('id', params.id)
+    .eq('id', id)
     .eq('is_approved', true)
     .single();
 
