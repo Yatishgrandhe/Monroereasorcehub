@@ -213,7 +213,7 @@ export default function ReferencePage() {
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
               We wanted to be transparent about everything we used to build this site. Here's the full list of tools and sources.
             </p>
-            <Badge variant="primary" className="bg-white/20 text-white border-white/30">
+            <Badge variant="primary" className="bg-white/50 backdrop-blur-sm text-white border-white/50 shadow-lg font-semibold">
               Central Academy of Technology and Arts TSA Chapter
             </Badge>
           </div>

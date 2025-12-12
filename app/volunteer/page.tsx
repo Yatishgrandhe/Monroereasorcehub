@@ -132,11 +132,11 @@ export default function VolunteerPage() {
               that actually fits with your schedule and what you\'re interested in.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30 force-white-text">
+              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold force-white-text">
                 <Users className="mr-2 h-5 w-5" />
                 See What's Needed
               </Button>
-              <Button size="lg" variant="ghost" className="text-white hover:bg-white/20 force-white-text">
+              <Button size="lg" variant="ghost" className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold force-white-text">
                 <Calendar className="mr-2 h-5 w-5" />
                 Upcoming Events
               </Button>
@@ -219,7 +219,7 @@ export default function VolunteerPage() {
                     <MapPin className="h-4 w-4" />
                     <span>{volunteer.location}</span>
                   </div>
-                  <Button variant="outline" size="sm" className="w-full mt-4 border-white/30 text-white hover:bg-white/20">
+                  <Button variant="outline" size="sm" className="w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md">
                     <Mail className="h-4 w-4 mr-2" />
                     Get Involved
                   </Button>
@@ -408,11 +408,11 @@ export default function VolunteerPage() {
               Join your neighbors who are already giving back.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30">
+              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold">
                 <Heart className="mr-2 h-5 w-5" />
                 Start Volunteering Today
               </Button>
-              <Button size="lg" variant="ghost" className="text-white hover:bg-white/20">
+              <Button size="lg" variant="ghost" className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold">
                 <Calendar className="mr-2 h-5 w-5" />
                 View Volunteer Events
               </Button>

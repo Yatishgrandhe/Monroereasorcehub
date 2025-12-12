@@ -312,18 +312,20 @@ export default function AboutPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="primary" size="lg" className="text-white" asChild>
-                <a href="mailto:info@monroeresourcehub.org">
-                  <Mail className="mr-2 h-5 w-5" />
-                  Email Us
-                </a>
-              </Button>
-              <Button variant="outline" size="lg" className="text-white" asChild>
-                <a href="/submit-resource">
-                  <Plus className="mr-2 h-5 w-5" />
-                  Suggest a Resource
-                </a>
-              </Button>
+              <a 
+                href="mailto:info@monroeresourcehub.org"
+                className="btn btn-primary btn-lg text-white inline-flex items-center justify-center"
+              >
+                <Mail className="mr-2 h-5 w-5" />
+                Email Us
+              </a>
+              <a 
+                href="/submit-resource"
+                className="btn btn-outline btn-lg inline-flex items-center justify-center"
+              >
+                <Plus className="mr-2 h-5 w-5" />
+                Suggest a Resource
+              </a>
             </div>
           </div>
         </div>
@@ -341,19 +343,19 @@ export default function AboutPage() {
               or looking to volunteer - we've got a spot for you here. No experience needed, just a willingness to help out.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30" asChild>
+              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold" asChild>
                 <a href="/volunteer">
                   <Users className="mr-2 h-5 w-5" />
                   Volunteer
                 </a>
               </Button>
-              <Button size="lg" variant="ghost" className="text-white hover:bg-white/20" asChild>
+              <Button size="lg" variant="ghost" className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold" asChild>
                 <a href="/submit-resource">
                   <Plus className="mr-2 h-5 w-5" />
                   Share a Resource
                 </a>
               </Button>
-              <Button size="lg" variant="ghost" className="text-white hover:bg-white/20" asChild>
+              <Button size="lg" variant="ghost" className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold" asChild>
                 <a href="/reference">
                   <Globe className="mr-2 h-5 w-5" />
                   See References
