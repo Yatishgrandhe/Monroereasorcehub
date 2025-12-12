@@ -18,11 +18,11 @@ interface FormData {
   email: string;
   phone: string;
   address: string;
-  
+
   // Services and Population
   services_offered: string[];
   population_served: string[];
-  
+
   // Hours of Operation
   hours: {
     monday: { open: string; close: string; closed: boolean };
@@ -33,12 +33,12 @@ interface FormData {
     saturday: { open: string; close: string; closed: boolean };
     sunday: { open: string; close: string; closed: boolean };
   };
-  
+
   // Additional Information
   additional_info: string;
   contact_person: string;
   contact_title: string;
-  
+
   // Files
   files: File[];
 }
@@ -142,10 +142,10 @@ export function ResourceSubmissionForm() {
   const [categoriesData, setCategoriesData] = useState<{ id: string; name: string }[]>([]);
 
   const steps = [
-    { id: 1, name: 'Basic Information', icon: FileText },
-    { id: 2, name: 'Services & Population', icon: Users },
-    { id: 3, name: 'Hours & Contact', icon: Clock },
-    { id: 4, name: 'Review & Submit', icon: CheckCircle }
+    { id: 1, name: 'Tell us about it', icon: FileText },
+    { id: 2, name: 'Who do they help?', icon: Users },
+    { id: 3, name: 'How to reach them', icon: Clock },
+    { id: 4, name: 'Review & Share', icon: CheckCircle }
   ];
 
   // Load categories from database
@@ -157,7 +157,7 @@ export function ResourceSubmissionForm() {
           .from('categories')
           .select('id, name')
           .order('name');
-        
+
         if (data) {
           setCategoriesData(data);
         }
@@ -240,7 +240,7 @@ export function ResourceSubmissionForm() {
 
     try {
       const supabase = createClient();
-      
+
       // Find category ID
       const category = categoriesData.find(cat => cat.name === formData.category);
       if (!category) {
@@ -296,16 +296,16 @@ export function ResourceSubmissionForm() {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Basic Information</h3>
+              <h3 className="text-lg font-semibold text-secondary-900 mb-4">The Basics</h3>
               <div className="space-y-4">
                 <Input
                   label="Organization Name *"
                   value={formData.name}
                   onChange={(e) => updateFormData('name', e.target.value)}
-                  placeholder="Enter the organization name"
+                  placeholder="What's the name of the organization?"
                   required
                 />
-                
+
                 <div>
                   <label className="block text-sm font-medium text-secondary-700 mb-2">
                     Description *
@@ -315,7 +315,7 @@ export function ResourceSubmissionForm() {
                     rows={4}
                     value={formData.description}
                     onChange={(e) => updateFormData('description', e.target.value)}
-                    placeholder="Describe the organization and its services..."
+                    placeholder="Tell us a bit about what they do and how they help the community..."
                     required
                   />
                 </div>
@@ -330,7 +330,7 @@ export function ResourceSubmissionForm() {
                     onChange={(e) => updateFormData('category', e.target.value)}
                     required
                   >
-                    <option value="">Select a category</option>
+                    <option value="">What kind of resource is this?</option>
                     {categoriesData.map(category => (
                       <option key={category.id} value={category.name}>
                         {category.name}
@@ -356,12 +356,12 @@ export function ResourceSubmissionForm() {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Services & Population</h3>
-              
+              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Services & People</h3>
+
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-secondary-700 mb-3">
-                    Services Offered *
+                    What services do they offer? *
                   </label>
                   <div className="space-y-3">
                     <div className="flex flex-wrap gap-2 mb-3">
@@ -392,7 +392,7 @@ export function ResourceSubmissionForm() {
                       ))}
                     </div>
                     <Input
-                      placeholder="Add custom service..."
+                      placeholder="Type to add another service..."
                       onKeyPress={(e) => {
                         if (e.key === 'Enter') {
                           e.preventDefault();
@@ -409,7 +409,7 @@ export function ResourceSubmissionForm() {
 
                 <div>
                   <label className="block text-sm font-medium text-secondary-700 mb-3">
-                    Population Served *
+                    Who is this for? *
                   </label>
                   <div className="space-y-3">
                     <div className="flex flex-wrap gap-2 mb-3">
@@ -450,8 +450,8 @@ export function ResourceSubmissionForm() {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Contact Information & Hours</h3>
-              
+              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Contact Info & Hours</h3>
+
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Input
@@ -481,22 +481,22 @@ export function ResourceSubmissionForm() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Input
-                    label="Contact Person"
+                    label="Contact Person (Optional)"
                     value={formData.contact_person}
                     onChange={(e) => updateFormData('contact_person', e.target.value)}
-                    placeholder="John Doe"
+                    placeholder="Who should we ask for?"
                   />
                   <Input
-                    label="Contact Title"
+                    label="Title (Optional)"
                     value={formData.contact_title}
                     onChange={(e) => updateFormData('contact_title', e.target.value)}
-                    placeholder="Executive Director"
+                    placeholder="e.g. Director"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-secondary-700 mb-3">
-                    Hours of Operation
+                    When are they open?
                   </label>
                   <div className="space-y-3">
                     {daysOfWeek.map(day => (
@@ -537,14 +537,14 @@ export function ResourceSubmissionForm() {
 
                 <div>
                   <label className="block text-sm font-medium text-secondary-700 mb-2">
-                    Additional Information
+                    Anything else we should know?
                   </label>
                   <textarea
                     className="textarea"
                     rows={4}
                     value={formData.additional_info}
                     onChange={(e) => updateFormData('additional_info', e.target.value)}
-                    placeholder="Any additional information about the organization..."
+                    placeholder="Parking info, specific requirements, etc..."
                   />
                 </div>
               </div>
@@ -556,12 +556,12 @@ export function ResourceSubmissionForm() {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Review & Submit</h3>
-              
+              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Does this look right?</h3>
+
               <div className="space-y-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Basic Information</CardTitle>
+                    <CardTitle>The Basics</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2">
                     <p><strong>Name:</strong> {formData.name}</p>
@@ -573,7 +573,7 @@ export function ResourceSubmissionForm() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Services & Population</CardTitle>
+                    <CardTitle>Services & People</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <div>
@@ -587,7 +587,7 @@ export function ResourceSubmissionForm() {
                       </div>
                     </div>
                     <div>
-                      <strong>Population Served:</strong>
+                      <strong>Who it's for:</strong>
                       <div className="flex flex-wrap gap-1 mt-1">
                         {formData.population_served.map((population, index) => (
                           <Badge key={index} variant="secondary" size="sm">
@@ -601,14 +601,14 @@ export function ResourceSubmissionForm() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Contact Information</CardTitle>
+                    <CardTitle>Contact Info</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2">
                     {formData.email && <p><strong>Email:</strong> {formData.email}</p>}
                     {formData.phone && <p><strong>Phone:</strong> {formData.phone}</p>}
                     {formData.address && <p><strong>Address:</strong> {formData.address}</p>}
                     {formData.contact_person && <p><strong>Contact Person:</strong> {formData.contact_person}</p>}
-                    {formData.contact_title && <p><strong>Contact Title:</strong> {formData.contact_title}</p>}
+                    {formData.contact_title && <p><strong>Title:</strong> {formData.contact_title}</p>}
                   </CardContent>
                 </Card>
 
@@ -640,10 +640,10 @@ export function ResourceSubmissionForm() {
                   <div className="flex items-start gap-3">
                     <AlertCircle className="h-5 w-5 text-primary-600 mt-0.5" />
                     <div>
-                      <h4 className="font-medium text-primary-900 mb-1">Submission Process</h4>
+                      <h4 className="font-medium text-primary-900 mb-1">What happens next?</h4>
                       <p className="text-sm text-primary-800">
-                        Your resource submission will be reviewed by our team before being published. 
-                        You will receive an email notification once your submission has been approved or if we need additional information.
+                        Our team will take a look at your submission to make sure everything is accurate.
+                        We'll send you an email as soon as it's approved and live on the site!
                       </p>
                     </div>
                   </div>
@@ -667,10 +667,10 @@ export function ResourceSubmissionForm() {
               <CheckCircle className="h-8 w-8 text-success-600" />
             </div>
             <h1 className="text-3xl font-bold text-secondary-900 mb-4">
-              Thank You for Your Submission!
+              Thanks for sharing!
             </h1>
             <p className="text-lg text-secondary-600 mb-8">
-              Your resource has been submitted successfully. Our team will review it and you'll receive an email notification once it's been approved and published.
+              We've received your submission. We'll review it shortly and let you know when it's published.
             </p>
             <div className="space-y-4">
               <Button variant="primary" asChild href="/resources">
@@ -691,10 +691,10 @@ export function ResourceSubmissionForm() {
       <div className="container-custom section-padding">
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-            Submit a Community Resource
+            Share a Resource with the Community
           </h1>
           <p className="text-xl text-secondary-600 max-w-3xl">
-            Help us expand our community resource directory by submitting information about organizations, services, or programs that serve Monroe, NC and surrounding areas.
+            Help us grow our directory by sharing information about organizations or services that help people in Monroe.
           </p>
         </div>
 
@@ -703,7 +703,7 @@ export function ResourceSubmissionForm() {
           <div className="lg:col-span-1">
             <Card>
               <CardHeader>
-                <CardTitle>Submission Progress</CardTitle>
+                <CardTitle>Your Progress</CardTitle>
                 <CardDescription>
                   Step {currentStep} of {steps.length}
                 </CardDescription>
@@ -714,17 +714,16 @@ export function ResourceSubmissionForm() {
                     const IconComponent = step.icon;
                     const isActive = currentStep === step.id;
                     const isCompleted = currentStep > step.id;
-                    
+
                     return (
                       <div
                         key={step.id}
-                        className={`flex items-center gap-3 p-3 rounded-lg ${
-                          isActive
-                            ? 'bg-primary-100 text-primary-700'
-                            : isCompleted
+                        className={`flex items-center gap-3 p-3 rounded-lg ${isActive
+                          ? 'bg-primary-100 text-primary-700'
+                          : isCompleted
                             ? 'bg-success-100 text-success-700'
                             : 'text-secondary-600'
-                        }`}
+                          }`}
                       >
                         <IconComponent className="h-5 w-5" />
                         <span className="font-medium">{step.name}</span>
@@ -754,7 +753,7 @@ export function ResourceSubmissionForm() {
                         size="sm"
                         onClick={() => setCurrentStep(currentStep - 1)}
                       >
-                        Previous
+                        Back
                       </Button>
                     )}
                     {currentStep < steps.length ? (
@@ -774,7 +773,7 @@ export function ResourceSubmissionForm() {
                         loading={loading}
                         disabled={!validateStep(currentStep)}
                       >
-                        Submit Resource
+                        Share Resource
                       </Button>
                     )}
                   </div>
@@ -785,12 +784,12 @@ export function ResourceSubmissionForm() {
                   <div className="mb-6 p-4 bg-error-50 border border-error-200 rounded-lg">
                     <div className="flex items-center gap-2 text-error-700">
                       <AlertCircle className="h-5 w-5" />
-                      <span className="font-medium">Error</span>
+                      <span className="font-medium">Something went wrong</span>
                     </div>
                     <p className="mt-1 text-error-600">{error}</p>
                   </div>
                 )}
-                
+
                 {renderStepContent()}
               </CardContent>
             </Card>

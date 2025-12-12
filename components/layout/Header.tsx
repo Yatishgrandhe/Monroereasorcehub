@@ -15,10 +15,10 @@ const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Resources', href: '/resources' },
   { name: 'Events', href: '/events' },
-  { name: 'Career Center', href: '/career' },
+  { name: 'Career Help', href: '/career' },
   { name: 'Volunteer', href: '/volunteer' },
-  { name: 'About', href: '/about' },
-  { name: 'Reference', href: '/reference' },
+  { name: 'About Us', href: '/about' },
+  { name: 'Info', href: '/reference' },
 ];
 
 // logged in nav - needs refactor
@@ -62,8 +62,8 @@ export function Header() {
   };
 
   // filter nav - workaround for duplication
-  const filteredNavigation = user 
-    ? navigation.filter(item => item.name !== 'Career Center')
+  const filteredNavigation = user
+    ? navigation.filter(item => item.name !== 'Career Help')
     : navigation;
 
   return (
@@ -74,9 +74,9 @@ export function Header() {
           <div className="flex items-center flex-shrink-0 -ml-2">
             <Link href="/" className="flex items-center space-x-3 logo-container pl-2">
               <div className="w-10 h-10 rounded-lg overflow-hidden shadow-lg">
-                <img 
-                  src="/logo.png" 
-                  alt="Monroe Resource Hub Logo" 
+                <img
+                  src="/logo.png"
+                  alt="Monroe Resource Hub Logo"
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -121,14 +121,14 @@ export function Header() {
               Search
             </Button>
             <Button variant="outline" size="sm" className="nav-button-glow px-3" asChild href="/submit-resource">
-              Submit Resource
+              Share Resource
             </Button>
-            
+
             {user ? (
               <div className="flex items-center space-x-2 ml-2">
                 <Button variant="gradient" size="sm" className="nav-button-glow px-3 whitespace-nowrap leading-tight" asChild href="/career/resume-builder">
                   <UserIcon className="h-4 w-4 mr-1 flex-shrink-0" />
-                  <span className="whitespace-nowrap">Resume</span>
+                  <span className="whitespace-nowrap">My Resume</span>
                 </Button>
                 <div className="flex items-center space-x-2 px-3 py-1.5 h-8 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap">
                   <UserCircle className="h-4 w-4 text-primary-600 flex-shrink-0" />
@@ -206,13 +206,13 @@ export function Header() {
               ))}
               <div className="pt-4 space-y-3">
                 <Button variant="outline" size="sm" className="w-full nav-button-glow" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
-                  Submit Resource
+                  Share Resource
                 </Button>
-                
+
                 {user ? (
                   <>
                     <Button variant="gradient" size="sm" className="w-full nav-button-glow" asChild href="/career/resume-builder" onClick={() => setMobileMenuOpen(false)}>
-                      Resume
+                      My Resume
                     </Button>
                     <div className="flex items-center justify-between px-3 py-2 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
                       <div className="flex items-center space-x-2">

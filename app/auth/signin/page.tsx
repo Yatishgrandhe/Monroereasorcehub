@@ -72,18 +72,18 @@ export default function SignInPage() {
             </div>
           </div>
           <h2 className="mt-6 text-3xl font-bold text-secondary-900">
-            Welcome back
+            Welcome Back!
           </h2>
           <p className="mt-2 text-sm text-secondary-600">
-            Sign in to access your resume builder and career tools
+            Log in to get to your resume and career tools.
           </p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Sign In</CardTitle>
+            <CardTitle>Log In</CardTitle>
             <CardDescription>
-              Enter your email and password to access your account
+              Pop in your email and password to get going.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -134,7 +134,7 @@ export default function SignInPage() {
                 disabled={loading}
               >
                 <LogIn className="h-4 w-4 mr-2" />
-                Sign In
+                Log In
               </Button>
             </form>
 
@@ -181,7 +181,7 @@ export default function SignInPage() {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-secondary-600">
-                Don't have an account?{' '}
+                New here?{' '}
                 <Link href="/auth/signup" className="text-primary-600 hover:text-primary-700 font-medium">
                   Sign up
                 </Link>

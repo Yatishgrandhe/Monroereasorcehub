@@ -1,52 +1,52 @@
-// about page - legacy implementation
+// about page - humanized copy
 import { Heart, Users, Target, Award, MapPin, Phone, Mail, Globe, Plus, Code } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 
-// team data - temp structure
+// team data
 const team = [
   {
     name: 'Monroe High School TSA Chapter',
     role: 'Development Team',
-    description: 'Students from Monroe High School\'s Technology Student Association chapter who developed this platform as part of their community service project.',
+    description: 'We are a group of students from Monroe High School who built this platform to give back to our community.',
     image: '/team/tsa-team.jpg'
   }
 ];
 
-// values array - old code
+// values array
 const values = [
   {
     icon: Heart,
-    title: 'Community First',
-    description: 'Every feature is designed with Monroe residents in mind, ensuring our platform truly serves the community\'s needs.'
+    title: 'Community at Heart',
+    description: 'We built this for our neighbors. Every feature is designed to help the people of Monroe.'
   },
   {
     icon: Users,
-    title: 'Accessibility',
-    description: 'We believe everyone should have access to community resources and career opportunities, regardless of their background.'
+    title: 'Open to Everyone',
+    description: 'No matter who you are or where you come from, these resources are here for you.'
   },
   {
     icon: Target,
-    title: 'Innovation',
-    description: 'Using cutting-edge AI technology to make career development and resource discovery more effective and personalized.'
+    title: 'Always Improving',
+    description: 'We use the latest tech to make finding help easier and faster for everyone.'
   },
   {
     icon: Award,
-    title: 'Excellence',
-    description: 'Committed to providing high-quality, reliable information and tools that help our community thrive.'
+    title: 'Trustworthy',
+    description: 'We care about accuracy. You can count on the information you find here.'
   }
 ];
 
-// stats - needs optimization
+// stats
 const stats = [
-  { label: 'Community Resources', value: '50+' },
-  { label: 'Categories', value: '10' },
-  { label: 'Events Monthly', value: '15+' },
-  { label: 'Students Involved', value: '25+' }
+  { label: 'Resources Listed', value: '50+' },
+  { label: 'Ways to Help', value: '10' },
+  { label: 'Monthly Events', value: '15+' },
+  { label: 'Students Helping', value: '25+' }
 ];
 
-// main page component - deprecated
+// main page component
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
@@ -60,11 +60,11 @@ export default function AboutPage() {
               </div>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              About Monroe Resource Hub
+              Made with Love for Monroe
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-              A community-driven platform created by Monroe High School students to connect residents with vital resources, 
-              career opportunities, and local events. Built with love for our hometown.
+              We're a group of local students who wanted to make it easier for our neighbors to find help,
+              discover opportunities, and connect with each other.
             </p>
           </div>
         </div>
@@ -78,13 +78,13 @@ export default function AboutPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Target className="h-6 w-6 text-primary-600" />
-                  Our Mission
+                  What We Do
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-secondary-700 leading-relaxed">
-                  To create a centralized, accessible, and dynamic digital platform that connects residents of Monroe, 
-                  North Carolina, with vital community resources, fostering a more informed, supported, and engaged community.
+                  We're building a digital bridge for Monroe. Our goal is simple: to bring all the amazing resources
+                  our town has to offer into one easy-to-use place, so no one has to struggle to find the help they need.
                 </p>
               </CardContent>
             </Card>
@@ -93,13 +93,13 @@ export default function AboutPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Globe className="h-6 w-6 text-primary-600" />
-                  Our Vision
+                  Our Dream
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-secondary-700 leading-relaxed">
-                  A thriving Monroe where every resident has easy access to the resources they need to succeed, 
-                  where community connections are strengthened, and where technology serves as a bridge to opportunity.
+                  We imagine a Monroe where everyone feels supported and connected. A town where help is just a click away,
+                  and where technology brings us closer together instead of driving us apart.
                 </p>
               </CardContent>
             </Card>
@@ -112,13 +112,13 @@ export default function AboutPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-              Our Values
+              What Matters to Us
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              The principles that guide everything we do
+              The beliefs that guide our work every day
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => {
               const IconComponent = value.icon;
@@ -147,13 +147,13 @@ export default function AboutPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-              Impact by the Numbers
+              Our Impact
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              See how we&apos;re making a difference in the Monroe community
+              A snapshot of how we're helping the community
             </p>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
@@ -174,13 +174,13 @@ export default function AboutPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-              Meet the Team
+              Who We Are
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              Proudly developed by Monroe High School students
+              Proudly built by students, for the community
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {team.map((member, index) => (
               <Card key={index} className="text-center">
@@ -209,33 +209,38 @@ export default function AboutPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-              Built with Modern Technology
+              Built with Modern Tech
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              Leveraging cutting-edge tools to serve our community
+              We use the best tools available to serve you better
             </p>
           </div>
-          
+
           <Card className="max-w-4xl mx-auto mb-8 border-2 border-primary-200">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Code className="h-6 w-6 text-primary-600" />
-                Framework Usage Statement
+                How it was done
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-secondary-700 mb-4">
-                This website is built using the <strong>Next.js framework</strong> (version 15.5.5) with React 19.1.0, 
-                TypeScript 5, and Tailwind CSS 3.4.18.
+                When this website was built, it used the Next.js framework (15.5.5), React (19.1.0), TypeScript 5, and Tailwind CSS 3.4.18.
               </p>
-              <p className="text-secondary-700 font-semibold">
-                Important: We affirm that all templates, themes, components, and designs used in this project were 
-                custom-built by the Monroe High School TSA Chapter team. No pre-built templates or themes were used. 
-                All code, styling, and design elements were developed from scratch specifically for this project.
-              </p>
+              <div className="text-secondary-700 space-y-4">
+                <p className="font-semibold text-primary-700">
+                  Guarantee of Originality:
+                </p>
+                <p>
+                  We want you to know that the Monroe High School TSA Chapter team changed everything about this website, from the layout and buttons to the text. We don't use any themes or templates that are already made. Every line of code, style, and design element for this project was made from scratch.
+                </p>
+                <p>
+                  Our design and how everything works together are completely unique, even though we use open source libraries (like the ones below) to build on the work of others. There were no pre-made templates used to make this website, so this proves it.
+                </p>
+              </div>
             </CardContent>
           </Card>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { name: 'Next.js', description: 'React Framework' },
@@ -267,12 +272,12 @@ export default function AboutPage() {
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-6">
-              Get in Touch
+              Let's Chat
             </h2>
             <p className="text-xl text-secondary-600 mb-8">
-              Have questions, suggestions, or want to get involved? We'd love to hear from you.
+              Have questions, ideas, or just want to say hi? We'd love to hear from you.
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
               <div className="flex flex-col items-center">
                 <div className="w-12 h-12 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mb-3">
@@ -283,7 +288,7 @@ export default function AboutPage() {
                   Monroe, North Carolina 28112
                 </p>
               </div>
-              
+
               <div className="flex flex-col items-center">
                 <div className="w-12 h-12 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mb-3">
                   <Phone className="h-6 w-6" />
@@ -293,7 +298,7 @@ export default function AboutPage() {
                   (704) 283-0000
                 </p>
               </div>
-              
+
               <div className="flex flex-col items-center">
                 <div className="w-12 h-12 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mb-3">
                   <Mail className="h-6 w-6" />
@@ -304,12 +309,12 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="primary" size="lg" className="text-white" asChild>
                 <a href="mailto:info@monroeresourcehub.org">
                   <Mail className="mr-2 h-5 w-5" />
-                  Contact Us
+                  Email Us
                 </a>
               </Button>
               <Button variant="outline" size="lg" className="text-white" asChild>
@@ -328,11 +333,11 @@ export default function AboutPage() {
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Join Our Mission
+              Be Part of the Story
             </h2>
             <p className="text-xl mb-8 text-white/90">
-              Help us build a stronger, more connected Monroe community. Whether you're a resident, 
-              organization, or volunteer, there's a place for you here.
+              Help us build a stronger, more connected Monroe. Whether you're a neighbor,
+              an organization, or a volunteer, there's a place for you here.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30" asChild>
@@ -344,13 +349,13 @@ export default function AboutPage() {
               <Button size="lg" variant="ghost" className="text-white hover:bg-white/20" asChild>
                 <a href="/submit-resource">
                   <Plus className="mr-2 h-5 w-5" />
-                  Add a Resource
+                  Share a Resource
                 </a>
               </Button>
               <Button size="lg" variant="ghost" className="text-white hover:bg-white/20" asChild>
                 <a href="/reference">
                   <Globe className="mr-2 h-5 w-5" />
-                  View References
+                  See References
                 </a>
               </Button>
             </div>

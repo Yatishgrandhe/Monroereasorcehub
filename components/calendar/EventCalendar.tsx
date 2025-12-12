@@ -89,7 +89,7 @@ export function EventCalendar() {
 
     // Apply category filters
     if (selectedFilters.category && selectedFilters.category.length > 0) {
-      filtered = filtered.filter(event => 
+      filtered = filtered.filter(event =>
         event.category && selectedFilters.category.includes(event.category)
       );
     }
@@ -108,7 +108,7 @@ export function EventCalendar() {
   const getEventsForWeek = (startDate: Date) => {
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 6);
-    
+
     return filteredEvents.filter(event => {
       const eventDate = new Date(event.start_date);
       return eventDate >= startDate && eventDate <= endDate;
@@ -149,17 +149,15 @@ export function EventCalendar() {
             week.map((day, dayIndex) => {
               const isCurrentMonth = day.date.getMonth() === month;
               const isTodayDate = isToday(day.date);
-              
+
               return (
                 <div
                   key={`${weekIndex}-${dayIndex}`}
-                  className={`min-h-[120px] p-2 border-b border-r border-secondary-200 ${
-                    !isCurrentMonth ? 'bg-secondary-50' : 'bg-white'
-                  }`}
+                  className={`min-h-[120px] p-2 border-b border-r border-secondary-200 ${!isCurrentMonth ? 'bg-secondary-50' : 'bg-white'
+                    }`}
                 >
-                  <div className={`text-sm font-medium mb-1 ${
-                    isCurrentMonth ? 'text-secondary-900' : 'text-secondary-400'
-                  } ${isTodayDate ? 'text-primary-600' : ''}`}>
+                  <div className={`text-sm font-medium mb-1 ${isCurrentMonth ? 'text-secondary-900' : 'text-secondary-400'
+                    } ${isTodayDate ? 'text-primary-600' : ''}`}>
                     {day.date.getDate()}
                   </div>
                   <div className="space-y-1">
@@ -210,12 +208,11 @@ export function EventCalendar() {
             const isTodayDate = isToday(day.date);
             const dayName = day.date.toLocaleDateString('en-US', { weekday: 'short' });
             const dayNumber = day.date.getDate();
-            
+
             return (
               <div key={index} className="border-r border-secondary-200 last:border-r-0">
-                <div className={`p-4 text-center border-b border-secondary-200 ${
-                  isTodayDate ? 'bg-primary-50' : 'bg-secondary-50'
-                }`}>
+                <div className={`p-4 text-center border-b border-secondary-200 ${isTodayDate ? 'bg-primary-50' : 'bg-secondary-50'
+                  }`}>
                   <div className="text-sm font-medium text-secondary-600">{dayName}</div>
                   <div className={`text-lg font-semibold ${isTodayDate ? 'text-primary-600' : 'text-secondary-900'}`}>
                     {dayNumber}
@@ -247,16 +244,16 @@ export function EventCalendar() {
 
   const renderDayView = () => {
     const dayEvents = getEventsForDate(currentDate);
-    
+
     return (
       <div className="bg-white rounded-lg border border-secondary-200">
         <div className="p-6 border-b border-secondary-200">
           <h3 className="text-xl font-semibold text-secondary-900">
-            {currentDate.toLocaleDateString('en-US', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
+            {currentDate.toLocaleDateString('en-US', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
             })}
           </h3>
         </div>
@@ -305,10 +302,10 @@ export function EventCalendar() {
             <div className="text-center py-12">
               <Calendar className="h-16 w-16 text-secondary-400 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-secondary-900 mb-2">
-                No events scheduled
+                Nothing on the calendar for this day
               </h3>
               <p className="text-secondary-600">
-                There are no events scheduled for this date.
+                Check back later or try looking at a different date!
               </p>
             </div>
           )}
@@ -387,7 +384,7 @@ export function EventCalendar() {
 
   const navigateDate = (direction: 'prev' | 'next') => {
     const newDate = new Date(currentDate);
-    
+
     if (viewMode === 'month') {
       newDate.setMonth(currentDate.getMonth() + (direction === 'next' ? 1 : -1));
     } else if (viewMode === 'week') {
@@ -395,7 +392,7 @@ export function EventCalendar() {
     } else if (viewMode === 'day') {
       newDate.setDate(currentDate.getDate() + (direction === 'next' ? 1 : -1));
     }
-    
+
     setCurrentDate(newDate);
   };
 
@@ -419,10 +416,10 @@ export function EventCalendar() {
       <div className="container-custom section-padding">
         <div className="mb-8">
           <h1 className="title-section mb-4">
-            Community Events
+            What's Happening
           </h1>
           <p className="text-xl text-secondary-600 max-w-3xl">
-            Stay connected with local events, workshops, and community gatherings in Monroe, NC
+            See what's going on in Monroe. Workshops, gatherings, and fun stuff for everyone.
           </p>
         </div>
 
@@ -433,15 +430,15 @@ export function EventCalendar() {
               <SearchBar
                 value={searchQuery}
                 onChange={setSearchQuery}
-                placeholder="Search events, organizers, or keywords..."
+                placeholder="Looking for something to do?"
               />
             </div>
-            
+
             <div className="flex items-center gap-2">
               <Button variant="outline" size="sm" onClick={goToToday}>
                 Today
               </Button>
-              
+
               <div className="flex items-center border border-secondary-300 rounded-lg">
                 <Button
                   variant={viewMode === 'month' ? 'primary' : 'ghost'}
@@ -519,7 +516,7 @@ export function EventCalendar() {
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
-              
+
               <p className="text-secondary-600">
                 {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''} found
               </p>
@@ -538,15 +535,15 @@ export function EventCalendar() {
           <Card className="bg-gradient-to-r from-primary-600 to-primary-700 text-white">
             <CardContent className="p-8">
               <h2 className="text-2xl font-bold mb-4">
-                Have an event to share?
+                Hosting something?
               </h2>
               <p className="text-white/90 mb-6">
-                Help us keep the community informed about local events and activities.
+                Let the community know what you're planning.
               </p>
               <Button variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30" asChild>
                 <Link href="/submit-event">
                   <Plus className="mr-2 h-4 w-4" />
-                  Submit an Event
+                  Add to Calendar
                 </Link>
               </Button>
             </CardContent>

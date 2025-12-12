@@ -110,7 +110,7 @@ export default function VolunteerPage() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
         <div className="absolute inset-0">
-          <img 
+          <img
             src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
             alt="Volunteers working together"
             className="w-full h-full object-cover opacity-20"
@@ -125,16 +125,15 @@ export default function VolunteerPage() {
               </div>
             </div>
             <h1 className="title-hero mb-6">
-              Volunteer Opportunities
+              Lend a Hand
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Join us in making Monroe a better place for everyone. Discover meaningful volunteer opportunities 
-              that match your interests, skills, and schedule.
+              Help make Monroe a better place. Find a way to give back that fits your schedule and interests.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30 force-white-text">
                 <Users className="mr-2 h-5 w-5" />
-                Find Opportunities
+                See What's Needed
               </Button>
               <Button size="lg" variant="ghost" className="text-white hover:bg-white/20 force-white-text">
                 <Calendar className="mr-2 h-5 w-5" />
@@ -150,13 +149,13 @@ export default function VolunteerPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="title-section mb-4">
-              Why Volunteer in Monroe?
+              Why Give Back?
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              Volunteering offers countless benefits for both you and the community
+              Volunteering is a great way to meet neighbors and strengthen our community.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {benefits.map((benefit, index) => {
               const IconComponent = benefit.icon;
@@ -185,19 +184,19 @@ export default function VolunteerPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Community Spotlight
+              Local Heroes
             </h2>
             <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              Meet some of our amazing volunteers making a difference in Monroe
+              Meet some of the amazing folks making a difference in Monroe right now.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {volunteerOpportunities.slice(0, 3).map((volunteer, index) => (
               <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300">
                 <div className="relative h-48 w-full mb-4 rounded-lg overflow-hidden">
-                  <img 
-                    src={volunteer.image} 
+                  <img
+                    src={volunteer.image}
                     alt={volunteer.title}
                     className="w-full h-full object-cover"
                   />
@@ -235,19 +234,19 @@ export default function VolunteerPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="title-section mb-4">
-              Current Opportunities
+              Ways to Help Right Now
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              Find the perfect volunteer opportunity that matches your interests and schedule
+              Find the perfect opportunity that matches your interests.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {volunteerOpportunities.map((opportunity, index) => (
               <Card key={index} hover className="overflow-hidden">
                 <div className="relative h-48 w-full">
-                  <img 
-                    src={opportunity.image} 
+                  <img
+                    src={opportunity.image}
                     alt={opportunity.title}
                     className="w-full h-full object-cover"
                   />
@@ -263,7 +262,7 @@ export default function VolunteerPage() {
                   <p className="text-secondary-700 mb-4">
                     {opportunity.description}
                   </p>
-                  
+
                   <div className="space-y-3 mb-4">
                     <div className="flex items-center gap-2 text-sm text-secondary-600">
                       <MapPin className="h-4 w-4" />
@@ -274,7 +273,7 @@ export default function VolunteerPage() {
                       <span>{opportunity.timeCommitment}</span>
                     </div>
                   </div>
-                  
+
                   <div className="mb-4">
                     <h4 className="text-sm font-medium text-secondary-900 mb-2">Helpful Skills:</h4>
                     <div className="flex flex-wrap gap-1">
@@ -285,7 +284,7 @@ export default function VolunteerPage() {
                       ))}
                     </div>
                   </div>
-                  
+
                   <div className="flex flex-col sm:flex-row gap-2">
                     <Button variant="primary" size="sm" className="flex-1">
                       <Mail className="h-4 w-4 mr-2" />
@@ -308,13 +307,13 @@ export default function VolunteerPage() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="title-section mb-4">
-                Volunteer Requirements
+                Good to Know
               </h2>
               <p className="text-xl text-secondary-600">
-                What you need to know before you start volunteering
+                A few things to keep in mind before you start.
               </p>
             </div>
-            
+
             <Card>
               <CardContent className="p-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -338,12 +337,12 @@ export default function VolunteerPage() {
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="title-section mb-6">
-              Ready to Get Started?
+              How to Join In
             </h2>
             <p className="text-xl text-secondary-600 mb-8">
-              Follow these simple steps to begin your volunteer journey in Monroe
+              It's easy to get started. Here's how:
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
               <div className="text-center">
                 <div className="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -353,35 +352,35 @@ export default function VolunteerPage() {
                   Choose an Opportunity
                 </h3>
                 <p className="text-secondary-600">
-                  Browse our current volunteer opportunities and find one that matches your interests and schedule.
+                  Browse our list and find something that sparks your interest.
                 </p>
               </div>
-              
+
               <div className="text-center">
                 <div className="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold">2</span>
                 </div>
                 <h3 className="text-lg font-semibold text-secondary-900 mb-2">
-                  Contact the Organization
+                  Reach Out
                 </h3>
                 <p className="text-secondary-600">
-                  Reach out to the organization directly to learn more about the opportunity and express your interest.
+                  Contact the organization to say you'd like to help.
                 </p>
               </div>
-              
+
               <div className="text-center">
                 <div className="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold">3</span>
                 </div>
                 <h3 className="text-lg font-semibold text-secondary-900 mb-2">
-                  Start Volunteering
+                  Start Helping
                 </h3>
                 <p className="text-secondary-600">
-                  Complete any required training or orientation, then begin making a difference in your community.
+                  Show up, lend a hand, and make a difference!
                 </p>
               </div>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="primary" size="lg">
                 <Users className="mr-2 h-5 w-5" />
@@ -404,8 +403,8 @@ export default function VolunteerPage() {
               Make Monroe Better Together
             </h2>
             <p className="text-xl mb-8 text-white/90">
-              Every hour you volunteer makes a real difference in someone's life. 
-              Join hundreds of Monroe residents who are already giving back to their community.
+              Every hour you give makes a real difference in someone's life.
+              Join your neighbors who are already giving back.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30">

@@ -8,7 +8,7 @@ export function Footer() {
       <div className="container-custom">
         <div className="py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* brand section - legacy */}
+            {/* brand section */}
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
@@ -17,8 +17,8 @@ export function Footer() {
                 <span className="text-xl font-bold">Monroe Resource Hub</span>
               </div>
               <p className="text-secondary-300 mb-6 max-w-md">
-                Connecting Monroe, North Carolina residents with vital community resources, 
-                services, and opportunities to build a stronger, more supported community.
+                We're here to connect Monroe residents with the help, services, and opportunities they need to thrive.
+                Building a stronger community, together.
               </p>
               <div className="space-y-2">
                 <div className="flex items-center space-x-2 text-secondary-300">
@@ -38,11 +38,11 @@ export function Footer() {
 
             {/* Quick Links */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+              <h3 className="text-lg font-semibold mb-4">Explore</h3>
               <ul className="space-y-2">
                 <li>
                   <Link href="/resources" className="text-secondary-300 hover:text-white transition-colors">
-                    Resource Directory
+                    Find Resources
                   </Link>
                 </li>
                 <li>
@@ -57,12 +57,12 @@ export function Footer() {
                 </li>
                 <li>
                   <Link href="/volunteer" className="text-secondary-300 hover:text-white transition-colors">
-                    Volunteer Opportunities
+                    Volunteer
                   </Link>
                 </li>
                 <li>
                   <Link href="/submit-resource" className="text-secondary-300 hover:text-white transition-colors">
-                    Submit a Resource
+                    Share a Resource
                   </Link>
                 </li>
               </ul>
@@ -70,21 +70,21 @@ export function Footer() {
 
             {/* Services */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">Services</h3>
+              <h3 className="text-lg font-semibold mb-4">Tools</h3>
               <ul className="space-y-2">
                 <li>
                   <Link href="/career/resume-builder" className="text-secondary-300 hover:text-white transition-colors">
-                    AI Resume Builder
+                    Resume Builder
                   </Link>
                 </li>
                 <li>
                   <Link href="/career/job-assistant" className="text-secondary-300 hover:text-white transition-colors">
-                    Job Application Assistant
+                    Job Application Help
                   </Link>
                 </li>
                 <li>
                   <Link href="/career/jobs" className="text-secondary-300 hover:text-white transition-colors">
-                    Local Job Board
+                    Local Jobs
                   </Link>
                 </li>
                 <li>
@@ -99,7 +99,7 @@ export function Footer() {
                 </li>
                 <li>
                   <Link href="/reference" className="text-secondary-300 hover:text-white transition-colors">
-                    Reference Page
+                    References
                   </Link>
                 </li>
               </ul>

@@ -81,23 +81,23 @@ export default function CareerCenterPage() {
               </div>
             </div>
             <h1 className="title-hero mb-6">
-              Career Center
+              Career Help
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed font-sans">
-              Advance your career with AI-powered tools designed to help you succeed in Monroe, NC's job market. 
-              Build professional resumes, craft compelling cover letters, and discover local opportunities.
+              Get the help you need to find a job you love right here in Monroe.
+              Build a great resume, write a cover letter, and see who's hiring nearby.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="bg-white/20 border-white/30 hover:bg-white/30 force-white-text" style={{color: 'white'}} asChild>
-                <Link href="/career/resume-builder" style={{color: 'white'}}>
+              <Button size="lg" variant="outline" className="bg-white/20 border-white/30 hover:bg-white/30 force-white-text" style={{ color: 'white' }} asChild>
+                <Link href="/career/resume-builder" style={{ color: 'white' }}>
                   <Sparkles className="mr-2 h-5 w-5" />
-                  Start Building Resume
+                  Build My Resume
                 </Link>
               </Button>
-              <Button size="lg" variant="ghost" className="hover:bg-white/20 force-white-text" style={{color: 'white'}} asChild>
-                <Link href="/career/jobs" style={{color: 'white'}}>
+              <Button size="lg" variant="ghost" className="hover:bg-white/20 force-white-text" style={{ color: 'white' }} asChild>
+                <Link href="/career/jobs" style={{ color: 'white' }}>
                   <Briefcase className="mr-2 h-5 w-5" />
-                  Browse Jobs
+                  See Local Jobs
                 </Link>
               </Button>
             </div>
@@ -110,13 +110,13 @@ export default function CareerCenterPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="title-section mb-4">
-              Career Tools & Resources
+              How We Can Help
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto font-sans">
-              Everything you need to advance your career, powered by artificial intelligence
+              Free tools to help you take the next step in your career.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
@@ -132,8 +132,8 @@ export default function CareerCenterPage() {
                     <CardDescription className="mb-6">
                       {feature.description}
                     </CardDescription>
-                    <Button variant="primary" className="w-full force-white-text" style={{color: 'white'}} asChild>
-                      <Link href={feature.href} style={{color: 'white'}}>
+                    <Button variant="primary" className="w-full force-white-text" style={{ color: 'white' }} asChild>
+                      <Link href={feature.href} style={{ color: 'white' }}>
                         Get Started
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Link>
@@ -152,11 +152,11 @@ export default function CareerCenterPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="title-section mb-6">
-                Why Choose Our Career Center?
+                Why Use This?
               </h2>
               <p className="text-lg text-secondary-600 mb-8 font-sans">
-                Our AI-powered career tools are designed specifically for the Monroe, NC job market. 
-                Get personalized assistance that understands local opportunities and requirements.
+                We built these tools specifically for folks in Monroe.
+                Whether you're starting out or looking for a change, we're here to support you.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {benefits.map((benefit, index) => (
@@ -173,11 +173,11 @@ export default function CareerCenterPage() {
                   <TrendingUp className="h-8 w-8" />
                 </div>
                 <h3 className="text-2xl font-bold text-secondary-900 mb-4 font-sans">
-                  Career Success Rate
+                  Success Rate
                 </h3>
                 <div className="text-4xl font-bold text-primary-600 mb-2 font-sans">85%</div>
                 <p className="text-secondary-600 font-sans">
-                  of users report improved job application success rates after using our tools
+                  of people feel more confident applying for jobs after using our tools
                 </p>
               </div>
             </div>
@@ -190,13 +190,13 @@ export default function CareerCenterPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="title-section mb-4">
-              Success Stories
+              Real Stories
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto font-sans">
-              Hear from Monroe residents who have advanced their careers with our tools
+              Hear from neighbors who found their next opportunity with a little help from us.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <Card key={index} hover>
@@ -226,21 +226,21 @@ export default function CareerCenterPage() {
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="title-section mb-6">
-              Ready to Advance Your Career?
+              Ready to Get Started?
             </h2>
             <p className="text-xl mb-8 text-white/90 font-sans">
-              Join hundreds of Monroe residents who have used our AI-powered tools to land their dream jobs. 
-              Start building your professional future today.
+              Join hundreds of Monroe residents who have used these tools to land their dream jobs.
+              Let's get to work on your future.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="bg-white/20 border-white/30 hover:bg-white/30 force-white-text" style={{color: 'white'}} asChild>
-                <Link href="/career/resume-builder" style={{color: 'white'}}>
+              <Button size="lg" variant="outline" className="bg-white/20 border-white/30 hover:bg-white/30 force-white-text" style={{ color: 'white' }} asChild>
+                <Link href="/career/resume-builder" style={{ color: 'white' }}>
                   <FileText className="mr-2 h-5 w-5" />
-                  Build Your Resume
+                  Build My Resume
                 </Link>
               </Button>
-              <Button size="lg" variant="ghost" className="hover:bg-white/20 force-white-text" style={{color: 'white'}} asChild>
-                <Link href="/career/job-assistant" style={{color: 'white'}}>
+              <Button size="lg" variant="ghost" className="hover:bg-white/20 force-white-text" style={{ color: 'white' }} asChild>
+                <Link href="/career/job-assistant" style={{ color: 'white' }}>
                   <Target className="mr-2 h-5 w-5" />
                   Get Job Help
                 </Link>

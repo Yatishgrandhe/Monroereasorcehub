@@ -27,7 +27,7 @@ export function ResourceDirectory() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [allServices, setAllServices] = useState<string[]>([]);
   const [allPopulations, setAllPopulations] = useState<string[]>([]);
-  
+
   const {
     state,
     results,
@@ -45,13 +45,13 @@ export function ResourceDirectory() {
   useEffect(() => {
     async function loadFilterOptions() {
       const supabase = createClient();
-      
+
       // load categories - temp fix
       const { data: categoriesData } = await supabase
         .from('categories')
         .select('*')
         .order('name');
-      
+
       if (categoriesData) {
         setCategories(categoriesData);
       }
@@ -61,16 +61,16 @@ export function ResourceDirectory() {
         .from('resources')
         .select('services_offered, population_served')
         .eq('is_approved', true);
-      
+
       if (resourcesData) {
         const services = new Set<string>();
         const populations = new Set<string>();
-        
+
         resourcesData.forEach(resource => {
           resource.services_offered?.forEach((service: string) => services.add(service));
           resource.population_served?.forEach((population: string) => populations.add(population));
         });
-        
+
         setAllServices(Array.from(services).sort());
         setAllPopulations(Array.from(populations).sort());
       }
@@ -94,7 +94,7 @@ export function ResourceDirectory() {
     };
 
     const organizedServices: { [key: string]: string[] } = {};
-    
+
     services.forEach(service => {
       let found = false;
       for (const [group, groupServices] of Object.entries(serviceGroups)) {
@@ -125,7 +125,7 @@ export function ResourceDirectory() {
     };
 
     const organizedPopulations: { [key: string]: string[] } = {};
-    
+
     populations.forEach(population => {
       let found = false;
       for (const [group, groupPopulations] of Object.entries(populationGroups)) {
@@ -163,7 +163,7 @@ export function ResourceDirectory() {
       id: 'services',
       label: 'Services Offered',
       type: 'multiple',
-      options: Object.entries(organizedServices).flatMap(([group, services]) => 
+      options: Object.entries(organizedServices).flatMap(([group, services]) =>
         services.map(service => ({
           id: service,
           label: service,
@@ -176,7 +176,7 @@ export function ResourceDirectory() {
       id: 'population',
       label: 'Population Served',
       type: 'multiple',
-      options: Object.entries(organizedPopulations).flatMap(([group, populations]) => 
+      options: Object.entries(organizedPopulations).flatMap(([group, populations]) =>
         populations.map(population => ({
           id: population,
           label: population,
@@ -195,10 +195,10 @@ export function ResourceDirectory() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="title-section mb-4">
-            Community Resources
+            Find Help & Support
           </h1>
           <p className="text-xl text-secondary-600 max-w-3xl">
-            Discover local organizations, services, and support available in Monroe, North Carolina
+            We've gathered local organizations and services here to help you find exactly what you need in Monroe.
           </p>
         </div>
 
@@ -209,11 +209,11 @@ export function ResourceDirectory() {
               <SearchBar
                 value={state.query}
                 onChange={updateQuery}
-                placeholder="Search resources, services, or organizations..."
+                placeholder="What are you looking for today?"
                 loading={isLoading}
               />
             </div>
-            
+
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
@@ -224,7 +224,7 @@ export function ResourceDirectory() {
                 <SlidersHorizontal className="h-4 w-4 mr-2" />
                 Filters
               </Button>
-              
+
               <div className="flex items-center border border-secondary-300 rounded-lg">
                 <Button
                   variant={viewMode === 'grid' ? 'primary' : 'ghost'}
@@ -276,7 +276,7 @@ export function ResourceDirectory() {
                     `${totalCount} resource${totalCount !== 1 ? 's' : ''} found`
                   )}
                 </p>
-                
+
                 {state.query && (
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-secondary-500">for</span>
@@ -339,12 +339,12 @@ export function ResourceDirectory() {
                         <ChevronLeft className="h-4 w-4 mr-1" />
                         Previous
                       </Button>
-                      
+
                       <div className="flex items-center gap-1">
                         {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                           const pageNum = Math.max(1, state.page - 2) + i;
                           if (pageNum > totalPages) return null;
-                          
+
                           return (
                             <Button
                               key={pageNum}
@@ -358,7 +358,7 @@ export function ResourceDirectory() {
                           );
                         })}
                       </div>
-                      
+
                       <Button
                         variant="outline"
                         size="sm"
@@ -369,7 +369,7 @@ export function ResourceDirectory() {
                         <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     </div>
-                    
+
                     <p className="text-sm text-secondary-500">
                       Page {state.page} of {totalPages}
                     </p>
@@ -382,10 +382,10 @@ export function ResourceDirectory() {
                   <Grid className="h-8 w-8 text-secondary-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-secondary-900 mb-2">
-                  No resources found
+                  We couldn't find anything matching that
                 </h3>
                 <p className="text-secondary-600 mb-4">
-                  Try adjusting your search terms or filters to find what you're looking for.
+                  Maybe try different keywords or clearing some filters?
                 </p>
                 <Button variant="outline" onClick={clearAll}>
                   Clear all filters

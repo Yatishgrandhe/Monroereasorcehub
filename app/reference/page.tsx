@@ -208,10 +208,10 @@ export default function ReferencePage() {
               </div>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Reference Page
+              Project Info & Sources
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Complete documentation of all sources, resources, and materials used to create the Monroe Resource Hub website.
+              Here's where we keep track of all the tools and sources we used to build this site.
             </p>
             <Badge variant="primary" className="bg-white/20 text-white border-white/30">
               Monroe High School TSA Chapter
@@ -223,18 +223,18 @@ export default function ReferencePage() {
       {/* Required Documents */}
       <section className="section-padding bg-secondary-50">
         <div className="container-custom">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-                Required Documentation
-              </h2>
-              <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-                Official competition documents and project documentation
-              </p>
-              <p className="text-sm text-secondary-500 mt-4 max-w-2xl mx-auto">
-                Click "Open PDF" to view the PDF document in a new tab. You can download it from there.
-              </p>
-            </div>
-          
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+              Competition Docs
+            </h2>
+            <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
+              Official competition documents and project documentation
+            </p>
+            <p className="text-sm text-secondary-500 mt-4 max-w-2xl mx-auto">
+              Click "Open PDF" to view the PDF document in a new tab. You can download it from there.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {documents.map((doc, index) => {
               const IconComponent = doc.icon;
@@ -250,9 +250,9 @@ export default function ReferencePage() {
                     <CardDescription>{doc.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <a 
-                      href={doc.href} 
-                      target="_blank" 
+                    <a
+                      href={doc.href}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium rounded-lg border border-secondary-300 bg-white text-secondary-700 hover:bg-secondary-50 transition-colors"
                     >
@@ -274,27 +274,25 @@ export default function ReferencePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Code className="h-6 w-6 text-primary-600" />
-                Framework Usage Statement
+                How it was done
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4 text-secondary-700">
                 <p>
-                  This website is built using the <strong>Next.js framework</strong> (version 15.5.5) with React 19.1.0, 
-                  TypeScript 5, and Tailwind CSS 3.4.18.
+                  When this website was built, it used the Next.js framework (15.5.5), React (19.1.0), TypeScript 5, and Tailwind CSS 3.4.18.
                 </p>
-                <p>
-                  <strong>Important:</strong> We affirm that all templates, themes, components, and designs used in this 
-                  project were custom-built by the Monroe High School TSA Chapter team. No pre-built templates or themes 
-                  were used. All code, styling, and design elements were developed from scratch specifically for this project.
-                </p>
-                <p>
-                  While we utilized open-source libraries and frameworks (as documented below), all visual design, 
-                  component architecture, and user interface elements are original work created by our team.
-                </p>
-                <p className="font-semibold text-secondary-900">
-                  This statement certifies that no pre-built templates or themes were used in the development of this website.
-                </p>
+                <div className="text-secondary-700 space-y-4">
+                  <p className="font-semibold text-primary-700">
+                    Guarantee of Originality:
+                  </p>
+                  <p>
+                    We want you to know that the Monroe High School TSA Chapter team changed everything about this website, from the layout and buttons to the text. We don't use any themes or templates that are already made. Every line of code, style, and design element for this project was made from scratch.
+                  </p>
+                  <p>
+                    Our design and how everything works together are completely unique, even though we use open source libraries (like the ones below) to build on the work of others. There were no pre-made templates used to make this website, so this proves it.
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -306,7 +304,7 @@ export default function ReferencePage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-              Sources & References
+              Credits & Tools
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
               Complete list of all information sources, libraries, and materials used
@@ -323,7 +321,7 @@ export default function ReferencePage() {
                   {sectionIndex === 3 && <Book className="h-6 w-6 text-primary-600" />}
                   {section.category}
                 </h3>
-                
+
                 <div className="grid grid-cols-1 gap-6">
                   {section.items.map((item, itemIndex) => (
                     <Card key={itemIndex}>
@@ -333,9 +331,9 @@ export default function ReferencePage() {
                             <CardTitle className="text-lg flex items-center gap-2">
                               {item.name}
                               {item.url && (
-                                <a 
-                                  href={item.url} 
-                                  target="_blank" 
+                                <a
+                                  href={item.url}
+                                  target="_blank"
                                   rel="noopener noreferrer"
                                   className="text-primary-600 hover:text-primary-700"
                                 >
@@ -380,25 +378,25 @@ export default function ReferencePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="h-6 w-6 text-primary-600" />
-                Copyright & Permissions
+                Copyright Info
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-secondary-700">
               <p>
-                All copyrighted materials used in this website have been properly documented and used in accordance 
-                with their respective licenses. Where necessary, written permission has been obtained and is included 
+                All copyrighted materials used in this website have been properly documented and used in accordance
+                with their respective licenses. Where necessary, written permission has been obtained and is included
                 in the Student Copyright Checklist linked above.
               </p>
               <p>
-                <strong>Open Source Libraries:</strong> All open-source libraries used in this project are licensed 
+                <strong>Open Source Libraries:</strong> All open-source libraries used in this project are licensed
                 under permissive licenses (MIT, Apache, ISC) that allow commercial use, modification, and distribution.
               </p>
               <p>
-                <strong>Stock Images:</strong> All images from Unsplash are used under the Unsplash License, which 
+                <strong>Stock Images:</strong> All images from Unsplash are used under the Unsplash License, which
                 provides free use for commercial and non-commercial purposes without attribution requirements.
               </p>
               <p>
-                <strong>Original Content:</strong> All other content, design elements, and code not listed above 
+                <strong>Original Content:</strong> All other content, design elements, and code not listed above
                 are original works created by the Monroe High School TSA Chapter team specifically for this project.
               </p>
             </CardContent>

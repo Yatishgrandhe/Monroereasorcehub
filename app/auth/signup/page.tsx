@@ -98,13 +98,13 @@ export default function SignUpPage() {
                   <UserPlus className="h-8 w-8 text-success-600" />
                 </div>
                 <h2 className="text-2xl font-bold text-secondary-900 mb-2">
-                  Account Created Successfully!
+                  You're In!
                 </h2>
                 <p className="text-secondary-600 mb-4">
-                  Please check your email to verify your account, then sign in to access your resume builder.
+                  Check your email to verify your account, then log in to start building your resume.
                 </p>
                 <Button asChild href="/auth/signin">
-                  Go to Sign In
+                  Go to Log In
                 </Button>
               </div>
             </CardContent>
@@ -124,18 +124,18 @@ export default function SignUpPage() {
             </div>
           </div>
           <h2 className="mt-6 text-3xl font-bold text-secondary-900">
-            Create your account
+            Join the Community
           </h2>
           <p className="mt-2 text-sm text-secondary-600">
-            Join Monroe Resource Hub to access career tools and community resources
+            Sign up to use our free career tools and find resources.
           </p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Sign Up</CardTitle>
+            <CardTitle>Create Account</CardTitle>
             <CardDescription>
-              Create your account to get started with our career tools
+              Fill out the form below to get started.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -266,7 +266,7 @@ export default function SignUpPage() {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-secondary-600">
-                Already have an account?{' '}
+                Already a member?{' '}
                 <Link href="/auth/signin" className="text-primary-600 hover:text-primary-700 font-medium">
                   Sign in
                 </Link>

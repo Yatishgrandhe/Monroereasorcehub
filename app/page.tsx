@@ -108,38 +108,38 @@ const DatabaseIcon = ({ className }: { className?: string }) => (
 );
 
 const stats = [
-  { label: 'Community Resources', value: '50+', icon: DatabaseIcon, color: 'text-primary-600', bg: 'bg-primary-100' },
-  { label: 'Service Categories', value: '10', icon: BookOpen, color: 'text-accent-600', bg: 'bg-accent-100' },
-  { label: 'Monthly Events', value: '15+', icon: Calendar, color: 'text-coral-600', bg: 'bg-coral-100' },
-  { label: 'Families Served', value: '1000+', icon: Users, color: 'text-teal-600', bg: 'bg-teal-100' }
+  { label: 'Resources Listed', value: '50+', icon: DatabaseIcon, color: 'text-primary-600', bg: 'bg-primary-100' },
+  { label: 'Ways to Help', value: '10', icon: BookOpen, color: 'text-accent-600', bg: 'bg-accent-100' },
+  { label: 'Events this Month', value: '15+', icon: Calendar, color: 'text-coral-600', bg: 'bg-coral-100' },
+  { label: 'People Helped', value: '1000+', icon: Users, color: 'text-teal-600', bg: 'bg-teal-100' }
 ];
 
 const features = [
   {
     icon: Search,
-    title: 'Find Resources',
-    description: 'Search and filter through our comprehensive directory of community resources and services.',
+    title: 'Find Help',
+    description: 'Easily search through our list of local resources to find exactly what you need.',
     color: 'text-primary-600',
     bg: 'bg-primary-50'
   },
   {
     icon: Briefcase,
-    title: 'Career Support',
-    description: 'AI-powered resume builder and job application assistant to help you advance your career.',
+    title: 'Grow Your Career',
+    description: 'Use our free tools to build a resume and get help with job applications.',
     color: 'text-accent-600',
     bg: 'bg-accent-50'
   },
   {
     icon: Calendar,
-    title: 'Community Events',
-    description: 'Stay connected with local events, workshops, and community gatherings.',
+    title: 'Join In',
+    description: 'See what\'s happening in town with our calendar of local events and workshops.',
     color: 'text-coral-600',
     bg: 'bg-coral-50'
   },
   {
     icon: Heart,
-    title: 'Get Involved',
-    description: 'Discover volunteer opportunities and ways to give back to your community.',
+    title: 'Give Back',
+    description: 'Find volunteer opportunities and ways to support your neighbors.',
     color: 'text-teal-600',
     bg: 'bg-teal-50'
   }
@@ -190,16 +190,16 @@ export default async function HomePage() {
           <div className="max-w-5xl mx-auto text-center">
             <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm border-primary-200 bg-white/50 backdrop-blur-sm text-primary-700 shadow-sm animate-fade-in">
               <Sparkles className="w-4 h-4 mr-2 text-primary-500" />
-              Connecting Our Community
+              Bringing Monroe Together
             </Badge>
 
             <h1 className="title-hero mb-6 animate-slide-up">
-              Welcome to Monroe
+              Welcome to the Monroe
               <span className="block text-gradient-logo mt-2">Resource Hub</span>
             </h1>
 
             <p className="text-xl md:text-2xl mb-10 text-secondary-600 max-w-3xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
-              Your one-stop destination for community resources, services, and opportunities in Monroe, North Carolina.
+              Everything you need in Monroe, all in one place. Find help, discover opportunities, and connect with your community.
             </p>
 
             {/* Search Bar */}
@@ -210,7 +210,7 @@ export default async function HomePage() {
                   <Search className="ml-4 h-6 w-6 text-secondary-400" />
                   <input
                     type="text"
-                    placeholder="Search for resources, services, or organizations..."
+                    placeholder="What can we help you find today?"
                     className="w-full px-4 py-3 text-lg bg-transparent border-none focus:ring-0 text-secondary-900 placeholder-secondary-400"
                   />
                   <Button variant="gradient" size="lg" className="rounded-lg px-8">
@@ -222,10 +222,10 @@ export default async function HomePage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: '0.3s' }}>
               <Button size="lg" variant="primary" className="shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40" asChild href="/resources">
-                Browse All Resources
+                Explore Resources
               </Button>
               <Button size="lg" variant="outline" className="bg-white hover:bg-secondary-50" asChild href="/submit-resource">
-                Submit a Resource
+                Share a Resource
               </Button>
             </div>
           </div>
@@ -260,9 +260,9 @@ export default async function HomePage() {
       <section className="section-padding bg-secondary-50 overflow-hidden">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="title-section mb-4">Discover Monroe</h2>
+            <h2 className="title-section mb-4">See What's Happening</h2>
             <p className="text-xl text-secondary-600 max-w-2xl mx-auto">
-              Explore the vibrant community and diverse services available in our city
+              Take a look at the vibrant community and diverse services available right here in our city.
             </p>
           </div>
           <div className="rounded-3xl overflow-hidden shadow-2xl ring-8 ring-white">
@@ -279,10 +279,10 @@ export default async function HomePage() {
             <div className="max-w-2xl">
               <Badge className="mb-4 bg-accent-100 text-accent-700 hover:bg-accent-200">Featured</Badge>
               <h2 className="title-section mb-4">
-                Community Spotlight
+                Local Heroes
               </h2>
               <p className="text-xl text-secondary-600">
-                Discover featured organizations making a real difference in our community
+                Meet the organizations that are making a real difference in our community every day.
               </p>
             </div>
             <Button variant="outline" asChild href="/resources?featured=true">
