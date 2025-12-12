@@ -4,8 +4,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { InspectProtection } from '@/components/protection/InspectProtection';
-import { ObfuscatedScript } from '@/components/protection/ObfuscatedScript';
+// import { InspectProtection } from '@/components/protection/InspectProtection';
+// import { ObfuscatedScript } from '@/components/protection/ObfuscatedScript';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -76,7 +76,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={inter.className}>
-        <Script
+        {/* Developer tools protection - COMMENTED OUT FOR NOW */}
+        {/* <Script
           id="inspect-protection-inline"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
@@ -92,9 +93,9 @@ export default function RootLayout({
               })();
             `
           }}
-        />
-        <InspectProtection />
-        <ObfuscatedScript />
+        /> */}
+        {/* <InspectProtection /> */}
+        {/* <ObfuscatedScript /> */}
         <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">
