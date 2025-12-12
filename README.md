@@ -149,7 +149,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Monroe High School TSA Chapter
+- Central Academy of Technology and Arts TSA Chapter
 - Monroe, North Carolina community
 - Supabase for backend infrastructure
 - Vercel for deployment platform

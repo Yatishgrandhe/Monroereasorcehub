@@ -185,7 +185,7 @@ Events are organized into these categories:
 ## 📞 Support Contacts
 
 ### Technical Support
-- **Development Team**: Monroe High School TSA Chapter
+- **Development Team**: Central Academy of Technology and Arts TSA Chapter
 - **Email**: tech@monroeresourcehub.org
 - **Emergency**: (704) 283-0000
 

@@ -11,36 +11,36 @@ const slides = [
     id: 1,
     image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
     alt: 'Community volunteers working together',
-    title: 'Building Community Together',
-    description: 'Monroe residents coming together to support each other'
+    title: 'People Helping People',
+    description: 'Folks in Monroe are really good about looking out for each other. That\'s what makes this place special.'
   },
   {
     id: 2,
     image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
     alt: 'Community event gathering',
-    title: 'Community Events',
-    description: 'Join us for local events and activities'
+    title: 'What\'s Happening Around Town',
+    description: 'There\'s always something going on in Monroe. Check out what\'s coming up.'
   },
   {
     id: 3,
     image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
     alt: 'Healthcare services',
-    title: 'Healthcare Services',
-    description: 'Access quality healthcare in Monroe'
+    title: 'Healthcare When You Need It',
+    description: 'Good healthcare shouldn\'t be hard to find. We\'ve got options right here in Monroe.'
   },
   {
     id: 4,
     image: 'https://images.unsplash.com/photo-1503676260728-1c6019d5038c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
     alt: 'Education and learning',
-    title: 'Education Resources',
-    description: 'Educational opportunities for all ages'
+    title: 'Learning Opportunities',
+    description: 'Whether you\'re a kid or an adult, there are educational programs and resources available here.'
   },
   {
     id: 5,
     image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
     alt: 'Food assistance program',
-    title: 'Food Assistance',
-    description: 'Supporting families with food resources'
+    title: 'Food Help Available',
+    description: 'If you or someone you know needs help with food, we\'ve got resources that can help.'
   }
 ];
 

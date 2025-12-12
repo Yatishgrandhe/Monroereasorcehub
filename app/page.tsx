@@ -13,7 +13,7 @@ const categories = [
   {
     name: 'Food Assistance',
     icon: Utensils,
-    description: 'Food banks, pantries, and meal programs',
+    description: 'Places to get food when you need it - food banks, pantries, and programs that serve meals',
     href: '/resources?category=Food Assistance',
     color: 'bg-coral-100 text-coral-600',
     border: 'border-coral-200',
@@ -22,7 +22,7 @@ const categories = [
   {
     name: 'Healthcare',
     icon: Stethoscope,
-    description: 'Medical services, clinics, and health programs',
+    description: 'Healthcare options in Monroe - doctors, clinics, and programs to help you stay healthy',
     href: '/resources?category=Healthcare',
     color: 'bg-primary-100 text-primary-600',
     border: 'border-primary-200',
@@ -31,7 +31,7 @@ const categories = [
   {
     name: 'Education',
     icon: GraduationCap,
-    description: 'Schools, tutoring, and educational programs',
+    description: 'Schools, tutoring help, and educational stuff for kids and adults',
     href: '/resources?category=Education',
     color: 'bg-accent-100 text-accent-600',
     border: 'border-accent-200',
@@ -40,7 +40,7 @@ const categories = [
   {
     name: 'Housing',
     icon: Home,
-    description: 'Housing assistance, shelters, and rental help',
+    description: 'Help finding a place to live, shelters if you need one, and assistance with rent',
     href: '/resources?category=Housing',
     color: 'bg-teal-100 text-teal-600',
     border: 'border-teal-200',
@@ -49,7 +49,7 @@ const categories = [
   {
     name: 'Family Support',
     icon: Baby,
-    description: 'Family services, childcare, and support programs',
+    description: 'Services for families, help finding childcare, and programs to support parents',
     href: '/resources?category=Family Support',
     color: 'bg-coral-100 text-coral-600',
     border: 'border-coral-200',
@@ -58,7 +58,7 @@ const categories = [
   {
     name: 'Senior Services',
     icon: UserCheck,
-    description: 'Services for seniors and elderly care',
+    description: 'Programs and services specifically for older adults and seniors',
     href: '/resources?category=Senior Services',
     color: 'bg-primary-100 text-primary-600',
     border: 'border-primary-200',
@@ -67,7 +67,7 @@ const categories = [
   {
     name: 'Mental Health',
     icon: Brain,
-    description: 'Counseling, therapy, and mental health support',
+    description: 'Counseling, therapy options, and support for mental health and wellness',
     href: '/resources?category=Mental Health',
     color: 'bg-accent-100 text-accent-600',
     border: 'border-accent-200',
@@ -76,7 +76,7 @@ const categories = [
   {
     name: 'Legal Aid',
     icon: Scale,
-    description: 'Legal assistance and advocacy services',
+    description: 'Help with legal stuff and people who can advocate for you',
     href: '/resources?category=Legal Aid',
     color: 'bg-teal-100 text-teal-600',
     border: 'border-teal-200',
@@ -85,7 +85,7 @@ const categories = [
   {
     name: 'Employment',
     icon: Briefcase,
-    description: 'Job training, placement, and career services',
+    description: 'Job training programs, help finding work, and career services',
     href: '/resources?category=Employment',
     color: 'bg-coral-100 text-coral-600',
     border: 'border-coral-200',
@@ -94,7 +94,7 @@ const categories = [
   {
     name: 'Transportation',
     icon: Car,
-    description: 'Public transit and transportation assistance',
+    description: 'Public transportation options and help getting around Monroe',
     href: '/resources?category=Transportation',
     color: 'bg-primary-100 text-primary-600',
     border: 'border-primary-200',
@@ -118,28 +118,28 @@ const features = [
   {
     icon: Search,
     title: 'Find Help',
-    description: 'Easily search through our list of local resources to find exactly what you need.',
+    description: 'Search through all the local resources we\'ve gathered. We tried to make it simple so you can find what you need without getting frustrated.',
     color: 'text-primary-600',
     bg: 'bg-primary-50'
   },
   {
     icon: Briefcase,
     title: 'Grow Your Career',
-    description: 'Use our free tools to build a resume and get help with job applications.',
+    description: 'We built some free tools to help you put together a resume and figure out job applications. It\'s all free, so give it a try.',
     color: 'text-accent-600',
     bg: 'bg-accent-50'
   },
   {
     icon: Calendar,
     title: 'Join In',
-    description: 'See what\'s happening in town with our calendar of local events and workshops.',
+    description: 'Check out what\'s going on around Monroe. We keep a calendar of local events, workshops, and other stuff happening in town.',
     color: 'text-coral-600',
     bg: 'bg-coral-50'
   },
   {
     icon: Heart,
     title: 'Give Back',
-    description: 'Find volunteer opportunities and ways to support your neighbors.',
+    description: 'Looking to help out? We\'ve got a list of volunteer opportunities and other ways you can pitch in and support folks in Monroe.',
     color: 'text-teal-600',
     bg: 'bg-teal-50'
   }
@@ -190,16 +190,16 @@ export default async function HomePage() {
           <div className="max-w-5xl mx-auto text-center">
             <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm border-primary-200 bg-white/50 backdrop-blur-sm text-primary-700 shadow-sm animate-fade-in">
               <Sparkles className="w-4 h-4 mr-2 text-primary-500" />
-              Bringing Monroe Together
+              Connecting Our Community
             </Badge>
 
             <h1 className="title-hero mb-6 animate-slide-up">
-              Welcome to the Monroe
+              Welcome to Monroe's
               <span className="block text-gradient-logo mt-2">Resource Hub</span>
             </h1>
 
             <p className="text-xl md:text-2xl mb-10 text-secondary-600 max-w-3xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
-              Everything you need in Monroe, all in one place. Find help, discover opportunities, and connect with your community.
+              We've put together everything Monroe has to offer in one spot. Whether you're looking for help, trying to find opportunities, or just want to get more involved - you're in the right place.
             </p>
 
             {/* Search Bar */}
@@ -210,7 +210,7 @@ export default async function HomePage() {
                   <Search className="ml-4 h-6 w-6 text-secondary-400" />
                   <input
                     type="text"
-                    placeholder="What can we help you find today?"
+                    placeholder="What are you looking for?"
                     className="w-full px-4 py-3 text-lg bg-transparent border-none focus:ring-0 text-secondary-900 placeholder-secondary-400"
                   />
                   <Button variant="gradient" size="lg" className="rounded-lg px-8">
@@ -222,10 +222,10 @@ export default async function HomePage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: '0.3s' }}>
               <Button size="lg" variant="primary" className="shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40" asChild href="/resources">
-                Explore Resources
+                Browse Resources
               </Button>
               <Button size="lg" variant="outline" className="bg-white hover:bg-secondary-50" asChild href="/submit-resource">
-                Share a Resource
+                Add a Resource
               </Button>
             </div>
           </div>
@@ -260,9 +260,9 @@ export default async function HomePage() {
       <section className="section-padding bg-secondary-50 overflow-hidden">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="title-section mb-4">See What's Happening</h2>
+            <h2 className="title-section mb-4">What's Going On Around Town</h2>
             <p className="text-xl text-secondary-600 max-w-2xl mx-auto">
-              Take a look at the vibrant community and diverse services available right here in our city.
+              Check out what's happening in Monroe and all the different services we've got available for folks around here.
             </p>
           </div>
           <div className="rounded-3xl overflow-hidden shadow-2xl ring-8 ring-white">
@@ -279,10 +279,10 @@ export default async function HomePage() {
             <div className="max-w-2xl">
               <Badge className="mb-4 bg-accent-100 text-accent-700 hover:bg-accent-200">Featured</Badge>
               <h2 className="title-section mb-4">
-                Local Heroes
+                Local Organizations Making a Difference
               </h2>
               <p className="text-xl text-secondary-600">
-                Meet the organizations that are making a real difference in our community every day.
+                These are the groups and organizations that are really doing the work to help people in Monroe every single day.
               </p>
             </div>
             <Button variant="outline" asChild href="/resources?featured=true">
@@ -299,10 +299,10 @@ export default async function HomePage() {
         <div className="container-custom">
           <div className="text-center mb-16">
             <h2 className="title-section mb-4">
-              Browse by Category
+              Find What You Need
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              Find the resources you need by exploring our organized categories
+              We've organized everything into categories so you can find what you're looking for without having to dig around too much.
             </p>
           </div>
 
@@ -346,10 +346,10 @@ export default async function HomePage() {
         <div className="container-custom">
           <div className="text-center mb-16">
             <h2 className="title-section mb-4">
-              How We Help Our Community
+              How We're Here to Help
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              Comprehensive tools and resources to support every aspect of community life
+              We've got tools and resources that cover pretty much everything you might need - from finding help to building your career.
             </p>
           </div>
 
@@ -386,8 +386,7 @@ export default async function HomePage() {
               Ready to Get Started?
             </h2>
             <p className="text-xl md:text-2xl mb-10 text-white/90 font-medium">
-              Join thousands of Monroe residents who are already using our platform to find resources,
-              discover opportunities, and connect with their community.
+              Lots of people in Monroe are already using this site to find what they need, discover new opportunities, and stay connected with what's happening around town.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-white text-primary-600 hover:bg-secondary-50 border-none shadow-lg hover:shadow-xl" asChild href="/resources">

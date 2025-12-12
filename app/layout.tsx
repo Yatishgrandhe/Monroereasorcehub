@@ -13,8 +13,8 @@ export const metadata: Metadata = {
   title: 'Monroe Resource Hub - Community Resources & Services',
   description: 'Connecting Monroe, North Carolina residents with vital community resources, services, and opportunities. Find food assistance, healthcare, education, housing, and more.',
   keywords: 'Monroe NC, community resources, food assistance, healthcare, education, housing, family support, senior services',
-  authors: [{ name: 'Monroe High School TSA Chapter' }],
-  creator: 'Monroe High School TSA Chapter',
+  authors: [{ name: 'Central Academy of Technology and Arts TSA Chapter' }],
+  creator: 'Central Academy of Technology and Arts TSA Chapter',
   publisher: 'Monroe Resource Hub',
   icons: {
     icon: [

@@ -211,10 +211,10 @@ export default function ReferencePage() {
               Project Info & Sources
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Here's where we keep track of all the tools and sources we used to build this site.
+              We wanted to be transparent about everything we used to build this site. Here's the full list of tools and sources.
             </p>
             <Badge variant="primary" className="bg-white/20 text-white border-white/30">
-              Monroe High School TSA Chapter
+              Central Academy of Technology and Arts TSA Chapter
             </Badge>
           </div>
         </div>
@@ -228,7 +228,7 @@ export default function ReferencePage() {
               Competition Docs
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              Official competition documents and project documentation
+              Competition documents and all the project stuff we put together
             </p>
             <p className="text-sm text-secondary-500 mt-4 max-w-2xl mx-auto">
               Click "Open PDF" to view the PDF document in a new tab. You can download it from there.
@@ -287,7 +287,7 @@ export default function ReferencePage() {
                     Guarantee of Originality:
                   </p>
                   <p>
-                    We want you to know that the Monroe High School TSA Chapter team changed everything about this website, from the layout and buttons to the text. We don't use any themes or templates that are already made. Every line of code, style, and design element for this project was made from scratch.
+                    Just so you know, our team at Central Academy of Technology and Arts TSA Chapter built this whole thing ourselves. We didn't grab any pre-made themes or templates - everything you see, from how it looks to how it works, we put together ourselves. Every single piece of code and design came from our team.
                   </p>
                   <p>
                     Our design and how everything works together are completely unique, even though we use open source libraries (like the ones below) to build on the work of others. There were no pre-made templates used to make this website, so this proves it.
@@ -397,7 +397,7 @@ export default function ReferencePage() {
               </p>
               <p>
                 <strong>Original Content:</strong> All other content, design elements, and code not listed above
-                are original works created by the Monroe High School TSA Chapter team specifically for this project.
+                are original works created by the Central Academy of Technology and Arts TSA Chapter team specifically for this project.
               </p>
             </CardContent>
           </Card>
@@ -420,7 +420,7 @@ export default function ReferencePage() {
                   </div>
                   <div>
                     <span className="font-semibold text-secondary-900">Organization:</span>
-                    <p>Monroe High School TSA Chapter</p>
+                    <p>Central Academy of Technology and Arts TSA Chapter</p>
                   </div>
                   <div>
                     <span className="font-semibold text-secondary-900">Location:</span>

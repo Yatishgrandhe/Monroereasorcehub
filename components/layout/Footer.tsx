@@ -17,8 +17,9 @@ export function Footer() {
                 <span className="text-xl font-bold">Monroe Resource Hub</span>
               </div>
               <p className="text-secondary-300 mb-6 max-w-md">
-                We're here to connect Monroe residents with the help, services, and opportunities they need to thrive.
-                Building a stronger community, together.
+                We're trying to make it easier for people in Monroe to find the help they need, discover services that 
+                are available, and find opportunities that might work for them. It's all about building a stronger community 
+                where people actually help each other out.
               </p>
               <div className="space-y-2">
                 <div className="flex items-center space-x-2 text-secondary-300">
@@ -130,7 +131,7 @@ export function Footer() {
           </div>
           <div className="mt-4 text-center text-sm text-secondary-500">
             <p>
-              A project by the Monroe High School TSA Chapter
+              A project by the Central Academy of Technology and Arts TSA Chapter
             </p>
           </div>
         </div>

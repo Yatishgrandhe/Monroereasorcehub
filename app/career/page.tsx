@@ -9,22 +9,22 @@ import { Badge } from '@/components/ui/Badge';
 const features = [
   {
     icon: FileText,
-    title: 'AI Resume Builder',
-    description: 'Create professional resumes with AI-powered suggestions for summaries, bullet points, and skills.',
+    title: 'Resume Builder',
+    description: 'Put together a professional resume with some help from AI. It\'ll suggest summaries, bullet points, and skills that actually make sense.',
     href: '/career/resume-builder',
     color: 'bg-blue-100 text-blue-600'
   },
   {
     icon: Target,
-    title: 'Job Application Assistant',
-    description: 'Generate personalized cover letters and get interview questions tailored to specific job postings.',
+    title: 'Job Application Helper',
+    description: 'Get help writing cover letters that actually fit the job you\'re applying for. We\'ll also give you interview questions that match what they\'re looking for.',
     href: '/career/job-assistant',
     color: 'bg-green-100 text-green-600'
   },
   {
     icon: Briefcase,
     title: 'Local Job Board',
-    description: 'Browse job opportunities in Monroe, NC and surrounding Union County area.',
+    description: 'Check out what jobs are available right here in Monroe and the surrounding Union County area. No need to look all over the place.',
     href: '/career/jobs',
     color: 'bg-purple-100 text-purple-600'
   }
@@ -32,14 +32,14 @@ const features = [
 
 // benefits array - temp fix
 const benefits = [
-  'AI-powered resume optimization',
-  'Personalized cover letter generation',
-  'Interview question preparation',
-  'Local job opportunities',
-  'Career guidance and tips',
-  'Professional templates',
-  'PDF export functionality',
-  'Save and manage multiple resumes'
+  'Resume help that actually works',
+  'Cover letters that fit the job',
+  'Interview questions that make sense',
+  'Jobs right here in Monroe',
+  'Tips and advice from people who know',
+  'Templates that look professional',
+  'Export your resume as a PDF',
+  'Save as many resumes as you need'
 ];
 
 // testimonials - needs review
@@ -48,21 +48,21 @@ const testimonials = [
     name: 'Sarah Johnson',
     role: 'Software Developer',
     company: 'Monroe Tech Solutions',
-    content: 'The AI resume builder helped me land my dream job! The suggestions were spot-on and the cover letter generator saved me hours.',
+    content: 'The resume builder actually helped me get the job I wanted! The suggestions made sense and the cover letter tool saved me a ton of time.',
     rating: 5
   },
   {
     name: 'Michael Chen',
     role: 'Registered Nurse',
     company: 'Atrium Health Union',
-    content: 'As someone new to the job market, the interview preparation questions were incredibly helpful. I felt confident and prepared.',
+    content: 'I\'m pretty new to all this job stuff, so the interview questions really helped me out. I actually felt ready when I went in there.',
     rating: 5
   },
   {
     name: 'Emily Rodriguez',
     role: 'Elementary Teacher',
     company: 'Union County Public Schools',
-    content: 'The local job board made it easy to find opportunities in my area. The application assistant helped me stand out from other candidates.',
+    content: 'The job board made it way easier to find stuff around here. The application helper thing really made a difference - I think it helped me stand out.',
     rating: 5
   }
 ];
@@ -84,8 +84,8 @@ export default function CareerCenterPage() {
               Career Help
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed font-sans">
-              Get the help you need to find a job you love right here in Monroe.
-              Build a great resume, write a cover letter, and see who's hiring nearby.
+              Looking for work in Monroe? We\'ve got tools to help you put together a solid resume, 
+              write a cover letter that actually works, and see what jobs are available around here.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="outline" className="bg-white/20 border-white/30 hover:bg-white/30 force-white-text" style={{ color: 'white' }} asChild>
@@ -156,7 +156,7 @@ export default function CareerCenterPage() {
               </h2>
               <p className="text-lg text-secondary-600 mb-8 font-sans">
                 We built these tools specifically for folks in Monroe.
-                Whether you're starting out or looking for a change, we're here to support you.
+                Whether you\'re starting out or looking for a change, we\'re here to support you.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {benefits.map((benefit, index) => (

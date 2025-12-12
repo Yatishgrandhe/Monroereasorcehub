@@ -76,32 +76,32 @@ const benefits = [
   {
     icon: Heart,
     title: 'Make a Difference',
-    description: 'Directly impact the lives of your neighbors and strengthen the Monroe community.'
+    description: 'You can actually help people in Monroe. It feels good to know you\'re doing something that matters for your neighbors.'
   },
   {
     icon: Users,
-    title: 'Build Connections',
-    description: 'Meet new people, form lasting friendships, and expand your professional network.'
+    title: 'Meet People',
+    description: 'You\'ll meet new people, make friends, and maybe even find some professional connections along the way.'
   },
   {
     icon: Award,
-    title: 'Gain Experience',
-    description: 'Develop new skills, add to your resume, and explore potential career paths.'
+    title: 'Learn Stuff',
+    description: 'Pick up new skills, add something to your resume, and maybe figure out what you want to do with your career.'
   },
   {
     icon: HandHeart,
-    title: 'Personal Growth',
-    description: 'Experience the satisfaction of giving back and grow as an individual.'
+    title: 'Feel Good',
+    description: 'There\'s something pretty satisfying about helping out. Plus, you\'ll probably learn a thing or two about yourself.'
   }
 ];
 
 const requirements = [
-  'Be at least 16 years old (some opportunities require 18+)',
-  'Complete a background check (for certain positions)',
-  'Commit to the agreed-upon time schedule',
-  'Attend orientation and training sessions',
-  'Follow organization policies and procedures',
-  'Maintain confidentiality when required'
+  'You need to be at least 16 (some stuff requires you to be 18)',
+  'Some places might need a background check',
+  'Show up when you say you will',
+  'Go to the orientation and training they offer',
+  'Follow their rules and how they do things',
+  'Keep things private when they ask you to'
 ];
 
 export default function VolunteerPage() {
@@ -128,7 +128,8 @@ export default function VolunteerPage() {
               Lend a Hand
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Help make Monroe a better place. Find a way to give back that fits your schedule and interests.
+              Want to help make Monroe a better place? There are lots of ways to pitch in, and we can help you find something 
+              that actually fits with your schedule and what you\'re interested in.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30 force-white-text">
@@ -152,7 +153,7 @@ export default function VolunteerPage() {
               Why Give Back?
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              Volunteering is a great way to meet neighbors and strengthen our community.
+              Volunteering is a pretty good way to meet people around here and actually make a difference in Monroe.
             </p>
           </div>
 
@@ -340,7 +341,7 @@ export default function VolunteerPage() {
               How to Join In
             </h2>
             <p className="text-xl text-secondary-600 mb-8">
-              It's easy to get started. Here's how:
+              It\'s easy to get started. Here\'s how:
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -364,7 +365,7 @@ export default function VolunteerPage() {
                   Reach Out
                 </h3>
                 <p className="text-secondary-600">
-                  Contact the organization to say you'd like to help.
+                  Contact the organization to say you\'d like to help.
                 </p>
               </div>
 
@@ -403,7 +404,7 @@ export default function VolunteerPage() {
               Make Monroe Better Together
             </h2>
             <p className="text-xl mb-8 text-white/90">
-              Every hour you give makes a real difference in someone's life.
+              Every hour you give makes a real difference in someone\'s life.
               Join your neighbors who are already giving back.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

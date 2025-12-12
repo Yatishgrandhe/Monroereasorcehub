@@ -7,9 +7,9 @@ import { Badge } from '@/components/ui/Badge';
 // team data
 const team = [
   {
-    name: 'Monroe High School TSA Chapter',
+    name: 'Central Academy of Technology and Arts High School TSA Chapter',
     role: 'Development Team',
-    description: 'We are a group of students from Monroe High School who built this platform to give back to our community.',
+    description: 'We\'re students from Central Academy of Technology and Arts who wanted to do something meaningful for our community. This whole project came from us wanting to help out our neighbors.',
     image: '/team/tsa-team.jpg'
   }
 ];
@@ -19,22 +19,22 @@ const values = [
   {
     icon: Heart,
     title: 'Community at Heart',
-    description: 'We built this for our neighbors. Every feature is designed to help the people of Monroe.'
+    description: 'This whole thing was built with our neighbors in mind. Every single feature we added was because we thought it might actually help someone in Monroe.'
   },
   {
     icon: Users,
     title: 'Open to Everyone',
-    description: 'No matter who you are or where you come from, these resources are here for you.'
+    description: 'It doesn\'t matter who you are or where you\'re from - if you\'re in Monroe and you need help, these resources are here for you. Simple as that.'
   },
   {
     icon: Target,
     title: 'Always Improving',
-    description: 'We use the latest tech to make finding help easier and faster for everyone.'
+    description: 'We keep trying to make things better. We use modern tech because it helps us make finding help easier and faster for everyone who uses the site.'
   },
   {
     icon: Award,
     title: 'Trustworthy',
-    description: 'We care about accuracy. You can count on the information you find here.'
+    description: 'We really care about getting things right. When you find information here, you can trust that we\'ve done our best to make sure it\'s accurate.'
   }
 ];
 
@@ -63,8 +63,8 @@ export default function AboutPage() {
               Made with Love for Monroe
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-              We're a group of local students who wanted to make it easier for our neighbors to find help,
-              discover opportunities, and connect with each other.
+              We're just a bunch of local students who thought it'd be cool to make things easier for people around here. 
+              We wanted to help our neighbors find what they need, discover new opportunities, and actually connect with each other.
             </p>
           </div>
         </div>
@@ -83,8 +83,9 @@ export default function AboutPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-secondary-700 leading-relaxed">
-                  We're building a digital bridge for Monroe. Our goal is simple: to bring all the amazing resources
-                  our town has to offer into one easy-to-use place, so no one has to struggle to find the help they need.
+                  Basically, we're trying to make it easier for people in Monroe to find help. The idea was to take all 
+                  the great resources our town has and put them in one spot that's actually easy to use. Nobody should have 
+                  to jump through hoops just to find the help they need, you know?
                 </p>
               </CardContent>
             </Card>
@@ -98,8 +99,9 @@ export default function AboutPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-secondary-700 leading-relaxed">
-                  We imagine a Monroe where everyone feels supported and connected. A town where help is just a click away,
-                  and where technology brings us closer together instead of driving us apart.
+                  We're hoping for a Monroe where people actually feel like they're part of something. Where if you need help, 
+                  you can find it without too much trouble. And where technology actually helps bring people together instead of 
+                  making everyone feel isolated.
                 </p>
               </CardContent>
             </Card>
@@ -114,8 +116,8 @@ export default function AboutPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
               What Matters to Us
             </h2>
-            <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              The beliefs that guide our work every day
+              <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
+              These are the things that matter to us and guide what we do
             </p>
           </div>
 
@@ -150,7 +152,7 @@ export default function AboutPage() {
               Our Impact
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              A snapshot of how we're helping the community
+              Here's a quick look at what we've been able to do so far
             </p>
           </div>
 
@@ -177,7 +179,7 @@ export default function AboutPage() {
               Who We Are
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              Proudly built by students, for the community
+              Built by students who actually care about this place
             </p>
           </div>
 
@@ -212,7 +214,7 @@ export default function AboutPage() {
               Built with Modern Tech
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              We use the best tools available to serve you better
+              We picked tools that actually work well and help us build something useful
             </p>
           </div>
 
@@ -225,17 +227,22 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent>
               <p className="text-secondary-700 mb-4">
-                When this website was built, it used the Next.js framework (15.5.5), React (19.1.0), TypeScript 5, and Tailwind CSS 3.4.18.
+                We built this site using Next.js 16.0.10, React 19.2.3, TypeScript 5.8.2, and Tailwind CSS 3.4.18. 
+                Basically, we went with the latest versions of everything because we wanted to make sure things would work well.
               </p>
               <div className="text-secondary-700 space-y-4">
                 <p className="font-semibold text-primary-700">
-                  Guarantee of Originality:
+                  Just So You Know:
                 </p>
                 <p>
-                  We want you to know that the Monroe High School TSA Chapter team changed everything about this website, from the layout and buttons to the text. We don't use any themes or templates that are already made. Every line of code, style, and design element for this project was made from scratch.
+                  Our team at Central Academy of Technology and Arts TSA Chapter built this whole thing ourselves. 
+                  We didn't grab any pre-made themes or templates - everything from how it looks to how it works, we put together ourselves. 
+                  Every single piece of code and design came from our team.
                 </p>
                 <p>
-                  Our design and how everything works together are completely unique, even though we use open source libraries (like the ones below) to build on the work of others. There were no pre-made templates used to make this website, so this proves it.
+                  The way everything looks and works together is completely our own thing. Yeah, we use some open source libraries 
+                  (you can see them listed below) because that's just how building websites works, but we didn't use any pre-made 
+                  templates or themes. Everything you see was built from scratch by us.
                 </p>
               </div>
             </CardContent>
@@ -275,7 +282,7 @@ export default function AboutPage() {
               Let's Chat
             </h2>
             <p className="text-xl text-secondary-600 mb-8">
-              Have questions, ideas, or just want to say hi? We'd love to hear from you.
+              Got questions? Have ideas? Just want to chat? We'd actually love to hear from you.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -336,8 +343,8 @@ export default function AboutPage() {
               Be Part of the Story
             </h2>
             <p className="text-xl mb-8 text-white/90">
-              Help us build a stronger, more connected Monroe. Whether you're a neighbor,
-              an organization, or a volunteer, there's a place for you here.
+              Want to help make Monroe a better place? Whether you're just a regular person, part of an organization, 
+              or looking to volunteer - we've got a spot for you here.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30" asChild>
