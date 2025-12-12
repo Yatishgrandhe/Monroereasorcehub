@@ -349,13 +349,13 @@ export default function AboutPage() {
                   Volunteer
                 </a>
               </Button>
-              <Button size="lg" variant="ghost" className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold" asChild>
+              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold" asChild>
                 <a href="/submit-resource">
                   <Plus className="mr-2 h-5 w-5" />
                   Share a Resource
                 </a>
               </Button>
-              <Button size="lg" variant="ghost" className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold" asChild>
+              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold" asChild>
                 <a href="/reference">
                   <Globe className="mr-2 h-5 w-5" />
                   See References
