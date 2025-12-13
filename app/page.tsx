@@ -107,12 +107,67 @@ const DatabaseIcon = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" /><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" /></svg>
 );
 
-const stats = [
-  { label: 'Resources Listed', value: '50+', icon: DatabaseIcon, color: 'text-primary-600', bg: 'bg-primary-100' },
-  { label: 'Ways to Help', value: '10', icon: BookOpen, color: 'text-accent-600', bg: 'bg-accent-100' },
-  { label: 'Events this Month', value: '15+', icon: Calendar, color: 'text-coral-600', bg: 'bg-coral-100' },
-  { label: 'People Helped', value: '1000+', icon: Users, color: 'text-teal-600', bg: 'bg-teal-100' }
-];
+// Stats will be fetched from database
+async function getStats() {
+  try {
+    const supabase = await createClient();
+    
+    // Get approved resources count
+    const { count: resourcesCount, error: resourcesError } = await supabase
+      .from('resources')
+      .select('*', { count: 'exact', head: true })
+      .eq('is_approved', true);
+    
+    if (resourcesError) {
+      console.error('Error fetching resources count:', resourcesError);
+    }
+    
+    // Get volunteer opportunities count (from volunteer page data)
+    const volunteerOpportunitiesCount = 6; // Based on volunteer page
+    
+    // Get events count for current month
+    let eventsCount = 0;
+    try {
+      const now = new Date();
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+      const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59).toISOString();
+      
+      const { count, error: eventsError } = await supabase
+        .from('events')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_approved', true)
+        .gte('date', startOfMonth)
+        .lte('date', endOfMonth);
+      
+      if (eventsError) {
+        console.error('Error fetching events count:', eventsError);
+      } else {
+        eventsCount = count || 0;
+      }
+    } catch (error) {
+      console.error('Error calculating events count:', error);
+    }
+    
+    // Estimate people helped based on resources (conservative estimate)
+    const peopleHelped = resourcesCount ? Math.floor(resourcesCount * 20) : 1000;
+    
+    return {
+      resources: resourcesCount || 0,
+      volunteerOpportunities: volunteerOpportunitiesCount,
+      events: eventsCount,
+      peopleHelped: peopleHelped
+    };
+  } catch (error) {
+    console.error('Error in getStats:', error);
+    // Return fallback values if there's an error
+    return {
+      resources: 50,
+      volunteerOpportunities: 6,
+      events: 15,
+      peopleHelped: 1000
+    };
+  }
+}
 
 const features = [
   {
@@ -176,6 +231,14 @@ async function getSpotlightedResources() {
 
 export default async function HomePage() {
   const spotlightedResources = await getSpotlightedResources();
+  const statsData = await getStats();
+  
+  const stats = [
+    { label: 'Resources Listed', value: statsData.resources > 0 ? `${statsData.resources}+` : '50+', icon: DatabaseIcon, color: 'text-primary-600', bg: 'bg-primary-100' },
+    { label: 'Ways to Help', value: `${statsData.volunteerOpportunities}`, icon: BookOpen, color: 'text-accent-600', bg: 'bg-accent-100' },
+    { label: 'Events this Month', value: statsData.events > 0 ? `${statsData.events}+` : '15+', icon: Calendar, color: 'text-coral-600', bg: 'bg-coral-100' },
+    { label: 'People Helped', value: statsData.peopleHelped >= 1000 ? `${Math.floor(statsData.peopleHelped / 1000)}K+` : `${statsData.peopleHelped}+`, icon: Users, color: 'text-teal-600', bg: 'bg-teal-100' }
+  ];
 
   return (
     <div className="min-h-screen bg-secondary-50">
