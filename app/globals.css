@@ -85,7 +85,42 @@
   }
   
   .btn-primary {
-    @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 shadow-sm hover:shadow-md;
+    @apply btn bg-primary-600 text-white focus:ring-primary-500 shadow-sm transition-all duration-300 ease-out;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  .btn-primary:hover {
+    @apply bg-primary-500;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5), 0 4px 6px -2px rgba(59, 130, 246, 0.3);
+    filter: brightness(1.15);
+  }
+  
+  .btn-primary:hover::before {
+    left: 100%;
+  }
+  
+  .btn-primary:active {
+    @apply bg-primary-700;
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+  }
+  
+  .btn-primary:focus-visible {
+    @apply ring-2 ring-primary-500 ring-offset-2;
+    outline: none;
   }
   
   .btn-secondary {
@@ -462,30 +497,6 @@
     color: white !important;
   }
   
-  /* Ensure links inside buttons with force-white-text also get white text */
-  .force-white-text a,
-  .btn.force-white-text a,
-  .btn-ghost.force-white-text a,
-  .btn-outline.force-white-text a {
-    color: white !important;
-  }
-  
-  .force-white-text a:hover,
-  .btn.force-white-text a:hover,
-  .btn-ghost.force-white-text a:hover,
-  .btn-outline.force-white-text a:hover {
-    color: white !important;
-  }
-  
-  /* Ensure all child elements get white text when parent has force-white-text */
-  .force-white-text * {
-    color: white !important;
-  }
-  
-  .force-white-text *:hover {
-    color: white !important;
-  }
-  
   /* Ensure all button text is white when specified */
   .btn[style*="color: white"] {
     color: white !important;
@@ -553,35 +564,62 @@
   a[class*="text-white"].btn-outline:hover {
     color: white !important;
   }
-  
-  /* Ensure all child elements (including icons) inside buttons with force-white-text get white color */
-  .force-white-text a,
-  .force-white-text svg,
-  .force-white-text path,
-  .btn.force-white-text a,
-  .btn.force-white-text svg,
-  .btn.force-white-text path,
-  .btn-ghost.force-white-text a,
-  .btn-ghost.force-white-text svg,
-  .btn-ghost.force-white-text path,
-  .btn-outline.force-white-text a,
-  .btn-outline.force-white-text svg,
-  .btn-outline.force-white-text path {
+
+  /* Ensure buttons with force-white-text are not greyed out */
+  .btn-ghost.force-white-text,
+  a.btn-ghost.force-white-text,
+  .btn-ghost[class*="text-white"],
+  a.btn-ghost[class*="text-white"],
+  a[class*="btn-ghost"][class*="text-white"],
+  a[class*="btn-ghost"].force-white-text {
+    opacity: 1 !important;
     color: white !important;
-    fill: white !important;
-    stroke: white !important;
   }
-  
-  .force-white-text a:hover,
-  .force-white-text svg:hover,
-  .btn.force-white-text a:hover,
-  .btn.force-white-text svg:hover,
-  .btn-ghost.force-white-text a:hover,
-  .btn-ghost.force-white-text svg:hover,
-  .btn-outline.force-white-text a:hover,
-  .btn-outline.force-white-text svg:hover {
+
+  .btn-ghost.force-white-text:hover,
+  a.btn-ghost.force-white-text:hover,
+  .btn-ghost[class*="text-white"]:hover,
+  a.btn-ghost[class*="text-white"]:hover,
+  a[class*="btn-ghost"][class*="text-white"]:hover,
+  a[class*="btn-ghost"].force-white-text:hover {
+    opacity: 1 !important;
     color: white !important;
-    fill: white !important;
+  }
+
+  .btn-ghost.force-white-text:disabled,
+  a.btn-ghost.force-white-text:disabled,
+  .btn-ghost[class*="text-white"]:disabled,
+  a.btn-ghost[class*="text-white"]:disabled {
+    opacity: 1 !important;
+    color: white !important;
+  }
+
+  .btn-outline.force-white-text,
+  a.btn-outline.force-white-text,
+  .btn-outline[class*="text-white"],
+  a.btn-outline[class*="text-white"],
+  a[class*="btn-outline"][class*="text-white"],
+  a[class*="btn-outline"].force-white-text {
+    opacity: 1 !important;
+    color: white !important;
+  }
+
+  .btn-outline.force-white-text:hover,
+  a.btn-outline.force-white-text:hover,
+  .btn-outline[class*="text-white"]:hover,
+  a.btn-outline[class*="text-white"]:hover,
+  a[class*="btn-outline"][class*="text-white"]:hover,
+  a[class*="btn-outline"].force-white-text:hover {
+    opacity: 1 !important;
+    color: white !important;
+  }
+
+  .btn-outline.force-white-text:disabled,
+  a.btn-outline.force-white-text:disabled,
+  .btn-outline[class*="text-white"]:disabled,
+  a.btn-outline[class*="text-white"]:disabled {
+    opacity: 1 !important;
+    color: white !important;
   }
 }
 

@@ -2,6 +2,7 @@ import { Heart, Users, Clock, MapPin, Phone, Mail, Calendar, Award, HandHeart } 
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { ImageWithFallback } from '@/components/ui/ImageWithFallback';
 
 // Helper function to format time in 12-hour AM/PM EST
 const formatTime12Hour = (time24: string): string => {
@@ -107,7 +108,7 @@ const volunteerOpportunities = [
     contact: null, // Email not verified
     phone: '980-993-3100',
     website: 'https://atriumhealth.org/locations/detail/atrium-health-union',
-    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=90',
     ageRequirement: '18+',
     backgroundCheck: true
   },
@@ -224,26 +225,26 @@ export default function VolunteerPage() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold force-white-text"
+                className="bg-white/30 backdrop-blur-sm text-white border-white/50 hover:bg-white/50 shadow-lg font-semibold force-white-text"
                 asChild
                 href="#opportunities"
               >
-                <a>
+                <>
                   <Users className="mr-2 h-5 w-5" />
                   See What's Needed
-                </a>
+                </>
               </Button>
               <Button 
                 size="lg" 
                 variant="ghost" 
-                className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold force-white-text"
+                className="bg-white/20 text-white hover:bg-white/40 backdrop-blur-sm font-semibold force-white-text border border-white/30"
                 asChild
                 href="/events"
               >
-                <a>
+                <>
                   <Calendar className="mr-2 h-5 w-5" />
                   Upcoming Events
-                </a>
+                </>
               </Button>
             </div>
           </div>
@@ -301,9 +302,10 @@ export default function VolunteerPage() {
             {volunteerOpportunities.slice(0, 3).map((volunteer, index) => (
               <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300">
                 <div className="relative h-48 w-full mb-4 rounded-lg overflow-hidden">
-                  <img
+                  <ImageWithFallback
                     src={volunteer.image}
                     alt={volunteer.title}
+                    title={volunteer.title}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -332,10 +334,10 @@ export default function VolunteerPage() {
                       asChild
                       href={`tel:${volunteer.phone.replace(/\D/g, '')}`}
                     >
-                      <a>
+                      <>
                         <Phone className="h-4 w-4 mr-2" />
                         Call {volunteer.phone}
-                      </a>
+                      </>
                     </Button>
                   )}
                   {!volunteer.phone && volunteer.website && (
@@ -343,7 +345,7 @@ export default function VolunteerPage() {
                       href={volunteer.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn btn-outline btn-sm w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md inline-flex items-center justify-center force-white-text"
+                      className="btn btn-outline btn-sm w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md inline-flex items-center justify-center force-white-text opacity-100 hover:opacity-100 disabled:opacity-100"
                     >
                       <Mail className="h-4 w-4 mr-2" />
                       Visit Website
@@ -372,9 +374,10 @@ export default function VolunteerPage() {
             {volunteerOpportunities.map((opportunity, index) => (
               <Card key={index} hover className="overflow-hidden">
                 <div className="relative h-48 w-full">
-                  <img
+                  <ImageWithFallback
                     src={opportunity.image}
                     alt={opportunity.title}
+                    title={opportunity.title}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -446,10 +449,10 @@ export default function VolunteerPage() {
                         asChild
                         href={`tel:${opportunity.phone.replace(/\D/g, '')}`}
                       >
-                        <a>
+                        <>
                           <Phone className="h-4 w-4 mr-2" />
                           Call {opportunity.phone}
-                        </a>
+                        </>
                       </Button>
                     )}
                     {opportunity.website && (
@@ -558,10 +561,10 @@ export default function VolunteerPage() {
                 asChild
                 href="#opportunities"
               >
-                <a>
+                <>
                   <Users className="mr-2 h-5 w-5" />
                   Browse Opportunities
-                </a>
+                </>
               </Button>
               <a
                 href="mailto:info@monroeresourcehub.org"
@@ -590,26 +593,26 @@ export default function VolunteerPage() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold force-white-text"
+                className="bg-white/30 backdrop-blur-sm text-white border-white/50 hover:bg-white/50 shadow-lg font-semibold force-white-text"
                 asChild
                 href="#opportunities"
               >
-                <a>
+                <>
                   <Heart className="mr-2 h-5 w-5" />
                   Start Volunteering Today
-                </a>
+                </>
               </Button>
               <Button 
                 size="lg" 
                 variant="ghost" 
-                className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold force-white-text"
+                className="bg-white/20 text-white hover:bg-white/40 backdrop-blur-sm font-semibold force-white-text border border-white/30"
                 asChild
                 href="/events"
               >
-                <a>
+                <>
                   <Calendar className="mr-2 h-5 w-5" />
                   View Volunteer Events
-                </a>
+                </>
               </Button>
             </div>
           </div>

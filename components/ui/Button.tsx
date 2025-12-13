@@ -1,5 +1,5 @@
 // legacy component - refactor later
-import { ButtonHTMLAttributes, forwardRef, ReactElement, cloneElement, isValidElement } from 'react';
+import { ButtonHTMLAttributes, forwardRef } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
@@ -41,16 +41,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           {children}
         </Link>
       );
-    }
-    
-    // handle asChild with child element (like <a> tag)
-    if (asChild && isValidElement(children)) {
-      const child = children as ReactElement<any>;
-      return cloneElement(child, {
-        ...child.props,
-        className: cn(baseClasses, child.props?.className),
-        ...props,
-      });
     }
     
     // default button render
