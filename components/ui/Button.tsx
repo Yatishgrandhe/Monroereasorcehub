@@ -34,7 +34,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // check if link needed
     if (asChild && href) {
       return (
-        <Link href={href} className={baseClasses}>
+        <Link 
+          href={href} 
+          className={baseClasses}
+        >
           {loading && (
             <div className="loading-spinner w-4 h-4 mr-2" aria-hidden="true" />
           )}

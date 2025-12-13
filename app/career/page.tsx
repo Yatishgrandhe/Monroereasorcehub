@@ -129,18 +129,22 @@ export default function CareerCenterPage() {
               </Card>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="bg-white/20 border-white/30 hover:bg-white/30 force-white-text" style={{ color: 'white' }} asChild>
-                <Link href="/career/resume-builder" style={{ color: 'white' }}>
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  Build My Resume
-                </Link>
-              </Button>
-              <Button size="lg" variant="ghost" className="hover:bg-white/20 force-white-text" style={{ color: 'white' }} asChild>
-                <Link href="/career/jobs" style={{ color: 'white' }}>
-                  <Briefcase className="mr-2 h-5 w-5" />
-                  See Local Jobs
-                </Link>
-              </Button>
+              <Link 
+                href="/career/resume-builder" 
+                className="btn btn-outline btn-lg text-white inline-flex items-center justify-center bg-white/20 border-white/30 hover:bg-white/30 force-white-text"
+                style={{ color: 'white' }}
+              >
+                <Sparkles className="mr-2 h-5 w-5" />
+                Build My Resume
+              </Link>
+              <Link 
+                href="/career/jobs" 
+                className="btn btn-ghost btn-lg text-white inline-flex items-center justify-center hover:bg-white/20 force-white-text"
+                style={{ color: 'white' }}
+              >
+                <Briefcase className="mr-2 h-5 w-5" />
+                See Local Jobs
+              </Link>
             </div>
           </div>
         </div>
@@ -170,12 +174,13 @@ export default function CareerCenterPage() {
                     <p className="text-secondary-600 mb-3">
                       Click "Build My Resume" above or use the button below. Your resume data is automatically saved in your browser's local storage, so you can come back anytime.
                     </p>
-                    <Button variant="primary" size="sm" asChild>
-                      <Link href="/career/resume-builder">
-                        Start Building
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
+                    <Link 
+                      href="/career/resume-builder"
+                      className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
+                    >
+                      Start Building
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </div>
                 </div>
               </Card>
@@ -190,12 +195,13 @@ export default function CareerCenterPage() {
                     <p className="text-secondary-600 mb-3">
                       {user ? 'Access your saved applications and get personalized help.' : 'Get AI-powered help with cover letters and interview prep. Your data is saved in your browser\'s local storage.'}
                     </p>
-                    <Button variant="primary" size="sm" asChild>
-                      <Link href="/career/job-assistant">
-                        {user ? "Go to Helper" : "Get Started"}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
+                    <Link 
+                      href="/career/job-assistant"
+                      className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
+                    >
+                      {user ? "Go to Helper" : "Get Started"}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </div>
                 </div>
               </Card>
@@ -210,12 +216,13 @@ export default function CareerCenterPage() {
                     <p className="text-secondary-600 mb-3">
                       Browse jobs available in Monroe and Union County. No account needed to view listings.
                     </p>
-                    <Button variant="primary" size="sm" asChild>
-                      <Link href="/career/jobs">
-                        View Jobs
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
+                    <Link 
+                      href="/career/jobs"
+                      className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
+                    >
+                      View Jobs
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </div>
                 </div>
               </Card>
@@ -235,12 +242,13 @@ export default function CareerCenterPage() {
                       )}
                     </p>
                     {!user && (
-                      <Button variant="outline" size="sm" asChild>
-                        <Link href="/auth/signup">
-                          <LogIn className="mr-2 h-4 w-4" />
-                          Create Account
-                        </Link>
-                      </Button>
+                      <Link 
+                        href="/auth/signup"
+                        className="btn btn-outline btn-sm inline-flex items-center justify-center"
+                      >
+                        <LogIn className="mr-2 h-4 w-4" />
+                        Create Account
+                      </Link>
                     )}
                   </div>
                 </div>
@@ -277,12 +285,14 @@ export default function CareerCenterPage() {
                     <CardDescription className="mb-6">
                       {feature.description}
                     </CardDescription>
-                    <Button variant="primary" className="w-full force-white-text" style={{ color: 'white' }} asChild>
-                      <Link href={feature.href} style={{ color: 'white' }}>
-                        Get Started
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
+                    <Link 
+                      href={feature.href} 
+                      className="btn btn-primary w-full text-white inline-flex items-center justify-center force-white-text"
+                      style={{ color: 'white' }}
+                    >
+                      Get Started
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </CardContent>
                 </Card>
               );
@@ -378,18 +388,22 @@ export default function CareerCenterPage() {
               Let's get to work on your future.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="bg-white/20 border-white/30 hover:bg-white/30 force-white-text" style={{ color: 'white' }} asChild>
-                <Link href="/career/resume-builder" style={{ color: 'white' }}>
-                  <FileText className="mr-2 h-5 w-5" />
-                  Build My Resume
-                </Link>
-              </Button>
-              <Button size="lg" variant="ghost" className="hover:bg-white/20 force-white-text" style={{ color: 'white' }} asChild>
-                <Link href="/career/job-assistant" style={{ color: 'white' }}>
-                  <Target className="mr-2 h-5 w-5" />
-                  Get Job Help
-                </Link>
-              </Button>
+              <Link 
+                href="/career/resume-builder" 
+                className="btn btn-outline btn-lg text-white inline-flex items-center justify-center bg-white/20 border-white/30 hover:bg-white/30 force-white-text"
+                style={{ color: 'white' }}
+              >
+                <FileText className="mr-2 h-5 w-5" />
+                Build My Resume
+              </Link>
+              <Link 
+                href="/career/job-assistant" 
+                className="btn btn-ghost btn-lg text-white inline-flex items-center justify-center hover:bg-white/20 force-white-text"
+                style={{ color: 'white' }}
+              >
+                <Target className="mr-2 h-5 w-5" />
+                Get Job Help
+              </Link>
             </div>
           </div>
         </div>

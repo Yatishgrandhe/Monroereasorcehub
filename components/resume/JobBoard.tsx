@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/Badge';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { FilterPanel, FilterGroup } from '@/components/ui/FilterPanel';
 import { formatDate, getRelativeTime } from '@/lib/utils';
+import { supabase } from '@/lib/supabase/client';
 
 interface JobListing {
   id: string;
@@ -156,12 +157,14 @@ const categories = ['Healthcare', 'Education', 'Technology', 'Social Services', 
 const experienceLevels = ['entry', 'mid', 'senior'];
 
 export function JobBoard() {
-  const [jobs, setJobs] = useState<JobListing[]>(sampleJobs);
-  const [filteredJobs, setFilteredJobs] = useState<JobListing[]>(sampleJobs);
+  const [jobs, setJobs] = useState<JobListing[]>([]);
+  const [filteredJobs, setFilteredJobs] = useState<JobListing[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<{ [key: string]: string[] }>({});
   const [favoriteJobs, setFavoriteJobs] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const filterGroups: FilterGroup[] = [
     {
@@ -195,6 +198,58 @@ export function JobBoard() {
       }))
     }
   ];
+
+  // Fetch jobs from Supabase
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const { data, error: fetchError } = await supabase
+          .from('job_listings')
+          .select('*')
+          .eq('status', 'active')
+          .order('posted_date', { ascending: false });
+
+        if (fetchError) {
+          throw fetchError;
+        }
+
+        if (data) {
+          // Transform Supabase data to JobListing format
+          const transformedJobs: JobListing[] = data.map((job: any) => ({
+            id: job.id,
+            title: job.title,
+            company: job.company,
+            location: job.location,
+            type: job.job_type as 'full-time' | 'part-time' | 'contract' | 'internship',
+            salary: job.salary || undefined,
+            description: job.description,
+            requirements: job.requirements || [],
+            postedDate: job.posted_date,
+            applicationUrl: job.application_url,
+            category: job.category,
+            isRemote: job.is_remote || false,
+            experienceLevel: job.experience_level as 'entry' | 'mid' | 'senior'
+          }));
+
+          setJobs(transformedJobs);
+          setFilteredJobs(transformedJobs);
+        }
+      } catch (err: any) {
+        console.error('Error fetching jobs:', err);
+        setError(err.message || 'Failed to load job listings');
+        // Fallback to sample jobs if fetch fails
+        setJobs(sampleJobs);
+        setFilteredJobs(sampleJobs);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, []);
 
   // Filter jobs based on search and filters
   useEffect(() => {
@@ -292,11 +347,32 @@ export function JobBoard() {
           <div className="lg:col-span-3">
             <div className="flex items-center justify-between mb-6">
               <p className="text-secondary-600">
-                {filteredJobs.length} job{filteredJobs.length !== 1 ? 's' : ''} found
+                {loading ? 'Loading jobs...' : `${filteredJobs.length} job${filteredJobs.length !== 1 ? 's' : ''} found`}
               </p>
             </div>
 
-            {filteredJobs.length > 0 ? (
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="loading-spinner w-12 h-12 mx-auto mb-4"></div>
+                <p className="text-secondary-600">Loading job listings...</p>
+              </div>
+            ) : error ? (
+              <div className="text-center py-12">
+                <Briefcase className="h-16 w-16 text-secondary-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                  Error Loading Jobs
+                </h3>
+                <p className="text-secondary-600 mb-4">
+                  {error}
+                </p>
+                <button
+                  className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
+                  onClick={() => window.location.reload()}
+                >
+                  Try Again
+                </button>
+              </div>
+            ) : filteredJobs.length > 0 ? (
               <div className="space-y-4">
                 {filteredJobs.map((job) => (
                   <Card key={job.id} hover>
