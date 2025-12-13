@@ -57,7 +57,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'Atrium Health Union is a 182-bed hospital in Monroe, NC, providing comprehensive emergency services and specialty medical care.',
     contact_info: {
       phone: '980-993-3100',
-      email: undefined, // Could not verify specific email
+      // email not verified - omitting field
       address: '600 Hospital Drive, Monroe, NC 28112',
       branches: [
         {
@@ -101,7 +101,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'Union County Public Schools serves Monroe and surrounding areas with comprehensive K-12 education programs. The district operates 53 schools serving over 40,000 students.',
     contact_info: {
       phone: '(704) 283-4000',
-      email: undefined, // Could not verify specific email
+      // email not verified - omitting field
       address: '400 N. Church Street, Monroe, NC 28112',
       branches: [
         {
@@ -142,7 +142,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'The Monroe Branch of Union County Public Library provides free access to books, digital resources, computer access, educational programs, and community meeting spaces.',
     contact_info: {
       phone: '(704) 283-8184',
-      email: undefined, // Could not verify specific email
+      // email not verified - omitting field
       address: '316 E. Windsor Street, Monroe, NC 28112',
       branches: [
         {
@@ -196,7 +196,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'The Monroe Police Department provides law enforcement services, community policing, crime prevention programs, and public safety services to the City of Monroe.',
     contact_info: {
       phone: '(704) 282-4700',
-      email: undefined, // Could not verify specific email
+      // email not verified - omitting field
       address: '700 N. Hayne Street, Monroe, NC 28112',
       branches: [
         {
@@ -237,7 +237,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'The Union County Department of Social Services provides assistance programs including Medicaid, Food and Nutrition Services (SNAP), Work First/TANF, Child Care Subsidy, and Energy Assistance programs.',
     contact_info: {
       phone: '(704) 296-4300',
-      email: undefined, // Could not verify specific email
+      // email not verified - omitting field
       address: '2330 Concord Avenue, Monroe, NC 28110',
       branches: [
         {
@@ -279,7 +279,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'Second Harvest Food Bank of Metrolina strives through education, advocacy and partnerships to eliminate hunger by the solicitation and distribution of food. Serving the Metrolina region including Monroe, NC, since 1981.',
     contact_info: {
       phone: '(704) 376-1785',
-      email: undefined, // Could not verify specific email
+      // email not verified - omitting field
       address: '500-B Spratt Street, Charlotte, NC 28206',
       branches: [
         {
