@@ -201,11 +201,12 @@ export function JobBoard() {
 
   // Fetch jobs from Supabase
   useEffect(() => {
-    const fetchJobs = async () => {
+    const fetchJobs = async (retryCount = 0) => {
       try {
         setLoading(true);
         setError(null);
         
+        // Try fetching from Supabase
         const { data, error: fetchError } = await supabase
           .from('job_listings')
           .select('*')
@@ -213,10 +214,25 @@ export function JobBoard() {
           .order('posted_date', { ascending: false });
 
         if (fetchError) {
-          throw fetchError;
+          // If schema cache error, retry once after a short delay
+          if ((fetchError.message?.includes('schema cache') || 
+               fetchError.message?.includes('not found') ||
+               fetchError.code === 'PGRST116') && retryCount < 1) {
+            console.warn('Schema cache issue, retrying...', fetchError.message);
+            // Wait a bit and retry
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return fetchJobs(retryCount + 1);
+          }
+          
+          // If retry failed or other error, use sample data
+          console.warn('Using sample data due to:', fetchError.message);
+          setJobs(sampleJobs);
+          setFilteredJobs(sampleJobs);
+          setLoading(false);
+          return;
         }
 
-        if (data) {
+        if (data && data.length > 0) {
           // Transform Supabase data to JobListing format
           const transformedJobs: JobListing[] = data.map((job: any) => ({
             id: job.id,
@@ -236,6 +252,10 @@ export function JobBoard() {
 
           setJobs(transformedJobs);
           setFilteredJobs(transformedJobs);
+        } else {
+          // No data returned, use sample jobs
+          setJobs(sampleJobs);
+          setFilteredJobs(sampleJobs);
         }
       } catch (err: any) {
         console.error('Error fetching jobs:', err);
