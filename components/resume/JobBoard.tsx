@@ -408,11 +408,11 @@ export function JobBoard() {
                 Use our AI-powered job application assistant to create compelling cover letters and prepare for interviews.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30" asChild href="/career/job-assistant">
+                <Button variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30 force-white-text" asChild href="/career/job-assistant">
                   <Briefcase className="mr-2 h-4 w-4" />
                   Job Application Assistant
                 </Button>
-                <Button variant="ghost" className="text-white hover:bg-white/20" asChild href="/career/resume-builder">
+                <Button variant="ghost" className="text-white hover:bg-white/20 force-white-text" asChild href="/career/resume-builder">
                   <FileText className="mr-2 h-4 w-4" />
                   Build Your Resume
                 </Button>

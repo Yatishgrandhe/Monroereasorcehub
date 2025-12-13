@@ -346,19 +346,19 @@ export default function AboutPage() {
               or looking to volunteer - we've got a spot for you here. No experience needed, just a willingness to help out.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold" asChild>
+              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold force-white-text" asChild>
                 <a href="/volunteer">
                   <Users className="mr-2 h-5 w-5" />
                   Volunteer
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold" asChild>
+              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold force-white-text" asChild>
                 <a href="/submit-resource">
                   <Plus className="mr-2 h-5 w-5" />
                   Share a Resource
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold" asChild>
+              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold force-white-text" asChild>
                 <a href="/reference">
                   <Globe className="mr-2 h-5 w-5" />
                   See References

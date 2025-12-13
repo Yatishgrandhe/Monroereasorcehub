@@ -328,7 +328,7 @@ export default function VolunteerPage() {
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md"
+                      className="w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md force-white-text"
                       asChild
                       href={`tel:${volunteer.phone.replace(/\D/g, '')}`}
                     >
@@ -343,7 +343,7 @@ export default function VolunteerPage() {
                       href={volunteer.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn btn-outline btn-sm w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md inline-flex items-center justify-center"
+                      className="btn btn-outline btn-sm w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md inline-flex items-center justify-center force-white-text"
                     >
                       <Mail className="h-4 w-4 mr-2" />
                       Visit Website
@@ -590,7 +590,7 @@ export default function VolunteerPage() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold"
+                className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold force-white-text"
                 asChild
                 href="#opportunities"
               >
@@ -602,7 +602,7 @@ export default function VolunteerPage() {
               <Button 
                 size="lg" 
                 variant="ghost" 
-                className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold"
+                className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold force-white-text"
                 asChild
                 href="/events"
               >

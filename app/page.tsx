@@ -393,7 +393,7 @@ export default async function HomePage() {
                 <Search className="mr-2 h-5 w-5" />
                 Find Resources
               </Button>
-              <Button size="lg" variant="outline" className="text-white border-white/40 hover:bg-white/10" asChild href="/career/resume-builder">
+              <Button size="lg" variant="outline" className="text-white border-white/40 hover:bg-white/10 force-white-text" asChild href="/career/resume-builder">
                 <Briefcase className="mr-2 h-5 w-5" />
                 Build Your Resume
               </Button>

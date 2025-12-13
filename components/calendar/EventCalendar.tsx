@@ -540,7 +540,7 @@ export function EventCalendar() {
               <p className="text-white/90 mb-6">
                 Let the community know what you're planning.
               </p>
-              <Button variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30" asChild>
+              <Button variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30 force-white-text" asChild>
                 <Link href="/submit-event">
                   <Plus className="mr-2 h-4 w-4" />
                   Add to Calendar

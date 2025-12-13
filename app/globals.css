@@ -93,11 +93,39 @@
   }
   
   .btn-outline {
-    @apply btn bg-white/10 text-secondary-700 hover:bg-primary-50 hover:text-primary-700 focus:ring-primary-500 border border-primary-300;
+    @apply btn bg-white/10 hover:bg-primary-50 focus:ring-primary-500 border border-primary-300;
+    color: inherit;
+  }
+  
+  .btn-outline:hover {
+    color: inherit;
+  }
+  
+  /* Default text color for outline buttons when no color is specified */
+  .btn-outline:not(.text-white):not(.force-white-text) {
+    @apply text-secondary-700;
+  }
+  
+  .btn-outline:not(.text-white):not(.force-white-text):hover {
+    @apply text-primary-700;
   }
   
   .btn-ghost {
-    @apply btn bg-white/10 text-secondary-700 hover:bg-secondary-100 hover:text-secondary-800 focus:ring-secondary-500;
+    @apply btn bg-white/10 hover:bg-secondary-100 focus:ring-secondary-500;
+    color: inherit;
+  }
+  
+  .btn-ghost:hover {
+    color: inherit;
+  }
+  
+  /* Default text color for ghost buttons when no color is specified */
+  .btn-ghost:not(.text-white):not(.force-white-text) {
+    @apply text-secondary-700;
+  }
+  
+  .btn-ghost:not(.text-white):not(.force-white-text):hover {
+    @apply text-secondary-800;
   }
   
   .btn-sm {
@@ -463,12 +491,38 @@
     color: white !important;
   }
   
+  /* Ensure text-white class works on all buttons */
+  .btn.text-white,
+  .btn-ghost.text-white,
+  .btn-outline.text-white {
+    color: white !important;
+  }
+  
+  .btn.text-white:hover,
+  .btn-ghost.text-white:hover,
+  .btn-outline.text-white:hover {
+    color: white !important;
+  }
+  
   /* Ensure Link text is white when specified */
   a[style*="color: white"] {
     color: white !important;
   }
   
   a[style*="color: white"]:hover {
+    color: white !important;
+  }
+  
+  /* Ensure links with text-white class work */
+  a.text-white.btn,
+  a.text-white.btn-ghost,
+  a.text-white.btn-outline {
+    color: white !important;
+  }
+  
+  a.text-white.btn:hover,
+  a.text-white.btn-ghost:hover,
+  a.text-white.btn-outline:hover {
     color: white !important;
   }
 }
