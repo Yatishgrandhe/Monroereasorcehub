@@ -263,14 +263,13 @@ export function JobBoard() {
             </div>
             
             <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
+              <button
+                className="btn btn-outline btn-sm inline-flex items-center justify-center"
                 onClick={clearFilters}
                 disabled={Object.keys(selectedFilters).length === 0 && !searchQuery}
               >
                 Clear Filters
-              </Button>
+              </button>
             </div>
           </div>
         </div>
@@ -367,12 +366,15 @@ export function JobBoard() {
                                 </Badge>
                               )}
                             </div>
-                            <Button variant="primary" size="sm" asChild>
-                              <a href={job.applicationUrl} target="_blank" rel="noopener noreferrer">
-                                Apply Now
-                                <ExternalLink className="h-4 w-4 ml-2" />
-                              </a>
-                            </Button>
+                            <a 
+                              href={job.applicationUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
+                            >
+                              Apply Now
+                              <ExternalLink className="h-4 w-4 ml-2" />
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -389,9 +391,12 @@ export function JobBoard() {
                 <p className="text-secondary-600 mb-4">
                   Try adjusting your search terms or filters to find what you're looking for.
                 </p>
-                <Button variant="outline" onClick={clearFilters}>
+                <button
+                  className="btn btn-outline inline-flex items-center justify-center"
+                  onClick={clearFilters}
+                >
                   Clear all filters
-                </Button>
+                </button>
               </div>
             )}
           </div>
@@ -408,14 +413,20 @@ export function JobBoard() {
                 Use our AI-powered job application assistant to create compelling cover letters and prepare for interviews.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30 force-white-text" asChild href="/career/job-assistant">
-                  <Briefcase className="mr-2 h-4 w-4" />
+                <a 
+                  href="/career/job-assistant"
+                  className="btn btn-outline btn-lg text-white inline-flex items-center justify-center bg-white/20 border-white/30 hover:bg-white/30 force-white-text"
+                >
+                  <Briefcase className="mr-2 h-5 w-5" />
                   Job Application Assistant
-                </Button>
-                <Button variant="ghost" className="text-white hover:bg-white/20 force-white-text" asChild href="/career/resume-builder">
-                  <FileText className="mr-2 h-4 w-4" />
+                </a>
+                <a 
+                  href="/career/resume-builder"
+                  className="btn btn-outline btn-lg text-white inline-flex items-center justify-center bg-white/20 border-white/30 hover:bg-white/30 force-white-text"
+                >
+                  <FileText className="mr-2 h-5 w-5" />
                   Build Your Resume
-                </Button>
+                </a>
               </div>
             </CardContent>
           </Card>

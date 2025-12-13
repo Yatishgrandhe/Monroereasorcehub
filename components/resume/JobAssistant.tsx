@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Save, Download, Sparkles, FileText, Briefcase, MapPin, Calendar, Users, Target, Lightbulb } from 'lucide-react';
+import { Save, Download, Sparkles, FileText, Briefcase, MapPin, Calendar, Users, Target, Lightbulb, Info, Database, LogIn } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -33,24 +34,58 @@ export function JobAssistant() {
   const [loading, setLoading] = useState(false);
   const [analysisLoading, setAnalysisLoading] = useState(false);
   const [questionsLoading, setQuestionsLoading] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [userLoading, setUserLoading] = useState(true);
 
-  // Load user's resume data
+  // Check user authentication
   useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      setUserLoading(false);
+    };
+
+    checkUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Load user's resume data (from database for logged in, from local storage for guests)
+  useEffect(() => {
+    if (userLoading) return;
+    
     const loadResumeData = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+        if (user) {
+          // Load from database for logged in users
+          const { data: resume } = await supabase
+            .from('resumes')
+            .select('resume_data')
+            .eq('user_id', user.id)
+            .order('updated_at', { ascending: false })
+            .limit(1)
+            .single();
 
-        const { data: resume } = await supabase
-          .from('resumes')
-          .select('resume_data')
-          .eq('user_id', user.id)
-          .order('updated_at', { ascending: false })
-          .limit(1)
-          .single();
-
-        if (resume) {
-          setResumeData(resume.resume_data);
+          if (resume) {
+            setResumeData(resume.resume_data);
+          }
+        } else {
+          // Load from local storage for guest users
+          if (typeof window !== 'undefined') {
+            const savedData = localStorage.getItem('monroe_resume_builder_data');
+            if (savedData) {
+              try {
+                const parsed = JSON.parse(savedData);
+                setResumeData(parsed);
+              } catch (error) {
+                console.error('Error loading from local storage:', error);
+              }
+            }
+          }
         }
       } catch (error) {
         console.error('Error loading resume data:', error);
@@ -58,7 +93,7 @@ export function JobAssistant() {
     };
 
     loadResumeData();
-  }, []);
+  }, [user, userLoading]);
 
   const analyzeJob = async () => {
     if (!jobPosting.description.trim()) {
@@ -136,25 +171,26 @@ export function JobAssistant() {
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        alert('You must be signed in to save your cover letter.');
-        return;
-      }
-
-      // Save to local storage for now (could be extended to save to database)
+      
+      // Save to local storage for all users (guests and logged in)
       const savedCoverLetters = JSON.parse(localStorage.getItem('savedCoverLetters') || '[]');
       const newCoverLetter = {
         id: Date.now().toString(),
         title: `${jobPosting.title} at ${jobPosting.company}`,
         content: coverLetter,
         jobPosting,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        userId: user?.id || 'guest'
       };
       
       savedCoverLetters.unshift(newCoverLetter);
       localStorage.setItem('savedCoverLetters', JSON.stringify(savedCoverLetters.slice(0, 10))); // Keep last 10
       
-      alert('Cover letter saved successfully!');
+      if (user) {
+        alert('Cover letter saved successfully!');
+      } else {
+        alert('Cover letter saved to your browser\'s local storage! Your data will persist on this device.');
+      }
     } catch (error) {
       alert('An error occurred while saving the cover letter.');
     }
@@ -185,6 +221,42 @@ export function JobAssistant() {
           <p className="text-xl text-secondary-600 max-w-3xl font-sans">
             Get AI-powered help with your job applications. Generate personalized cover letters, analyze job requirements, and prepare for interviews.
           </p>
+          
+          {/* Local Storage Notice for Guest Users */}
+          {!user && !userLoading && (
+            <div className="mt-6">
+              <Card className="bg-primary-50 border-primary-200">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <Database className="h-5 w-5 text-primary-600 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="font-semibold text-primary-900 mb-1">Your Data is Auto-Saved</p>
+                      <p className="text-sm text-primary-700 mb-3">
+                        As a guest user, your cover letters and job analysis data are automatically saved in your browser's local storage. 
+                        This means your work is saved on this device, but won't sync across other devices or browsers.
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <a 
+                          href="/auth/signup"
+                          className="btn btn-outline btn-sm inline-flex items-center justify-center"
+                        >
+                          <LogIn className="h-4 w-4 mr-2" />
+                          Create Account for Cloud Sync
+                        </a>
+                        <a 
+                          href="/career"
+                          className="btn btn-ghost btn-sm inline-flex items-center justify-center"
+                        >
+                          <Info className="h-4 w-4 mr-2" />
+                          Learn More
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -231,16 +303,15 @@ export function JobAssistant() {
                     placeholder="Paste the complete job description here..."
                   />
                 </div>
-                <Button
-                  variant="outline"
-                  className="w-full"
+                <button
+                  className="btn btn-primary w-full text-white inline-flex items-center justify-center"
                   onClick={analyzeJob}
-                  loading={analysisLoading}
-                  disabled={!jobPosting.description.trim()}
+                  disabled={analysisLoading || !jobPosting.description.trim()}
                 >
+                  {analysisLoading && <div className="loading-spinner w-4 h-4 mr-2" />}
                   <Target className="h-4 w-4 mr-2" />
                   Analyze Job Requirements
-                </Button>
+                </button>
               </CardContent>
             </Card>
 
@@ -326,9 +397,12 @@ export function JobAssistant() {
                     <p className="text-sm text-secondary-600">
                       {resumeData.personalInfo.firstName} {resumeData.personalInfo.lastName}
                     </p>
-                    <Button variant="outline" size="sm" asChild href="/career/resume-builder" className="w-full">
+                    <a 
+                      href="/career/resume-builder" 
+                      className="btn btn-outline btn-sm w-full text-center inline-flex items-center justify-center"
+                    >
                       Edit Resume
-                    </Button>
+                    </a>
                   </div>
                 ) : (
                   <div className="space-y-2">
@@ -339,9 +413,12 @@ export function JobAssistant() {
                     <p className="text-sm text-secondary-600">
                       Create a resume first to generate personalized cover letters
                     </p>
-                    <Button variant="primary" size="sm" asChild href="/career/resume-builder" className="w-full">
+                    <a 
+                      href="/career/resume-builder" 
+                      className="btn btn-primary btn-sm w-full text-white text-center inline-flex items-center justify-center"
+                    >
                       Create Resume
-                    </Button>
+                    </a>
                   </div>
                 )}
               </CardContent>
@@ -364,16 +441,15 @@ export function JobAssistant() {
                     </CardDescription>
                   </div>
                   <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
+                    <button
+                      className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
                       onClick={generateCoverLetter}
-                      loading={loading}
-                      disabled={!resumeData || !jobPosting.title || !jobPosting.company}
+                      disabled={loading || !resumeData || !jobPosting.title || !jobPosting.company}
                     >
+                      {loading && <div className="loading-spinner w-4 h-4 mr-2" />}
                       <Sparkles className="h-4 w-4 mr-2" />
                       Generate Cover Letter
-                    </Button>
+                    </button>
                   </div>
                 </div>
               </CardHeader>
@@ -386,14 +462,20 @@ export function JobAssistant() {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Button variant="outline" size="sm" onClick={saveCoverLetter}>
+                      <button
+                        className="btn btn-outline btn-sm inline-flex items-center justify-center"
+                        onClick={saveCoverLetter}
+                      >
                         <Save className="h-4 w-4 mr-2" />
                         Save Cover Letter
-                      </Button>
-                      <Button variant="primary" size="sm" onClick={downloadCoverLetter}>
+                      </button>
+                      <button
+                        className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
+                        onClick={downloadCoverLetter}
+                      >
                         <Download className="h-4 w-4 mr-2" />
                         Download
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 ) : (
@@ -420,16 +502,15 @@ export function JobAssistant() {
                       Get AI-generated interview questions to help you prepare
                     </CardDescription>
                   </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
+                  <button
+                    className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
                     onClick={generateInterviewQuestions}
-                    loading={questionsLoading}
-                    disabled={!jobPosting.title || !jobPosting.company}
+                    disabled={questionsLoading || !jobPosting.title || !jobPosting.company}
                   >
+                    {questionsLoading && <div className="loading-spinner w-4 h-4 mr-2" />}
                     <Sparkles className="h-4 w-4 mr-2" />
                     Generate Questions
-                  </Button>
+                  </button>
                 </div>
               </CardHeader>
               <CardContent>
