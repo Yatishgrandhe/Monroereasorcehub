@@ -21,7 +21,7 @@ function createServiceClient() {
 interface VerifiedResource {
   name: string;
   description: string | null;
-  contact_info: {
+  contact_info?: {
     phone?: string;
     email?: string;
     address?: string;
@@ -31,22 +31,22 @@ interface VerifiedResource {
       phone?: string;
     }>;
   } | null;
-  website: string | null;
-  address: string | null;
-  services_offered: string[] | null;
-  population_served: string[] | null;
-  hours_of_operation: {
-    monday?: { open: string; close: string; closed?: boolean };
-    tuesday?: { open: string; close: string; closed?: boolean };
-    wednesday?: { open: string; close: string; closed?: boolean };
-    thursday?: { open: string; close: string; closed?: boolean };
-    friday?: { open: string; close: string; closed?: boolean };
-    saturday?: { open: string; close: string; closed?: boolean };
-    sunday?: { open: string; close: string; closed?: boolean };
+  website?: string | null;
+  address?: string | null;
+  services_offered?: string[] | null;
+  population_served?: string[] | null;
+  hours_of_operation?: {
+    monday?: { open?: string; close?: string; closed?: boolean };
+    tuesday?: { open?: string; close?: string; closed?: boolean };
+    wednesday?: { open?: string; close?: string; closed?: boolean };
+    thursday?: { open?: string; close?: string; closed?: boolean };
+    friday?: { open?: string; close?: string; closed?: boolean };
+    saturday?: { open?: string; close?: string; closed?: boolean };
+    sunday?: { open?: string; close?: string; closed?: boolean };
   } | null;
-  is_approved: boolean;
-  is_spotlighted: boolean;
-  spotlight_story: string | null;
+  is_approved?: boolean;
+  is_spotlighted?: boolean;
+  spotlight_story?: string | null;
 }
 
 // Verified resources - only include information that can be verified
@@ -57,7 +57,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'Atrium Health Union is a 182-bed hospital in Monroe, NC, providing comprehensive emergency services and specialty medical care.',
     contact_info: {
       phone: '980-993-3100',
-      email: null, // Could not verify specific email
+      email: undefined, // Could not verify specific email
       address: '600 Hospital Drive, Monroe, NC 28112',
       branches: [
         {
@@ -101,7 +101,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'Union County Public Schools serves Monroe and surrounding areas with comprehensive K-12 education programs. The district operates 53 schools serving over 40,000 students.',
     contact_info: {
       phone: '(704) 283-4000',
-      email: null, // Could not verify specific email
+      email: undefined, // Could not verify specific email
       address: '400 N. Church Street, Monroe, NC 28112',
       branches: [
         {
@@ -142,7 +142,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'The Monroe Branch of Union County Public Library provides free access to books, digital resources, computer access, educational programs, and community meeting spaces.',
     contact_info: {
       phone: '(704) 283-8184',
-      email: null, // Could not verify specific email
+      email: undefined, // Could not verify specific email
       address: '316 E. Windsor Street, Monroe, NC 28112',
       branches: [
         {
@@ -196,7 +196,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'The Monroe Police Department provides law enforcement services, community policing, crime prevention programs, and public safety services to the City of Monroe.',
     contact_info: {
       phone: '(704) 282-4700',
-      email: null, // Could not verify specific email
+      email: undefined, // Could not verify specific email
       address: '700 N. Hayne Street, Monroe, NC 28112',
       branches: [
         {
@@ -237,7 +237,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'The Union County Department of Social Services provides assistance programs including Medicaid, Food and Nutrition Services (SNAP), Work First/TANF, Child Care Subsidy, and Energy Assistance programs.',
     contact_info: {
       phone: '(704) 296-4300',
-      email: null, // Could not verify specific email
+      email: undefined, // Could not verify specific email
       address: '2330 Concord Avenue, Monroe, NC 28110',
       branches: [
         {
@@ -279,7 +279,7 @@ const verifiedResources: { [key: string]: Partial<VerifiedResource> } = {
     description: 'Second Harvest Food Bank of Metrolina strives through education, advocacy and partnerships to eliminate hunger by the solicitation and distribution of food. Serving the Metrolina region including Monroe, NC, since 1981.',
     contact_info: {
       phone: '(704) 376-1785',
-      email: null, // Could not verify specific email
+      email: undefined, // Could not verify specific email
       address: '500-B Spratt Street, Charlotte, NC 28206',
       branches: [
         {
@@ -398,13 +398,9 @@ export async function verifyAndUpdateAllResources() {
           .single();
         
         if (currentResource) {
-          // Clear unverified contact info fields (set to null)
+          // Clear unverified contact info fields (set to null for database)
           const updateData: any = {
-            contact_info: {
-              phone: null,
-              email: null,
-              address: null
-            },
+            contact_info: null, // Set entire contact_info to null if unverified
             website: null,
             address: null,
             updated_at: new Date().toISOString()
