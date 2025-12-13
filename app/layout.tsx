@@ -4,8 +4,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { InspectProtection } from '@/components/protection/InspectProtection';
-import { ObfuscatedScript } from '@/components/protection/ObfuscatedScript';
+// import { InspectProtection } from '@/components/protection/InspectProtection';
+// import { ObfuscatedScript } from '@/components/protection/ObfuscatedScript';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -76,9 +76,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={inter.className}>
-        {/* Developer tools protection - ENABLED */}
-        <InspectProtection />
-        <ObfuscatedScript />
+        {/* Developer tools protection - DISABLED FOR NOW */}
+        {/* <InspectProtection /> */}
+        {/* <ObfuscatedScript /> */}
         <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">

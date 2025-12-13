@@ -104,7 +104,7 @@ export function FilterPanel({
               placeholder="Search filters..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="pl-10 bg-white"
             />
           </div>
         </div>

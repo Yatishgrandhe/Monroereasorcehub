@@ -20,7 +20,7 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
         </div>
         <input
           type="text"
-          className="input pl-10 pr-10"
+          className="input pl-10 pr-10 bg-white"
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
