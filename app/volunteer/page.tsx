@@ -3,72 +3,161 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 
+// Helper function to format time in 12-hour AM/PM EST
+const formatTime12Hour = (time24: string): string => {
+  if (!time24) return '';
+  const [hours, minutes] = time24.split(':').map(Number);
+  if (isNaN(hours) || isNaN(minutes)) return time24;
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const hours12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+  const minutesStr = minutes.toString().padStart(2, '0');
+  return `${hours12}:${minutesStr} ${period} EST`;
+};
+
 const volunteerOpportunities = [
   {
-    title: 'Community Garden Volunteer',
-    organization: 'Monroe Community Garden',
-    description: 'Help maintain our community garden, assist with planting, weeding, and harvesting fresh produce for local families.',
-    location: 'Downtown Monroe',
-    timeCommitment: '2-4 hours per week',
-    skills: ['Gardening', 'Physical activity', 'Teamwork'],
-    contact: 'garden@monroenc.org',
-    phone: '(704) 283-1234',
-    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-  },
-  {
-    title: 'Food Bank Assistant',
-    organization: 'Second Harvest Food Bank',
-    description: 'Sort and distribute food donations, help with food drives, and assist families in need with food selection.',
-    location: 'Monroe Distribution Center',
+    title: 'Food Bank Volunteer',
+    organization: 'Second Harvest Food Bank of Metrolina',
+    description: 'Sort and distribute food donations, help with food drives, and assist families in need with food selection. Volunteers help pack boxes, sort donations, and assist with mobile food pantries.',
+    location: '500-B Spratt Street, Charlotte, NC 28206',
+    address: '500-B Spratt Street, Charlotte, NC 28206',
     timeCommitment: '3-6 hours per week',
-    skills: ['Organization', 'Customer service', 'Physical activity'],
-    contact: 'volunteer@secondharvestmetrolina.org',
+    volunteerHours: {
+      monday: { open: '08:00', close: '12:00' },
+      tuesday: { open: '08:00', close: '12:00' },
+      wednesday: { open: '08:00', close: '12:00' },
+      thursday: { open: '08:00', close: '12:00' },
+      friday: { open: '08:00', close: '12:00' },
+      saturday: { open: '09:00', close: '11:00' },
+      sunday: { closed: true }
+    },
+    skills: ['Organization', 'Customer service', 'Physical activity', 'Teamwork'],
+    contact: null, // Email not verified
     phone: '(704) 376-1785',
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    website: 'https://www.secondharvestmetrolina.org',
+    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    ageRequirement: '16+',
+    backgroundCheck: false
   },
   {
     title: 'Tutoring Volunteer',
     organization: 'Union County Public Schools',
-    description: 'Provide academic support to students in reading, math, or other subjects. Help students achieve their educational goals.',
-    location: 'Various school locations',
+    description: 'Provide academic support to students in reading, math, or other subjects. Help students achieve their educational goals. Volunteers work one-on-one or in small groups with students.',
+    location: 'Various school locations in Monroe',
+    address: '400 N. Church Street, Monroe, NC 28112',
     timeCommitment: '1-3 hours per week',
-    skills: ['Teaching', 'Patience', 'Communication'],
-    contact: 'volunteer@ucps.k12.nc.us',
+    volunteerHours: {
+      monday: { open: '14:30', close: '16:30' },
+      tuesday: { open: '14:30', close: '16:30' },
+      wednesday: { open: '14:30', close: '16:30' },
+      thursday: { open: '14:30', close: '16:30' },
+      friday: { open: '14:30', close: '16:30' },
+      saturday: { closed: true },
+      sunday: { closed: true }
+    },
+    skills: ['Teaching', 'Patience', 'Communication', 'Subject expertise'],
+    contact: null, // Email not verified
     phone: '(704) 283-4000',
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    website: 'https://www.ucpsnc.org',
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    ageRequirement: '18+',
+    backgroundCheck: true
   },
   {
-    title: 'Senior Companion',
-    organization: 'Monroe Senior Center',
-    description: 'Visit with elderly residents, provide companionship, help with errands, and assist with light household tasks.',
-    location: 'Monroe Senior Center',
+    title: 'Library Volunteer',
+    organization: 'Union County Public Library - Monroe Branch',
+    description: 'Assist with library programs, help organize books, support children\'s reading programs, and help patrons find resources. Great opportunity for book lovers and those who want to support literacy.',
+    location: '316 E. Windsor Street, Monroe, NC 28112',
+    address: '316 E. Windsor Street, Monroe, NC 28112',
     timeCommitment: '2-4 hours per week',
-    skills: ['Compassion', 'Communication', 'Reliability'],
-    contact: 'seniors@monroenc.org',
-    phone: '(704) 283-5678',
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    volunteerHours: {
+      monday: { open: '10:00', close: '18:00' },
+      tuesday: { open: '10:00', close: '18:00' },
+      wednesday: { open: '10:00', close: '18:00' },
+      thursday: { open: '10:00', close: '18:00' },
+      friday: { open: '10:00', close: '17:00' },
+      saturday: { open: '10:00', close: '15:00' },
+      sunday: { closed: true }
+    },
+    skills: ['Organization', 'Customer service', 'Reading', 'Patience'],
+    contact: null, // Email not verified
+    phone: '(704) 283-8184',
+    website: 'https://www.unioncountync.gov/departments/library',
+    image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    ageRequirement: '16+',
+    backgroundCheck: true
   },
   {
-    title: 'Event Planning Assistant',
-    organization: 'Monroe Chamber of Commerce',
-    description: 'Help organize community events, festivals, and business networking events. Assist with setup, coordination, and cleanup.',
-    location: 'Various locations',
-    timeCommitment: 'Variable (event-based)',
-    skills: ['Organization', 'Event planning', 'Communication'],
-    contact: 'events@unioncountychamber.org',
-    phone: '(704) 283-9999',
-    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    title: 'Hospital Volunteer',
+    organization: 'Atrium Health Union',
+    description: 'Provide support to patients and families, assist with wayfinding, help with administrative tasks, and support hospital events. Volunteers play a crucial role in patient care and comfort.',
+    location: '600 Hospital Drive, Monroe, NC 28112',
+    address: '600 Hospital Drive, Monroe, NC 28112',
+    timeCommitment: '4-8 hours per week',
+    volunteerHours: {
+      monday: { open: '08:00', close: '20:00' },
+      tuesday: { open: '08:00', close: '20:00' },
+      wednesday: { open: '08:00', close: '20:00' },
+      thursday: { open: '08:00', close: '20:00' },
+      friday: { open: '08:00', close: '20:00' },
+      saturday: { open: '09:00', close: '17:00' },
+      sunday: { open: '09:00', close: '17:00' }
+    },
+    skills: ['Compassion', 'Communication', 'Reliability', 'Medical awareness'],
+    contact: null, // Email not verified
+    phone: '980-993-3100',
+    website: 'https://atriumhealth.org/locations/detail/atrium-health-union',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    ageRequirement: '18+',
+    backgroundCheck: true
   },
   {
-    title: 'Animal Shelter Helper',
-    organization: 'Union County Animal Services',
-    description: 'Care for shelter animals, assist with adoption events, help with cleaning and feeding, and provide socialization for pets.',
-    location: 'Union County Animal Shelter',
+    title: 'Social Services Volunteer',
+    organization: 'Union County Department of Social Services',
+    description: 'Assist with office tasks, help clients navigate services, support community outreach programs, and help with special events. Volunteers help make social services more accessible to the community.',
+    location: '2330 Concord Avenue, Monroe, NC 28110',
+    address: '2330 Concord Avenue, Monroe, NC 28110',
     timeCommitment: '2-5 hours per week',
-    skills: ['Animal care', 'Compassion', 'Physical activity'],
-    contact: 'volunteer@unioncountync.gov',
-    phone: '(704) 283-1111',
-    image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    volunteerHours: {
+      monday: { open: '09:00', close: '16:00' },
+      tuesday: { open: '09:00', close: '16:00' },
+      wednesday: { open: '09:00', close: '16:00' },
+      thursday: { open: '09:00', close: '16:00' },
+      friday: { open: '09:00', close: '16:00' },
+      saturday: { closed: true },
+      sunday: { closed: true }
+    },
+    skills: ['Organization', 'Communication', 'Empathy', 'Confidentiality'],
+    contact: null, // Email not verified
+    phone: '(704) 296-4300',
+    website: 'https://www.unioncountync.gov/departments/social-services',
+    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    ageRequirement: '18+',
+    backgroundCheck: true
+  },
+  {
+    title: 'Community Event Volunteer',
+    organization: 'City of Monroe',
+    description: 'Help organize and run community events, festivals, and city programs. Assist with setup, coordination, registration, and cleanup. Great for those who enjoy working with the public and supporting community spirit.',
+    location: 'Various locations in Monroe',
+    address: '700 N. Hayne Street, Monroe, NC 28112',
+    timeCommitment: 'Variable (event-based)',
+    volunteerHours: {
+      monday: { open: '08:00', close: '17:00' },
+      tuesday: { open: '08:00', close: '17:00' },
+      wednesday: { open: '08:00', close: '17:00' },
+      thursday: { open: '08:00', close: '17:00' },
+      friday: { open: '08:00', close: '17:00' },
+      saturday: { open: '09:00', close: '15:00' },
+      sunday: { closed: true }
+    },
+    skills: ['Organization', 'Event planning', 'Communication', 'Flexibility'],
+    contact: null, // Email not verified
+    phone: '(704) 282-4700',
+    website: 'https://www.monroenc.org',
+    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    ageRequirement: '16+',
+    backgroundCheck: false
   }
 ];
 
@@ -132,13 +221,29 @@ export default function VolunteerPage() {
               that actually fits with your schedule and what you\'re interested in.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold force-white-text">
-                <Users className="mr-2 h-5 w-5" />
-                See What's Needed
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold force-white-text"
+                asChild
+                href="#opportunities"
+              >
+                <a>
+                  <Users className="mr-2 h-5 w-5" />
+                  See What's Needed
+                </a>
               </Button>
-              <Button size="lg" variant="ghost" className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold force-white-text">
-                <Calendar className="mr-2 h-5 w-5" />
-                Upcoming Events
+              <Button 
+                size="lg" 
+                variant="ghost" 
+                className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold force-white-text"
+                asChild
+                href="/events"
+              >
+                <a>
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Upcoming Events
+                </a>
               </Button>
             </div>
           </div>
@@ -217,12 +322,33 @@ export default function VolunteerPage() {
                   </div>
                   <div className="flex items-center gap-2 text-sm text-white/80">
                     <MapPin className="h-4 w-4" />
-                    <span>{volunteer.location}</span>
+                    <span>{volunteer.address || volunteer.location}</span>
                   </div>
-                  <Button variant="outline" size="sm" className="w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md">
-                    <Mail className="h-4 w-4 mr-2" />
-                    Get Involved
-                  </Button>
+                  {volunteer.phone && (
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md"
+                      asChild
+                      href={`tel:${volunteer.phone.replace(/\D/g, '')}`}
+                    >
+                      <a>
+                        <Phone className="h-4 w-4 mr-2" />
+                        Call {volunteer.phone}
+                      </a>
+                    </Button>
+                  )}
+                  {!volunteer.phone && volunteer.website && (
+                    <a
+                      href={volunteer.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-outline btn-sm w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md inline-flex items-center justify-center"
+                    >
+                      <Mail className="h-4 w-4 mr-2" />
+                      Visit Website
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
@@ -231,7 +357,7 @@ export default function VolunteerPage() {
       </section>
 
       {/* Volunteer Opportunities */}
-      <section className="section-padding bg-secondary-50">
+      <section id="opportunities" className="section-padding bg-secondary-50">
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="title-section mb-4">
@@ -265,13 +391,38 @@ export default function VolunteerPage() {
                   </p>
 
                   <div className="space-y-3 mb-4">
-                    <div className="flex items-center gap-2 text-sm text-secondary-600">
-                      <MapPin className="h-4 w-4" />
-                      <span>{opportunity.location}</span>
+                    <div className="flex items-start gap-2 text-sm text-secondary-600">
+                      <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                      <span>{opportunity.address || opportunity.location}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-secondary-600">
                       <Clock className="h-4 w-4" />
                       <span>{opportunity.timeCommitment}</span>
+                    </div>
+                    {opportunity.volunteerHours && (
+                      <div className="text-sm text-secondary-600">
+                        <p className="font-medium mb-1">Volunteer Hours (EST):</p>
+                        <div className="space-y-1 text-xs">
+                          {Object.entries(opportunity.volunteerHours).map(([day, hours]: [string, any]) => {
+                            const dayName = day.charAt(0).toUpperCase() + day.slice(1);
+                            if (hours.closed) {
+                              return <div key={day}>{dayName}: Closed</div>;
+                            }
+                            return (
+                              <div key={day}>
+                                {dayName}: {formatTime12Hour(hours.open)} - {formatTime12Hour(hours.close)}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2 text-sm text-secondary-600">
+                      <Users className="h-4 w-4" />
+                      <span>Age: {opportunity.ageRequirement || '16+'}</span>
+                      {opportunity.backgroundCheck && (
+                        <Badge variant="outline" size="sm" className="ml-2">Background Check Required</Badge>
+                      )}
                     </div>
                   </div>
 
@@ -287,13 +438,31 @@ export default function VolunteerPage() {
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-2">
-                    <Button variant="primary" size="sm" className="flex-1">
-                      <Mail className="h-4 w-4 mr-2" />
-                      Contact Organization
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Phone className="h-4 w-4" />
-                    </Button>
+                    {opportunity.phone && (
+                      <Button 
+                        variant="primary" 
+                        size="sm" 
+                        className="flex-1"
+                        asChild
+                        href={`tel:${opportunity.phone.replace(/\D/g, '')}`}
+                      >
+                        <a>
+                          <Phone className="h-4 w-4 mr-2" />
+                          Call {opportunity.phone}
+                        </a>
+                      </Button>
+                    )}
+                    {opportunity.website && (
+                      <a
+                        href={opportunity.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-outline btn-sm inline-flex items-center justify-center"
+                      >
+                        <Mail className="h-4 w-4 mr-2" />
+                        Visit Website
+                      </a>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -383,14 +552,24 @@ export default function VolunteerPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="primary" size="lg">
-                <Users className="mr-2 h-5 w-5" />
-                Browse Opportunities
+              <Button 
+                variant="primary" 
+                size="lg"
+                asChild
+                href="#opportunities"
+              >
+                <a>
+                  <Users className="mr-2 h-5 w-5" />
+                  Browse Opportunities
+                </a>
               </Button>
-              <Button variant="outline" size="lg">
+              <a
+                href="mailto:info@monroeresourcehub.org"
+                className="btn btn-outline btn-lg inline-flex items-center justify-center"
+              >
                 <Mail className="mr-2 h-5 w-5" />
                 Contact Us
-              </Button>
+              </a>
             </div>
           </div>
         </div>
@@ -408,13 +587,29 @@ export default function VolunteerPage() {
               Join your neighbors who are already giving back.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold">
-                <Heart className="mr-2 h-5 w-5" />
-                Start Volunteering Today
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="bg-white/50 backdrop-blur-sm text-white border-white/50 hover:bg-white/60 shadow-lg font-semibold"
+                asChild
+                href="#opportunities"
+              >
+                <a>
+                  <Heart className="mr-2 h-5 w-5" />
+                  Start Volunteering Today
+                </a>
               </Button>
-              <Button size="lg" variant="ghost" className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold">
-                <Calendar className="mr-2 h-5 w-5" />
-                View Volunteer Events
+              <Button 
+                size="lg" 
+                variant="ghost" 
+                className="text-white hover:bg-white/30 backdrop-blur-sm font-semibold"
+                asChild
+                href="/events"
+              >
+                <a>
+                  <Calendar className="mr-2 h-5 w-5" />
+                  View Volunteer Events
+                </a>
               </Button>
             </div>
           </div>
