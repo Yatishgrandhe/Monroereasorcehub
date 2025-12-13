@@ -236,20 +236,20 @@ export function JobAssistant() {
                         This means your work is saved on this device, but won't sync across other devices or browsers.
                       </p>
                       <div className="flex items-center gap-2">
-                        <a 
+                        <Link 
                           href="/auth/signup"
                           className="btn btn-outline btn-sm inline-flex items-center justify-center"
                         >
                           <LogIn className="h-4 w-4 mr-2" />
                           Create Account for Cloud Sync
-                        </a>
-                        <a 
+                        </Link>
+                        <Link 
                           href="/career"
                           className="btn btn-ghost btn-sm inline-flex items-center justify-center"
                         >
                           <Info className="h-4 w-4 mr-2" />
                           Learn More
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -397,12 +397,12 @@ export function JobAssistant() {
                     <p className="text-sm text-secondary-600">
                       {resumeData.personalInfo.firstName} {resumeData.personalInfo.lastName}
                     </p>
-                    <a 
+                    <Link 
                       href="/career/resume-builder" 
                       className="btn btn-outline btn-sm w-full text-center inline-flex items-center justify-center"
                     >
                       Edit Resume
-                    </a>
+                    </Link>
                   </div>
                 ) : (
                   <div className="space-y-2">
@@ -413,12 +413,12 @@ export function JobAssistant() {
                     <p className="text-sm text-secondary-600">
                       Create a resume first to generate personalized cover letters
                     </p>
-                    <a 
+                    <Link 
                       href="/career/resume-builder" 
                       className="btn btn-primary btn-sm w-full text-white text-center inline-flex items-center justify-center"
                     >
                       Create Resume
-                    </a>
+                    </Link>
                   </div>
                 )}
               </CardContent>

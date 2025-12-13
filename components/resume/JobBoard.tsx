@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Search, MapPin, Calendar, Heart, ExternalLink, Filter, Briefcase, DollarSign, Clock, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -413,20 +414,20 @@ export function JobBoard() {
                 Use our AI-powered job application assistant to create compelling cover letters and prepare for interviews.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a 
+                <Link 
                   href="/career/job-assistant"
                   className="btn btn-outline btn-lg text-white inline-flex items-center justify-center bg-white/20 border-white/30 hover:bg-white/30 force-white-text"
                 >
                   <Briefcase className="mr-2 h-5 w-5" />
                   Job Application Assistant
-                </a>
-                <a 
+                </Link>
+                <Link 
                   href="/career/resume-builder"
                   className="btn btn-outline btn-lg text-white inline-flex items-center justify-center bg-white/20 border-white/30 hover:bg-white/30 force-white-text"
                 >
                   <FileText className="mr-2 h-5 w-5" />
                   Build Your Resume
-                </a>
+                </Link>
               </div>
             </CardContent>
           </Card>

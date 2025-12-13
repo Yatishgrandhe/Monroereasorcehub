@@ -188,11 +188,11 @@ export default function CareerCenterPage() {
                   <div>
                     <h3 className="font-semibold text-lg mb-2">Job Application Helper</h3>
                     <p className="text-secondary-600 mb-3">
-                      {user ? 'Access your saved applications and get personalized help.' : 'Create an account to save your cover letters and interview prep materials across devices.'}
+                      {user ? 'Access your saved applications and get personalized help.' : 'Get AI-powered help with cover letters and interview prep. Your data is saved in your browser\'s local storage.'}
                     </p>
                     <Button variant="primary" size="sm" asChild>
-                      <Link href={user ? "/career/job-assistant" : "/auth/signin"}>
-                        {user ? "Go to Helper" : "Sign In to Access"}
+                      <Link href="/career/job-assistant">
+                        {user ? "Go to Helper" : "Get Started"}
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Link>
                     </Button>
