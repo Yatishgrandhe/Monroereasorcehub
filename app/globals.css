@@ -462,6 +462,30 @@
     color: white !important;
   }
   
+  /* Ensure links inside buttons with force-white-text also get white text */
+  .force-white-text a,
+  .btn.force-white-text a,
+  .btn-ghost.force-white-text a,
+  .btn-outline.force-white-text a {
+    color: white !important;
+  }
+  
+  .force-white-text a:hover,
+  .btn.force-white-text a:hover,
+  .btn-ghost.force-white-text a:hover,
+  .btn-outline.force-white-text a:hover {
+    color: white !important;
+  }
+  
+  /* Ensure all child elements get white text when parent has force-white-text */
+  .force-white-text * {
+    color: white !important;
+  }
+  
+  .force-white-text *:hover {
+    color: white !important;
+  }
+  
   /* Ensure all button text is white when specified */
   .btn[style*="color: white"] {
     color: white !important;
@@ -528,6 +552,36 @@
   
   a[class*="text-white"].btn-outline:hover {
     color: white !important;
+  }
+  
+  /* Ensure all child elements (including icons) inside buttons with force-white-text get white color */
+  .force-white-text a,
+  .force-white-text svg,
+  .force-white-text path,
+  .btn.force-white-text a,
+  .btn.force-white-text svg,
+  .btn.force-white-text path,
+  .btn-ghost.force-white-text a,
+  .btn-ghost.force-white-text svg,
+  .btn-ghost.force-white-text path,
+  .btn-outline.force-white-text a,
+  .btn-outline.force-white-text svg,
+  .btn-outline.force-white-text path {
+    color: white !important;
+    fill: white !important;
+    stroke: white !important;
+  }
+  
+  .force-white-text a:hover,
+  .force-white-text svg:hover,
+  .btn.force-white-text a:hover,
+  .btn.force-white-text svg:hover,
+  .btn-ghost.force-white-text a:hover,
+  .btn-ghost.force-white-text svg:hover,
+  .btn-outline.force-white-text a:hover,
+  .btn-outline.force-white-text svg:hover {
+    color: white !important;
+    fill: white !important;
   }
 }
 
