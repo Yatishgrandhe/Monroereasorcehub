@@ -4,8 +4,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-// import { InspectProtection } from '@/components/protection/InspectProtection';
-// import { ObfuscatedScript } from '@/components/protection/ObfuscatedScript';
+import { InspectProtection } from '@/components/protection/InspectProtection';
+import { ObfuscatedScript } from '@/components/protection/ObfuscatedScript';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -76,26 +76,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={inter.className}>
-        {/* Developer tools protection - COMMENTED OUT FOR NOW */}
-        {/* <Script
-          id="inspect-protection-inline"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(){
-                var _0x1a2b=['preventDefault','keydown','contextmenu'];
-                function _0x3c4d(_0x5e6f,_0x7g8h){return _0x5e6f+_0x7g8h;}
-                document.addEventListener('keydown',function(e){
-                  if(e.key==='F12'||e.keyCode===123||(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'||e.key==='C'))||(e.ctrlKey&&e.key==='u')){e.preventDefault();return false;}
-                },true);
-                document.addEventListener('contextmenu',function(e){e.preventDefault();return false;},true);
-                var _0x9a0b=false;setInterval(function(){if(window.outerHeight-window.innerHeight>160||window.outerWidth-window.innerWidth>160){document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;font-size:24px;color:#333;">Access Restricted</div>';}},500);
-              })();
-            `
-          }}
-        /> */}
-        {/* <InspectProtection /> */}
-        {/* <ObfuscatedScript /> */}
+        {/* Developer tools protection - ENABLED */}
+        <InspectProtection />
+        <ObfuscatedScript />
         <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">

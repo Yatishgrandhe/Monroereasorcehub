@@ -76,7 +76,26 @@ export function ObfuscatedScript() {
         const _0xu1v2 = window.outerWidth - window.innerWidth;
         if (_0xs9t0 > 200 || _0xu1v2 > 200) {
           document.body.innerHTML = '';
-          document.body.innerHTML = '<div style="font-family:Arial;font-size:20px;text-align:center;padding:50px;color:#333;">Restricted Access</div>';
+          document.body.innerHTML = `
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:Arial,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:20px;text-align:center;">
+              <div style="font-size:48px;margin-bottom:20px;">⚠️</div>
+              <h1 style="font-size:32px;margin-bottom:20px;font-weight:bold;">Developer Tools Detected</h1>
+              <p style="font-size:20px;margin-bottom:30px;max-width:600px;line-height:1.6;">
+                For security reasons, this page cannot be accessed while developer tools are open.
+              </p>
+              <div style="background:rgba(255,255,255,0.1);padding:30px;border-radius:12px;max-width:600px;margin-bottom:30px;">
+                <h2 style="font-size:24px;margin-bottom:20px;font-weight:bold;">Please follow these steps:</h2>
+                <ol style="text-align:left;font-size:18px;line-height:2;padding-left:20px;">
+                  <li>Close all developer tools windows/panels</li>
+                  <li>Press <strong>F5</strong> or click the refresh button to reload the page</li>
+                  <li>If the issue persists, close and reopen your browser</li>
+                </ol>
+              </div>
+              <button onclick="window.location.reload()" style="background:#fff;color:#667eea;border:none;padding:15px 40px;font-size:18px;font-weight:bold;border-radius:8px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2);transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                Refresh Page
+              </button>
+            </div>
+          `;
         }
       }
     }, 1000);
