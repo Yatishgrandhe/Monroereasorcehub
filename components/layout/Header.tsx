@@ -126,9 +126,9 @@ export function Header() {
 
             {user ? (
               <div className="flex items-center space-x-2 ml-2">
-                <Button variant="gradient" size="sm" className="nav-button-glow px-3 whitespace-nowrap leading-tight" asChild href="/career/resume-builder">
+                <Button variant="gradient" size="sm" className="nav-button-glow px-3 whitespace-nowrap leading-tight" asChild href="/career/saved-resumes">
                   <UserIcon className="h-4 w-4 mr-1 flex-shrink-0" />
-                  <span className="whitespace-nowrap">My Resume</span>
+                  <span className="whitespace-nowrap">My Resumes</span>
                 </Button>
                 <div className="flex items-center space-x-2 px-3 py-1.5 h-8 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap">
                   <UserCircle className="h-4 w-4 text-primary-600 flex-shrink-0" />
@@ -211,8 +211,8 @@ export function Header() {
 
                 {user ? (
                   <>
-                    <Button variant="gradient" size="sm" className="w-full nav-button-glow" asChild href="/career/resume-builder" onClick={() => setMobileMenuOpen(false)}>
-                      My Resume
+                    <Button variant="gradient" size="sm" className="w-full nav-button-glow" asChild href="/career/saved-resumes" onClick={() => setMobileMenuOpen(false)}>
+                      My Resumes
                     </Button>
                     <div className="flex items-center justify-between px-3 py-2 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
                       <div className="flex items-center space-x-2">

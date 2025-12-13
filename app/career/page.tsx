@@ -1,9 +1,14 @@
 // career center page - old implementation
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Briefcase, FileText, Target, Users, Sparkles, ArrowRight, CheckCircle, Star, TrendingUp } from 'lucide-react';
+import { Briefcase, FileText, Target, Users, Sparkles, ArrowRight, CheckCircle, Star, TrendingUp, Info, LogIn, Database } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { supabase } from '@/lib/supabase/client';
+import type { User } from '@supabase/supabase-js';
 
 // features list - legacy data
 const features = [
@@ -69,6 +74,25 @@ const testimonials = [
 
 // main page component - hack
 export default function CareerCenterPage() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setLoading(false);
+    };
+
+    getSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <div className="min-h-screen">
       {/* hero section - legacy */}
@@ -83,10 +107,27 @@ export default function CareerCenterPage() {
             <h1 className="title-hero mb-6">
               Career Help
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed font-sans">
-              Looking for work in Monroe? We\'ve got tools to help you put together a solid resume, 
+            <p className="text-xl md:text-2xl mb-6 text-white/90 max-w-3xl mx-auto leading-relaxed font-sans">
+              Looking for work in Monroe? We've got tools to help you put together a solid resume, 
               write a cover letter that actually works, and see what jobs are available around here.
             </p>
+            
+            {/* Login Notice */}
+            <div className="mb-8 max-w-2xl mx-auto">
+              <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <Info className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                    <div className="text-left">
+                      <p className="font-semibold mb-1">No Login Required</p>
+                      <p className="text-sm text-white/90">
+                        All tools are available to everyone. Creating an account is helpful for saving your work across devices, but you can use everything right away without signing in. Your data will be saved in your browser's local storage.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="outline" className="bg-white/20 border-white/30 hover:bg-white/30 force-white-text" style={{ color: 'white' }} asChild>
                 <Link href="/career/resume-builder" style={{ color: 'white' }}>
@@ -100,6 +141,110 @@ export default function CareerCenterPage() {
                   See Local Jobs
                 </Link>
               </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How to Access Resources Section */}
+      <section className="section-padding bg-secondary-50">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="title-section mb-4">
+                How to Access These Resources
+              </h2>
+              <p className="text-xl text-secondary-600 max-w-3xl mx-auto font-sans">
+                Getting started is simple - no account needed.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <Card className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <FileText className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">Resume Builder</h3>
+                    <p className="text-secondary-600 mb-3">
+                      Click "Build My Resume" above or use the button below. Your resume data is automatically saved in your browser's local storage, so you can come back anytime.
+                    </p>
+                    <Button variant="primary" size="sm" asChild>
+                      <Link href="/career/resume-builder">
+                        Start Building
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-green-100 text-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Target className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">Job Application Helper</h3>
+                    <p className="text-secondary-600 mb-3">
+                      {user ? 'Access your saved applications and get personalized help.' : 'Create an account to save your cover letters and interview prep materials across devices.'}
+                    </p>
+                    <Button variant="primary" size="sm" asChild>
+                      <Link href={user ? "/career/job-assistant" : "/auth/signin"}>
+                        {user ? "Go to Helper" : "Sign In to Access"}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Briefcase className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">Local Job Board</h3>
+                    <p className="text-secondary-600 mb-3">
+                      Browse jobs available in Monroe and Union County. No account needed to view listings.
+                    </p>
+                    <Button variant="primary" size="sm" asChild>
+                      <Link href="/career/jobs">
+                        View Jobs
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-6 bg-primary-50 border-primary-200">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary-600 text-white rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Database className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">Data Storage</h3>
+                    <p className="text-secondary-600 mb-3">
+                      {user ? (
+                        <>Your data is saved securely in your account and synced across all your devices.</>
+                      ) : (
+                        <>As a guest, your resume data is saved in your browser's local storage. This means your data stays on your device and won't sync across devices. <strong>Consider creating an account</strong> to access your work from anywhere.</>
+                      )}
+                    </p>
+                    {!user && (
+                      <Button variant="outline" size="sm" asChild>
+                        <Link href="/auth/signup">
+                          <LogIn className="mr-2 h-4 w-4" />
+                          Create Account
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </Card>
             </div>
           </div>
         </div>
@@ -147,7 +292,7 @@ export default function CareerCenterPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="section-padding bg-secondary-50">
+      <section className="section-padding">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>

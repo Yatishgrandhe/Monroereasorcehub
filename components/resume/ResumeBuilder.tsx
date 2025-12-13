@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Save, Download, Sparkles, User, Briefcase, GraduationCap, Award, Globe, Plus, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+import { Save, Download, Sparkles, User, Briefcase, GraduationCap, Award, Globe, Plus, Trash2, Info, Database, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -15,6 +16,7 @@ import { generateSummaryAction, enhanceBulletPointAction, suggestSkillsAction } 
 import { generateId } from '@/lib/utils';
 import { exportResumeToPDF } from '@/lib/utils/pdf-export';
 import type { ResumeData } from '@/lib/ai/gemini';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 const initialResumeData: ResumeData = {
   personalInfo: {
@@ -44,10 +46,30 @@ export function ResumeBuilder() {
   const [aiLoading, setAiLoading] = useState(false);
   const [targetJob, setTargetJob] = useState('');
   const [loadedFromStorage, setLoadedFromStorage] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [userLoading, setUserLoading] = useState(true);
+  const LOCAL_STORAGE_KEY = 'monroe_resume_builder_data';
 
-  // Load saved resume data from sessionStorage when viewing
+  // Check user authentication
   useEffect(() => {
-    if (loadedFromStorage) return;
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      setUserLoading(false);
+    };
+
+    checkUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Load saved resume data from local storage or sessionStorage
+  useEffect(() => {
+    if (loadedFromStorage || userLoading) return;
     
     const viewParam = searchParams?.get('view');
     if (viewParam && typeof window !== 'undefined') {
@@ -58,19 +80,29 @@ export function ResumeBuilder() {
           setResumeData(parsed);
           setCurrentStep(6); // Go directly to preview
           setLoadedFromStorage(true);
-          
-          // Clean up sessionStorage after loading
           sessionStorage.removeItem('viewingResume');
         } catch (error) {
           console.error('Error loading saved resume:', error);
         }
-      } else {
-        // If viewing but no data in storage, try to load from database
+      } else if (user) {
+        // If logged in, try to load from database
         loadResumeFromDatabase(viewParam);
+      }
+    } else if (!user && typeof window !== 'undefined') {
+      // Load from local storage for guest users
+      const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData);
+          setResumeData(parsed);
+          setLoadedFromStorage(true);
+        } catch (error) {
+          console.error('Error loading from local storage:', error);
+        }
       }
     }
     setLoadedFromStorage(true);
-  }, [searchParams, loadedFromStorage]);
+  }, [searchParams, loadedFromStorage, user, userLoading]);
 
   const loadResumeFromDatabase = async (resumeId: string) => {
     setLoading(true);
@@ -243,15 +275,35 @@ export function ResumeBuilder() {
     }
   };
 
+  // Auto-save to local storage for guest users
+  useEffect(() => {
+    if (!user && typeof window !== 'undefined' && loadedFromStorage) {
+      const timeoutId = setTimeout(() => {
+        try {
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(resumeData));
+        } catch (error) {
+          console.error('Error saving to local storage:', error);
+        }
+      }, 1000); // Debounce: save 1 second after last change
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [resumeData, user, loadedFromStorage]);
+
   const saveResume = async () => {
     setSaving(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        alert('You must be signed in to save your resume.');
+        // Save to local storage for guest users
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(resumeData));
+          alert('Resume saved to your browser\'s local storage! Your data will persist on this device.');
+        }
+        setSaving(false);
         return;
       }
 
+      // Save to database for logged in users
       const { error } = await supabase
         .from('resumes')
         .upsert({
@@ -670,6 +722,40 @@ export function ResumeBuilder() {
               </Button>
             )}
           </div>
+          
+          {/* Local Storage Notice for Guest Users */}
+          {!user && !isViewingMode && (
+            <div className="mt-6">
+              <Card className="bg-primary-50 border-primary-200">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <Database className="h-5 w-5 text-primary-600 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="font-semibold text-primary-900 mb-1">Your Resume is Auto-Saved</p>
+                      <p className="text-sm text-primary-700 mb-3">
+                        As a guest user, your resume data is automatically saved in your browser's local storage. 
+                        This means your work is saved on this device, but won't sync across other devices or browsers.
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <Button variant="outline" size="sm" asChild>
+                          <Link href="/auth/signup">
+                            <LogIn className="h-4 w-4 mr-2" />
+                            Create Account for Cloud Sync
+                          </Link>
+                        </Button>
+                        <Button variant="ghost" size="sm" asChild>
+                          <Link href="/career">
+                            <Info className="h-4 w-4 mr-2" />
+                            Learn More
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
