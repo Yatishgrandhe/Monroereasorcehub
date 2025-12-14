@@ -435,6 +435,349 @@ function selectOptimalActionVerb(text: string, context?: string): string {
 }
 
 /**
+ * Generate cover letter using offline template-based approach
+ */
+export function generateCoverLetterLocal(
+  resumeData: ResumeData,
+  jobPosting: { title: string; company: string; description: string; location?: string }
+): string {
+  const { personalInfo, experience, skills, education } = resumeData;
+  const { title, company, description, location } = jobPosting;
+  
+  // Extract key information
+  const topExperience = experience.slice(0, 3);
+  const relevantSkills = matchSkillsToJob(skills, description);
+  const yearsOfExperience = calculateTotalYears(experience);
+  const highestEducation = education.length > 0 ? education[0] : null;
+  
+  // Generate personalized greeting
+  const greeting = `Dear Hiring Manager,`;
+  
+  // Opening paragraph
+  const opening = generateOpeningParagraph(
+    personalInfo.firstName,
+    personalInfo.lastName,
+    title,
+    company,
+    yearsOfExperience,
+    highestEducation
+  );
+  
+  // Body paragraphs highlighting experience
+  const experienceParagraph = generateExperienceParagraph(
+    topExperience,
+    title,
+    description
+  );
+  
+  // Skills and qualifications paragraph
+  const skillsParagraph = generateSkillsParagraph(
+    relevantSkills,
+    description
+  );
+  
+  // Closing paragraph
+  const closing = generateClosingParagraph(company, title);
+  
+  // Signature
+  const signature = `Sincerely,\n${personalInfo.firstName} ${personalInfo.lastName}\n${personalInfo.email}\n${personalInfo.phone}`;
+  
+  return `${greeting}\n\n${opening}\n\n${experienceParagraph}\n\n${skillsParagraph}\n\n${closing}\n\n${signature}`;
+}
+
+/**
+ * Generate interview questions based on job posting
+ */
+export function generateInterviewQuestionsLocal(
+  jobPosting: { title: string; company: string; description: string; requirements?: string[] }
+): string[] {
+  const { title, description, requirements = [] } = jobPosting;
+  const questions: string[] = [];
+  
+  // Standard behavioral questions
+  questions.push('Tell me about yourself and why you\'re interested in this position.');
+  questions.push('What attracted you to this role at our company?');
+  questions.push('Describe a challenging situation you faced at work and how you handled it.');
+  questions.push('What are your greatest strengths and how do they apply to this role?');
+  questions.push('Where do you see yourself in 5 years?');
+  
+  // Role-specific questions based on job description
+  const roleQuestions = extractRoleSpecificQuestions(title, description, requirements);
+  questions.push(...roleQuestions);
+  
+  // Technical questions if applicable
+  if (isTechnicalRole(title, description)) {
+    questions.push('Can you walk me through your approach to solving complex problems?');
+    questions.push('How do you stay current with industry trends and best practices?');
+  }
+  
+  // Leadership questions if applicable
+  if (isLeadershipRole(title, description)) {
+    questions.push('Describe your leadership style and how you motivate your team.');
+    questions.push('How do you handle conflicts within your team?');
+  }
+  
+  // Company culture questions
+  questions.push('What questions do you have about our company culture and values?');
+  
+  return questions.slice(0, 10); // Return top 10 questions
+}
+
+/**
+ * Analyze job description locally
+ */
+export function analyzeJobDescriptionLocal(jobDescription: string): {
+  keyRequirements: string[];
+  preferredSkills: string[];
+  experienceLevel: string;
+  salaryRange?: string;
+  benefits?: string[];
+} {
+  const lowerDesc = jobDescription.toLowerCase();
+  
+  // Extract requirements
+  const keyRequirements = extractRequirements(jobDescription);
+  
+  // Extract skills
+  const preferredSkills = extractSkillsFromDescription(jobDescription);
+  
+  // Determine experience level
+  const experienceLevel = determineExperienceLevel(lowerDesc);
+  
+  // Extract salary if mentioned
+  const salaryRange = extractSalaryRange(jobDescription);
+  
+  // Extract benefits if mentioned
+  const benefits = extractBenefits(jobDescription);
+  
+  return {
+    keyRequirements,
+    preferredSkills,
+    experienceLevel,
+    salaryRange,
+    benefits
+  };
+}
+
+// Helper functions for cover letter generation
+
+function generateOpeningParagraph(
+  firstName: string,
+  lastName: string,
+  jobTitle: string,
+  company: string,
+  years: number,
+  education: { degree: string; field: string; institution: string } | null
+): string {
+  const educationText = education 
+    ? ` with a ${education.degree} in ${education.field} from ${education.institution}`
+    : '';
+  const educationText2 = education
+    ? ` My ${education.degree} in ${education.field} from ${education.institution} has prepared me well for this role.`
+    : '';
+  const experienceText = years > 0 
+    ? `With ${years}+ years of experience${educationText}, I am excited to apply for the ${jobTitle} position at ${company}.`
+    : `I am writing to express my strong interest in the ${jobTitle} position at ${company}.${educationText2}`;
+  
+  return experienceText;
+}
+
+function generateExperienceParagraph(
+  experience: ResumeExperience[],
+  jobTitle: string,
+  jobDescription: string
+): string {
+  if (experience.length === 0) {
+    return `I am confident that my background and skills make me a strong candidate for this position.`;
+  }
+  
+  const topExp = experience[0];
+  const relevantAspects = findRelevantAspects(topExp.description, jobDescription);
+  
+  return `In my role as ${topExp.position} at ${topExp.company}, I ${relevantAspects}. This experience has equipped me with the skills and knowledge necessary to excel in the ${jobTitle} position.`;
+}
+
+function generateSkillsParagraph(
+  skills: string[],
+  jobDescription: string
+): string {
+  if (skills.length === 0) {
+    return `I am eager to bring my dedication and work ethic to your team.`;
+  }
+  
+  const topSkills = skills.slice(0, 4).join(', ');
+  return `My proficiency in ${topSkills} aligns perfectly with the requirements of this role. I am confident that these skills, combined with my passion for excellence, will enable me to make a significant contribution to ${extractCompanyName(jobDescription) || 'your organization'}.`;
+}
+
+function generateClosingParagraph(company: string, title: string): string {
+  return `I am excited about the opportunity to contribute to ${company}'s continued success and would welcome the chance to discuss how my background, skills, and enthusiasm align with the ${title} position. Thank you for considering my application.`;
+}
+
+function matchSkillsToJob(skills: string[], jobDescription: string): string[] {
+  const lowerDesc = jobDescription.toLowerCase();
+  return skills.filter(skill => 
+    lowerDesc.includes(skill.toLowerCase()) || 
+    skill.toLowerCase().includes('management') ||
+    skill.toLowerCase().includes('communication')
+  ).slice(0, 6);
+}
+
+function findRelevantAspects(experience: string, jobDescription: string): string {
+  const expLower = experience.toLowerCase();
+  const jobLower = jobDescription.toLowerCase();
+  
+  if (jobLower.includes('team') && expLower.includes('team')) {
+    return 'successfully managed cross-functional teams and collaborated effectively';
+  }
+  if (jobLower.includes('project') && expLower.includes('project')) {
+    return 'led multiple projects from conception to completion';
+  }
+  if (jobLower.includes('client') && expLower.includes('client')) {
+    return 'built strong relationships with clients and stakeholders';
+  }
+  if (jobLower.includes('develop') && expLower.includes('develop')) {
+    return 'developed innovative solutions and improved processes';
+  }
+  
+  return 'gained valuable experience and achieved measurable results';
+}
+
+function extractCompanyName(jobDescription: string): string | null {
+  // Simple extraction - could be enhanced
+  return null;
+}
+
+// Helper functions for interview questions
+
+function extractRoleSpecificQuestions(
+  title: string,
+  description: string,
+  requirements: string[]
+): string[] {
+  const questions: string[] = [];
+  const lowerDesc = description.toLowerCase();
+  const lowerTitle = title.toLowerCase();
+  
+  if (lowerTitle.includes('manager') || lowerTitle.includes('director') || lowerTitle.includes('lead')) {
+    questions.push('How do you prioritize tasks when managing multiple projects?');
+    questions.push('Describe a time when you had to make a difficult decision that affected your team.');
+  }
+  
+  if (lowerDesc.includes('customer') || lowerDesc.includes('client')) {
+    questions.push('How do you handle difficult customers or clients?');
+    questions.push('Describe a time when you went above and beyond for a customer.');
+  }
+  
+  if (lowerDesc.includes('budget') || lowerDesc.includes('financial')) {
+    questions.push('How do you manage budgets and ensure cost-effectiveness?');
+  }
+  
+  if (lowerDesc.includes('deadline') || lowerDesc.includes('time-sensitive')) {
+    questions.push('How do you handle tight deadlines and pressure?');
+  }
+  
+  return questions;
+}
+
+function isTechnicalRole(title: string, description: string): boolean {
+  const techKeywords = ['developer', 'engineer', 'programmer', 'software', 'technical', 'it', 'technology'];
+  const combined = (title + ' ' + description).toLowerCase();
+  return techKeywords.some(keyword => combined.includes(keyword));
+}
+
+function isLeadershipRole(title: string, description: string): boolean {
+  const leadershipKeywords = ['manager', 'director', 'lead', 'supervisor', 'head', 'chief', 'executive'];
+  const combined = (title + ' ' + description).toLowerCase();
+  return leadershipKeywords.some(keyword => combined.includes(keyword));
+}
+
+// Helper functions for job analysis
+
+function extractRequirements(jobDescription: string): string[] {
+  const requirements: string[] = [];
+  const lines = jobDescription.split('\n');
+  
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.length > 10 && trimmed.length < 200) {
+      if (trimmed.match(/^[-•*]\s/) || trimmed.match(/^\d+[.)]\s/) || 
+          trimmed.toLowerCase().includes('required') ||
+          trimmed.toLowerCase().includes('must have')) {
+        requirements.push(trimmed.replace(/^[-•*\d.)]\s*/, '').trim());
+      }
+    }
+  }
+  
+  // If no bullet points found, extract key sentences
+  if (requirements.length === 0) {
+    const sentences = jobDescription.split(/[.!?]+/).filter(s => s.trim().length > 20);
+    requirements.push(...sentences.slice(0, 5).map(s => s.trim()));
+  }
+  
+  return requirements.slice(0, 8);
+}
+
+function extractSkillsFromDescription(jobDescription: string): string[] {
+  const skills: string[] = [];
+  const skillKeywords = [
+    'javascript', 'python', 'java', 'react', 'node', 'sql', 'aws', 'docker',
+    'project management', 'agile', 'scrum', 'leadership', 'communication',
+    'sales', 'marketing', 'customer service', 'analytics', 'data analysis'
+  ];
+  
+  const lowerDesc = jobDescription.toLowerCase();
+  skillKeywords.forEach(skill => {
+    if (lowerDesc.includes(skill)) {
+      skills.push(skill.charAt(0).toUpperCase() + skill.slice(1));
+    }
+  });
+  
+  return [...new Set(skills)].slice(0, 8);
+}
+
+function determineExperienceLevel(description: string): string {
+  if (description.includes('entry') || description.includes('junior') || description.includes('0-2 years')) {
+    return 'entry level';
+  }
+  if (description.includes('senior') || description.includes('5+ years') || description.includes('10+ years')) {
+    return 'senior level';
+  }
+  if (description.includes('mid') || description.includes('3-5 years')) {
+    return 'mid level';
+  }
+  return 'mid level'; // default
+}
+
+function extractSalaryRange(jobDescription: string): string | undefined {
+  const salaryMatch = jobDescription.match(/\$[\d,]+(?:-\$[\d,]+)?(?:\s*(?:per year|annually|hourly))?/i);
+  if (salaryMatch) {
+    return salaryMatch[0];
+  }
+  return undefined;
+}
+
+function extractBenefits(jobDescription: string): string[] {
+  const benefits: string[] = [];
+  const benefitKeywords = {
+    'health insurance': /health\s*(?:insurance|care|benefits)/i,
+    'dental': /dental/i,
+    'vision': /vision/i,
+    '401k': /401k|retirement/i,
+    'pto': /pto|paid\s*time\s*off|vacation/i,
+    'remote': /remote|work\s*from\s*home|flexible\s*work/i,
+    'flexible schedule': /flexible\s*schedule/i
+  };
+  
+  for (const [benefit, pattern] of Object.entries(benefitKeywords)) {
+    if (pattern.test(jobDescription)) {
+      benefits.push(benefit);
+    }
+  }
+  
+  return benefits;
+}
+
+/**
  * Auto-fix common resume issues
  */
 export function autoFixResume(resumeData: ResumeData): ResumeData {

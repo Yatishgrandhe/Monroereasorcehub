@@ -30,7 +30,7 @@ const slides = [
   },
   {
     id: 4,
-    image: 'https://images.unsplash.com/photo-1503676260728-1c6019d5038c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
     alt: 'Education and learning',
     title: 'Learning Opportunities',
     description: 'Whether you\'re a kid or an adult, there are educational programs and resources available here.'
