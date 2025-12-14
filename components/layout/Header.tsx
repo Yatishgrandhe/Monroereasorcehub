@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Search, User as UserIcon, LogOut, UserCircle } from 'lucide-react';
+import { Menu, X, Search, LogOut, UserCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/lib/supabase/client';
@@ -19,11 +19,6 @@ const navigation = [
   { name: 'Volunteer', href: '/volunteer' },
   { name: 'About Us', href: '/about' },
   { name: 'Info', href: '/reference' },
-];
-
-// logged in nav - needs refactor
-const loggedInNavigation = [
-  { name: 'My Resumes', href: '/career/saved-resumes', icon: 'FileText' },
 ];
 
 export function Header() {
@@ -61,10 +56,8 @@ export function Header() {
     router.push('/');
   };
 
-  // filter nav - workaround for duplication
-  const filteredNavigation = user
-    ? navigation.filter(item => item.name !== 'Career Help')
-    : navigation;
+  // Show all navigation items for both user types
+  const filteredNavigation = navigation;
 
   return (
     <header className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-secondary-200 sticky top-0 z-50">
@@ -100,18 +93,16 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
-            {user && loggedInNavigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  'nav-link text-sm font-medium whitespace-nowrap',
-                  pathname === item.href ? 'active' : 'text-secondary-600'
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {/* My Resumes - available for both user types */}
+            <Link
+              href="/career/saved-resumes"
+              className={cn(
+                'nav-link text-sm font-medium whitespace-nowrap',
+                pathname === '/career/saved-resumes' ? 'active' : 'text-secondary-600'
+              )}
+            >
+              My Resumes
+            </Link>
           </div>
 
           {/* Desktop Actions */}
@@ -126,10 +117,6 @@ export function Header() {
 
             {user ? (
               <div className="flex items-center space-x-2 ml-2">
-                <Button variant="gradient" size="sm" className="nav-button-glow px-3 whitespace-nowrap leading-tight" asChild href="/career/saved-resumes">
-                  <UserIcon className="h-4 w-4 mr-1 flex-shrink-0" />
-                  <span className="whitespace-nowrap">My Resumes</span>
-                </Button>
                 <div className="flex items-center space-x-2 px-3 py-1.5 h-8 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap">
                   <UserCircle className="h-4 w-4 text-primary-600 flex-shrink-0" />
                   <span className="text-sm text-secondary-700 font-medium max-w-[120px] truncate">
@@ -189,43 +176,36 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
-              {user && loggedInNavigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    'block px-4 py-3 text-base font-medium transition-all duration-200 rounded-lg',
-                    pathname === item.href
-                      ? 'active text-white'
-                      : 'text-secondary-600 hover:text-white hover:bg-gradient-logo'
-                  )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {/* My Resumes - available for both user types */}
+              <Link
+                href="/career/saved-resumes"
+                className={cn(
+                  'block px-4 py-3 text-base font-medium transition-all duration-200 rounded-lg',
+                  pathname === '/career/saved-resumes'
+                    ? 'active text-white'
+                    : 'text-secondary-600 hover:text-white hover:bg-gradient-logo'
+                )}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                My Resumes
+              </Link>
               <div className="pt-4 space-y-3">
                 <Button variant="outline" size="sm" className="w-full nav-button-glow" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
                   Share Resource
                 </Button>
 
                 {user ? (
-                  <>
-                    <Button variant="gradient" size="sm" className="w-full nav-button-glow" asChild href="/career/saved-resumes" onClick={() => setMobileMenuOpen(false)}>
-                      My Resumes
-                    </Button>
-                    <div className="flex items-center justify-between px-3 py-2 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
-                      <div className="flex items-center space-x-2">
-                        <UserCircle className="h-4 w-4 text-primary-600" />
-                        <span className="text-sm text-secondary-700 font-medium">
-                          {user.user_metadata?.full_name || user.email?.split('@')[0]}
-                        </span>
-                      </div>
-                      <Button variant="ghost" size="sm" className="nav-button-glow" onClick={handleSignOut}>
-                        <LogOut className="h-4 w-4" />
-                      </Button>
+                  <div className="flex items-center justify-between px-3 py-2 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
+                    <div className="flex items-center space-x-2">
+                      <UserCircle className="h-4 w-4 text-primary-600" />
+                      <span className="text-sm text-secondary-700 font-medium">
+                        {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                      </span>
                     </div>
-                  </>
+                    <Button variant="ghost" size="sm" className="nav-button-glow" onClick={handleSignOut}>
+                      <LogOut className="h-4 w-4" />
+                    </Button>
+                  </div>
                 ) : (
                   <>
                     <Button variant="outline" size="sm" className="w-full nav-button-glow" asChild href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>

@@ -388,18 +388,24 @@ export function JobAssistant() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {resumeData ? (
+                {resumeData && resumeData.personalInfo ? (
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-success-600">
                       <div className="w-2 h-2 bg-success-500 rounded-full"></div>
-                      <span className="text-sm">Resume loaded successfully</span>
+                      <span className="text-sm font-medium">Resume loaded successfully</span>
                     </div>
                     <p className="text-sm text-secondary-600">
-                      {resumeData.personalInfo.firstName} {resumeData.personalInfo.lastName}
+                      {resumeData.personalInfo.firstName || ''} {resumeData.personalInfo.lastName || ''}
+                      {(!resumeData.personalInfo.firstName && !resumeData.personalInfo.lastName) && 'My Resume'}
                     </p>
+                    {resumeData.personalInfo.email && (
+                      <p className="text-xs text-secondary-500 truncate">
+                        {resumeData.personalInfo.email}
+                      </p>
+                    )}
                     <Link 
                       href="/career/resume-builder" 
-                      className="btn btn-outline btn-sm w-full text-center inline-flex items-center justify-center"
+                      className="btn btn-outline btn-sm w-full text-center inline-flex items-center justify-center mt-3"
                     >
                       Edit Resume
                     </Link>
@@ -408,14 +414,16 @@ export function JobAssistant() {
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-warning-600">
                       <div className="w-2 h-2 bg-warning-500 rounded-full"></div>
-                      <span className="text-sm">No resume found</span>
+                      <span className="text-sm font-medium">No resume found</span>
                     </div>
                     <p className="text-sm text-secondary-600">
-                      Create a resume first to generate personalized cover letters
+                      {user 
+                        ? 'Create a resume first to generate personalized cover letters. Your resume will be saved to your account.'
+                        : 'Create a resume first to generate personalized cover letters. Your resume will be saved in your browser\'s local storage.'}
                     </p>
                     <Link 
                       href="/career/resume-builder" 
-                      className="btn btn-primary btn-sm w-full text-white text-center inline-flex items-center justify-center"
+                      className="btn btn-primary btn-sm w-full text-white text-center inline-flex items-center justify-center mt-3"
                     >
                       Create Resume
                     </Link>

@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { supabase } from '@/lib/supabase/client';
-import { FileText, Download, Trash2, Eye, Edit, Plus } from 'lucide-react';
+import { FileText, Download, Trash2, Eye, Edit, Plus, Database, LogIn, Info } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import { exportResumeToPDF } from '@/lib/utils/pdf-export';
+import type { User } from '@supabase/supabase-js';
 
 interface SavedResume {
   id: string;
@@ -19,32 +19,81 @@ interface SavedResume {
   resume_data: any;
 }
 
+const LOCAL_STORAGE_KEY = 'monroe_resume_builder_data';
+
 export default function SavedResumesPage() {
   const [resumes, setResumes] = useState<SavedResume[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [exporting, setExporting] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    checkUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+
     loadResumes();
+
+    return () => subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (user !== null) {
+      loadResumes();
+    }
+  }, [user]);
 
   const loadResumes = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      setLoading(true);
+      
+      if (user) {
+        // Load from database for logged-in users
+        const { data, error } = await supabase
+          .from('resumes')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('updated_at', { ascending: false });
 
-      const { data, error } = await supabase
-        .from('resumes')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('updated_at', { ascending: false });
-
-      if (error) throw error;
-      setResumes(data || []);
+        if (error) throw error;
+        setResumes(data || []);
+      } else {
+        // Load from local storage for guest users
+        if (typeof window !== 'undefined') {
+          const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+          if (savedData) {
+            try {
+              const parsed = JSON.parse(savedData);
+              // Create a resume object from local storage data
+              const localResume: SavedResume = {
+                id: 'local-resume',
+                title: `${parsed.personalInfo?.firstName || 'My'} ${parsed.personalInfo?.lastName || 'Resume'}`,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+                resume_data: parsed
+              };
+              setResumes([localResume]);
+            } catch (error) {
+              console.error('Error loading from local storage:', error);
+              setResumes([]);
+            }
+          } else {
+            setResumes([]);
+          }
+        }
+      }
     } catch (error) {
       console.error('Error loading resumes:', error);
+      setResumes([]);
     } finally {
       setLoading(false);
     }
@@ -55,12 +104,20 @@ export default function SavedResumesPage() {
 
     setDeleting(id);
     try {
-      const { error } = await supabase
-        .from('resumes')
-        .delete()
-        .eq('id', id);
+      if (user) {
+        // Delete from database for logged-in users
+        const { error } = await supabase
+          .from('resumes')
+          .delete()
+          .eq('id', id);
 
-      if (error) throw error;
+        if (error) throw error;
+      } else {
+        // Delete from local storage for guest users
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem(LOCAL_STORAGE_KEY);
+        }
+      }
       setResumes(resumes.filter(r => r.id !== id));
     } catch (error) {
       console.error('Error deleting resume:', error);
@@ -95,37 +152,70 @@ export default function SavedResumesPage() {
 
   if (loading) {
     return (
-      <ProtectedRoute>
-        <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
-          <div className="text-center">
-            <div className="loading-spinner w-12 h-12 mx-auto mb-4"></div>
-            <p className="text-secondary-600">Loading your resumes...</p>
-          </div>
+      <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="loading-spinner w-12 h-12 mx-auto mb-4"></div>
+          <p className="text-secondary-600">Loading your resumes...</p>
         </div>
-      </ProtectedRoute>
+      </div>
     );
   }
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-secondary-50">
-        <div className="container-custom section-padding">
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h1 className="title-section mb-2">My Saved Resumes</h1>
-                <p className="text-xl text-secondary-600 max-w-3xl font-sans">
-                  Manage and export your saved resumes
-                </p>
-              </div>
-              <Button variant="gradient" size="md" asChild href="/career/resume-builder">
-                <Plus className="h-4 w-4 mr-2" />
-                Create New Resume
-              </Button>
+    <div className="min-h-screen bg-secondary-50">
+      <div className="container-custom section-padding">
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="title-section mb-2">My Saved Resumes</h1>
+              <p className="text-xl text-secondary-600 max-w-3xl font-sans">
+                {user ? 'Manage and export your saved resumes' : 'View and manage your resume saved in your browser'}
+              </p>
             </div>
+            <Button variant="gradient" size="md" asChild href="/career/resume-builder">
+              <Plus className="h-4 w-4 mr-2" />
+              Create New Resume
+            </Button>
           </div>
 
-          {resumes.length === 0 ? (
+          {/* Guest User Notice */}
+          {!user && (
+            <div className="mb-6">
+              <Card className="bg-primary-50 border-primary-200">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <Database className="h-5 w-5 text-primary-600 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="font-semibold text-primary-900 mb-1">Guest User - Local Storage</p>
+                      <p className="text-sm text-primary-700 mb-3">
+                        Your resume is saved in your browser&apos;s local storage. This means your data stays on this device and won&apos;t sync across other devices or browsers. 
+                        <strong> Consider creating an account</strong> to access your work from anywhere and save multiple resumes.
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <Link 
+                          href="/auth/signup"
+                          className="btn btn-outline btn-sm inline-flex items-center justify-center"
+                        >
+                          <LogIn className="h-4 w-4 mr-2" />
+                          Create Account
+                        </Link>
+                        <Link 
+                          href="/career"
+                          className="btn btn-ghost btn-sm inline-flex items-center justify-center"
+                        >
+                          <Info className="h-4 w-4 mr-2" />
+                          Learn More
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
+
+        {resumes.length === 0 ? (
             <Card>
               <CardContent className="text-center py-12">
                 <FileText className="h-16 w-16 mx-auto mb-4 text-secondary-400" />
@@ -133,7 +223,9 @@ export default function SavedResumesPage() {
                   No saved resumes yet
                 </h3>
                 <p className="text-secondary-600 mb-6">
-                  Start building your first resume to save it here for easy access and editing.
+                  {user 
+                    ? 'Start building your first resume to save it here for easy access and editing.'
+                    : "Start building your first resume. It will be saved in your browser's local storage for easy access and editing."}
                 </p>
                 <Button variant="gradient" size="md" asChild href="/career/resume-builder">
                   <Plus className="h-4 w-4 mr-2" />
@@ -208,9 +300,8 @@ export default function SavedResumesPage() {
               ))}
             </div>
           )}
-        </div>
       </div>
-    </ProtectedRoute>
+    </div>
   );
 }
 

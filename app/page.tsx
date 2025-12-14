@@ -180,7 +180,7 @@ const features = [
   {
     icon: Briefcase,
     title: 'Grow Your Career',
-    description: 'We put together some tools that are completely free - no catch, no hidden fees. They\'ll help you build a resume and navigate the whole job application process. Seriously, just try them out.',
+    description: 'We\'ve put together completely free tools - no catch, no hidden fees. They\'ll help you build a resume and navigate the whole job application process. Seriously, just try them out.',
     color: 'text-accent-600',
     bg: 'bg-accent-50'
   },
@@ -257,12 +257,12 @@ export default async function HomePage() {
             </Badge>
 
             <h1 className="title-hero mb-6 animate-slide-up">
-              Welcome to Monroe's
+              Welcome to
               <span className="block text-gradient-logo mt-2">Resource Hub</span>
             </h1>
 
             <p className="text-xl md:text-2xl mb-10 text-secondary-600 max-w-3xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
-              So here's the thing - we spent a lot of time gathering up everything Monroe has to offer and putting it all in one place. Need help with something? Looking for opportunities? Or maybe you just want to see what's going on around town? You've come to the right spot, honestly.
+              Here's the thing - we spent a lot of time gathering up everything Monroe has to offer and putting it all in one place. Need help with something? Looking for opportunities? Or maybe you just want to see what's going on around town? You've come to the right spot, honestly.
             </p>
 
             {/* Search Bar */}
@@ -342,7 +342,7 @@ export default async function HomePage() {
             <div className="max-w-2xl">
               <Badge className="mb-4 bg-accent-100 text-accent-700 hover:bg-accent-200">Featured</Badge>
               <h2 className="title-section mb-4">
-                Local Organizations Making a Difference
+                Featured Local Organizations Making a Difference
               </h2>
               <p className="text-xl text-secondary-600">
                 These are the groups and organizations that are actually out there doing the work. They're helping people in Monroe every single day, and honestly, they deserve some recognition.
@@ -365,7 +365,7 @@ export default async function HomePage() {
               Find What You Need
             </h2>
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              We went ahead and sorted everything into categories. That way you don't have to spend forever searching through stuff - you can just jump right to what you need.
+              We went ahead and sorted everything into categories. That way, you don't have to spend forever searching through stuff - you can just jump right to what you need.
             </p>
           </div>
 
@@ -461,6 +461,9 @@ export default async function HomePage() {
                 Build Your Resume
               </Button>
             </div>
+            <p className="text-sm text-white/70 mt-8">
+              Made with Monroe, NCA project by the Central Academy of Technology and Arts TSA Chapter.
+            </p>
           </div>
         </div>
       </section>
