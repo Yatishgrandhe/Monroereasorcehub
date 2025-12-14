@@ -27,6 +27,8 @@ export function JobAssistant() {
     requirements: [],
     location: ''
   });
+  const [resumes, setResumes] = useState<Array<{ id: string; title: string; resume_data: ResumeData; updated_at: string }>>([]);
+  const [selectedResumeId, setSelectedResumeId] = useState<string>('');
   const [resumeData, setResumeData] = useState<ResumeData | null>(null);
   const [coverLetter, setCoverLetter] = useState('');
   const [jobAnalysis, setJobAnalysis] = useState<JobAnalysis | null>(null);
@@ -36,6 +38,7 @@ export function JobAssistant() {
   const [questionsLoading, setQuestionsLoading] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [userLoading, setUserLoading] = useState(true);
+  const [resumesLoading, setResumesLoading] = useState(true);
 
   // Check user authentication
   useEffect(() => {
@@ -54,24 +57,36 @@ export function JobAssistant() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Load user's resume data (from database for logged in, from local storage for guests)
+  // Load all user's resumes (from database for logged in, from local storage for guests)
   useEffect(() => {
     if (userLoading) return;
     
-    const loadResumeData = async () => {
+    const loadResumes = async () => {
       try {
+        setResumesLoading(true);
         if (user) {
-          // Load from database for logged in users
-          const { data: resume } = await supabase
+          // Load all resumes from database for logged in users
+          const { data: resumesData, error } = await supabase
             .from('resumes')
-            .select('resume_data')
+            .select('id, title, resume_data, updated_at')
             .eq('user_id', user.id)
-            .order('updated_at', { ascending: false })
-            .limit(1)
-            .single();
+            .order('updated_at', { ascending: false });
 
-          if (resume) {
-            setResumeData(resume.resume_data);
+          if (error) throw error;
+          
+          if (resumesData && resumesData.length > 0) {
+            const formattedResumes = resumesData.map(r => ({
+              id: r.id,
+              title: r.title || `${r.resume_data?.personalInfo?.firstName || ''} ${r.resume_data?.personalInfo?.lastName || ''}`.trim() || 'Untitled Resume',
+              resume_data: r.resume_data,
+              updated_at: r.updated_at
+            }));
+            setResumes(formattedResumes);
+            // Set the most recent resume as selected by default
+            if (!selectedResumeId && formattedResumes.length > 0) {
+              setSelectedResumeId(formattedResumes[0].id);
+              setResumeData(formattedResumes[0].resume_data);
+            }
           }
         } else {
           // Load from local storage for guest users
@@ -80,6 +95,14 @@ export function JobAssistant() {
             if (savedData) {
               try {
                 const parsed = JSON.parse(savedData);
+                const localResume = {
+                  id: 'local-resume',
+                  title: `${parsed.personalInfo?.firstName || 'My'} ${parsed.personalInfo?.lastName || 'Resume'}`,
+                  resume_data: parsed,
+                  updated_at: new Date().toISOString()
+                };
+                setResumes([localResume]);
+                setSelectedResumeId('local-resume');
                 setResumeData(parsed);
               } catch (error) {
                 console.error('Error loading from local storage:', error);
@@ -88,12 +111,24 @@ export function JobAssistant() {
           }
         }
       } catch (error) {
-        console.error('Error loading resume data:', error);
+        console.error('Error loading resumes:', error);
+      } finally {
+        setResumesLoading(false);
       }
     };
 
-    loadResumeData();
+    loadResumes();
   }, [user, userLoading]);
+
+  // Update resumeData when selectedResumeId changes
+  useEffect(() => {
+    if (selectedResumeId && resumes.length > 0) {
+      const selectedResume = resumes.find(r => r.id === selectedResumeId);
+      if (selectedResume) {
+        setResumeData(selectedResume.resume_data);
+      }
+    }
+  }, [selectedResumeId, resumes]);
 
   const analyzeJob = async () => {
     if (!jobPosting.description.trim()) {
@@ -414,12 +449,22 @@ export function JobAssistant() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {resumeData && resumeData.personalInfo ? (
+                {resumesLoading ? (
+                  <div className="text-center py-4">
+                    <div className="loading-spinner w-6 h-6 mx-auto mb-2"></div>
+                    <p className="text-sm text-secondary-600">Loading resumes...</p>
+                  </div>
+                ) : resumeData && resumeData.personalInfo ? (
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-success-600">
                       <div className="w-2 h-2 bg-success-500 rounded-full"></div>
                       <span className="text-sm font-medium">Resume loaded successfully</span>
                     </div>
+                    {resumes.length > 1 && (
+                      <p className="text-xs text-secondary-500">
+                        {resumes.length} resume{resumes.length > 1 ? 's' : ''} available. Select which one to use above.
+                      </p>
+                    )}
                     <p className="text-sm text-secondary-600">
                       {resumeData.personalInfo.firstName || ''} {resumeData.personalInfo.lastName || ''}
                       {(!resumeData.personalInfo.firstName && !resumeData.personalInfo.lastName) && 'My Resume'}
@@ -429,11 +474,16 @@ export function JobAssistant() {
                         {resumeData.personalInfo.email}
                       </p>
                     )}
+                    {resumeData.experience?.length > 0 && (
+                      <p className="text-xs text-secondary-500">
+                        {resumeData.experience.length} experience{resumeData.experience.length > 1 ? 's' : ''} • {resumeData.skills?.length || 0} skill{resumeData.skills?.length !== 1 ? 's' : ''}
+                      </p>
+                    )}
                     <Link 
                       href="/career/resume-builder" 
                       className="btn btn-outline btn-sm w-full text-center inline-flex items-center justify-center mt-3"
                     >
-                      Edit Resume
+                      {resumes.length > 0 ? 'Edit Resume' : 'Create Resume'}
                     </Link>
                   </div>
                 ) : (
@@ -488,6 +538,49 @@ export function JobAssistant() {
                 </div>
               </CardHeader>
               <CardContent>
+                {/* Resume Selector */}
+                {resumes.length > 0 && (
+                  <div className="mb-6">
+                    <label className="block text-sm font-medium text-secondary-700 mb-2">
+                      Select Resume to Use
+                    </label>
+                    <select
+                      className="input w-full"
+                      value={selectedResumeId}
+                      onChange={(e) => setSelectedResumeId(e.target.value)}
+                      disabled={resumesLoading}
+                    >
+                      {resumes.map((resume) => (
+                        <option key={resume.id} value={resume.id}>
+                          {resume.title} {resume.updated_at ? `(Updated ${new Date(resume.updated_at).toLocaleDateString()})` : ''}
+                        </option>
+                      ))}
+                    </select>
+                    {resumeData && (
+                      <p className="mt-2 text-sm text-secondary-600">
+                        Using: <strong>{resumeData.personalInfo?.firstName} {resumeData.personalInfo?.lastName}</strong>
+                        {resumeData.experience?.length > 0 && ` • ${resumeData.experience.length} experience${resumeData.experience.length > 1 ? 's' : ''}`}
+                        {resumeData.skills?.length > 0 && ` • ${resumeData.skills.length} skill${resumeData.skills.length > 1 ? 's' : ''}`}
+                      </p>
+                    )}
+                  </div>
+                )}
+                
+                {resumes.length === 0 && !resumesLoading && (
+                  <div className="mb-6 p-4 bg-secondary-50 rounded-lg border border-secondary-200">
+                    <p className="text-sm text-secondary-700 mb-3">
+                      No resume found. Create a resume first to generate a personalized cover letter.
+                    </p>
+                    <Link
+                      href="/career/resume-builder"
+                      className="btn btn-outline btn-sm inline-flex items-center justify-center"
+                    >
+                      <FileText className="h-4 w-4 mr-2" />
+                      Create Resume
+                    </Link>
+                  </div>
+                )}
+
                 {coverLetter ? (
                   <div className="space-y-4">
                     <div className="bg-white p-6 rounded-lg border border-secondary-200">
