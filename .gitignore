@@ -35,13 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# TensorFlow models (too large for git)
-/models/
-*.h5
-*.pb
-*.tflite
-*.json.bin
-
 # Python
 __pycache__/
 *.py[cod]

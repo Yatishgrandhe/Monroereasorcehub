@@ -446,8 +446,14 @@ export function generateCoverLetterLocal(
   resumeData: ResumeData,
   jobPosting: { title: string; company: string; description: string; location?: string }
 ): string {
-  const { personalInfo, experience, skills, education } = resumeData;
+  const { personalInfo, experience = [], skills = [], education = [] } = resumeData;
   const { title, company, description, location } = jobPosting;
+  
+  // Ensure personalInfo has defaults
+  const firstName = personalInfo?.firstName || 'Your';
+  const lastName = personalInfo?.lastName || 'Name';
+  const email = personalInfo?.email || 'your.email@example.com';
+  const phone = personalInfo?.phone || '(555) 555-5555';
   
   // Extract key information
   const topExperience = experience.slice(0, 3);
@@ -460,8 +466,8 @@ export function generateCoverLetterLocal(
   
   // Opening paragraph
   const opening = generateOpeningParagraph(
-    personalInfo.firstName,
-    personalInfo.lastName,
+    firstName,
+    lastName,
     title,
     company,
     yearsOfExperience,
@@ -485,7 +491,7 @@ export function generateCoverLetterLocal(
   const closing = generateClosingParagraph(company, title);
   
   // Signature
-  const signature = `Sincerely,\n${personalInfo.firstName} ${personalInfo.lastName}\n${personalInfo.email}\n${personalInfo.phone}`;
+  const signature = `Sincerely,\n${firstName} ${lastName}\n${email}\n${phone}`;
   
   return `${greeting}\n\n${opening}\n\n${experienceParagraph}\n\n${skillsParagraph}\n\n${closing}\n\n${signature}`;
 }
@@ -593,7 +599,19 @@ function generateExperienceParagraph(
   jobDescription: string
 ): string {
   if (experience.length === 0) {
-    return `I am confident that my background and skills make me a strong candidate for this position.`;
+    // Generate a paragraph based on job requirements when no experience
+    const jobLower = jobDescription.toLowerCase();
+    let relevantText = 'I am confident that my background and skills make me a strong candidate for this position.';
+    
+    if (jobLower.includes('team') || jobLower.includes('collaborat')) {
+      relevantText = 'I am a collaborative team player with strong communication skills and a commitment to working effectively with others to achieve common goals.';
+    } else if (jobLower.includes('problem') || jobLower.includes('solve')) {
+      relevantText = 'I am a proactive problem-solver with strong analytical skills and the ability to think critically to find effective solutions.';
+    } else if (jobLower.includes('customer') || jobLower.includes('client')) {
+      relevantText = 'I am dedicated to providing excellent customer service and building strong relationships with clients and stakeholders.';
+    }
+    
+    return relevantText;
   }
   
   const topExp = experience[0];

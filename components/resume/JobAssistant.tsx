@@ -117,11 +117,6 @@ export function JobAssistant() {
   };
 
   const generateCoverLetter = async () => {
-    if (!resumeData) {
-      alert('Please create a resume first to generate a cover letter.');
-      return;
-    }
-
     if (!jobPosting.title || !jobPosting.company || !jobPosting.description) {
       alert('Please fill in the job title, company, and description.');
       return;
@@ -129,30 +124,44 @@ export function JobAssistant() {
 
     setLoading(true);
     try {
-      // Try TensorFlow.js model first (client-side only)
-      if (typeof window !== 'undefined') {
-        try {
-          const { generateCoverLetterWithTensorFlow, isTensorFlowAvailable } = await import('@/lib/ai/tensorflow-model');
-          if (isTensorFlowAvailable()) {
-            const tfCoverLetter = await generateCoverLetterWithTensorFlow(resumeData, jobPosting);
-            setCoverLetter(tfCoverLetter);
-            setLoading(false);
-            return;
-          }
-        } catch (error) {
-          console.warn('TensorFlow model not available, using fallback:', error);
-        }
-      }
+      // Use minimal resume data if no resume exists
+      const resumeDataToUse = resumeData || {
+        personalInfo: {
+          firstName: 'Your',
+          lastName: 'Name',
+          email: 'your.email@example.com',
+          phone: '(555) 555-5555',
+          address: ''
+        },
+        summary: '',
+        experience: [],
+        education: [],
+        skills: [],
+        certifications: [],
+        languages: []
+      };
+
+      console.log('Generating cover letter with:', { 
+        hasResume: !!resumeData, 
+        jobTitle: jobPosting.title, 
+        company: jobPosting.company,
+        descriptionLength: jobPosting.description?.length || 0
+      });
+
+      // Use server action (Gemini or local AI)
+      const result = await generateCoverLetterAction(resumeDataToUse, jobPosting);
+      console.log('Cover letter result:', result);
       
-      // Fallback to server action (Gemini or local AI)
-      const result = await generateCoverLetterAction(resumeData, jobPosting);
       if (result.success && result.coverLetter) {
         setCoverLetter(result.coverLetter);
+        console.log('Cover letter generated successfully, length:', result.coverLetter.length);
       } else {
-        alert('Failed to generate cover letter. Please try again.');
+        console.error('Failed to generate cover letter:', result);
+        alert(`Failed to generate cover letter: ${result.error || 'Unknown error'}`);
       }
     } catch (error) {
-      alert('An error occurred while generating the cover letter.');
+      console.error('Cover letter generation error:', error);
+      alert(`An error occurred while generating the cover letter: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setLoading(false);
     }
@@ -166,22 +175,7 @@ export function JobAssistant() {
 
     setQuestionsLoading(true);
     try {
-      // Try TensorFlow.js model first (client-side only)
-      if (typeof window !== 'undefined') {
-        try {
-          const { generateInterviewQuestionsWithTensorFlow, isTensorFlowAvailable } = await import('@/lib/ai/tensorflow-model');
-          if (isTensorFlowAvailable()) {
-            const tfQuestions = await generateInterviewQuestionsWithTensorFlow(jobPosting);
-            setInterviewQuestions(tfQuestions);
-            setQuestionsLoading(false);
-            return;
-          }
-        } catch (error) {
-          console.warn('TensorFlow model not available, using fallback:', error);
-        }
-      }
-      
-      // Fallback to server action (Gemini or local AI)
+      // Use server action (Gemini or local AI)
       const result = await generateInterviewQuestionsAction(jobPosting);
       if (result.success && result.questions) {
         setInterviewQuestions(result.questions);
@@ -253,10 +247,6 @@ export function JobAssistant() {
           <p className="text-xl text-secondary-600 max-w-3xl font-sans">
             Get AI-powered help with your job applications. Generate personalized cover letters, analyze job requirements, and prepare for interviews.
           </p>
-          <div className="mt-4 flex items-center gap-2 text-sm text-secondary-500">
-            <Sparkles className="h-4 w-4" />
-            <span>Using enhanced local AI - works offline and instantly</span>
-          </div>
           
           {/* Local Storage Notice for Guest Users */}
           {!user && !userLoading && (
@@ -488,7 +478,7 @@ export function JobAssistant() {
                     <button
                       className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
                       onClick={generateCoverLetter}
-                      disabled={loading || !resumeData || !jobPosting.title.trim() || !jobPosting.company.trim() || !jobPosting.description.trim()}
+                      disabled={loading || !jobPosting.title.trim() || !jobPosting.company.trim() || !jobPosting.description.trim()}
                     >
                       {loading && <div className="loading-spinner w-4 h-4 mr-2" />}
                       <Sparkles className="h-4 w-4 mr-2" />
