@@ -129,6 +129,22 @@ export function JobAssistant() {
 
     setLoading(true);
     try {
+      // Try TensorFlow.js model first (client-side only)
+      if (typeof window !== 'undefined') {
+        try {
+          const { generateCoverLetterWithTensorFlow, isTensorFlowAvailable } = await import('@/lib/ai/tensorflow-model');
+          if (isTensorFlowAvailable()) {
+            const tfCoverLetter = await generateCoverLetterWithTensorFlow(resumeData, jobPosting);
+            setCoverLetter(tfCoverLetter);
+            setLoading(false);
+            return;
+          }
+        } catch (error) {
+          console.warn('TensorFlow model not available, using fallback:', error);
+        }
+      }
+      
+      // Fallback to server action (Gemini or local AI)
       const result = await generateCoverLetterAction(resumeData, jobPosting);
       if (result.success && result.coverLetter) {
         setCoverLetter(result.coverLetter);
@@ -150,6 +166,22 @@ export function JobAssistant() {
 
     setQuestionsLoading(true);
     try {
+      // Try TensorFlow.js model first (client-side only)
+      if (typeof window !== 'undefined') {
+        try {
+          const { generateInterviewQuestionsWithTensorFlow, isTensorFlowAvailable } = await import('@/lib/ai/tensorflow-model');
+          if (isTensorFlowAvailable()) {
+            const tfQuestions = await generateInterviewQuestionsWithTensorFlow(jobPosting);
+            setInterviewQuestions(tfQuestions);
+            setQuestionsLoading(false);
+            return;
+          }
+        } catch (error) {
+          console.warn('TensorFlow model not available, using fallback:', error);
+        }
+      }
+      
+      // Fallback to server action (Gemini or local AI)
       const result = await generateInterviewQuestionsAction(jobPosting);
       if (result.success && result.questions) {
         setInterviewQuestions(result.questions);
@@ -221,6 +253,10 @@ export function JobAssistant() {
           <p className="text-xl text-secondary-600 max-w-3xl font-sans">
             Get AI-powered help with your job applications. Generate personalized cover letters, analyze job requirements, and prepare for interviews.
           </p>
+          <div className="mt-4 flex items-center gap-2 text-sm text-secondary-500">
+            <Sparkles className="h-4 w-4" />
+            <span>Using enhanced local AI - works offline and instantly</span>
+          </div>
           
           {/* Local Storage Notice for Guest Users */}
           {!user && !userLoading && (
@@ -306,7 +342,7 @@ export function JobAssistant() {
                 <button
                   className="btn btn-primary w-full text-white inline-flex items-center justify-center"
                   onClick={analyzeJob}
-                  disabled={analysisLoading || !jobPosting.description.trim()}
+                  disabled={analysisLoading || !jobPosting.description || !jobPosting.description.trim()}
                 >
                   {analysisLoading && <div className="loading-spinner w-4 h-4 mr-2" />}
                   <Target className="h-4 w-4 mr-2" />
@@ -452,7 +488,7 @@ export function JobAssistant() {
                     <button
                       className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
                       onClick={generateCoverLetter}
-                      disabled={loading || !resumeData || !jobPosting.title || !jobPosting.company}
+                      disabled={loading || !resumeData || !jobPosting.title.trim() || !jobPosting.company.trim() || !jobPosting.description.trim()}
                     >
                       {loading && <div className="loading-spinner w-4 h-4 mr-2" />}
                       <Sparkles className="h-4 w-4 mr-2" />
@@ -513,7 +549,7 @@ export function JobAssistant() {
                   <button
                     className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
                     onClick={generateInterviewQuestions}
-                    disabled={questionsLoading || !jobPosting.title || !jobPosting.company}
+                    disabled={questionsLoading || !jobPosting.title.trim() || !jobPosting.company.trim() || !jobPosting.description.trim()}
                   >
                     {questionsLoading && <div className="loading-spinner w-4 h-4 mr-2" />}
                     <Sparkles className="h-4 w-4 mr-2" />

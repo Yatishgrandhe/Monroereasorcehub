@@ -1,0 +1,25 @@
+{
+  "training_data": [
+    {
+      "resume": {
+        "summary": "Experienced software developer with 5 years in web development",
+        "experience": [
+          {
+            "position": "Senior Developer",
+            "company": "Tech Corp",
+            "description": "Led development of web applications using React and Node.js"
+          }
+        ],
+        "skills": ["JavaScript", "React", "Node.js", "TypeScript"]
+      },
+      "job_description": "We are seeking a Senior Software Engineer to join our team. The ideal candidate will have experience with React, Node.js, and modern web technologies. You will work on building scalable web applications and collaborate with cross-functional teams.",
+      "cover_letter": "Dear Hiring Manager,\n\nI am writing to express my interest in the Senior Software Engineer position. With 5 years of experience in web development, I have a proven track record of building scalable applications using React and Node.js.\n\nIn my role as Senior Developer at Tech Corp, I led the development of web applications and collaborated effectively with cross-functional teams. My expertise in JavaScript, React, Node.js, and TypeScript aligns perfectly with your requirements.\n\nI am excited about the opportunity to contribute to your team and would welcome the chance to discuss how my background aligns with your needs.\n\nSincerely,\n[Your Name]"
+    }
+  ],
+  "instructions": {
+    "minimum_examples": "500-1000 for basic model, 5000+ for good quality",
+    "format": "Each example should have resume data, job description, and corresponding cover letter",
+    "data_collection": "You can use your existing local AI to generate initial examples, then refine them"
+  }
+}
+

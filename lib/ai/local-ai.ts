@@ -303,7 +303,12 @@ export function enhanceBulletPointLocal(originalText: string, context?: string):
  * Check if we should use local AI (fallback mode)
  */
 export function shouldUseLocalAI(): boolean {
-  return !process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === '';
+  // Always use local AI as primary method - it's fast, reliable, and works offline
+  // Gemini can be used as enhancement if API key is available
+  const hasGeminiKey = process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== '';
+  // For now, prefer local AI for consistency and reliability
+  // Set to false if you want to prefer Gemini when available
+  return true; // Always use local AI as primary
 }
 
 // Advanced helper functions
@@ -593,8 +598,27 @@ function generateExperienceParagraph(
   
   const topExp = experience[0];
   const relevantAspects = findRelevantAspects(topExp.description, jobDescription);
+  const achievements = topExp.achievements || [];
+  const hasQuantifiedResults = achievements.some(ach => /\d+/.test(ach));
   
-  return `In my role as ${topExp.position} at ${topExp.company}, I ${relevantAspects}. This experience has equipped me with the skills and knowledge necessary to excel in the ${jobTitle} position.`;
+  // Build more detailed experience paragraph
+  let paragraph = `In my role as ${topExp.position} at ${topExp.company}, I ${relevantAspects}`;
+  
+  // Add specific achievement if available
+  if (achievements.length > 0 && hasQuantifiedResults) {
+    const topAchievement = achievements.find(ach => /\d+/.test(ach)) || achievements[0];
+    paragraph += `. Notably, I ${topAchievement.toLowerCase()}`;
+  } else if (topExp.description) {
+    // Extract key action from description
+    const keyAction = extractKeyAction(topExp.description);
+    if (keyAction) {
+      paragraph += `. I ${keyAction}`;
+    }
+  }
+  
+  paragraph += `. This experience has equipped me with the skills and knowledge necessary to excel in the ${jobTitle} position.`;
+  
+  return paragraph;
 }
 
 function generateSkillsParagraph(
@@ -605,8 +629,24 @@ function generateSkillsParagraph(
     return `I am eager to bring my dedication and work ethic to your team.`;
   }
   
-  const topSkills = skills.slice(0, 4).join(', ');
-  return `My proficiency in ${topSkills} aligns perfectly with the requirements of this role. I am confident that these skills, combined with my passion for excellence, will enable me to make a significant contribution to ${extractCompanyName(jobDescription) || 'your organization'}.`;
+  const topSkills = skills.slice(0, 4);
+  const skillList = topSkills.length > 2 
+    ? `${topSkills.slice(0, -1).join(', ')}, and ${topSkills[topSkills.length - 1]}`
+    : topSkills.join(' and ');
+  
+  // Extract company name or use generic
+  const companyName = extractCompanyName(jobDescription) || 'your organization';
+  
+  // Add context about how skills apply
+  const jobLower = jobDescription.toLowerCase();
+  let skillContext = '';
+  if (jobLower.includes('team') || jobLower.includes('collaborat')) {
+    skillContext = ' I am particularly excited about the opportunity to collaborate with your team and contribute to your continued success.';
+  } else if (jobLower.includes('innov') || jobLower.includes('develop')) {
+    skillContext = ' I am eager to apply these skills to drive innovation and contribute to your organization\'s growth.';
+  }
+  
+  return `My proficiency in ${skillList} aligns perfectly with the requirements of this role. I am confident that these skills, combined with my passion for excellence and commitment to delivering results, will enable me to make a significant contribution to ${companyName}.${skillContext}`;
 }
 
 function generateClosingParagraph(company: string, title: string): string {
@@ -626,25 +666,72 @@ function findRelevantAspects(experience: string, jobDescription: string): string
   const expLower = experience.toLowerCase();
   const jobLower = jobDescription.toLowerCase();
   
+  // More sophisticated matching
   if (jobLower.includes('team') && expLower.includes('team')) {
-    return 'successfully managed cross-functional teams and collaborated effectively';
+    return 'successfully managed cross-functional teams and collaborated effectively with stakeholders';
   }
   if (jobLower.includes('project') && expLower.includes('project')) {
-    return 'led multiple projects from conception to completion';
+    return 'led multiple projects from conception to completion, consistently delivering on time and within budget';
   }
   if (jobLower.includes('client') && expLower.includes('client')) {
-    return 'built strong relationships with clients and stakeholders';
+    return 'built strong relationships with clients and stakeholders, resulting in increased satisfaction and retention';
   }
   if (jobLower.includes('develop') && expLower.includes('develop')) {
-    return 'developed innovative solutions and improved processes';
+    return 'developed innovative solutions and improved processes, driving efficiency and productivity';
+  }
+  if (jobLower.includes('manage') && expLower.includes('manage')) {
+    return 'managed complex operations and streamlined workflows to optimize performance';
+  }
+  if (jobLower.includes('analyze') || jobLower.includes('data')) {
+    return 'analyzed data and metrics to inform strategic decisions and drive business growth';
+  }
+  if (jobLower.includes('sales') || jobLower.includes('revenue')) {
+    return 'drove sales growth and revenue generation through strategic initiatives and relationship building';
   }
   
-  return 'gained valuable experience and achieved measurable results';
+  return 'gained valuable experience and achieved measurable results that directly contributed to organizational success';
 }
 
 function extractCompanyName(jobDescription: string): string | null {
-  // Simple extraction - could be enhanced
+  // Try to extract company name from common patterns
+  const patterns = [
+    /at\s+([A-Z][a-zA-Z\s&]+?)(?:\s+is|,|\s+we|$)/i,
+    /join\s+([A-Z][a-zA-Z\s&]+?)(?:\s+as|,|\s+we|$)/i,
+    /([A-Z][a-zA-Z\s&]+?)\s+is\s+seeking/i
+  ];
+  
+  for (const pattern of patterns) {
+    const match = jobDescription.match(pattern);
+    if (match && match[1]) {
+      const company = match[1].trim();
+      // Filter out common false positives
+      if (!company.match(/^(We|Our|The|This|Position|Role|Job)/i) && company.length > 2 && company.length < 50) {
+        return company;
+      }
+    }
+  }
+  
   return null;
+}
+
+function extractKeyAction(description: string): string {
+  // Extract the main action verb and context
+  const actionVerbs = ['developed', 'managed', 'led', 'created', 'implemented', 'improved', 'achieved', 'delivered'];
+  const lowerDesc = description.toLowerCase();
+  
+  for (const verb of actionVerbs) {
+    if (lowerDesc.includes(verb)) {
+      // Extract the phrase after the verb
+      const verbIndex = lowerDesc.indexOf(verb);
+      const afterVerb = description.substring(verbIndex + verb.length).trim();
+      const phrase = afterVerb.split(/[.,;]/)[0].trim();
+      if (phrase.length > 10 && phrase.length < 80) {
+        return verb + ' ' + phrase.toLowerCase();
+      }
+    }
+  }
+  
+  return description.split(/[.,;]/)[0].toLowerCase().trim();
 }
 
 // Helper functions for interview questions

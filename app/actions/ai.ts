@@ -24,20 +24,20 @@ import { createClient } from '@/lib/supabase/server';
 
 export async function generateSummaryAction(experience: ResumeData['experience'], targetJob?: string) {
   try {
-    // Check authentication
-    const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
-    if (authError || !user) {
-      return { success: false, error: 'Authentication required' };
-    }
-
+    // Use local AI for all users (works offline and for guests)
     let summary: string;
     if (shouldUseLocalAI()) {
       summary = generateProfessionalSummaryLocal(experience as ResumeExperience[], targetJob);
     } else {
       try {
-        summary = await generateProfessionalSummary(experience);
+        const supabase = await createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          summary = await generateProfessionalSummary(experience);
+        } else {
+          // Use local AI for guest users
+          summary = generateProfessionalSummaryLocal(experience as ResumeExperience[], targetJob);
+        }
       } catch (error) {
         console.error('Gemini failed, using local AI fallback:', error);
         summary = generateProfessionalSummaryLocal(experience as ResumeExperience[], targetJob);
@@ -53,26 +53,26 @@ export async function generateSummaryAction(experience: ResumeData['experience']
 
 export async function enhanceBulletPointAction(originalText: string, context?: string) {
   try {
-    // Check authentication
-    const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
-    if (authError || !user) {
-      return { success: false, error: 'Authentication required' };
-    }
-
+    // Use local AI for all users (works offline and for guests)
     let enhanced: string;
     if (shouldUseLocalAI()) {
       enhanced = enhanceBulletPointLocal(originalText, context);
     } else {
       try {
-        enhanced = await enhanceBulletPoint(originalText, context);
+        const supabase = await createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          enhanced = await enhanceBulletPoint(originalText, context);
+        } else {
+          // Use local AI for guest users
+          enhanced = enhanceBulletPointLocal(originalText, context);
+        }
       } catch (error) {
         console.error('Gemini failed, using local AI fallback:', error);
         enhanced = enhanceBulletPointLocal(originalText, context);
       }
     }
-
+    
     return { success: true, enhanced };
   } catch (error) {
     console.error('Error enhancing bullet point:', error);
@@ -82,26 +82,26 @@ export async function enhanceBulletPointAction(originalText: string, context?: s
 
 export async function suggestSkillsAction(jobDescription: string, currentSkills: string[] = []) {
   try {
-    // Check authentication
-    const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
-    if (authError || !user) {
-      return { success: false, error: 'Authentication required' };
-    }
-
+    // Use local AI for all users (works offline and for guests)
     let skills: string[];
     if (shouldUseLocalAI()) {
       skills = suggestSkillsLocal(jobDescription, currentSkills);
     } else {
       try {
-        skills = await suggestSkills(jobDescription, currentSkills);
+        const supabase = await createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          skills = await suggestSkills(jobDescription, currentSkills);
+        } else {
+          // Use local AI for guest users
+          skills = suggestSkillsLocal(jobDescription, currentSkills);
+        }
       } catch (error) {
         console.error('Gemini failed, using local AI fallback:', error);
         skills = suggestSkillsLocal(jobDescription, currentSkills);
       }
     }
-
+    
     return { success: true, skills };
   } catch (error) {
     console.error('Error suggesting skills:', error);
@@ -112,6 +112,7 @@ export async function suggestSkillsAction(jobDescription: string, currentSkills:
 export async function generateCoverLetterAction(resumeData: ResumeData, jobPosting: JobPosting) {
   try {
     // Use local AI for offline functionality (works for all users)
+    // Note: TensorFlow.js models are called from client-side components, not server actions
     let coverLetter: string;
     if (shouldUseLocalAI()) {
       coverLetter = generateCoverLetterLocal(resumeData, jobPosting);
@@ -170,6 +171,7 @@ export async function analyzeJobAction(jobDescription: string) {
 export async function generateInterviewQuestionsAction(jobPosting: JobPosting) {
   try {
     // Use local AI for offline functionality (works for all users)
+    // Note: TensorFlow.js models are called from client-side components, not server actions
     let questions: string[];
     if (shouldUseLocalAI()) {
       questions = generateInterviewQuestionsLocal(jobPosting);

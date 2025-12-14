@@ -252,7 +252,7 @@ export function InspectProtection() {
     // Cleanup function
     return () => {
       if (devToolsInterval) {
-        clearInterval(devToolsInterval);
+      clearInterval(devToolsInterval);
       }
       clearInterval(clearConsoleInterval);
       document.removeEventListener('contextmenu', handleContextMenu);
