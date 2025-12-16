@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Briefcase, FileText, Target, Users, Sparkles, ArrowRight, CheckCircle, Star, TrendingUp, Info, LogIn, Database } from 'lucide-react';
+import { Briefcase, FileText, Target, Users, Sparkles, ArrowRight, CheckCircle, TrendingUp, Info, LogIn, Database } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -47,30 +47,6 @@ const benefits = [
   'Save as many resumes as you need'
 ];
 
-// testimonials - needs review
-const testimonials = [
-  {
-    name: 'Sarah Johnson',
-    role: 'Software Developer',
-    company: 'Monroe Tech Solutions',
-    content: 'The resume builder actually helped me get the job I wanted! The suggestions made sense and the cover letter tool saved me a ton of time.',
-    rating: 5
-  },
-  {
-    name: 'Michael Chen',
-    role: 'Registered Nurse',
-    company: 'Atrium Health Union',
-    content: 'I\'m pretty new to all this job stuff, so the interview questions really helped me out. I actually felt ready when I went in there.',
-    rating: 5
-  },
-  {
-    name: 'Emily Rodriguez',
-    role: 'Elementary Teacher',
-    company: 'Union County Public Schools',
-    content: 'The job board made it way easier to find stuff around here. The application helper thing really made a difference - I think it helped me stand out.',
-    rating: 5
-  }
-];
 
 // main page component - hack
 export default function CareerCenterPage() {
@@ -340,41 +316,6 @@ export default function CareerCenterPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="title-section mb-4">
-              Real Stories
-            </h2>
-            <p className="text-xl text-secondary-600 max-w-3xl mx-auto font-sans">
-              Hear from neighbors who found their next opportunity with a little help from us.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} hover>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-1 mb-4">
-                    {Array.from({ length: testimonial.rating }).map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-secondary-700 mb-4 italic font-sans">
-                    "{testimonial.content}"
-                  </p>
-                  <div>
-                    <p className="font-semibold text-secondary-900 font-sans">{testimonial.name}</p>
-                    <p className="text-sm text-secondary-600 font-sans">{testimonial.role}</p>
-                    <p className="text-sm text-primary-600 font-sans">{testimonial.company}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Call to Action */}
       <section className="section-padding bg-gradient-to-r from-primary-600 to-primary-700 text-white">

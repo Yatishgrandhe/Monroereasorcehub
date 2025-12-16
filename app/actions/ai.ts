@@ -33,7 +33,7 @@ export async function generateSummaryAction(experience: ResumeData['experience']
         const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          summary = await generateProfessionalSummary(experience);
+        summary = await generateProfessionalSummary(experience);
         } else {
           // Use local AI for guest users
           summary = generateProfessionalSummaryLocal(experience as ResumeExperience[], targetJob);
@@ -62,7 +62,7 @@ export async function enhanceBulletPointAction(originalText: string, context?: s
         const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          enhanced = await enhanceBulletPoint(originalText, context);
+        enhanced = await enhanceBulletPoint(originalText, context);
         } else {
           // Use local AI for guest users
           enhanced = enhanceBulletPointLocal(originalText, context);
@@ -72,7 +72,7 @@ export async function enhanceBulletPointAction(originalText: string, context?: s
         enhanced = enhanceBulletPointLocal(originalText, context);
       }
     }
-    
+
     return { success: true, enhanced };
   } catch (error) {
     console.error('Error enhancing bullet point:', error);
@@ -91,7 +91,7 @@ export async function suggestSkillsAction(jobDescription: string, currentSkills:
         const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          skills = await suggestSkills(jobDescription, currentSkills);
+        skills = await suggestSkills(jobDescription, currentSkills);
         } else {
           // Use local AI for guest users
           skills = suggestSkillsLocal(jobDescription, currentSkills);
@@ -101,7 +101,7 @@ export async function suggestSkillsAction(jobDescription: string, currentSkills:
         skills = suggestSkillsLocal(jobDescription, currentSkills);
       }
     }
-    
+
     return { success: true, skills };
   } catch (error) {
     console.error('Error suggesting skills:', error);
@@ -118,14 +118,14 @@ export async function generateCoverLetterAction(resumeData: ResumeData, jobPosti
       coverLetter = generateCoverLetterLocal(resumeData, jobPosting);
     } else {
       try {
-        const supabase = await createClient();
+    const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           coverLetter = await generateCoverLetter(resumeData, jobPosting);
         } else {
           // Use local AI for guest users
           coverLetter = generateCoverLetterLocal(resumeData, jobPosting);
-        }
+    }
       } catch (error) {
         console.error('Gemini failed, using local AI fallback:', error);
         coverLetter = generateCoverLetterLocal(resumeData, jobPosting);
@@ -147,7 +147,7 @@ export async function analyzeJobAction(jobDescription: string) {
       analysis = analyzeJobDescriptionLocal(jobDescription);
     } else {
       try {
-        const supabase = await createClient();
+    const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           analysis = await analyzeJobDescription(jobDescription);
@@ -177,14 +177,14 @@ export async function generateInterviewQuestionsAction(jobPosting: JobPosting) {
       questions = generateInterviewQuestionsLocal(jobPosting);
     } else {
       try {
-        const supabase = await createClient();
+    const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           questions = await generateInterviewQuestions(jobPosting);
         } else {
           // Use local AI for guest users
           questions = generateInterviewQuestionsLocal(jobPosting);
-        }
+    }
       } catch (error) {
         console.error('Gemini failed, using local AI fallback:', error);
         questions = generateInterviewQuestionsLocal(jobPosting);

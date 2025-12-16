@@ -94,15 +94,15 @@ export function Header() {
               </Link>
             ))}
             {/* My Resumes - available for both user types */}
-            <Link
+              <Link
               href="/career/saved-resumes"
-              className={cn(
-                'nav-link text-sm font-medium whitespace-nowrap',
+                className={cn(
+                  'nav-link text-sm font-medium whitespace-nowrap',
                 pathname === '/career/saved-resumes' ? 'active' : 'text-secondary-600'
-              )}
-            >
+                )}
+              >
               My Resumes
-            </Link>
+              </Link>
           </div>
 
           {/* Desktop Actions */}
@@ -177,35 +177,35 @@ export function Header() {
                 </Link>
               ))}
               {/* My Resumes - available for both user types */}
-              <Link
+                <Link
                 href="/career/saved-resumes"
-                className={cn(
-                  'block px-4 py-3 text-base font-medium transition-all duration-200 rounded-lg',
+                  className={cn(
+                    'block px-4 py-3 text-base font-medium transition-all duration-200 rounded-lg',
                   pathname === '/career/saved-resumes'
-                    ? 'active text-white'
-                    : 'text-secondary-600 hover:text-white hover:bg-gradient-logo'
-                )}
-                onClick={() => setMobileMenuOpen(false)}
-              >
+                      ? 'active text-white'
+                      : 'text-secondary-600 hover:text-white hover:bg-gradient-logo'
+                  )}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                 My Resumes
-              </Link>
+                </Link>
               <div className="pt-4 space-y-3">
                 <Button variant="outline" size="sm" className="w-full nav-button-glow" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
                   Share Resource
                 </Button>
 
                 {user ? (
-                  <div className="flex items-center justify-between px-3 py-2 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
-                    <div className="flex items-center space-x-2">
-                      <UserCircle className="h-4 w-4 text-primary-600" />
-                      <span className="text-sm text-secondary-700 font-medium">
-                        {user.user_metadata?.full_name || user.email?.split('@')[0]}
-                      </span>
+                    <div className="flex items-center justify-between px-3 py-2 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
+                      <div className="flex items-center space-x-2">
+                        <UserCircle className="h-4 w-4 text-primary-600" />
+                        <span className="text-sm text-secondary-700 font-medium">
+                          {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                        </span>
+                      </div>
+                      <Button variant="ghost" size="sm" className="nav-button-glow" onClick={handleSignOut}>
+                        <LogOut className="h-4 w-4" />
+                      </Button>
                     </div>
-                    <Button variant="ghost" size="sm" className="nav-button-glow" onClick={handleSignOut}>
-                      <LogOut className="h-4 w-4" />
-                    </Button>
-                  </div>
                 ) : (
                   <>
                     <Button variant="outline" size="sm" className="w-full nav-button-glow" asChild href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>

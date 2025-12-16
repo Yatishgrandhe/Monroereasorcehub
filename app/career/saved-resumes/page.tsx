@@ -55,17 +55,17 @@ export default function SavedResumesPage() {
   const loadResumes = async () => {
     try {
       setLoading(true);
-      
+
       if (user) {
         // Load from database for logged-in users
-        const { data, error } = await supabase
-          .from('resumes')
-          .select('*')
-          .eq('user_id', user.id)
-          .order('updated_at', { ascending: false });
+      const { data, error } = await supabase
+        .from('resumes')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('updated_at', { ascending: false });
 
-        if (error) throw error;
-        setResumes(data || []);
+      if (error) throw error;
+      setResumes(data || []);
       } else {
         // Load from local storage for guest users
         if (typeof window !== 'undefined') {
@@ -106,12 +106,12 @@ export default function SavedResumesPage() {
     try {
       if (user) {
         // Delete from database for logged-in users
-        const { error } = await supabase
-          .from('resumes')
-          .delete()
-          .eq('id', id);
+      const { error } = await supabase
+        .from('resumes')
+        .delete()
+        .eq('id', id);
 
-        if (error) throw error;
+      if (error) throw error;
       } else {
         // Delete from local storage for guest users
         if (typeof window !== 'undefined') {
@@ -152,31 +152,31 @@ export default function SavedResumesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="loading-spinner w-12 h-12 mx-auto mb-4"></div>
-          <p className="text-secondary-600">Loading your resumes...</p>
+        <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="loading-spinner w-12 h-12 mx-auto mb-4"></div>
+            <p className="text-secondary-600">Loading your resumes...</p>
+          </div>
         </div>
-      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-secondary-50">
-      <div className="container-custom section-padding">
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="title-section mb-2">My Saved Resumes</h1>
-              <p className="text-xl text-secondary-600 max-w-3xl font-sans">
+      <div className="min-h-screen bg-secondary-50">
+        <div className="container-custom section-padding">
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h1 className="title-section mb-2">My Saved Resumes</h1>
+                <p className="text-xl text-secondary-600 max-w-3xl font-sans">
                 {user ? 'Manage and export your saved resumes' : 'View and manage your resume saved in your browser'}
-              </p>
+                </p>
+              </div>
+              <Button variant="gradient" size="md" asChild href="/career/resume-builder">
+                <Plus className="h-4 w-4 mr-2" />
+                Create New Resume
+              </Button>
             </div>
-            <Button variant="gradient" size="md" asChild href="/career/resume-builder">
-              <Plus className="h-4 w-4 mr-2" />
-              Create New Resume
-            </Button>
-          </div>
 
           {/* Guest User Notice */}
           {!user && (
@@ -217,9 +217,9 @@ export default function SavedResumesPage() {
               </Card>
             </div>
           )}
-        </div>
+          </div>
 
-        {resumes.length === 0 ? (
+          {resumes.length === 0 ? (
             <Card>
               <CardContent className="text-center py-12">
                 <FileText className="h-16 w-16 mx-auto mb-4 text-secondary-400" />
@@ -304,8 +304,8 @@ export default function SavedResumesPage() {
               ))}
             </div>
           )}
+        </div>
       </div>
-    </div>
   );
 }
 

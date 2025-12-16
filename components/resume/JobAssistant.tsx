@@ -85,9 +85,9 @@ export function JobAssistant() {
         if (user) {
           // Load all resumes from database for logged in users
           const { data: resumesData, error } = await supabase
-            .from('resumes')
+          .from('resumes')
             .select('id, title, resume_data, updated_at')
-            .eq('user_id', user.id)
+          .eq('user_id', user.id)
             .order('updated_at', { ascending: false });
 
           if (error) throw error;
@@ -250,7 +250,7 @@ export function JobAssistant() {
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       // Save to local storage for all users (guests and logged in)
       const savedCoverLetters = JSON.parse(localStorage.getItem('savedCoverLetters') || '[]');
       const newCoverLetter = {
@@ -266,7 +266,7 @@ export function JobAssistant() {
       localStorage.setItem('savedCoverLetters', JSON.stringify(savedCoverLetters.slice(0, 10))); // Keep last 10
       
       if (user) {
-        alert('Cover letter saved successfully!');
+      alert('Cover letter saved successfully!');
       } else {
         alert('Cover letter saved to your browser\'s local storage! Your data will persist on this device.');
       }
@@ -996,18 +996,18 @@ export function JobAssistant() {
                     </div>
 
                     {/* Generated Questions */}
-                    <div className="space-y-3">
+                  <div className="space-y-3">
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="font-semibold text-secondary-900">Practice Questions</h4>
                         <Badge variant="outline" className="text-xs">
                           {interviewQuestions.length} question{interviewQuestions.length > 1 ? 's' : ''}
                         </Badge>
                       </div>
-                      {interviewQuestions.map((question, index) => (
+                    {interviewQuestions.map((question, index) => (
                         <div key={index} className="p-4 bg-secondary-50 rounded-lg border border-secondary-200 hover:border-primary-300 transition-colors">
-                          <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3">
                             <div className="w-7 h-7 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
-                              {index + 1}
+                            {index + 1}
                             </div>
                             <div className="flex-1">
                               <p className="text-secondary-700 font-medium mb-2">{question}</p>
