@@ -62,45 +62,42 @@ export function Header() {
   return (
     <header className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-secondary-200 sticky top-0 z-50 w-full">
       <nav className="w-full max-w-[1920px] mx-auto" aria-label="Global">
-        {/* Responsive height: h-14 (56px) on mobile, h-16 (64px) on md, h-[72px] on lg, h-20 (80px) on xl, h-24 (96px) on 2xl */}
-        <div className="flex items-center justify-between h-14 sm:h-[60px] md:h-16 lg:h-[72px] xl:h-20 2xl:h-24 px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 transition-all duration-300">
-          {/* logo section - fully responsive, scales with nav bar height */}
+        {/* Reduced responsive height: h-12 (48px) on mobile, h-[52px] on sm, h-14 (56px) on md, h-16 (64px) on lg+ */}
+        <div className="flex items-center justify-between h-12 sm:h-[52px] md:h-14 lg:h-16 px-3 sm:px-4 md:px-5 lg:px-6 xl:px-8 transition-all duration-300">
+          {/* logo section - smaller, more compact */}
           <div className="flex items-center flex-shrink-0">
-            <Link href="/" className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-2.5 lg:space-x-3 xl:space-x-3.5 logo-container">
-              {/* Logo scales proportionally with nav bar height */}
-              {/* Nav heights: 56px → 60px → 64px → 72px → 80px → 96px */}
-              {/* Logo sizes: 32px (57%) → 36px (60%) → 40px (62.5%) → 44px (61%) → 48px (60%) → 56px (58%) */}
-              <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 2xl:w-14 2xl:h-14 rounded-lg overflow-hidden shadow-lg flex-shrink-0 transition-all duration-300 ease-in-out">
+            <Link href="/" className="flex items-center space-x-1 sm:space-x-1.5 md:space-x-2 logo-container">
+              {/* Smaller logo sizes: 28px → 32px → 36px → 40px */}
+              <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-lg overflow-hidden shadow-lg flex-shrink-0 transition-all duration-300 ease-in-out">
                 <img
                   src="/logo.png"
                   alt="Monroe Resource Hub Logo"
                   className="w-full h-full object-contain transition-all duration-300"
                 />
               </div>
-              {/* Text scales proportionally with logo and nav bar */}
-              {/* Mobile: text-sm (14px), Small: text-base (16px), Medium: text-lg (18px), Large: text-xl (20px), XL: text-2xl (24px), 2XL: text-3xl (30px) */}
-              <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-bold logo-title hidden sm:inline transition-all duration-300 ease-in-out leading-tight">
+              {/* Smaller text sizes: text-xs → text-sm → text-base → text-lg */}
+              <span className="text-xs sm:text-sm md:text-base lg:text-lg font-bold logo-title hidden sm:inline transition-all duration-300 ease-in-out leading-tight">
                 Monroe Resource Hub
               </span>
               {/* Mobile-only abbreviated version */}
-              <span className="text-sm sm:text-base font-bold logo-title sm:hidden transition-all duration-300">
+              <span className="text-xs sm:text-sm font-bold logo-title sm:hidden transition-all duration-300">
                 MRH
               </span>
             </Link>
           </div>
 
-          {/* desktop nav - fully responsive spacing */}
-          <div className="hidden lg:flex lg:items-center lg:space-x-0.5 xl:space-x-1 2xl:space-x-2 flex-1 justify-center max-w-4xl mx-auto">
+          {/* desktop nav - smaller, more compact */}
+          <div className="hidden lg:flex lg:items-center lg:space-x-0.5 xl:space-x-1 flex-1 justify-center max-w-5xl mx-auto">
             {filteredNavigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 className={cn(
                   'nav-link font-medium whitespace-nowrap',
-                  // Text size: text-xs on lg, text-sm on xl, text-base on 2xl
-                  'text-xs xl:text-sm 2xl:text-base',
-                  // Padding: px-1.5 on lg, px-2 on xl, px-3 on 2xl
-                  'px-1.5 xl:px-2 2xl:px-3',
+                  // Smaller text: text-xs on all sizes
+                  'text-xs',
+                  // Smaller padding: px-1 on lg, px-1.5 on xl
+                  'px-1 xl:px-1.5',
                   pathname === item.href ? 'active' : 'text-secondary-600'
                 )}
               >
@@ -112,8 +109,8 @@ export function Header() {
               href="/career/saved-resumes"
               className={cn(
                 'nav-link font-medium whitespace-nowrap',
-                'text-xs xl:text-sm 2xl:text-base',
-                'px-1.5 xl:px-2 2xl:px-3',
+                'text-xs',
+                'px-1 xl:px-1.5',
                 pathname === '/career/saved-resumes' ? 'active' : 'text-secondary-600'
               )}
             >
@@ -121,70 +118,78 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Desktop Actions - fully responsive */}
-          <div className="hidden lg:flex lg:items-center lg:space-x-1.5 xl:space-x-2 2xl:space-x-3 flex-shrink-0">
-            <Button variant="ghost" size="sm" className="nav-button-glow px-1.5 xl:px-2 2xl:px-3 text-xs xl:text-sm 2xl:text-base" asChild href="/resources">
-              {/* Icon size: h-3.5 w-3.5 on lg, h-4 w-4 on xl, h-5 w-5 on 2xl */}
-              <Search className="h-3.5 w-3.5 xl:h-4 xl:w-4 2xl:h-5 2xl:w-5 mr-0.5 xl:mr-1 transition-all duration-200" />
+          {/* Desktop Actions - smaller, compact, sign out button always visible */}
+          <div className="hidden lg:flex lg:items-center lg:space-x-1 xl:space-x-1.5 flex-shrink-0">
+            <Button variant="ghost" size="sm" className="nav-button-glow px-1.5 xl:px-2 text-xs py-1.5 h-8" asChild href="/resources">
+              {/* Smaller icons: h-3.5 w-3.5 */}
+              <Search className="h-3.5 w-3.5 mr-0.5 xl:mr-1 transition-all duration-200" />
               <span className="hidden xl:inline">Search</span>
             </Button>
-            <Button variant="outline" size="sm" className="nav-button-glow px-1.5 xl:px-2 2xl:px-3 text-xs xl:text-sm 2xl:text-base whitespace-nowrap" asChild href="/submit-resource">
+            <Button variant="outline" size="sm" className="nav-button-glow px-1.5 xl:px-2 text-xs py-1.5 h-8 whitespace-nowrap" asChild href="/submit-resource">
               <span className="hidden xl:inline">Share Resource</span>
               <span className="xl:hidden">Share</span>
             </Button>
 
             {user ? (
-              <div className="flex items-center space-x-1 xl:space-x-2">
-                <div className="flex items-center space-x-1.5 xl:space-x-2 px-1.5 xl:px-2.5 2xl:px-3 py-1 xl:py-1.5 h-7 xl:h-8 2xl:h-9 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap transition-all duration-200">
-                  <UserCircle className="h-3.5 w-3.5 xl:h-4 xl:w-4 2xl:h-5 2xl:w-5 text-primary-600 flex-shrink-0 transition-all duration-200" />
-                  <span className="text-xs xl:text-sm 2xl:text-base text-secondary-700 font-medium max-w-[80px] xl:max-w-[100px] 2xl:max-w-[120px] truncate transition-all duration-200">
+              <div className="flex items-center space-x-1 xl:space-x-1.5">
+                <div className="flex items-center space-x-1.5 px-2 xl:px-2.5 py-1 h-8 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap transition-all duration-200">
+                  <UserCircle className="h-3.5 w-3.5 xl:h-4 xl:w-4 text-primary-600 flex-shrink-0 transition-all duration-200" />
+                  <span className="text-xs xl:text-sm text-secondary-700 font-medium max-w-[70px] xl:max-w-[90px] truncate transition-all duration-200">
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
-                <Button variant="ghost" size="sm" className="nav-button-glow p-1.5 xl:p-2" onClick={handleSignOut}>
-                  <LogOut className="h-3.5 w-3.5 xl:h-4 xl:w-4 2xl:h-5 2xl:w-5 transition-all duration-200" />
+                {/* Sign Out Button - always visible, properly sized */}
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="nav-button-glow p-1.5 h-8 w-8 flex items-center justify-center hover:bg-secondary-100" 
+                  onClick={handleSignOut}
+                  title="Sign Out"
+                  aria-label="Sign Out"
+                >
+                  <LogOut className="h-3.5 w-3.5 xl:h-4 xl:w-4 text-secondary-600 hover:text-primary-600 transition-all duration-200" />
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center space-x-1 xl:space-x-2">
-                <Button variant="outline" size="sm" className="nav-button-glow px-1.5 xl:px-2 2xl:px-3 text-xs xl:text-sm 2xl:text-base" asChild href="/auth/signin">
+              <div className="flex items-center space-x-1 xl:space-x-1.5">
+                <Button variant="outline" size="sm" className="nav-button-glow px-2 xl:px-2.5 text-xs py-1.5 h-8" asChild href="/auth/signin">
                   Sign In
                 </Button>
-                <Button variant="gradient" size="sm" className="nav-button-glow px-1.5 xl:px-2 2xl:px-3 text-xs xl:text-sm 2xl:text-base" asChild href="/auth/signup">
+                <Button variant="gradient" size="sm" className="nav-button-glow px-2 xl:px-2.5 text-xs py-1.5 h-8" asChild href="/auth/signup">
                   Sign Up
                 </Button>
               </div>
             )}
           </div>
 
-          {/* Mobile/Tablet menu button - responsive */}
+          {/* Mobile/Tablet menu button - smaller */}
           <div className="lg:hidden">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 sm:p-2 nav-button-glow"
+              className="p-1.5 nav-button-glow h-8 w-8 flex items-center justify-center"
             >
               <span className="sr-only">Open main menu</span>
               {mobileMenuOpen ? (
-                <X className="h-5 w-5 sm:h-6 sm:w-6 transition-all duration-200 rotate-180" />
+                <X className="h-4 w-4 sm:h-5 sm:w-5 transition-all duration-200 rotate-180" />
               ) : (
-                <Menu className="h-5 w-5 sm:h-6 sm:w-6 transition-all duration-200" />
+                <Menu className="h-4 w-4 sm:h-5 sm:w-5 transition-all duration-200" />
               )}
             </Button>
           </div>
         </div>
 
-        {/* Mobile/Tablet Navigation - responsive */}
+        {/* Mobile/Tablet Navigation - smaller, compact */}
         {mobileMenuOpen && (
           <div className="lg:hidden animate-slide-up">
-            <div className="px-3 sm:px-4 pt-3 sm:pt-4 pb-4 sm:pb-5 space-y-1.5 sm:space-y-2 bg-white/95 backdrop-blur-sm border-t border-secondary-200">
+            <div className="px-3 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm border-t border-secondary-200">
               {filteredNavigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'block px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base font-medium transition-all duration-200 rounded-lg',
+                    'block px-3 py-2 text-sm font-medium transition-all duration-200 rounded-lg',
                     pathname === item.href
                       ? 'active text-white'
                       : 'text-secondary-600 hover:text-white hover:bg-gradient-logo'
@@ -198,7 +203,7 @@ export function Header() {
               <Link
                 href="/career/saved-resumes"
                 className={cn(
-                  'block px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base font-medium transition-all duration-200 rounded-lg',
+                  'block px-3 py-2 text-sm font-medium transition-all duration-200 rounded-lg',
                   pathname === '/career/saved-resumes'
                     ? 'active text-white'
                     : 'text-secondary-600 hover:text-white hover:bg-gradient-logo'
@@ -207,29 +212,37 @@ export function Header() {
               >
                 My Resumes
               </Link>
-              <div className="pt-3 sm:pt-4 space-y-2 sm:space-y-3">
-                <Button variant="outline" size="sm" className="w-full nav-button-glow text-sm sm:text-base py-2 sm:py-2.5" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
+              <div className="pt-2 space-y-2">
+                <Button variant="outline" size="sm" className="w-full nav-button-glow text-sm py-1.5 h-9" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
                   Share Resource
                 </Button>
 
                 {user ? (
-                  <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-2.5 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
+                  <div className="flex items-center justify-between px-3 py-2 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
                     <div className="flex items-center space-x-2">
-                      <UserCircle className="h-4 w-4 sm:h-5 sm:w-5 text-primary-600 transition-all duration-200" />
-                      <span className="text-xs sm:text-sm text-secondary-700 font-medium">
+                      <UserCircle className="h-4 w-4 text-primary-600 transition-all duration-200" />
+                      <span className="text-xs text-secondary-700 font-medium">
                         {user.user_metadata?.full_name || user.email?.split('@')[0]}
                       </span>
                     </div>
-                    <Button variant="ghost" size="sm" className="nav-button-glow p-1.5 sm:p-2" onClick={handleSignOut}>
-                      <LogOut className="h-4 w-4 sm:h-5 sm:w-5 transition-all duration-200" />
+                    {/* Sign Out Button - always visible in mobile menu */}
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="nav-button-glow p-1.5 h-8 w-8 flex items-center justify-center hover:bg-secondary-100" 
+                      onClick={handleSignOut}
+                      title="Sign Out"
+                      aria-label="Sign Out"
+                    >
+                      <LogOut className="h-4 w-4 text-secondary-600 hover:text-primary-600 transition-all duration-200" />
                     </Button>
                   </div>
                 ) : (
                   <>
-                    <Button variant="outline" size="sm" className="w-full nav-button-glow text-sm sm:text-base py-2 sm:py-2.5" asChild href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full nav-button-glow text-sm py-1.5 h-9" asChild href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
                       Sign In
                     </Button>
-                    <Button variant="gradient" size="sm" className="w-full nav-button-glow text-sm sm:text-base py-2 sm:py-2.5" asChild href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="gradient" size="sm" className="w-full nav-button-glow text-sm py-1.5 h-9" asChild href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
                       Sign Up
                     </Button>
                   </>
