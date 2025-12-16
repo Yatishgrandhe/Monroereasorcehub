@@ -62,24 +62,28 @@ export function Header() {
   return (
     <header className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-secondary-200 sticky top-0 z-50 w-full">
       <nav className="w-full max-w-[1920px] mx-auto" aria-label="Global">
-        {/* Responsive height: h-14 (56px) on mobile, h-16 (64px) on md, h-20 (80px) on xl */}
-        <div className="flex items-center justify-between h-14 md:h-16 xl:h-20 px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12">
-          {/* logo section - fully responsive */}
+        {/* Responsive height: h-14 (56px) on mobile, h-16 (64px) on md, h-[72px] on lg, h-20 (80px) on xl, h-24 (96px) on 2xl */}
+        <div className="flex items-center justify-between h-14 sm:h-[60px] md:h-16 lg:h-[72px] xl:h-20 2xl:h-24 px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 transition-all duration-300">
+          {/* logo section - fully responsive, scales with nav bar height */}
           <div className="flex items-center flex-shrink-0">
-            <Link href="/" className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3 logo-container">
-              {/* Logo size: w-8 h-8 on mobile, w-9 h-9 on sm, w-10 h-10 on md, w-11 h-11 on xl */}
-              <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 xl:w-11 xl:h-11 rounded-lg overflow-hidden shadow-lg flex-shrink-0 transition-all duration-200">
+            <Link href="/" className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-2.5 lg:space-x-3 xl:space-x-3.5 logo-container">
+              {/* Logo scales proportionally with nav bar height */}
+              {/* Nav heights: 56px → 60px → 64px → 72px → 80px → 96px */}
+              {/* Logo sizes: 32px (57%) → 36px (60%) → 40px (62.5%) → 44px (61%) → 48px (60%) → 56px (58%) */}
+              <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 2xl:w-14 2xl:h-14 rounded-lg overflow-hidden shadow-lg flex-shrink-0 transition-all duration-300 ease-in-out">
                 <img
                   src="/logo.png"
                   alt="Monroe Resource Hub Logo"
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain transition-all duration-300"
                 />
               </div>
-              {/* Text size: text-base on mobile, text-lg on sm, text-xl on md, text-2xl on xl */}
-              <span className="text-base sm:text-lg md:text-xl xl:text-2xl font-bold logo-title hidden sm:inline transition-all duration-200">
+              {/* Text scales proportionally with logo and nav bar */}
+              {/* Mobile: text-sm (14px), Small: text-base (16px), Medium: text-lg (18px), Large: text-xl (20px), XL: text-2xl (24px), 2XL: text-3xl (30px) */}
+              <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-bold logo-title hidden sm:inline transition-all duration-300 ease-in-out leading-tight">
                 Monroe Resource Hub
               </span>
-              <span className="text-base sm:text-lg font-bold logo-title sm:hidden">
+              {/* Mobile-only abbreviated version */}
+              <span className="text-sm sm:text-base font-bold logo-title sm:hidden transition-all duration-300">
                 MRH
               </span>
             </Link>

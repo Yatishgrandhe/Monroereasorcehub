@@ -281,11 +281,24 @@
   .logo-container {
     position: relative;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
   }
   
   .logo-container img,
   .logo-container span {
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Ensure logo scales smoothly with nav bar height */
+  .logo-container > div {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Ensure text scales smoothly */
+  .logo-container .logo-title {
+    transition: font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1), line-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
   }
   
   .logo-container:hover {
