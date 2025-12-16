@@ -196,11 +196,11 @@
   }
   
   .container-custom {
-    @apply max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12;
+    @apply max-w-[1600px] mx-auto px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16;
   }
   
   .section-padding {
-    @apply py-12 md:py-16 lg:py-20;
+    @apply py-16 md:py-20 lg:py-24;
   }
   
   .gradient-primary {
