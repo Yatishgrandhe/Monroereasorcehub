@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Save, Download, Sparkles, FileText, Briefcase, MapPin, Calendar, Users, Target, Lightbulb, Info, Database, LogIn } from 'lucide-react';
+import { Save, Download, Sparkles, FileText, Briefcase, MapPin, Calendar, Users, Target, Lightbulb, Info, Database, LogIn, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/Badge';
 import { supabase } from '@/lib/supabase/client';
 import { generateCoverLetterAction, analyzeJobAction, generateInterviewQuestionsAction } from '@/app/actions/ai';
+import { migrateLocalDataToDatabase, hasLocalDataToMigrate } from '@/lib/utils/data-migration';
 import type { JobPosting, ResumeData } from '@/lib/ai/gemini';
 
 interface JobAnalysis {
@@ -40,7 +41,7 @@ export function JobAssistant() {
   const [userLoading, setUserLoading] = useState(true);
   const [resumesLoading, setResumesLoading] = useState(true);
 
-  // Check user authentication
+  // Check user authentication and migrate local data
   useEffect(() => {
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -50,8 +51,25 @@ export function JobAssistant() {
 
     checkUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      const newUser = session?.user ?? null;
+      setUser(newUser);
+      
+      // Migrate local data when user logs in
+      if (newUser && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
+        if (hasLocalDataToMigrate()) {
+          try {
+            const migrationResult = await migrateLocalDataToDatabase(newUser.id);
+            if (migrationResult.success) {
+              console.log('Local data migrated successfully:', migrationResult.migrated);
+              // Trigger a reload of resumes by updating user state
+              // The useEffect that loads resumes will automatically run
+            }
+          } catch (error) {
+            console.error('Error migrating local data:', error);
+          }
+        }
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -296,6 +314,10 @@ export function JobAssistant() {
                         As a guest user, your cover letters and job analysis data are automatically saved in your browser's local storage. 
                         This means your work is saved on this device, but won't sync across other devices or browsers.
                       </p>
+                      <p className="text-xs text-primary-600 mb-3 italic">
+                        💡 <strong>Good news:</strong> When you create an account or log in, all your local data (resumes, cover letters, job analysis) 
+                        will be automatically migrated to your account so you can access everything from anywhere!
+                      </p>
                       <div className="flex items-center gap-2">
                         <Link 
                           href="/auth/signup"
@@ -521,7 +543,7 @@ export function JobAssistant() {
                       Cover Letter Generator
                     </CardTitle>
                     <CardDescription>
-                      Generate a personalized cover letter for this position
+                      Generate a personalized, professional cover letter tailored to this specific position
                     </CardDescription>
                   </div>
                   <div className="flex gap-2">
@@ -538,6 +560,115 @@ export function JobAssistant() {
                 </div>
               </CardHeader>
               <CardContent>
+                {/* Helpful Context and Tips */}
+                {!coverLetter && (
+                  <div className="mb-6 space-y-4">
+                    <div className="p-4 bg-primary-50 rounded-lg border border-primary-200">
+                      <div className="flex items-start gap-3">
+                        <Lightbulb className="h-5 w-5 text-primary-600 mt-0.5 flex-shrink-0" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-primary-900 mb-2">How Our AI Cover Letter Generator Works</h4>
+                          <ul className="text-sm text-primary-800 space-y-1.5">
+                            <li className="flex items-start gap-2">
+                              <span className="text-primary-600 mt-1">•</span>
+                              <span><strong>Analyzes the job description</strong> to identify key requirements, skills, and qualifications</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-primary-600 mt-1">•</span>
+                              <span><strong>Matches your resume</strong> to highlight relevant experience, skills, and achievements</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-primary-600 mt-1">•</span>
+                              <span><strong>Creates personalized content</strong> that connects your background to the specific role</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-primary-600 mt-1">•</span>
+                              <span><strong>Uses professional formatting</strong> with proper greeting, body paragraphs, and closing</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Context-Aware Tips Based on Job Posting */}
+                    {jobPosting.description && (
+                      <div className="p-4 bg-success-50 rounded-lg border border-success-200">
+                        <div className="flex items-start gap-3">
+                          <Target className="h-5 w-5 text-success-600 mt-0.5 flex-shrink-0" />
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-success-900 mb-2">Tips for This Specific Position</h4>
+                            <ul className="text-sm text-success-800 space-y-1.5">
+                              {jobPosting.description.toLowerCase().includes('team') && (
+                                <li>• Emphasize collaboration and teamwork experiences from your resume</li>
+                              )}
+                              {(jobPosting.description.toLowerCase().includes('lead') || jobPosting.description.toLowerCase().includes('manage')) && (
+                                <li>• Highlight any leadership or management experience you have</li>
+                              )}
+                              {jobPosting.description.toLowerCase().includes('client') || jobPosting.description.toLowerCase().includes('customer') && (
+                                <li>• Focus on customer service and relationship-building skills</li>
+                              )}
+                              {jobPosting.description.toLowerCase().includes('problem') || jobPosting.description.toLowerCase().includes('solve') && (
+                                <li>• Include specific examples of problem-solving from your experience</li>
+                              )}
+                              {jobPosting.description.toLowerCase().includes('communicat') && (
+                                <li>• Emphasize your communication skills and provide examples</li>
+                              )}
+                              {resumeData && resumeData.skills && resumeData.skills.length > 0 && (
+                                <li>• Your cover letter will automatically highlight your {resumeData.skills.slice(0, 3).join(', ')} skills</li>
+                              )}
+                              {resumeData && resumeData.experience && resumeData.experience.length > 0 && (
+                                <li>• Your top {Math.min(resumeData.experience.length, 3)} most relevant experiences will be featured</li>
+                              )}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Best Practices */}
+                    <div className="p-4 bg-secondary-50 rounded-lg border border-secondary-200">
+                      <h4 className="font-semibold text-secondary-900 mb-2 flex items-center gap-2">
+                        <Info className="h-4 w-4" />
+                        Cover Letter Best Practices
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-secondary-700">
+                        <div>
+                          <p className="font-medium mb-1">✓ Do:</p>
+                          <ul className="space-y-1 text-secondary-600">
+                            <li>• Customize for each specific job</li>
+                            <li>• Keep it concise (3-4 paragraphs)</li>
+                            <li>• Use specific examples and achievements</li>
+                            <li>• Show enthusiasm for the role</li>
+                            <li>• Proofread carefully before submitting</li>
+                          </ul>
+                        </div>
+                        <div>
+                          <p className="font-medium mb-1">✗ Don't:</p>
+                          <ul className="space-y-1 text-secondary-600">
+                            <li>• Use generic templates without customization</li>
+                            <li>• Repeat your resume verbatim</li>
+                            <li>• Make it too long (over 1 page)</li>
+                            <li>• Include irrelevant information</li>
+                            <li>• Forget to update company/role names</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* What Information Will Be Used */}
+                    {resumeData && (
+                      <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                        <p className="text-sm text-blue-800">
+                          <strong>Your cover letter will include:</strong> Your name ({resumeData.personalInfo?.firstName} {resumeData.personalInfo?.lastName}), 
+                          {resumeData.experience?.length > 0 ? ` your ${resumeData.experience.length} experience${resumeData.experience.length > 1 ? 's' : ''},` : ''}
+                          {resumeData.skills?.length > 0 ? ` your ${resumeData.skills.length} skill${resumeData.skills.length > 1 ? 's' : ''},` : ''}
+                          {resumeData.education?.length > 0 ? ` your education background,` : ''}
+                          {' '}and how they align with this {jobPosting.title} position at {jobPosting.company}.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
                 {/* Resume Selector */}
                 {resumes.length > 0 && (
                   <div className="mb-6">
@@ -583,12 +714,47 @@ export function JobAssistant() {
 
                 {coverLetter ? (
                   <div className="space-y-4">
-                    <div className="bg-white p-6 rounded-lg border border-secondary-200">
-                      <div className="whitespace-pre-wrap text-secondary-700 leading-relaxed">
+                    {/* Success Message and Next Steps */}
+                    <div className="p-4 bg-success-50 rounded-lg border border-success-200">
+                      <div className="flex items-start gap-3">
+                        <div className="w-5 h-5 bg-success-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">✓</span>
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-success-900 mb-2">Cover Letter Generated Successfully!</h4>
+                          <p className="text-sm text-success-800 mb-3">
+                            Your personalized cover letter has been created based on your resume and the job requirements. 
+                            Review it carefully and customize it further to make it perfect.
+                          </p>
+                          <div className="text-sm text-success-700 space-y-1">
+                            <p className="font-medium">Before submitting, make sure to:</p>
+                            <ul className="list-disc list-inside space-y-0.5 ml-2">
+                              <li>Review and edit the content to add your personal touch</li>
+                              <li>Check that all names, dates, and details are accurate</li>
+                              <li>Add any specific achievements or experiences you want to highlight</li>
+                              <li>Proofread for grammar, spelling, and clarity</li>
+                              <li>Ensure the tone matches the company culture</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Generated Cover Letter */}
+                    <div className="bg-white p-6 rounded-lg border border-secondary-200 shadow-sm">
+                      <div className="flex items-center justify-between mb-4 pb-3 border-b border-secondary-200">
+                        <h4 className="font-semibold text-secondary-900">Your Cover Letter</h4>
+                        <Badge variant="outline" className="text-xs">
+                          {coverLetter.split('\n').filter(line => line.trim()).length} paragraphs
+                        </Badge>
+                      </div>
+                      <div className="whitespace-pre-wrap text-secondary-700 leading-relaxed font-sans text-[15px]">
                         {coverLetter}
                       </div>
                     </div>
-                    <div className="flex gap-2">
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-wrap gap-2">
                       <button
                         className="btn btn-outline btn-sm inline-flex items-center justify-center"
                         onClick={saveCoverLetter}
@@ -601,15 +767,49 @@ export function JobAssistant() {
                         onClick={downloadCoverLetter}
                       >
                         <Download className="h-4 w-4 mr-2" />
-                        Download
+                        Download as Text
                       </button>
+                      <button
+                        className="btn btn-ghost btn-sm inline-flex items-center justify-center"
+                        onClick={() => {
+                          navigator.clipboard.writeText(coverLetter);
+                          alert('Cover letter copied to clipboard!');
+                        }}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        Copy to Clipboard
+                      </button>
+                      <button
+                        className="btn btn-ghost btn-sm inline-flex items-center justify-center"
+                        onClick={() => setCoverLetter('')}
+                      >
+                        Generate New
+                      </button>
+                    </div>
+
+                    {/* Customization Tips */}
+                    <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <h4 className="font-semibold text-blue-900 mb-2 flex items-center gap-2">
+                        <Lightbulb className="h-4 w-4" />
+                        Tips for Customizing Your Cover Letter
+                      </h4>
+                      <ul className="text-sm text-blue-800 space-y-1.5">
+                        <li>• <strong>Add specific examples:</strong> Include concrete achievements with numbers or metrics when possible</li>
+                        <li>• <strong>Research the company:</strong> Mention something specific about the company to show genuine interest</li>
+                        <li>• <strong>Address the hiring manager:</strong> If you know their name, use it instead of "Dear Hiring Manager"</li>
+                        <li>• <strong>Match keywords:</strong> Use terminology from the job description naturally throughout</li>
+                        <li>• <strong>Show cultural fit:</strong> If the job description mentions values or culture, align your letter accordingly</li>
+                      </ul>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center py-12">
+                  <div className="text-center py-8">
                     <FileText className="h-12 w-12 text-secondary-400 mx-auto mb-4" />
-                    <p className="text-secondary-600">
-                      Fill in the job details and click "Generate Cover Letter" to create a personalized cover letter.
+                    <p className="text-secondary-600 font-medium mb-1">
+                      Ready to Generate Your Cover Letter
+                    </p>
+                    <p className="text-sm text-secondary-500">
+                      Make sure you've filled in the job title, company, and description above, then click "Generate Cover Letter"
                     </p>
                   </div>
                 )}
@@ -626,7 +826,7 @@ export function JobAssistant() {
                       Interview Preparation
                     </CardTitle>
                     <CardDescription>
-                      Get AI-generated interview questions to help you prepare
+                      Get AI-generated, role-specific interview questions tailored to this position
                     </CardDescription>
                   </div>
                   <button
@@ -641,24 +841,270 @@ export function JobAssistant() {
                 </div>
               </CardHeader>
               <CardContent>
-                {interviewQuestions.length > 0 ? (
-                  <div className="space-y-3">
-                    {interviewQuestions.map((question, index) => (
-                      <div key={index} className="p-4 bg-secondary-50 rounded-lg">
-                        <div className="flex items-start gap-3">
-                          <div className="w-6 h-6 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
-                            {index + 1}
-                          </div>
-                          <p className="text-secondary-700">{question}</p>
+                {/* Helpful Context and Tips */}
+                {interviewQuestions.length === 0 && (
+                  <div className="mb-6 space-y-4">
+                    <div className="p-4 bg-primary-50 rounded-lg border border-primary-200">
+                      <div className="flex items-start gap-3">
+                        <Lightbulb className="h-5 w-5 text-primary-600 mt-0.5 flex-shrink-0" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-primary-900 mb-2">How Our AI Interview Question Generator Works</h4>
+                          <ul className="text-sm text-primary-800 space-y-1.5">
+                            <li className="flex items-start gap-2">
+                              <span className="text-primary-600 mt-1">•</span>
+                              <span><strong>Analyzes the job description</strong> to identify key skills, responsibilities, and requirements</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-primary-600 mt-1">•</span>
+                              <span><strong>Generates role-specific questions</strong> based on the position title and requirements</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-primary-600 mt-1">•</span>
+                              <span><strong>Includes behavioral questions</strong> to assess your experience and problem-solving abilities</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-primary-600 mt-1">•</span>
+                              <span><strong>Creates technical questions</strong> for roles requiring specific skills or knowledge</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-primary-600 mt-1">•</span>
+                              <span><strong>Provides comprehensive coverage</strong> of common interview topics for this role</span>
+                            </li>
+                          </ul>
                         </div>
                       </div>
-                    ))}
+                    </div>
+
+                    {/* Context-Aware Tips Based on Job Posting */}
+                    {jobPosting.description && (
+                      <div className="p-4 bg-success-50 rounded-lg border border-success-200">
+                        <div className="flex items-start gap-3">
+                          <Target className="h-5 w-5 text-success-600 mt-0.5 flex-shrink-0" />
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-success-900 mb-2">What to Expect for This Position</h4>
+                            <ul className="text-sm text-success-800 space-y-1.5">
+                              {jobPosting.description.toLowerCase().includes('team') && (
+                                <li>• Expect questions about teamwork, collaboration, and handling group dynamics</li>
+                              )}
+                              {(jobPosting.description.toLowerCase().includes('lead') || jobPosting.description.toLowerCase().includes('manage')) && (
+                                <li>• Prepare for leadership scenarios and management style questions</li>
+                              )}
+                              {(jobPosting.description.toLowerCase().includes('client') || jobPosting.description.toLowerCase().includes('customer')) && (
+                                <li>• Be ready for customer service scenarios and relationship management questions</li>
+                              )}
+                              {(jobPosting.description.toLowerCase().includes('problem') || jobPosting.description.toLowerCase().includes('solve')) && (
+                                <li>• Anticipate problem-solving and critical thinking questions</li>
+                              )}
+                              {jobPosting.description.toLowerCase().includes('communicat') && (
+                                <li>• Prepare examples demonstrating your communication skills</li>
+                              )}
+                              {(jobPosting.description.toLowerCase().includes('technical') || jobPosting.description.toLowerCase().includes('code') || jobPosting.description.toLowerCase().includes('programming')) && (
+                                <li>• Expect technical questions and coding challenges if applicable</li>
+                              )}
+                              {jobPosting.description.toLowerCase().includes('project') && (
+                                <li>• Be ready to discuss project management and deadline handling</li>
+                              )}
+                              {jobPosting.title && (
+                                <li>• Questions will be tailored specifically for a {jobPosting.title} role</li>
+                              )}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Best Practices */}
+                    <div className="p-4 bg-secondary-50 rounded-lg border border-secondary-200">
+                      <h4 className="font-semibold text-secondary-900 mb-2 flex items-center gap-2">
+                        <Info className="h-4 w-4" />
+                        Interview Preparation Best Practices
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-secondary-700">
+                        <div>
+                          <p className="font-medium mb-1">✓ Do:</p>
+                          <ul className="space-y-1 text-secondary-600">
+                            <li>• Use the STAR method (Situation, Task, Action, Result)</li>
+                            <li>• Prepare specific examples from your experience</li>
+                            <li>• Research the company and role thoroughly</li>
+                            <li>• Practice your answers out loud</li>
+                            <li>• Prepare thoughtful questions to ask</li>
+                            <li>• Practice with a friend or in front of a mirror</li>
+                          </ul>
+                        </div>
+                        <div>
+                          <p className="font-medium mb-1">✗ Don't:</p>
+                          <ul className="space-y-1 text-secondary-600">
+                            <li>• Memorize answers word-for-word</li>
+                            <li>• Give vague or generic responses</li>
+                            <li>• Speak negatively about previous employers</li>
+                            <li>• Forget to ask questions at the end</li>
+                            <li>• Arrive unprepared or late</li>
+                            <li>• Forget to follow up after the interview</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* STAR Method Explanation */}
+                    <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <h4 className="font-semibold text-blue-900 mb-2 flex items-center gap-2">
+                        <Target className="h-4 w-4" />
+                        The STAR Method for Answering Questions
+                      </h4>
+                      <div className="text-sm text-blue-800 space-y-2">
+                        <p>When answering behavioral interview questions, use the STAR method:</p>
+                        <ul className="space-y-1.5 ml-2">
+                          <li><strong>Situation:</strong> Describe the context or background</li>
+                          <li><strong>Task:</strong> Explain what you needed to accomplish</li>
+                          <li><strong>Action:</strong> Detail the specific steps you took</li>
+                          <li><strong>Result:</strong> Share the outcome and what you learned</li>
+                        </ul>
+                        <p className="mt-2 text-blue-700 italic">
+                          Example: "Tell me about a time you handled a difficult situation" → Use STAR to structure your answer with a concrete example.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {interviewQuestions.length > 0 ? (
+                  <div className="space-y-4">
+                    {/* Success Message and Tips */}
+                    <div className="p-4 bg-success-50 rounded-lg border border-success-200">
+                      <div className="flex items-start gap-3">
+                        <div className="w-5 h-5 bg-success-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">✓</span>
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-success-900 mb-2">Interview Questions Generated Successfully!</h4>
+                          <p className="text-sm text-success-800 mb-3">
+                            We've created {interviewQuestions.length} personalized interview questions based on the {jobPosting.title} position at {jobPosting.company}. 
+                            Use these to prepare thoughtful, specific answers.
+                          </p>
+                          <div className="text-sm text-success-700 space-y-1">
+                            <p className="font-medium">How to use these questions:</p>
+                            <ul className="list-disc list-inside space-y-0.5 ml-2">
+                              <li>Practice answering each question using the STAR method</li>
+                              <li>Prepare 2-3 specific examples from your experience</li>
+                              <li>Time yourself to ensure concise, clear answers</li>
+                              <li>Research the company to tailor your responses</li>
+                              <li>Prepare follow-up questions to ask the interviewer</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Generated Questions */}
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-semibold text-secondary-900">Practice Questions</h4>
+                        <Badge variant="outline" className="text-xs">
+                          {interviewQuestions.length} question{interviewQuestions.length > 1 ? 's' : ''}
+                        </Badge>
+                      </div>
+                      {interviewQuestions.map((question, index) => (
+                        <div key={index} className="p-4 bg-secondary-50 rounded-lg border border-secondary-200 hover:border-primary-300 transition-colors">
+                          <div className="flex items-start gap-3">
+                            <div className="w-7 h-7 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                              {index + 1}
+                            </div>
+                            <div className="flex-1">
+                              <p className="text-secondary-700 font-medium mb-2">{question}</p>
+                              <div className="mt-2 pt-2 border-t border-secondary-200">
+                                <p className="text-xs text-secondary-500 italic">
+                                  💡 Tip: Use the STAR method (Situation, Task, Action, Result) to structure your answer
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      <button
+                        className="btn btn-outline btn-sm inline-flex items-center justify-center"
+                        onClick={() => {
+                          const questionsText = interviewQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n\n');
+                          navigator.clipboard.writeText(questionsText);
+                          alert('Interview questions copied to clipboard!');
+                        }}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        Copy All Questions
+                      </button>
+                      <button
+                        className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
+                        onClick={() => {
+                          const questionsText = interviewQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n\n');
+                          const blob = new Blob([questionsText], { type: 'text/plain' });
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = `interview-questions-${jobPosting.company}-${jobPosting.title}.txt`;
+                          document.body.appendChild(a);
+                          a.click();
+                          document.body.removeChild(a);
+                          URL.revokeObjectURL(url);
+                        }}
+                      >
+                        <Download className="h-4 w-4 mr-2" />
+                        Download Questions
+                      </button>
+                      <button
+                        className="btn btn-ghost btn-sm inline-flex items-center justify-center"
+                        onClick={() => setInterviewQuestions([])}
+                      >
+                        Generate New Set
+                      </button>
+                    </div>
+
+                    {/* Additional Preparation Tips */}
+                    <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <h4 className="font-semibold text-blue-900 mb-2 flex items-center gap-2">
+                        <Lightbulb className="h-4 w-4" />
+                        Additional Preparation Tips
+                      </h4>
+                      <div className="text-sm text-blue-800 space-y-2">
+                        <div>
+                          <p className="font-medium mb-1">Before the Interview:</p>
+                          <ul className="list-disc list-inside space-y-0.5 ml-2">
+                            <li>Research {jobPosting.company} - their mission, values, recent news, and culture</li>
+                            <li>Review the job description again and identify how your skills match</li>
+                            <li>Prepare questions to ask about the role, team, and company</li>
+                            <li>Plan your outfit and route to arrive 10-15 minutes early</li>
+                          </ul>
+                        </div>
+                        <div>
+                          <p className="font-medium mb-1">During the Interview:</p>
+                          <ul className="list-disc list-inside space-y-0.5 ml-2">
+                            <li>Listen carefully and take a moment to think before answering</li>
+                            <li>Use specific examples from your experience</li>
+                            <li>Show enthusiasm for the role and company</li>
+                            <li>Ask thoughtful questions that show your interest</li>
+                          </ul>
+                        </div>
+                        <div>
+                          <p className="font-medium mb-1">After the Interview:</p>
+                          <ul className="list-disc list-inside space-y-0.5 ml-2">
+                            <li>Send a thank-you email within 24 hours</li>
+                            <li>Reiterate your interest and highlight key points from the conversation</li>
+                            <li>Follow up if you haven't heard back within the expected timeframe</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <Users className="h-10 w-10 text-secondary-400 mx-auto mb-3" />
-                    <p className="text-secondary-600">
-                      Fill in the job details and click "Generate Questions" to get interview preparation questions.
+                    <Users className="h-12 w-12 text-secondary-400 mx-auto mb-4" />
+                    <p className="text-secondary-600 font-medium mb-1">
+                      Ready to Generate Interview Questions
+                    </p>
+                    <p className="text-sm text-secondary-500">
+                      Make sure you've filled in the job title, company, and description above, then click "Generate Questions"
                     </p>
                   </div>
                 )}

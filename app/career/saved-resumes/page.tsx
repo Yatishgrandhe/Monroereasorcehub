@@ -187,9 +187,13 @@ export default function SavedResumesPage() {
                     <Database className="h-5 w-5 text-primary-600 mt-0.5 flex-shrink-0" />
                     <div className="flex-1">
                       <p className="font-semibold text-primary-900 mb-1">Guest User - Local Storage</p>
-                      <p className="text-sm text-primary-700 mb-3">
+                      <p className="text-sm text-primary-700 mb-2">
                         Your resume is saved in your browser&apos;s local storage. This means your data stays on this device and won&apos;t sync across other devices or browsers. 
                         <strong> Consider creating an account</strong> to access your work from anywhere and save multiple resumes.
+                      </p>
+                      <p className="text-xs text-primary-600 mb-3 italic">
+                        💡 <strong>Good news:</strong> When you create an account or log in, all your local data (resumes, cover letters, job analysis) 
+                        will be automatically migrated to your account so you can access everything from anywhere!
                       </p>
                       <div className="flex items-center gap-2">
                         <Link 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react';
@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { supabase } from '@/lib/supabase/client';
+import { migrateLocalDataToDatabase, hasLocalDataToMigrate } from '@/lib/utils/data-migration';
+import { Database, CheckCircle } from 'lucide-react';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -15,7 +17,17 @@ export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [migrating, setMigrating] = useState(false);
+  const [migrationResult, setMigrationResult] = useState<{ success: boolean; migrated: any } | null>(null);
+  const [hasLocalData, setHasLocalData] = useState(false);
   const router = useRouter();
+
+  // Check for local data on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setHasLocalData(hasLocalDataToMigrate());
+    }
+  }, []);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +43,19 @@ export default function SignInPage() {
       if (error) {
         setError(error.message);
       } else if (data.user) {
+        // Migrate local data if available
+        if (hasLocalDataToMigrate()) {
+          setMigrating(true);
+          try {
+            const migrationResult = await migrateLocalDataToDatabase(data.user.id);
+            setMigrationResult(migrationResult);
+          } catch (migrationError) {
+            console.error('Migration error:', migrationError);
+            // Don't block login if migration fails
+          } finally {
+            setMigrating(false);
+          }
+        }
         router.push('/career/resume-builder');
       }
     } catch (error) {
@@ -86,6 +111,22 @@ export default function SignInPage() {
               Pop in your email and password to get going.
             </CardDescription>
           </CardHeader>
+          {hasLocalData && (
+            <div className="px-6 pt-0 pb-4">
+              <div className="p-3 bg-primary-50 rounded-lg border border-primary-200">
+                <div className="flex items-start gap-2">
+                  <Database className="h-4 w-4 text-primary-600 mt-0.5 flex-shrink-0" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-primary-900 mb-1">Local Data Detected</p>
+                    <p className="text-xs text-primary-700">
+                      We found saved resumes or other data in your browser. When you log in, 
+                      all your local data will be automatically migrated to your account so you can access it from anywhere.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           <CardContent>
             <form onSubmit={handleSignIn} className="space-y-4">
               <Input

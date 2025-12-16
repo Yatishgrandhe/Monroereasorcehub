@@ -502,36 +502,42 @@ export function generateCoverLetterLocal(
 export function generateInterviewQuestionsLocal(
   jobPosting: { title: string; company: string; description: string; requirements?: string[] }
 ): string[] {
-  const { title, description, requirements = [] } = jobPosting;
+  const { title, company, description, requirements = [] } = jobPosting;
   const questions: string[] = [];
   
-  // Standard behavioral questions
-  questions.push('Tell me about yourself and why you\'re interested in this position.');
-  questions.push('What attracted you to this role at our company?');
-  questions.push('Describe a challenging situation you faced at work and how you handled it.');
-  questions.push('What are your greatest strengths and how do they apply to this role?');
-  questions.push('Where do you see yourself in 5 years?');
+  // Opening questions - tailored to the role
+  questions.push(`Tell me about yourself and why you're interested in the ${title} position at ${company}.`);
+  questions.push(`What attracted you to this specific role and our company?`);
   
-  // Role-specific questions based on job description
+  // Role-specific questions based on job description (these are more detailed now)
   const roleQuestions = extractRoleSpecificQuestions(title, description, requirements);
   questions.push(...roleQuestions);
   
-  // Technical questions if applicable
-  if (isTechnicalRole(title, description)) {
-    questions.push('Can you walk me through your approach to solving complex problems?');
-    questions.push('How do you stay current with industry trends and best practices?');
+  // Standard behavioral questions (only if we don't have enough role-specific)
+  if (questions.length < 8) {
+    questions.push('Describe a challenging situation you faced at work and how you handled it.');
+    questions.push('What are your greatest strengths and how do they apply to this role?');
+    questions.push('Tell me about a time you had to learn something new quickly. How did you approach it?');
   }
   
-  // Leadership questions if applicable
-  if (isLeadershipRole(title, description)) {
+  // Technical questions if applicable (avoid duplicates)
+  if (isTechnicalRole(title, description) && !questions.some(q => q.toLowerCase().includes('technical') || q.toLowerCase().includes('code'))) {
+    questions.push('Can you walk me through your approach to solving complex technical problems?');
+    questions.push('How do you stay current with industry trends and best practices in your field?');
+  }
+  
+  // Leadership questions if applicable (avoid duplicates)
+  if (isLeadershipRole(title, description) && !questions.some(q => q.toLowerCase().includes('lead') || q.toLowerCase().includes('team'))) {
     questions.push('Describe your leadership style and how you motivate your team.');
     questions.push('How do you handle conflicts within your team?');
   }
   
-  // Company culture questions
-  questions.push('What questions do you have about our company culture and values?');
+  // Company and culture questions
+  questions.push(`What do you know about ${company}, and why do you want to work here?`);
+  questions.push('What questions do you have about our company culture, team, or the role?');
   
-  return questions.slice(0, 10); // Return top 10 questions
+  // Return 12-15 questions for comprehensive preparation
+  return questions.slice(0, 15);
 }
 
 /**
@@ -762,23 +768,111 @@ function extractRoleSpecificQuestions(
   const questions: string[] = [];
   const lowerDesc = description.toLowerCase();
   const lowerTitle = title.toLowerCase();
+  const combined = (title + ' ' + description).toLowerCase();
   
-  if (lowerTitle.includes('manager') || lowerTitle.includes('director') || lowerTitle.includes('lead')) {
-    questions.push('How do you prioritize tasks when managing multiple projects?');
-    questions.push('Describe a time when you had to make a difficult decision that affected your team.');
+  // Management & Leadership Roles
+  if (lowerTitle.includes('manager') || lowerTitle.includes('director') || lowerTitle.includes('lead') || 
+      lowerTitle.includes('supervisor') || lowerTitle.includes('head') || lowerTitle.includes('chief')) {
+    questions.push('How do you prioritize tasks when managing multiple projects with competing deadlines?');
+    questions.push('Describe a time when you had to make a difficult decision that affected your team. What was your process?');
+    questions.push('How do you motivate and develop team members to achieve their best performance?');
+    questions.push('Tell me about a time you had to handle a conflict between team members. How did you resolve it?');
+    questions.push('What strategies do you use to ensure your team meets goals and deadlines?');
   }
   
-  if (lowerDesc.includes('customer') || lowerDesc.includes('client')) {
-    questions.push('How do you handle difficult customers or clients?');
-    questions.push('Describe a time when you went above and beyond for a customer.');
+  // Customer Service & Sales Roles
+  if (lowerDesc.includes('customer') || lowerDesc.includes('client') || lowerDesc.includes('sales') || 
+      lowerTitle.includes('sales') || lowerTitle.includes('customer service') || lowerTitle.includes('account')) {
+    questions.push('How do you handle difficult or upset customers? Walk me through a specific example.');
+    questions.push('Describe a time when you went above and beyond for a customer. What was the outcome?');
+    questions.push('How do you build and maintain relationships with clients or customers?');
+    questions.push('Tell me about a time you successfully closed a sale or secured a new client.');
+    questions.push('How do you handle rejection or objections in a sales or customer service context?');
   }
   
-  if (lowerDesc.includes('budget') || lowerDesc.includes('financial')) {
-    questions.push('How do you manage budgets and ensure cost-effectiveness?');
+  // Technical & Engineering Roles
+  if (isTechnicalRole(title, description)) {
+    questions.push('Can you walk me through your approach to solving a complex technical problem?');
+    questions.push('Describe a challenging project you worked on. What technologies did you use and what was the outcome?');
+    questions.push('How do you stay current with industry trends and new technologies?');
+    questions.push('Tell me about a time you had to debug a difficult issue. What was your process?');
+    questions.push('How do you ensure code quality and best practices in your work?');
+    if (lowerDesc.includes('team') || lowerDesc.includes('collaborat')) {
+      questions.push('Describe your experience working in an agile or collaborative development environment.');
+    }
   }
   
-  if (lowerDesc.includes('deadline') || lowerDesc.includes('time-sensitive')) {
-    questions.push('How do you handle tight deadlines and pressure?');
+  // Healthcare Roles
+  if (lowerTitle.includes('nurse') || lowerTitle.includes('doctor') || lowerTitle.includes('therapist') || 
+      lowerTitle.includes('healthcare') || lowerDesc.includes('patient care') || lowerDesc.includes('medical')) {
+    questions.push('Describe a challenging patient situation you handled. How did you ensure quality care?');
+    questions.push('How do you handle stress and maintain composure in high-pressure medical situations?');
+    questions.push('Tell me about a time you had to communicate difficult information to a patient or their family.');
+    questions.push('How do you stay current with medical best practices and continuing education?');
+  }
+  
+  // Education Roles
+  if (lowerTitle.includes('teacher') || lowerTitle.includes('educator') || lowerTitle.includes('instructor') || 
+      lowerDesc.includes('classroom') || lowerDesc.includes('curriculum') || lowerDesc.includes('student')) {
+    questions.push('Describe your teaching philosophy and how you adapt it to different learning styles.');
+    questions.push('Tell me about a time you had to handle a challenging student situation. How did you resolve it?');
+    questions.push('How do you engage students and maintain their interest in the subject matter?');
+    questions.push('Describe how you differentiate instruction to meet diverse student needs.');
+  }
+  
+  // Finance & Accounting Roles
+  if (lowerDesc.includes('budget') || lowerDesc.includes('financial') || lowerDesc.includes('accounting') || 
+      lowerTitle.includes('accountant') || lowerTitle.includes('financial') || lowerTitle.includes('analyst')) {
+    questions.push('How do you manage budgets and ensure cost-effectiveness? Provide a specific example.');
+    questions.push('Describe a time you identified a financial discrepancy or issue. How did you address it?');
+    questions.push('How do you ensure accuracy and attention to detail in financial work?');
+    questions.push('Tell me about your experience with financial reporting and analysis.');
+  }
+  
+  // Marketing & Communications Roles
+  if (lowerTitle.includes('marketing') || lowerTitle.includes('communication') || lowerTitle.includes('social media') || 
+      lowerDesc.includes('campaign') || lowerDesc.includes('brand') || lowerDesc.includes('content')) {
+    questions.push('Describe a successful marketing campaign you developed or contributed to. What made it successful?');
+    questions.push('How do you measure the success of marketing initiatives?');
+    questions.push('Tell me about your experience with different marketing channels and platforms.');
+    questions.push('How do you stay current with marketing trends and consumer behavior?');
+  }
+  
+  // Project Management
+  if (lowerDesc.includes('project management') || lowerDesc.includes('agile') || lowerDesc.includes('scrum') || 
+      lowerTitle.includes('project manager') || lowerTitle.includes('pm')) {
+    questions.push('Describe a complex project you managed from start to finish. What challenges did you face?');
+    questions.push('How do you handle scope creep or changing project requirements?');
+    questions.push('Tell me about your experience with project management methodologies (Agile, Scrum, Waterfall, etc.).');
+    questions.push('How do you ensure projects stay on time and within budget?');
+  }
+  
+  // Data & Analytics Roles
+  if (lowerTitle.includes('analyst') || lowerTitle.includes('data') || lowerDesc.includes('analytics') || 
+      lowerDesc.includes('data analysis') || lowerDesc.includes('reporting')) {
+    questions.push('Describe a time you used data analysis to solve a business problem or make a recommendation.');
+    questions.push('What tools and techniques do you use for data analysis and visualization?');
+    questions.push('How do you ensure data accuracy and quality in your work?');
+    questions.push('Tell me about a time you presented complex data findings to non-technical stakeholders.');
+  }
+  
+  // Requirements-based questions
+  if (requirements.length > 0) {
+    const keyRequirements = requirements.slice(0, 3);
+    keyRequirements.forEach(req => {
+      if (req.length > 10 && req.length < 150) {
+        questions.push(`This role requires ${req.toLowerCase()}. Can you tell me about your experience with this?`);
+      }
+    });
+  }
+  
+  // Skills-based questions from description
+  const skills = extractSkillsFromDescription(description);
+  if (skills.length > 0) {
+    const topSkills = skills.slice(0, 2);
+    topSkills.forEach(skill => {
+      questions.push(`How would you rate your proficiency with ${skill}, and can you provide an example of how you've used it?`);
+    });
   }
   
   return questions;

@@ -13,6 +13,7 @@ import { TemplateSelector } from './TemplateSelector';
 import { AIAssistant } from './AIAssistant';
 import { supabase } from '@/lib/supabase/client';
 import { generateSummaryAction, enhanceBulletPointAction, suggestSkillsAction } from '@/app/actions/ai';
+import { migrateLocalDataToDatabase, hasLocalDataToMigrate } from '@/lib/utils/data-migration';
 import { generateId } from '@/lib/utils';
 import { exportResumeToPDF } from '@/lib/utils/pdf-export';
 import type { ResumeData } from '@/lib/ai/gemini';
@@ -50,7 +51,7 @@ export function ResumeBuilder() {
   const [userLoading, setUserLoading] = useState(true);
   const LOCAL_STORAGE_KEY = 'monroe_resume_builder_data';
 
-  // Check user authentication
+  // Check user authentication and migrate local data
   useEffect(() => {
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -60,8 +61,22 @@ export function ResumeBuilder() {
 
     checkUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      const newUser = session?.user ?? null;
+      setUser(newUser);
+      
+      // Migrate local data when user logs in
+      if (newUser && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
+        if (hasLocalDataToMigrate()) {
+          try {
+            await migrateLocalDataToDatabase(newUser.id);
+            // Optionally reload to show migrated data
+            console.log('Local data migrated successfully');
+          } catch (error) {
+            console.error('Error migrating local data:', error);
+          }
+        }
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -732,9 +747,13 @@ export function ResumeBuilder() {
                     <Database className="h-5 w-5 text-primary-600 mt-0.5 flex-shrink-0" />
                     <div className="flex-1">
                       <p className="font-semibold text-primary-900 mb-1">Your Resume is Auto-Saved</p>
-                      <p className="text-sm text-primary-700 mb-3">
+                      <p className="text-sm text-primary-700 mb-2">
                         As a guest user, your resume data is automatically saved in your browser's local storage. 
                         This means your work is saved on this device, but won't sync across other devices or browsers.
+                      </p>
+                      <p className="text-xs text-primary-600 mb-3 italic">
+                        💡 <strong>Good news:</strong> When you create an account or log in, all your local data (resumes, cover letters, job analysis) 
+                        will be automatically migrated to your account so you can access everything from anywhere!
                       </p>
                       <div className="flex items-center gap-2">
                         <Button variant="outline" size="sm" asChild>
