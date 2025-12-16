@@ -259,6 +259,7 @@
     letter-spacing: -0.025em;
     text-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(6, 182, 212, 0.2), 0 0 60px rgba(249, 115, 22, 0.1);
     position: relative;
+    transition: font-size 0.3s ease, letter-spacing 0.3s ease;
   }
   
   .logo-title::before {
@@ -279,6 +280,11 @@
   
   .logo-container {
     position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .logo-container img,
+  .logo-container span {
     transition: all 0.3s ease;
   }
   
@@ -334,16 +340,23 @@
   
   .nav-link {
     position: relative;
-    padding: 0.5rem 0.75rem;
+    padding: 0.375rem 0.5rem;
     border-radius: 0.5rem;
     transition: all 0.3s ease;
     overflow: hidden;
-    margin: 0 0.125rem;
+    margin: 0 0.0625rem;
   }
   
   @media (min-width: 1280px) {
     .nav-link {
-      padding: 0.75rem 1.25rem;
+      padding: 0.5rem 0.75rem;
+      margin: 0 0.125rem;
+    }
+  }
+  
+  @media (min-width: 1536px) {
+    .nav-link {
+      padding: 0.625rem 1rem;
       margin: 0 0.25rem;
     }
   }
