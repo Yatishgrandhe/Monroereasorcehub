@@ -60,33 +60,36 @@ export function Header() {
   const filteredNavigation = navigation;
 
   return (
-    <header className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-secondary-200 sticky top-0 z-50">
-      <nav className="w-full" aria-label="Global">
-        <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-          {/* logo section - old code */}
-          <div className="flex items-center flex-shrink-0 -ml-2">
-            <Link href="/" className="flex items-center space-x-3 logo-container pl-2">
-              <div className="w-10 h-10 rounded-lg overflow-hidden shadow-lg">
+    <header className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-secondary-200 sticky top-0 z-50 w-full">
+      <nav className="w-full max-w-[1920px] mx-auto" aria-label="Global">
+        <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8 xl:px-12">
+          {/* logo section - optimized */}
+          <div className="flex items-center flex-shrink-0">
+            <Link href="/" className="flex items-center space-x-2 sm:space-x-3 logo-container">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg overflow-hidden shadow-lg flex-shrink-0">
                 <img
                   src="/logo.png"
                   alt="Monroe Resource Hub Logo"
                   className="w-full h-full object-contain"
                 />
               </div>
-              <span className="text-xl font-bold logo-title">
+              <span className="text-lg sm:text-xl font-bold logo-title hidden sm:inline">
                 Monroe Resource Hub
+              </span>
+              <span className="text-lg font-bold logo-title sm:hidden">
+                MRH
               </span>
             </Link>
           </div>
 
-          {/* desktop nav - needs review */}
-          <div className="hidden md:flex md:items-center md:space-x-4 flex-1 justify-center">
+          {/* desktop nav - optimized spacing */}
+          <div className="hidden lg:flex lg:items-center lg:space-x-1 xl:space-x-2 flex-1 justify-center max-w-4xl mx-auto">
             {filteredNavigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  'nav-link text-sm font-medium whitespace-nowrap',
+                  'nav-link text-sm font-medium whitespace-nowrap px-2 xl:px-3',
                   pathname === item.href ? 'active' : 'text-secondary-600'
                 )}
               >
@@ -94,32 +97,33 @@ export function Header() {
               </Link>
             ))}
             {/* My Resumes - available for both user types */}
-              <Link
+            <Link
               href="/career/saved-resumes"
-                className={cn(
-                  'nav-link text-sm font-medium whitespace-nowrap',
+              className={cn(
+                'nav-link text-sm font-medium whitespace-nowrap px-2 xl:px-3',
                 pathname === '/career/saved-resumes' ? 'active' : 'text-secondary-600'
-                )}
-              >
+              )}
+            >
               My Resumes
-              </Link>
+            </Link>
           </div>
 
-          {/* Desktop Actions */}
-          <div className="hidden md:flex md:items-center md:space-x-3 flex-shrink-0">
-            <Button variant="ghost" size="sm" className="nav-button-glow px-3" asChild href="/resources">
+          {/* Desktop Actions - optimized */}
+          <div className="hidden lg:flex lg:items-center lg:space-x-2 xl:space-x-3 flex-shrink-0">
+            <Button variant="ghost" size="sm" className="nav-button-glow px-2 xl:px-3 text-xs xl:text-sm" asChild href="/resources">
               <Search className="h-4 w-4 mr-1" />
-              Search
+              <span className="hidden xl:inline">Search</span>
             </Button>
-            <Button variant="outline" size="sm" className="nav-button-glow px-3" asChild href="/submit-resource">
-              Share Resource
+            <Button variant="outline" size="sm" className="nav-button-glow px-2 xl:px-3 text-xs xl:text-sm whitespace-nowrap" asChild href="/submit-resource">
+              <span className="hidden xl:inline">Share Resource</span>
+              <span className="xl:hidden">Share</span>
             </Button>
 
             {user ? (
-              <div className="flex items-center space-x-2 ml-2">
-                <div className="flex items-center space-x-2 px-3 py-1.5 h-8 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap">
+              <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 px-2 xl:px-3 py-1.5 h-8 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap">
                   <UserCircle className="h-4 w-4 text-primary-600 flex-shrink-0" />
-                  <span className="text-sm text-secondary-700 font-medium max-w-[120px] truncate">
+                  <span className="text-xs xl:text-sm text-secondary-700 font-medium max-w-[100px] xl:max-w-[120px] truncate">
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
@@ -129,18 +133,18 @@ export function Header() {
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm" className="nav-button-glow px-3" asChild href="/auth/signin">
+                <Button variant="outline" size="sm" className="nav-button-glow px-2 xl:px-3 text-xs xl:text-sm" asChild href="/auth/signin">
                   Sign In
                 </Button>
-                <Button variant="gradient" size="sm" className="nav-button-glow px-3" asChild href="/auth/signup">
+                <Button variant="gradient" size="sm" className="nav-button-glow px-2 xl:px-3 text-xs xl:text-sm" asChild href="/auth/signup">
                   Sign Up
                 </Button>
               </div>
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
+          {/* Mobile/Tablet menu button */}
+          <div className="lg:hidden">
             <Button
               variant="ghost"
               size="sm"
@@ -157,9 +161,9 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile/Tablet Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden animate-slide-up">
+          <div className="lg:hidden animate-slide-up">
             <div className="px-2 pt-3 pb-4 space-y-2 bg-white/95 backdrop-blur-sm border-t border-secondary-200">
               {filteredNavigation.map((item) => (
                 <Link

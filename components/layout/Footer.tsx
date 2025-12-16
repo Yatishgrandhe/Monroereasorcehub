@@ -4,8 +4,8 @@ import { Mail, Phone, MapPin, Heart } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="bg-secondary-900 text-white">
-      <div className="container-custom">
+    <footer className="bg-secondary-900 text-white w-full">
+      <div className="container-custom max-w-[1920px] mx-auto">
         <div className="py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* brand section */}
