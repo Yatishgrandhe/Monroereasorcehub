@@ -212,14 +212,14 @@ export function Header() {
               >
                 My Resumes
               </Link>
-              <div className="pt-2 space-y-2">
+              <div className="pt-2 space-y-4">
                 <Button variant="outline" size="sm" className="w-full nav-button-glow text-base py-1.5 h-9" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
                   Share Resource
                 </Button>
 
                 {user ? (
                   <div className="flex items-center justify-between px-3 py-2 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-3">
                       <UserCircle className="h-4 w-4 text-primary-600 transition-all duration-200" />
                       <span className="text-sm text-secondary-700 font-medium">
                         {user.user_metadata?.full_name || user.email?.split('@')[0]}
@@ -229,7 +229,7 @@ export function Header() {
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      className="nav-button-glow p-1.5 h-8 w-8 flex items-center justify-center hover:bg-secondary-100" 
+                      className="nav-button-glow p-1.5 h-8 w-8 flex items-center justify-center hover:bg-secondary-100 ml-2" 
                       onClick={handleSignOut}
                       title="Sign Out"
                       aria-label="Sign Out"
