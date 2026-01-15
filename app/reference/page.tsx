@@ -1,4 +1,4 @@
-import { FileText, Book, Code, Image, Globe, Link as LinkIcon } from 'lucide-react';
+import { FileText, Book, Code, Image, Globe, Link as LinkIcon, Lock } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -231,7 +231,7 @@ export default function ReferencePage() {
               Competition documents and all the project stuff we put together
             </p>
             <p className="text-sm text-secondary-500 mt-4 max-w-2xl mx-auto">
-              Click "Open PDF" to view the PDF document in a new tab. You can download it from there.
+              Documents are currently locked and will be available soon.
             </p>
           </div>
 
@@ -239,26 +239,24 @@ export default function ReferencePage() {
             {documents.map((doc, index) => {
               const IconComponent = doc.icon;
               return (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
+                <Card key={index} className="hover:shadow-lg transition-shadow opacity-75">
                   <CardHeader>
                     <div className="flex items-center gap-3 mb-2">
-                      <div className={`w-12 h-12 ${doc.color} rounded-lg flex items-center justify-center`}>
+                      <div className={`w-12 h-12 ${doc.color} rounded-lg flex items-center justify-center relative`}>
                         <IconComponent className="h-6 w-6" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Lock className="h-4 w-4 text-secondary-500" />
+                        </div>
                       </div>
                       <CardTitle className="text-xl">{doc.name}</CardTitle>
                     </div>
                     <CardDescription>{doc.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <a
-                      href={doc.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium rounded-lg border border-secondary-300 bg-white text-secondary-700 hover:bg-secondary-50 transition-colors"
-                    >
-                      <FileText className="mr-2 h-4 w-4" />
-                      Open PDF
-                    </a>
+                    <div className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium rounded-lg border border-secondary-300 bg-secondary-100 text-secondary-500 cursor-not-allowed">
+                      <Lock className="mr-2 h-4 w-4" />
+                      Coming Soon
+                    </div>
                   </CardContent>
                 </Card>
               );
