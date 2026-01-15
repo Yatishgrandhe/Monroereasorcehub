@@ -110,17 +110,17 @@ export default function CareerCenterPage() {
                 className="btn btn-outline btn-lg text-white inline-flex items-center justify-center bg-white/20 border-white/30 hover:bg-white/30 force-white-text"
                 style={{ color: 'white' }}
               >
-                <Sparkles className="mr-2 h-5 w-5" />
-                Build My Resume
-              </Link>
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Build My Resume
+                </Link>
               <Link 
                 href="/career/jobs" 
                 className="btn btn-ghost btn-lg text-white inline-flex items-center justify-center hover:bg-white/20 force-white-text"
                 style={{ color: 'white' }}
               >
-                <Briefcase className="mr-2 h-5 w-5" />
-                See Local Jobs
-              </Link>
+                  <Briefcase className="mr-2 h-5 w-5" />
+                  See Local Jobs
+                </Link>
             </div>
           </div>
         </div>
@@ -266,9 +266,9 @@ export default function CareerCenterPage() {
                       className="btn btn-primary w-full text-white inline-flex items-center justify-center force-white-text"
                       style={{ color: 'white' }}
                     >
-                      Get Started
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
+                        Get Started
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
                   </CardContent>
                 </Card>
               );
@@ -334,17 +334,17 @@ export default function CareerCenterPage() {
                 className="btn btn-outline btn-lg text-white inline-flex items-center justify-center bg-white/20 border-white/30 hover:bg-white/30 force-white-text"
                 style={{ color: 'white' }}
               >
-                <FileText className="mr-2 h-5 w-5" />
-                Build My Resume
-              </Link>
+                  <FileText className="mr-2 h-5 w-5" />
+                  Build My Resume
+                </Link>
               <Link 
                 href="/career/job-assistant" 
                 className="btn btn-ghost btn-lg text-white inline-flex items-center justify-center hover:bg-white/20 force-white-text"
                 style={{ color: 'white' }}
               >
-                <Target className="mr-2 h-5 w-5" />
-                Get Job Help
-              </Link>
+                  <Target className="mr-2 h-5 w-5" />
+                  Get Job Help
+                </Link>
             </div>
           </div>
         </div>

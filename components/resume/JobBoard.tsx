@@ -469,9 +469,9 @@ export function JobBoard() {
                               rel="noopener noreferrer"
                               className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
                             >
-                              Apply Now
-                              <ExternalLink className="h-4 w-4 ml-2" />
-                            </a>
+                                Apply Now
+                                <ExternalLink className="h-4 w-4 ml-2" />
+                              </a>
                           </div>
                         </div>
                       </div>

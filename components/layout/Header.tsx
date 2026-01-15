@@ -119,24 +119,24 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Desktop Actions - optimized spacing for larger screens */}
-          <div className="hidden lg:flex lg:items-center flex-shrink-0 gap-1.5 lg:gap-2 xl:gap-2.5 2xl:gap-3">
-            <Button variant="ghost" size="sm" className="nav-button-glow px-2 lg:px-2.5 xl:px-3 2xl:px-4 text-sm xl:text-base py-1.5 lg:py-2 h-8 lg:h-9 xl:h-10 flex items-center gap-1.5 xl:gap-2" asChild href="/resources">
-              <span className="flex items-center gap-1.5 xl:gap-2">
-                <Search className="h-4 w-4 lg:h-4 lg:w-4 xl:h-5 xl:w-5 transition-all duration-200" />
+          {/* Desktop Actions - smaller buttons for all sizes */}
+          <div className="hidden lg:flex lg:items-center flex-shrink-0 gap-1 lg:gap-1.5 xl:gap-2">
+            <Button variant="ghost" size="sm" className="nav-button-glow px-1.5 lg:px-2 xl:px-2.5 text-xs lg:text-sm py-1 lg:py-1.5 h-7 lg:h-8 xl:h-9 flex items-center gap-1 xl:gap-1.5" asChild href="/resources">
+              <span className="flex items-center gap-1 xl:gap-1.5">
+                <Search className="h-3.5 w-3.5 lg:h-4 lg:w-4 xl:h-4 xl:w-4 transition-all duration-200" />
                 <span className="hidden xl:inline">Search</span>
               </span>
             </Button>
-            <Button variant="outline" size="sm" className="nav-button-glow px-2 lg:px-2.5 xl:px-3 2xl:px-4 text-sm xl:text-base py-1.5 lg:py-2 h-8 lg:h-9 xl:h-10 whitespace-nowrap" asChild href="/submit-resource">
+            <Button variant="outline" size="sm" className="nav-button-glow px-1.5 lg:px-2 xl:px-2.5 text-xs lg:text-sm py-1 lg:py-1.5 h-7 lg:h-8 xl:h-9 whitespace-nowrap" asChild href="/submit-resource">
               <span className="hidden xl:inline">Share Resource</span>
               <span className="xl:hidden">Share</span>
             </Button>
 
             {user ? (
-              <div className="flex items-center gap-1.5 lg:gap-2 xl:gap-2.5">
-                <div className="flex items-center gap-1.5 lg:gap-2 px-2 lg:px-2.5 xl:px-3 2xl:px-4 py-1 lg:py-1.5 h-8 lg:h-9 xl:h-10 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap transition-all duration-200">
-                  <UserCircle className="h-4 w-4 lg:h-4 lg:w-4 xl:h-5 xl:w-5 text-primary-600 flex-shrink-0 transition-all duration-200" />
-                  <span className="text-sm lg:text-sm xl:text-base text-secondary-700 font-medium max-w-[70px] lg:max-w-[80px] xl:max-w-[100px] 2xl:max-w-[120px] truncate transition-all duration-200">
+              <div className="flex items-center gap-1 lg:gap-1.5 xl:gap-2">
+                <div className="flex items-center gap-1 lg:gap-1.5 px-1.5 lg:px-2 xl:px-2.5 py-0.5 lg:py-1 h-7 lg:h-8 xl:h-9 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap transition-all duration-200">
+                  <UserCircle className="h-3.5 w-3.5 lg:h-4 lg:w-4 xl:h-4 xl:w-4 text-primary-600 flex-shrink-0 transition-all duration-200" />
+                  <span className="text-xs lg:text-sm text-secondary-700 font-medium max-w-[60px] lg:max-w-[70px] xl:max-w-[90px] 2xl:max-w-[110px] truncate transition-all duration-200">
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
@@ -144,20 +144,20 @@ export function Header() {
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="nav-button-glow p-1.5 lg:p-2 h-8 lg:h-9 xl:h-10 w-8 lg:w-9 xl:w-10 flex items-center justify-center hover:bg-secondary-100" 
+                  className="nav-button-glow p-1 lg:p-1.5 h-7 lg:h-8 xl:h-9 w-7 lg:w-8 xl:w-9 flex items-center justify-center hover:bg-secondary-100" 
                   onClick={handleSignOut}
                   title="Sign Out"
                   aria-label="Sign Out"
                 >
-                  <LogOut className="h-4 w-4 lg:h-4 lg:w-4 xl:h-5 xl:w-5 text-secondary-600 hover:text-primary-600 transition-all duration-200" />
+                  <LogOut className="h-3.5 w-3.5 lg:h-4 lg:w-4 xl:h-4 xl:w-4 text-secondary-600 hover:text-primary-600 transition-all duration-200" />
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center gap-1.5 lg:gap-2 xl:gap-2.5">
-                <Button variant="outline" size="sm" className="nav-button-glow px-2 lg:px-2.5 xl:px-3 2xl:px-4 text-sm xl:text-base py-1.5 lg:py-2 h-8 lg:h-9 xl:h-10" asChild href="/auth/signin">
+              <div className="flex items-center gap-1 lg:gap-1.5 xl:gap-2">
+                <Button variant="outline" size="sm" className="nav-button-glow px-1.5 lg:px-2 xl:px-2.5 text-xs lg:text-sm py-1 lg:py-1.5 h-7 lg:h-8 xl:h-9" asChild href="/auth/signin">
                   Sign In
                 </Button>
-                <Button variant="gradient" size="sm" className="nav-button-glow px-2 lg:px-2.5 xl:px-3 2xl:px-4 text-sm xl:text-base py-1.5 lg:py-2 h-8 lg:h-9 xl:h-10" asChild href="/auth/signup">
+                <Button variant="gradient" size="sm" className="nav-button-glow px-1.5 lg:px-2 xl:px-2.5 text-xs lg:text-sm py-1 lg:py-1.5 h-7 lg:h-8 xl:h-9" asChild href="/auth/signup">
                   Sign Up
                 </Button>
               </div>
@@ -214,16 +214,16 @@ export function Header() {
               >
                 My Resumes
               </Link>
-              <div className="pt-2 space-y-4">
-                <Button variant="outline" size="sm" className="w-full nav-button-glow text-base py-1.5 h-9" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
+              <div className="pt-2 space-y-3">
+                <Button variant="outline" size="sm" className="w-full nav-button-glow text-sm py-1.5 h-8" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
                   Share Resource
                 </Button>
 
                 {user ? (
-                  <div className="flex items-center justify-between px-3 py-2 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
-                    <div className="flex items-center space-x-3">
-                      <UserCircle className="h-4 w-4 text-primary-600 transition-all duration-200" />
-                      <span className="text-sm text-secondary-700 font-medium">
+                  <div className="flex items-center justify-between px-3 py-1.5 bg-gradient-logo-soft rounded-lg border border-primary-200/50">
+                    <div className="flex items-center space-x-2">
+                      <UserCircle className="h-3.5 w-3.5 text-primary-600 transition-all duration-200" />
+                      <span className="text-xs text-secondary-700 font-medium">
                         {user.user_metadata?.full_name || user.email?.split('@')[0]}
                       </span>
                     </div>
@@ -231,20 +231,20 @@ export function Header() {
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      className="nav-button-glow p-1.5 h-8 w-8 flex items-center justify-center hover:bg-secondary-100 ml-2" 
+                      className="nav-button-glow p-1 h-7 w-7 flex items-center justify-center hover:bg-secondary-100 ml-2" 
                       onClick={handleSignOut}
                       title="Sign Out"
                       aria-label="Sign Out"
                     >
-                      <LogOut className="h-4 w-4 text-secondary-600 hover:text-primary-600 transition-all duration-200" />
+                      <LogOut className="h-3.5 w-3.5 text-secondary-600 hover:text-primary-600 transition-all duration-200" />
                     </Button>
                   </div>
                 ) : (
                   <>
-                    <Button variant="outline" size="sm" className="w-full nav-button-glow text-base py-1.5 h-9" asChild href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full nav-button-glow text-sm py-1.5 h-8" asChild href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
                       Sign In
                     </Button>
-                    <Button variant="gradient" size="sm" className="w-full nav-button-glow text-base py-1.5 h-9" asChild href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="gradient" size="sm" className="w-full nav-button-glow text-sm py-1.5 h-8" asChild href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
                       Sign Up
                     </Button>
                   </>

@@ -79,9 +79,9 @@ export default function RootLayout({
         {/* Developer tools protection - DISABLED FOR NOW */}
         {/* <InspectProtection /> */}
         {/* <ObfuscatedScript /> */}
-        <div className="min-h-screen flex flex-col w-full">
+        <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
           <Header />
-          <main className="flex-1 w-full">
+          <main className="flex-1 w-full overflow-x-hidden">
             {children}
           </main>
           <Footer />
