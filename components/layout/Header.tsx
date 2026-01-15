@@ -62,12 +62,12 @@ export function Header() {
   return (
     <header className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-secondary-200 sticky top-0 z-50 w-full">
       <nav className="w-full max-w-[1920px] mx-auto" aria-label="Global">
-        {/* Reduced responsive height: h-12 (48px) on mobile, h-[52px] on sm, h-14 (56px) on md, h-16 (64px) on lg+ */}
-        <div className="flex items-center justify-between h-12 sm:h-[52px] md:h-14 lg:h-16 px-3 sm:px-4 md:px-5 lg:px-6 xl:px-8 transition-all duration-300">
-          {/* logo section - smaller, more compact */}
+        {/* Responsive height: h-12 (48px) on mobile, h-[52px] on sm, h-14 (56px) on md, h-16 (64px) on lg+ */}
+        <div className="flex items-center justify-between h-12 sm:h-[52px] md:h-14 lg:h-16 px-3 sm:px-4 md:px-5 lg:px-6 xl:px-8 2xl:px-12 transition-all duration-300">
+          {/* logo section */}
           <div className="flex items-center flex-shrink-0">
-            <Link href="/" className="flex items-center space-x-1 sm:space-x-1.5 md:space-x-2 logo-container">
-              {/* Smaller logo sizes: 28px → 32px → 36px → 40px */}
+            <Link href="/" className="flex items-center gap-1 sm:gap-1.5 md:gap-2 logo-container">
+              {/* Responsive logo sizes */}
               <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-lg overflow-hidden shadow-lg flex-shrink-0 transition-all duration-300 ease-in-out">
                 <img
                   src="/logo.png"
@@ -75,7 +75,7 @@ export function Header() {
                   className="w-full h-full object-contain transition-all duration-300"
                 />
               </div>
-              {/* Increased text sizes by 2px: text-sm → text-base → text-lg → text-xl */}
+              {/* Desktop text */}
               <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold logo-title hidden sm:inline transition-all duration-300 ease-in-out leading-tight">
                 Monroe Resource Hub
               </span>
@@ -86,18 +86,18 @@ export function Header() {
             </Link>
           </div>
 
-          {/* desktop nav - smaller, more compact */}
-          <div className="hidden lg:flex lg:items-center lg:space-x-0.5 xl:space-x-1 flex-1 justify-center max-w-5xl mx-auto">
+          {/* desktop nav - optimized spacing for all screen sizes */}
+          <div className="hidden lg:flex lg:items-center flex-1 justify-center max-w-6xl mx-auto gap-1 lg:gap-1.5 xl:gap-2 2xl:gap-3">
             {filteredNavigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 className={cn(
                   'nav-link font-medium whitespace-nowrap',
-                  // Increased text size by 2px: text-sm on all sizes
-                  'text-sm',
-                  // Smaller padding: px-1 on lg, px-1.5 on xl
-                  'px-1 xl:px-1.5',
+                  'text-sm lg:text-sm xl:text-base',
+                  // Responsive padding: optimized for each breakpoint
+                  'px-2 lg:px-2.5 xl:px-3 2xl:px-4',
+                  'py-1.5 lg:py-2',
                   pathname === item.href ? 'active' : 'text-secondary-600'
                 )}
               >
@@ -109,8 +109,9 @@ export function Header() {
               href="/career/saved-resumes"
               className={cn(
                 'nav-link font-medium whitespace-nowrap',
-                'text-sm',
-                'px-1 xl:px-1.5',
+                'text-sm lg:text-sm xl:text-base',
+                'px-2 lg:px-2.5 xl:px-3 2xl:px-4',
+                'py-1.5 lg:py-2',
                 pathname === '/career/saved-resumes' ? 'active' : 'text-secondary-600'
               )}
             >
@@ -118,23 +119,24 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Desktop Actions - smaller, compact, sign out button always visible */}
-          <div className="hidden lg:flex lg:items-center lg:space-x-1 xl:space-x-1.5 flex-shrink-0">
-            <Button variant="ghost" size="sm" className="nav-button-glow px-1.5 xl:px-2 text-sm py-1.5 h-8" asChild href="/resources">
-              {/* Icons: h-4 w-4 */}
-              <Search className="h-4 w-4 mr-0.5 xl:mr-1 transition-all duration-200" />
-              <span className="hidden xl:inline">Search</span>
+          {/* Desktop Actions - optimized spacing for larger screens */}
+          <div className="hidden lg:flex lg:items-center flex-shrink-0 gap-1.5 lg:gap-2 xl:gap-2.5 2xl:gap-3">
+            <Button variant="ghost" size="sm" className="nav-button-glow px-2 lg:px-2.5 xl:px-3 2xl:px-4 text-sm xl:text-base py-1.5 lg:py-2 h-8 lg:h-9 xl:h-10 flex items-center gap-1.5 xl:gap-2" asChild href="/resources">
+              <span className="flex items-center gap-1.5 xl:gap-2">
+                <Search className="h-4 w-4 lg:h-4 lg:w-4 xl:h-5 xl:w-5 transition-all duration-200" />
+                <span className="hidden xl:inline">Search</span>
+              </span>
             </Button>
-            <Button variant="outline" size="sm" className="nav-button-glow px-1.5 xl:px-2 text-sm py-1.5 h-8 whitespace-nowrap" asChild href="/submit-resource">
+            <Button variant="outline" size="sm" className="nav-button-glow px-2 lg:px-2.5 xl:px-3 2xl:px-4 text-sm xl:text-base py-1.5 lg:py-2 h-8 lg:h-9 xl:h-10 whitespace-nowrap" asChild href="/submit-resource">
               <span className="hidden xl:inline">Share Resource</span>
               <span className="xl:hidden">Share</span>
             </Button>
 
             {user ? (
-              <div className="flex items-center space-x-1 xl:space-x-1.5">
-                <div className="flex items-center space-x-1.5 px-2 xl:px-2.5 py-1 h-8 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap transition-all duration-200">
-                  <UserCircle className="h-4 w-4 xl:h-4 xl:w-4 text-primary-600 flex-shrink-0 transition-all duration-200" />
-                  <span className="text-sm xl:text-base text-secondary-700 font-medium max-w-[70px] xl:max-w-[90px] truncate transition-all duration-200">
+              <div className="flex items-center gap-1.5 lg:gap-2 xl:gap-2.5">
+                <div className="flex items-center gap-1.5 lg:gap-2 px-2 lg:px-2.5 xl:px-3 2xl:px-4 py-1 lg:py-1.5 h-8 lg:h-9 xl:h-10 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap transition-all duration-200">
+                  <UserCircle className="h-4 w-4 lg:h-4 lg:w-4 xl:h-5 xl:w-5 text-primary-600 flex-shrink-0 transition-all duration-200" />
+                  <span className="text-sm lg:text-sm xl:text-base text-secondary-700 font-medium max-w-[70px] lg:max-w-[80px] xl:max-w-[100px] 2xl:max-w-[120px] truncate transition-all duration-200">
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
@@ -142,20 +144,20 @@ export function Header() {
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="nav-button-glow p-1.5 h-8 w-8 flex items-center justify-center hover:bg-secondary-100" 
+                  className="nav-button-glow p-1.5 lg:p-2 h-8 lg:h-9 xl:h-10 w-8 lg:w-9 xl:w-10 flex items-center justify-center hover:bg-secondary-100" 
                   onClick={handleSignOut}
                   title="Sign Out"
                   aria-label="Sign Out"
                 >
-                  <LogOut className="h-4 w-4 xl:h-4 xl:w-4 text-secondary-600 hover:text-primary-600 transition-all duration-200" />
+                  <LogOut className="h-4 w-4 lg:h-4 lg:w-4 xl:h-5 xl:w-5 text-secondary-600 hover:text-primary-600 transition-all duration-200" />
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center space-x-1 xl:space-x-1.5">
-                <Button variant="outline" size="sm" className="nav-button-glow px-2 xl:px-2.5 text-sm py-1.5 h-8" asChild href="/auth/signin">
+              <div className="flex items-center gap-1.5 lg:gap-2 xl:gap-2.5">
+                <Button variant="outline" size="sm" className="nav-button-glow px-2 lg:px-2.5 xl:px-3 2xl:px-4 text-sm xl:text-base py-1.5 lg:py-2 h-8 lg:h-9 xl:h-10" asChild href="/auth/signin">
                   Sign In
                 </Button>
-                <Button variant="gradient" size="sm" className="nav-button-glow px-2 xl:px-2.5 text-sm py-1.5 h-8" asChild href="/auth/signup">
+                <Button variant="gradient" size="sm" className="nav-button-glow px-2 lg:px-2.5 xl:px-3 2xl:px-4 text-sm xl:text-base py-1.5 lg:py-2 h-8 lg:h-9 xl:h-10" asChild href="/auth/signup">
                   Sign Up
                 </Button>
               </div>
