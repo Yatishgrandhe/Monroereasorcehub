@@ -49,38 +49,56 @@ export async function migrateLocalDataToDatabase(userId: string): Promise<Migrat
       try {
         const parsed = JSON.parse(resumeData);
         if (parsed && parsed.personalInfo) {
-          // Check if resume already exists (to avoid duplicates)
+          // Check if this exact resume already exists in database
           const { data: existing, error: checkError } = await supabase
             .from('resumes')
-            .select('id')
-            .eq('user_id', userId)
-            .limit(1);
+            .select('id, resume_data')
+            .eq('user_id', userId);
 
           if (checkError && checkError.code !== 'PGRST116') {
             // PGRST116 is schema cache error, ignore it
             result.errors.push(`Resume check error: ${checkError.message}`);
-          } else if (!existing || existing.length === 0) {
-            // Create resume in database
-            const { error } = await supabase
-              .from('resumes')
-              .insert({
-                user_id: userId,
-                resume_data: parsed,
-                title: `${parsed.personalInfo?.firstName || 'My'} ${parsed.personalInfo?.lastName || 'Resume'}`,
-              });
-
-            if (error) {
-              result.errors.push(`Resume migration error: ${error.message}`);
-            } else {
-              result.migrated.resumes = 1;
-            }
           } else {
-            // Resume already exists, skip migration
-            result.migrated.resumes = 0;
+            // Check if the local storage resume is different from existing ones
+            let shouldMigrate = true;
+            if (existing && existing.length > 0) {
+              // Compare the local storage resume with existing ones
+              // If it's identical to any existing resume, skip migration
+              const localResumeString = JSON.stringify(parsed);
+              shouldMigrate = !existing.some((resume: any) => {
+                const existingResumeString = JSON.stringify(resume.resume_data);
+                return localResumeString === existingResumeString;
+              });
+            }
+
+            if (shouldMigrate) {
+              // Create resume in database
+              const resumeTitle = `${parsed.personalInfo?.firstName || 'My'} ${parsed.personalInfo?.lastName || 'Resume'}`;
+              const { error } = await supabase
+                .from('resumes')
+                .insert({
+                  user_id: userId,
+                  resume_data: parsed,
+                  title: resumeTitle,
+                });
+
+              if (error) {
+                result.errors.push(`Resume migration error: ${error.message}`);
+                console.error('Resume migration error:', error);
+              } else {
+                result.migrated.resumes = 1;
+                console.log('Resume migrated successfully:', resumeTitle);
+              }
+            } else {
+              // Resume already exists with same data, skip migration
+              result.migrated.resumes = 0;
+              console.log('Resume already exists in database, skipping migration');
+            }
           }
         }
       } catch (error) {
         result.errors.push(`Resume parsing error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        console.error('Resume parsing error:', error);
       }
     }
 
