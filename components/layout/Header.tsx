@@ -12,14 +12,14 @@ import type { User } from '@supabase/supabase-js';
 
 // nav items - temp data structure
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Resources', href: '/resources' },
-  { name: 'Events', href: '/events' },
-  { name: 'Resume Builder', href: '/career/resume-builder' },
-  { name: 'Job Application Helper', href: '/career/job-assistant' },
-  { name: 'Volunteer', href: '/volunteer' },
-  { name: 'About Us', href: '/about' },
-  { name: 'Info', href: '/reference' },
+  { name: 'Home', href: '/', shortName: 'Home' },
+  { name: 'Resources', href: '/resources', shortName: 'Resources' },
+  { name: 'Events', href: '/events', shortName: 'Events' },
+  { name: 'Resume Builder', href: '/career/resume-builder', shortName: 'Resume' },
+  { name: 'Job Application Helper', href: '/career/job-assistant', shortName: 'Job Helper' },
+  { name: 'Volunteer', href: '/volunteer', shortName: 'Volunteer' },
+  { name: 'About Us', href: '/about', shortName: 'About' },
+  { name: 'Info', href: '/reference', shortName: 'Info' },
 ];
 
 export function Header() {
@@ -76,68 +76,73 @@ export function Header() {
                   className="w-full h-full object-contain transition-all duration-300"
                 />
               </div>
-              {/* Desktop text */}
-              <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold logo-title hidden sm:inline transition-all duration-300 ease-in-out leading-tight">
+              {/* Desktop text - responsive sizing */}
+              <span className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold logo-title hidden sm:inline transition-all duration-300 ease-in-out leading-tight truncate max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-none">
                 Monroe Resource Hub
               </span>
               {/* Mobile-only abbreviated version */}
-              <span className="text-sm sm:text-base font-bold logo-title sm:hidden transition-all duration-300">
+              <span className="text-xs sm:text-sm font-bold logo-title sm:hidden transition-all duration-300">
                 MRH
               </span>
             </Link>
           </div>
 
           {/* desktop nav - optimized spacing for all screen sizes */}
-          <div className="hidden lg:flex lg:items-center flex-1 justify-center max-w-6xl mx-auto gap-1 lg:gap-1.5 xl:gap-2 2xl:gap-3">
+          <div className="hidden lg:flex lg:items-center flex-1 justify-center max-w-7xl mx-auto gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-2 min-w-0">
             {filteredNavigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  'nav-link font-medium whitespace-nowrap',
-                  'text-sm lg:text-sm xl:text-base',
+                  'nav-link font-medium whitespace-nowrap flex-shrink-0',
+                  'text-xs lg:text-xs xl:text-sm 2xl:text-base',
                   // Responsive padding: optimized for each breakpoint
-                  'px-2 lg:px-2.5 xl:px-3 2xl:px-4',
-                  'py-1.5 lg:py-2',
+                  'px-1.5 lg:px-2 xl:px-2.5 2xl:px-3',
+                  'py-1 lg:py-1.5 xl:py-2',
                   pathname === item.href ? 'active' : 'text-secondary-600'
                 )}
+                title={item.name}
               >
-                {item.name}
+                <span className="hidden xl:inline">{item.name}</span>
+                <span className="xl:hidden">{item.shortName || item.name}</span>
               </Link>
             ))}
             {/* My Resumes - available for both user types */}
             <Link
               href="/career/saved-resumes"
               className={cn(
-                'nav-link font-medium whitespace-nowrap',
-                'text-sm lg:text-sm xl:text-base',
-                'px-2 lg:px-2.5 xl:px-3 2xl:px-4',
-                'py-1.5 lg:py-2',
+                'nav-link font-medium whitespace-nowrap flex-shrink-0',
+                'text-xs lg:text-xs xl:text-sm 2xl:text-base',
+                'px-1.5 lg:px-2 xl:px-2.5 2xl:px-3',
+                'py-1 lg:py-1.5 xl:py-2',
                 pathname === '/career/saved-resumes' ? 'active' : 'text-secondary-600'
               )}
+              title="My Resumes"
             >
-              My Resumes
+              <span className="hidden xl:inline">My Resumes</span>
+              <span className="xl:hidden">Resumes</span>
             </Link>
           </div>
 
           {/* Desktop Actions - smaller buttons for all sizes */}
-          <div className="hidden lg:flex lg:items-center flex-shrink-0 gap-1 lg:gap-1.5 xl:gap-2">
-            <Button variant="ghost" size="sm" className="nav-button-glow px-1.5 lg:px-2 xl:px-2.5 text-xs lg:text-sm py-1 lg:py-1.5 h-7 lg:h-8 xl:h-9 flex items-center gap-1 xl:gap-1.5" asChild href="/resources">
-              <span className="flex items-center gap-1 xl:gap-1.5">
-                <Search className="h-3.5 w-3.5 lg:h-4 lg:w-4 xl:h-4 xl:w-4 transition-all duration-200" />
-                <span className="hidden xl:inline">Search</span>
+          <div className="hidden lg:flex lg:items-center flex-shrink-0 gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-2">
+            <Button variant="ghost" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-xs lg:text-xs xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 flex items-center gap-0.5 xl:gap-1" asChild href="/resources" title="Search Resources">
+              <span className="flex items-center gap-0.5 xl:gap-1">
+                <Search className="h-3.5 w-3.5 lg:h-3.5 xl:h-4 2xl:h-4 transition-all duration-200 flex-shrink-0" />
+                <span className="hidden 2xl:inline">Search</span>
               </span>
             </Button>
-            <Button variant="outline" size="sm" className="nav-button-glow px-1.5 lg:px-2 xl:px-2.5 text-xs lg:text-sm py-1 lg:py-1.5 h-7 lg:h-8 xl:h-9 whitespace-nowrap" asChild href="/submit-resource">
-              <span className="hidden xl:inline">Share Resource</span>
+            <Button variant="outline" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-xs lg:text-xs xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 whitespace-nowrap" asChild href="/submit-resource" title="Share Resource">
+              <span className="hidden 2xl:inline">Share Resource</span>
+              <span className="2xl:hidden hidden xl:inline">Share</span>
               <span className="xl:hidden">Share</span>
             </Button>
 
             {user ? (
-              <div className="flex items-center gap-1 lg:gap-1.5 xl:gap-2">
-                <div className="flex items-center gap-1 lg:gap-1.5 px-1.5 lg:px-2 xl:px-2.5 py-0.5 lg:py-1 h-7 lg:h-8 xl:h-9 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap transition-all duration-200">
-                  <UserCircle className="h-3.5 w-3.5 lg:h-4 lg:w-4 xl:h-4 xl:w-4 text-primary-600 flex-shrink-0 transition-all duration-200" />
-                  <span className="text-xs lg:text-sm text-secondary-700 font-medium max-w-[60px] lg:max-w-[70px] xl:max-w-[90px] 2xl:max-w-[110px] truncate transition-all duration-200">
+              <div className="flex items-center gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-2">
+                <div className="flex items-center gap-0.5 lg:gap-1 xl:gap-1.5 px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 py-0.5 lg:py-0.5 xl:py-1 h-7 lg:h-7 xl:h-8 2xl:h-9 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap transition-all duration-200 min-w-0">
+                  <UserCircle className="h-3.5 w-3.5 lg:h-3.5 xl:h-4 2xl:h-4 text-primary-600 flex-shrink-0 transition-all duration-200" />
+                  <span className="text-xs lg:text-xs xl:text-sm 2xl:text-sm text-secondary-700 font-medium max-w-[50px] lg:max-w-[60px] xl:max-w-[80px] 2xl:max-w-[120px] truncate transition-all duration-200" title={user.user_metadata?.full_name || user.email}>
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
@@ -145,20 +150,20 @@ export function Header() {
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="nav-button-glow p-1 lg:p-1.5 h-7 lg:h-8 xl:h-9 w-7 lg:w-8 xl:w-9 flex items-center justify-center hover:bg-secondary-100" 
+                  className="nav-button-glow p-0.5 lg:p-1 xl:p-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 w-7 lg:w-7 xl:w-8 2xl:w-9 flex items-center justify-center hover:bg-secondary-100 flex-shrink-0" 
                   onClick={handleSignOut}
                   title="Sign Out"
                   aria-label="Sign Out"
                 >
-                  <LogOut className="h-3.5 w-3.5 lg:h-4 lg:w-4 xl:h-4 xl:w-4 text-secondary-600 hover:text-primary-600 transition-all duration-200" />
+                  <LogOut className="h-3.5 w-3.5 lg:h-3.5 xl:h-4 2xl:h-4 text-secondary-600 hover:text-primary-600 transition-all duration-200" />
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center gap-1 lg:gap-1.5 xl:gap-2">
-                <Button variant="outline" size="sm" className="nav-button-glow px-1.5 lg:px-2 xl:px-2.5 text-xs lg:text-sm py-1 lg:py-1.5 h-7 lg:h-8 xl:h-9" asChild href="/auth/signin">
+              <div className="flex items-center gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-2">
+                <Button variant="outline" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-xs lg:text-xs xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 whitespace-nowrap" asChild href="/auth/signin">
                   Sign In
                 </Button>
-                <Button variant="gradient" size="sm" className="nav-button-glow px-1.5 lg:px-2 xl:px-2.5 text-xs lg:text-sm py-1 lg:py-1.5 h-7 lg:h-8 xl:h-9" asChild href="/auth/signup">
+                <Button variant="gradient" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-xs lg:text-xs xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 whitespace-nowrap" asChild href="/auth/signup">
                   Sign Up
                 </Button>
               </div>
