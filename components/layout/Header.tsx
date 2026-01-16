@@ -221,6 +221,12 @@ export function Header() {
                 My Resumes
               </Link>
               <div className="pt-2 space-y-3">
+                <Button variant="ghost" size="sm" className="w-full nav-button-glow text-sm py-1.5 h-8 flex items-center justify-center gap-2" asChild href="/resources" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="flex items-center gap-2">
+                    <Search className="h-4 w-4" />
+                    Search Resources
+                  </span>
+                </Button>
                 <Button variant="outline" size="sm" className="w-full nav-button-glow text-sm py-1.5 h-8" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
                   Share Resource
                 </Button>
