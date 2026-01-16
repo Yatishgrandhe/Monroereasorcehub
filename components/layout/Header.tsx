@@ -77,11 +77,11 @@ export function Header() {
                 />
               </div>
               {/* Desktop text - responsive sizing */}
-              <span className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold logo-title hidden sm:inline transition-all duration-300 ease-in-out leading-tight truncate max-w-[100px] sm:max-w-[130px] md:max-w-[160px] lg:max-w-[180px] xl:max-w-[200px] 2xl:max-w-[220px]">
+              <span className="text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-base font-bold logo-title hidden sm:inline transition-all duration-300 ease-in-out leading-tight truncate max-w-[100px] sm:max-w-[130px] md:max-w-[160px] lg:max-w-[180px] xl:max-w-[200px] 2xl:max-w-[220px]">
                 Monroe Resource Hub
               </span>
               {/* Mobile-only abbreviated version */}
-              <span className="text-xs sm:text-sm font-bold logo-title sm:hidden transition-all duration-300">
+              <span className="text-[10px] sm:text-xs font-bold logo-title sm:hidden transition-all duration-300">
                 MRH
               </span>
             </Link>
@@ -95,7 +95,7 @@ export function Header() {
                 href={item.href}
                 className={cn(
                   'nav-link font-medium whitespace-nowrap flex-shrink-0',
-                  'text-xs lg:text-xs xl:text-sm 2xl:text-base',
+                  'text-[10px] lg:text-[10px] xl:text-xs 2xl:text-sm',
                   // Responsive padding: optimized for each breakpoint
                   'px-1.5 lg:px-2 xl:px-2.5 2xl:px-3',
                   'py-1 lg:py-1.5 xl:py-2',
@@ -112,7 +112,7 @@ export function Header() {
               href="/career/saved-resumes"
               className={cn(
                 'nav-link font-medium whitespace-nowrap flex-shrink-0',
-                'text-xs lg:text-xs xl:text-sm 2xl:text-base',
+                'text-[10px] lg:text-[10px] xl:text-xs 2xl:text-sm',
                 'px-1.5 lg:px-2 xl:px-2.5 2xl:px-3',
                 'py-1 lg:py-1.5 xl:py-2',
                 pathname === '/career/saved-resumes' ? 'active' : 'text-secondary-600'
@@ -126,13 +126,13 @@ export function Header() {
 
           {/* Desktop Actions - smaller buttons for all sizes */}
           <div className="hidden lg:flex lg:items-center flex-shrink-0 gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-2 min-w-0">
-            <Button variant="ghost" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-xs lg:text-xs xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 flex items-center gap-0.5 xl:gap-1" asChild href="/resources" title="Search Resources">
+            <Button variant="ghost" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-[10px] lg:text-[10px] xl:text-xs 2xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 flex items-center gap-0.5 xl:gap-1" asChild href="/resources" title="Search Resources">
               <span className="flex items-center gap-0.5 xl:gap-1">
                 <Search className="h-3.5 w-3.5 lg:h-3.5 xl:h-4 2xl:h-4 transition-all duration-200 flex-shrink-0" />
                 <span className="hidden 2xl:inline">Search</span>
               </span>
             </Button>
-            <Button variant="outline" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-xs lg:text-xs xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 whitespace-nowrap" asChild href="/submit-resource" title="Share Resource">
+            <Button variant="outline" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-[10px] lg:text-[10px] xl:text-xs 2xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 whitespace-nowrap" asChild href="/submit-resource" title="Share Resource">
               <span className="hidden 2xl:inline">Share Resource</span>
               <span className="2xl:hidden hidden xl:inline">Share</span>
               <span className="xl:hidden">Share</span>
@@ -142,7 +142,7 @@ export function Header() {
               <div className="flex items-center gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-2">
                 <div className="flex items-center gap-0.5 lg:gap-1 xl:gap-1.5 px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 py-0.5 lg:py-0.5 xl:py-1 h-7 lg:h-7 xl:h-8 2xl:h-9 bg-gradient-logo-soft rounded-lg border border-primary-200/50 whitespace-nowrap transition-all duration-200 min-w-0">
                   <UserCircle className="h-3.5 w-3.5 lg:h-3.5 xl:h-4 2xl:h-4 text-primary-600 flex-shrink-0 transition-all duration-200" />
-                  <span className="text-xs lg:text-xs xl:text-sm 2xl:text-sm text-secondary-700 font-medium max-w-[50px] lg:max-w-[60px] xl:max-w-[80px] 2xl:max-w-[120px] truncate transition-all duration-200" title={user.user_metadata?.full_name || user.email}>
+                  <span className="text-[10px] lg:text-[10px] xl:text-xs 2xl:text-sm text-secondary-700 font-medium max-w-[50px] lg:max-w-[60px] xl:max-w-[80px] 2xl:max-w-[120px] truncate transition-all duration-200" title={user.user_metadata?.full_name || user.email}>
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
@@ -160,10 +160,10 @@ export function Header() {
               </div>
             ) : (
               <div className="flex items-center gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-2">
-                <Button variant="outline" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-xs lg:text-xs xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 whitespace-nowrap" asChild href="/auth/signin">
+                <Button variant="outline" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-[10px] lg:text-[10px] xl:text-xs 2xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 whitespace-nowrap" asChild href="/auth/signin">
                   Sign In
                 </Button>
-                <Button variant="gradient" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-xs lg:text-xs xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 whitespace-nowrap" asChild href="/auth/signup">
+                <Button variant="gradient" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-[10px] lg:text-[10px] xl:text-xs 2xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 whitespace-nowrap" asChild href="/auth/signup">
                   Sign Up
                 </Button>
               </div>
