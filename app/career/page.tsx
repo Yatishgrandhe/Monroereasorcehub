@@ -88,22 +88,24 @@ export default function CareerCenterPage() {
               write a cover letter that actually works, and see what jobs are available around here.
             </p>
             
-            {/* Login Notice */}
-            <div className="mb-8 max-w-2xl mx-auto">
-              <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white">
-                <CardContent className="p-4">
-                  <div className="flex items-start gap-3">
-                    <Info className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                    <div className="text-left">
-                      <p className="font-semibold mb-1">No Login Required</p>
-                      <p className="text-sm text-white/90">
-                        All tools are available to everyone. Creating an account is helpful for saving your work across devices, but you can use everything right away without signing in. Your data will be saved in your browser's local storage.
-                      </p>
+            {/* Login Notice - Only show for non-logged-in users */}
+            {!user && (
+              <div className="mb-8 max-w-2xl mx-auto">
+                <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      <Info className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                      <div className="text-left">
+                        <p className="font-semibold mb-1">No Login Required</p>
+                        <p className="text-sm text-white/90">
+                          All tools are available to everyone. Creating an account is helpful for saving your work across devices, but you can use everything right away without signing in. Your data will be saved in your browser's local storage.
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 href="/career/resume-builder" 

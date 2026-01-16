@@ -169,7 +169,7 @@ export default function SavedResumesPage() {
               <div>
                 <h1 className="title-section mb-2">My Saved Resumes</h1>
                 <p className="text-xl text-secondary-600 max-w-3xl font-sans">
-                {user ? 'Manage and export your saved resumes' : 'View and manage your resume saved in your browser'}
+                {user ? 'Manage and export your saved resumes saved in cloud' : 'View and manage your resume saved in your browser'}
                 </p>
               </div>
               <Button variant="gradient" size="md" asChild href="/career/resume-builder">
