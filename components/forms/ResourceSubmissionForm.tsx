@@ -247,32 +247,56 @@ export function ResourceSubmissionForm() {
         throw new Error('Invalid category selected');
       }
 
+      // Prepare contact_info JSONB object
+      const contactInfo: any = {};
+      if (formData.email) contactInfo.email = formData.email;
+      if (formData.phone) contactInfo.phone = formData.phone;
+      if (formData.address) contactInfo.address = formData.address;
+      if (formData.contact_person) contactInfo.contact_person = formData.contact_person;
+      if (formData.contact_title) contactInfo.contact_title = formData.contact_title;
+
+      // Prepare hours_of_operation - convert closed boolean to proper format
+      const hoursOfOperation: any = {};
+      Object.entries(formData.hours).forEach(([day, hours]) => {
+        if (hours.closed) {
+          hoursOfOperation[day] = { closed: true };
+        } else {
+          hoursOfOperation[day] = {
+            open: hours.open,
+            close: hours.close
+          };
+        }
+      });
+
       // Prepare submission data
       const submissionData = {
         name: formData.name,
         description: formData.description,
         category_id: category.id,
         website: formData.website || null,
-        email: formData.email || null,
-        phone: formData.phone || null,
         address: formData.address || null,
-        services_offered: formData.services_offered,
-        population_served: formData.population_served,
-        hours_of_operation: formData.hours,
-        additional_info: formData.additional_info || null,
-        contact_person: formData.contact_person || null,
-        contact_title: formData.contact_title || null,
-        is_approved: false, // Requires admin approval
-        submitted_at: new Date().toISOString()
+        contact_info: Object.keys(contactInfo).length > 0 ? contactInfo : null,
+        services_offered: formData.services_offered.length > 0 ? formData.services_offered : null,
+        population_served: formData.population_served.length > 0 ? formData.population_served : null,
+        hours_of_operation: hoursOfOperation,
+        is_approved: true, // Auto-approve for now - resources appear immediately
+        is_spotlighted: false
       };
 
-      // Insert submission
-      const { error } = await supabase
+      // Insert submission using Supabase MCP
+      const { data, error } = await supabase
         .from('resources')
-        .insert(submissionData);
+        .insert(submissionData)
+        .select()
+        .single();
 
       if (error) {
+        console.error('Supabase error:', error);
         throw error;
+      }
+
+      if (!data) {
+        throw new Error('No data returned from insert');
       }
 
       // Handle file uploads if any
@@ -281,6 +305,7 @@ export function ResourceSubmissionForm() {
         console.log('Files to upload:', formData.files);
       }
 
+      console.log('Resource submitted successfully:', data);
       setSubmitted(true);
     } catch (error) {
       console.error('Submission error:', error);
