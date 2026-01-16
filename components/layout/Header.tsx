@@ -199,7 +199,7 @@ export function Header() {
                   className={cn(
                     'block px-3 py-2 text-base font-medium transition-all duration-200 rounded-lg',
                     pathname === item.href
-                      ? 'active text-white'
+                      ? 'bg-gradient-logo text-white font-semibold'
                       : 'text-secondary-600 hover:text-white hover:bg-gradient-logo'
                   )}
                   onClick={() => setMobileMenuOpen(false)}
@@ -213,7 +213,7 @@ export function Header() {
                 className={cn(
                   'block px-3 py-2 text-base font-medium transition-all duration-200 rounded-lg',
                   pathname === '/career/saved-resumes'
-                    ? 'active text-white'
+                    ? 'bg-gradient-logo text-white font-semibold'
                     : 'text-secondary-600 hover:text-white hover:bg-gradient-logo'
                 )}
                 onClick={() => setMobileMenuOpen(false)}

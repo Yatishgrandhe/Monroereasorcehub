@@ -405,12 +405,18 @@
   
   .nav-link.active {
     background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #f97316 100%);
-    color: white;
+    color: white !important;
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+    font-weight: 600;
   }
   
   .nav-link.active::before {
     display: none;
+  }
+  
+  /* Ensure active state is visible on white background */
+  .nav-link.active:hover {
+    color: white !important;
   }
   
   .nav-button-glow {
