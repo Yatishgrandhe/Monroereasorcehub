@@ -285,7 +285,7 @@ export default function ReferencePage() {
                     Guarantee of Originality:
                   </p>
                   <p>
-                    Just so you know, Team 3850 built this whole thing ourselves. We didn't grab any pre-made themes or templates - everything you see, from how it looks to how it works, we put together ourselves. Every single piece of code and design came from our team.
+                    Just so you know, the team at Chapter 3850 built this whole thing ourselves. We didn't grab any pre-made themes or templates - everything you see, from how it looks to how it works, we put together ourselves. Every single piece of code and design came from our team.
                   </p>
                   <p>
                     Our design and how everything works together are completely unique, even though we use open source libraries (like the ones below) to build on the work of others. There were no pre-made templates used to make this website, so this proves it.

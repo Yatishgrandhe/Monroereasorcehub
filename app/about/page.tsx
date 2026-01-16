@@ -229,7 +229,7 @@ export default function AboutPage() {
                   Just So You Know:
                 </p>
                 <p>
-                  Team 3850 built this whole thing ourselves. 
+                  The team at Chapter 3850 built this whole thing ourselves. 
                   We didn't grab any pre-made themes or templates - everything from how it looks to how it works, we put together ourselves. 
                   Every single piece of code and design came from our team, and we're pretty proud of that.
                 </p>
