@@ -56,7 +56,7 @@ export default function SignInPage() {
             setMigrating(false);
           }
         }
-        router.push('/career/resume-builder');
+        router.push('/');
       }
     } catch (error) {
       setError('An unexpected error occurred');
@@ -73,7 +73,7 @@ export default function SignInPage() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/career/resume-builder`,
+          redirectTo: `${window.location.origin}/`,
         },
       });
 
