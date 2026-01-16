@@ -66,7 +66,7 @@ export function Header() {
         {/* Responsive height: h-12 (48px) on mobile, h-[52px] on sm, h-14 (56px) on md, h-16 (64px) on lg+ */}
         <div className="flex items-center justify-between h-12 sm:h-[52px] md:h-14 lg:h-16 px-3 sm:px-4 md:px-5 lg:px-6 xl:px-8 2xl:px-12 transition-all duration-300">
           {/* logo section */}
-          <div className="flex items-center flex-shrink-0">
+          <div className="flex items-center flex-shrink-0 mr-2 sm:mr-3 md:mr-4 lg:mr-6 xl:mr-8">
             <Link href="/" className="flex items-center gap-1 sm:gap-1.5 md:gap-2 logo-container">
               {/* Responsive logo sizes */}
               <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-lg overflow-hidden shadow-lg flex-shrink-0 transition-all duration-300 ease-in-out">
@@ -77,7 +77,7 @@ export function Header() {
                 />
               </div>
               {/* Desktop text - responsive sizing */}
-              <span className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold logo-title hidden sm:inline transition-all duration-300 ease-in-out leading-tight truncate max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-none">
+              <span className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold logo-title hidden sm:inline transition-all duration-300 ease-in-out leading-tight truncate max-w-[120px] sm:max-w-[150px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-none">
                 Monroe Resource Hub
               </span>
               {/* Mobile-only abbreviated version */}
@@ -88,7 +88,7 @@ export function Header() {
           </div>
 
           {/* desktop nav - optimized spacing for all screen sizes */}
-          <div className="hidden lg:flex lg:items-center flex-1 justify-center max-w-7xl mx-auto gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-2 min-w-0">
+          <div className="hidden lg:flex lg:items-center flex-1 justify-center max-w-7xl mx-auto gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-2 min-w-0 px-2 lg:px-3 xl:px-4">
             {filteredNavigation.map((item) => (
               <Link
                 key={item.name}
@@ -125,7 +125,7 @@ export function Header() {
           </div>
 
           {/* Desktop Actions - smaller buttons for all sizes */}
-          <div className="hidden lg:flex lg:items-center flex-shrink-0 gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-2">
+          <div className="hidden lg:flex lg:items-center flex-shrink-0 gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-2 ml-2 lg:ml-3 xl:ml-4">
             <Button variant="ghost" size="sm" className="nav-button-glow px-1 lg:px-1.5 xl:px-2 2xl:px-2.5 text-xs lg:text-xs xl:text-sm py-0.5 lg:py-1 xl:py-1.5 h-7 lg:h-7 xl:h-8 2xl:h-9 flex items-center gap-0.5 xl:gap-1" asChild href="/resources" title="Search Resources">
               <span className="flex items-center gap-0.5 xl:gap-1">
                 <Search className="h-3.5 w-3.5 lg:h-3.5 xl:h-4 2xl:h-4 transition-all duration-200 flex-shrink-0" />
