@@ -148,6 +148,8 @@ export async function migrateLocalDataToDatabase(userId: string): Promise<Migrat
       try {
         const parsed = JSON.parse(jobApplicationsData);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          console.log(`Found ${parsed.length} job applications in local storage to migrate`);
+          
           // Check existing applications to avoid duplicates
           const { data: existing, error: checkError } = await supabase
             .from('job_applications')
@@ -156,47 +158,93 @@ export async function migrateLocalDataToDatabase(userId: string): Promise<Migrat
 
           if (checkError && checkError.code !== 'PGRST116') {
             result.errors.push(`Job applications check error: ${checkError.message}`);
+            console.error('Job applications check error:', checkError);
           } else {
             let migratedCount = 0;
+            let skippedCount = 0;
+            
             for (const app of parsed) {
-              // Check if this application already exists (by title and company)
-              const exists = existing?.some((existingApp: any) => 
-                existingApp.title === app.title && 
-                existingApp.company === app.company &&
-                existingApp.job_title === app.job_title
-              );
+              try {
+                // Normalize comparison values (trim whitespace, handle nulls)
+                const appTitle = (app.title || '').trim();
+                const appCompany = (app.company || '').trim();
+                const appJobTitle = (app.job_title || '').trim();
+                
+                // Check if this application already exists (by title, company, and job_title)
+                const exists = existing?.some((existingApp: any) => {
+                  const existingTitle = (existingApp.title || '').trim();
+                  const existingCompany = (existingApp.company || '').trim();
+                  const existingJobTitle = (existingApp.job_title || '').trim();
+                  
+                  return existingTitle === appTitle && 
+                         existingCompany === appCompany &&
+                         existingJobTitle === appJobTitle;
+                });
 
-              if (!exists) {
-                const { error } = await supabase
-                  .from('job_applications')
-                  .insert({
+                if (!exists) {
+                  // Handle resume_id - if it's 'local-resume', set to null
+                  let resumeId = app.resume_id;
+                  if (resumeId === 'local-resume' || !resumeId || resumeId === '') {
+                    resumeId = null;
+                  }
+                  
+                  // Ensure job_requirements, job_analysis, and interview_questions are properly formatted
+                  const jobRequirements = app.job_requirements || null;
+                  const jobAnalysis = app.job_analysis || null;
+                  const interviewQuestions = app.interview_questions ? (Array.isArray(app.interview_questions) ? app.interview_questions : null) : null;
+                  
+                  const insertData: any = {
                     user_id: userId,
-                    title: app.title,
-                    company: app.company,
-                    job_title: app.job_title,
-                    location: app.location,
-                    job_description: app.job_description,
-                    job_requirements: app.job_requirements,
-                    cover_letter: app.cover_letter,
-                    job_analysis: app.job_analysis,
-                    interview_questions: app.interview_questions,
-                    resume_id: app.resume_id,
+                    title: appTitle || `${appJobTitle} at ${appCompany}` || 'Untitled Application',
+                    company: appCompany || 'Unknown Company',
+                    job_title: appJobTitle || 'Unknown Position',
+                    location: app.location || null,
+                    job_description: app.job_description || null,
+                    job_requirements: jobRequirements,
+                    cover_letter: app.cover_letter || null,
+                    job_analysis: jobAnalysis,
+                    interview_questions: interviewQuestions,
+                    resume_id: resumeId,
                     status: app.status || 'draft',
-                    created_at: app.created_at || new Date().toISOString(),
-                    updated_at: app.updated_at || new Date().toISOString(),
-                  });
+                  };
+                  
+                  // Only add timestamps if they exist and are valid
+                  if (app.created_at) {
+                    insertData.created_at = app.created_at;
+                  }
+                  if (app.updated_at) {
+                    insertData.updated_at = app.updated_at;
+                  }
 
-                if (error) {
-                  result.errors.push(`Job application migration error: ${error.message}`);
-                  console.error('Job application migration error:', error);
+                  const { error: insertError } = await supabase
+                    .from('job_applications')
+                    .insert(insertData);
+
+                  if (insertError) {
+                    result.errors.push(`Job application migration error for "${appTitle}": ${insertError.message}`);
+                    console.error('Job application migration error:', insertError, 'Data:', insertData);
+                  } else {
+                    migratedCount++;
+                    console.log(`Successfully migrated job application: ${appTitle}`);
+                  }
                 } else {
-                  migratedCount++;
+                  skippedCount++;
+                  console.log(`Skipping duplicate job application: ${appTitle}`);
                 }
+              } catch (appError) {
+                result.errors.push(`Error processing job application: ${appError instanceof Error ? appError.message : 'Unknown error'}`);
+                console.error('Error processing individual job application:', appError, app);
               }
             }
+            
             result.migrated.jobApplications = migratedCount;
-            console.log(`Migrated ${migratedCount} job applications`);
+            console.log(`Job applications migration complete: ${migratedCount} migrated, ${skippedCount} skipped`);
           }
+        } else if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+          // Handle case where it's a single object instead of array
+          console.log('Found single job application object in local storage');
+          result.migrated.jobApplications = 0;
+          result.errors.push('Job applications stored as single object instead of array. Please save applications again.');
         }
       } catch (error) {
         result.errors.push(`Job applications parsing error: ${error instanceof Error ? error.message : 'Unknown error'}`);
