@@ -7,9 +7,9 @@ import { Badge } from '@/components/ui/Badge';
 // team data
 const team = [
   {
-    name: 'Central Academy of Technology and Arts High School TSA Chapter',
+    name: 'Team 3850',
     role: 'Development Team',
-    description: 'We are the students of the Central Academy of Technology and Arts, and we wanted to do something big for our community. The whole thing was our idea of helping our neighbors.',
+    description: 'We are Team 3850, and we wanted to do something big for our community. The whole thing was our idea of helping our neighbors.',
     image: '/team/tsa-team.jpg'
   }
 ];
@@ -229,7 +229,7 @@ export default function AboutPage() {
                   Just So You Know:
                 </p>
                 <p>
-                  Our team at Central Academy of Technology and Arts TSA Chapter built this whole thing ourselves. 
+                  Team 3850 built this whole thing ourselves. 
                   We didn't grab any pre-made themes or templates - everything from how it looks to how it works, we put together ourselves. 
                   Every single piece of code and design came from our team, and we're pretty proud of that.
                 </p>
