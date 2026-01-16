@@ -10,6 +10,7 @@ const LOCAL_STORAGE_KEYS = {
   COVER_LETTERS: 'monroe_cover_letters',
   JOB_ANALYSIS: 'monroe_job_analysis',
   INTERVIEW_QUESTIONS: 'monroe_interview_questions',
+  JOB_APPLICATIONS: 'monroe_job_applications',
 } as const;
 
 interface MigrationResult {
@@ -19,6 +20,7 @@ interface MigrationResult {
     coverLetters: number;
     jobAnalysis: number;
     interviewQuestions: number;
+    jobApplications: number;
   };
   errors: string[];
 }
@@ -34,6 +36,7 @@ export async function migrateLocalDataToDatabase(userId: string): Promise<Migrat
       coverLetters: 0,
       jobAnalysis: 0,
       interviewQuestions: 0,
+      jobApplications: 0,
     },
     errors: [],
   };
@@ -139,7 +142,69 @@ export async function migrateLocalDataToDatabase(userId: string): Promise<Migrat
       }
     }
 
-    // Note: Interview questions are typically generated on-demand, so we don't need to migrate them
+    // Migrate job applications
+    const jobApplicationsData = localStorage.getItem(LOCAL_STORAGE_KEYS.JOB_APPLICATIONS);
+    if (jobApplicationsData) {
+      try {
+        const parsed = JSON.parse(jobApplicationsData);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // Check existing applications to avoid duplicates
+          const { data: existing, error: checkError } = await supabase
+            .from('job_applications')
+            .select('id, title, company, job_title, created_at')
+            .eq('user_id', userId);
+
+          if (checkError && checkError.code !== 'PGRST116') {
+            result.errors.push(`Job applications check error: ${checkError.message}`);
+          } else {
+            let migratedCount = 0;
+            for (const app of parsed) {
+              // Check if this application already exists (by title and company)
+              const exists = existing?.some((existingApp: any) => 
+                existingApp.title === app.title && 
+                existingApp.company === app.company &&
+                existingApp.job_title === app.job_title
+              );
+
+              if (!exists) {
+                const { error } = await supabase
+                  .from('job_applications')
+                  .insert({
+                    user_id: userId,
+                    title: app.title,
+                    company: app.company,
+                    job_title: app.job_title,
+                    location: app.location,
+                    job_description: app.job_description,
+                    job_requirements: app.job_requirements,
+                    cover_letter: app.cover_letter,
+                    job_analysis: app.job_analysis,
+                    interview_questions: app.interview_questions,
+                    resume_id: app.resume_id,
+                    status: app.status || 'draft',
+                    created_at: app.created_at || new Date().toISOString(),
+                    updated_at: app.updated_at || new Date().toISOString(),
+                  });
+
+                if (error) {
+                  result.errors.push(`Job application migration error: ${error.message}`);
+                  console.error('Job application migration error:', error);
+                } else {
+                  migratedCount++;
+                }
+              }
+            }
+            result.migrated.jobApplications = migratedCount;
+            console.log(`Migrated ${migratedCount} job applications`);
+          }
+        }
+      } catch (error) {
+        result.errors.push(`Job applications parsing error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        console.error('Job applications parsing error:', error);
+      }
+    }
+
+    // Note: Interview questions are typically generated on-demand, so we don't need to migrate them separately
 
     if (result.errors.length > 0) {
       result.success = false;
@@ -161,7 +226,8 @@ export function hasLocalDataToMigrate(): boolean {
   return !!(
     localStorage.getItem(LOCAL_STORAGE_KEYS.RESUME) ||
     localStorage.getItem(LOCAL_STORAGE_KEYS.COVER_LETTERS) ||
-    localStorage.getItem(LOCAL_STORAGE_KEYS.JOB_ANALYSIS)
+    localStorage.getItem(LOCAL_STORAGE_KEYS.JOB_ANALYSIS) ||
+    localStorage.getItem(LOCAL_STORAGE_KEYS.JOB_APPLICATIONS)
   );
 }
 
@@ -175,5 +241,6 @@ export function clearLocalDataAfterMigration(): void {
   localStorage.removeItem(LOCAL_STORAGE_KEYS.COVER_LETTERS);
   localStorage.removeItem(LOCAL_STORAGE_KEYS.JOB_ANALYSIS);
   localStorage.removeItem(LOCAL_STORAGE_KEYS.INTERVIEW_QUESTIONS);
+  localStorage.removeItem(LOCAL_STORAGE_KEYS.JOB_APPLICATIONS);
 }
 
