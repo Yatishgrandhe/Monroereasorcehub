@@ -219,14 +219,26 @@ export function ResourceSubmissionForm() {
     updateFormData('files', newFiles);
   };
 
+  // Phone number validation - US format (10 digits)
+  const validatePhoneNumber = (phone: string): boolean => {
+    // Remove all non-digit characters
+    const digitsOnly = phone.replace(/\D/g, '');
+    // Check if it has exactly 10 digits
+    return digitsOnly.length === 10;
+  };
+
   const validateStep = (step: number): boolean => {
     switch (step) {
       case 1:
-        return !!(formData.name && formData.description && formData.category);
+        return !!(formData.name && formData.description && formData.category && formData.website);
       case 2:
         return formData.services_offered.length > 0 && formData.population_served.length > 0;
       case 3:
-        return !!(formData.email || formData.phone);
+        // Require email, phone, and address
+        const hasEmail = !!formData.email;
+        const hasPhone = !!formData.phone && validatePhoneNumber(formData.phone);
+        const hasAddress = !!formData.address;
+        return hasEmail && hasPhone && hasAddress;
       case 4:
         return true;
       default:
@@ -239,6 +251,29 @@ export function ResourceSubmissionForm() {
     setError('');
 
     try {
+      // Validate required fields
+      if (!formData.name || !formData.description || !formData.category || !formData.website) {
+        throw new Error('Please fill in all required fields in step 1');
+      }
+
+      if (formData.services_offered.length === 0 || formData.population_served.length === 0) {
+        throw new Error('Please select at least one service and population in step 2');
+      }
+
+      if (!formData.email || !formData.phone || !formData.address) {
+        throw new Error('Please fill in all required contact information in step 3');
+      }
+
+      // Validate phone number
+      if (!validatePhoneNumber(formData.phone)) {
+        throw new Error('Phone number must be exactly 10 digits');
+      }
+
+      // Validate email format
+      if (!formData.email.includes('@') || !formData.email.includes('.')) {
+        throw new Error('Please enter a valid email address');
+      }
+
       const supabase = createClient();
 
       // Find category ID
@@ -250,7 +285,10 @@ export function ResourceSubmissionForm() {
       // Prepare contact_info JSONB object
       const contactInfo: any = {};
       if (formData.email) contactInfo.email = formData.email;
-      if (formData.phone) contactInfo.phone = formData.phone;
+      if (formData.phone) {
+        // Store phone as formatted string for display, but ensure it's valid
+        contactInfo.phone = formData.phone;
+      }
       if (formData.address) contactInfo.address = formData.address;
       if (formData.contact_person) contactInfo.contact_person = formData.contact_person;
       if (formData.contact_title) contactInfo.contact_title = formData.contact_title;
@@ -365,12 +403,13 @@ export function ResourceSubmissionForm() {
                 </div>
 
                 <Input
-                  label="Website"
+                  label="Website *"
                   type="url"
                   value={formData.website}
                   onChange={(e) => updateFormData('website', e.target.value)}
                   placeholder="https://www.example.com"
                   icon={<Globe className="h-4 w-4" />}
+                  required
                 />
               </div>
             </div>
@@ -479,29 +518,56 @@ export function ResourceSubmissionForm() {
 
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    label="Email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => updateFormData('email', e.target.value)}
-                    placeholder="contact@organization.com"
-                    icon={<Mail className="h-4 w-4" />}
-                  />
-                  <Input
-                    label="Phone"
-                    value={formData.phone}
-                    onChange={(e) => updateFormData('phone', e.target.value)}
-                    placeholder="(704) 123-4567"
-                    icon={<Phone className="h-4 w-4" />}
-                  />
+                  <div>
+                    <Input
+                      label="Email *"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => updateFormData('email', e.target.value)}
+                      placeholder="contact@organization.com"
+                      icon={<Mail className="h-4 w-4" />}
+                      required
+                    />
+                    {formData.email && !formData.email.includes('@') && (
+                      <p className="text-sm text-error-600 mt-1">Please enter a valid email address</p>
+                    )}
+                  </div>
+                  <div>
+                    <Input
+                      label="Phone *"
+                      value={formData.phone}
+                      onChange={(e) => {
+                        // Format phone number as user types
+                        let value = e.target.value.replace(/\D/g, '');
+                        if (value.length > 10) value = value.slice(0, 10);
+                        if (value.length > 0) {
+                          if (value.length <= 3) {
+                            value = `(${value}`;
+                          } else if (value.length <= 6) {
+                            value = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+                          } else {
+                            value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6)}`;
+                          }
+                        }
+                        updateFormData('phone', value);
+                      }}
+                      placeholder="(704) 123-4567"
+                      icon={<Phone className="h-4 w-4" />}
+                      required
+                    />
+                    {formData.phone && !validatePhoneNumber(formData.phone) && (
+                      <p className="text-sm text-error-600 mt-1">Phone number must be 10 digits (e.g., (704) 123-4567)</p>
+                    )}
+                  </div>
                 </div>
 
                 <Input
-                  label="Address"
+                  label="Address *"
                   value={formData.address}
                   onChange={(e) => updateFormData('address', e.target.value)}
                   placeholder="123 Main Street, Monroe, NC 28112"
                   icon={<MapPin className="h-4 w-4" />}
+                  required
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
