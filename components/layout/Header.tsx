@@ -15,7 +15,6 @@ const navigation = [
   { name: 'Home', href: '/', shortName: 'Home' },
   { name: 'Resources', href: '/resources', shortName: 'Resources' },
   { name: 'Events', href: '/events', shortName: 'Events' },
-  { name: 'Job Board', href: '/career/jobs', shortName: 'Jobs' },
   { name: 'Job Application Helper', href: '/career/job-assistant', shortName: 'Job Helper' },
   { name: 'Volunteer', href: '/volunteer', shortName: 'Volunteer' },
   { name: 'About Us', href: '/about', shortName: 'About' },

@@ -214,7 +214,7 @@ export default function ReferencePage() {
               We wanted to be transparent about everything we used to build this site. Here's the full list of tools and sources.
             </p>
             <Badge variant="primary" className="bg-white/50 backdrop-blur-sm text-white border-white/50 shadow-lg font-semibold">
-              Central Academy of Technology and Arts TSA Chapter
+              Team 3850
             </Badge>
           </div>
         </div>
@@ -285,7 +285,7 @@ export default function ReferencePage() {
                     Guarantee of Originality:
                   </p>
                   <p>
-                    Just so you know, our team at Central Academy of Technology and Arts TSA Chapter built this whole thing ourselves. We didn't grab any pre-made themes or templates - everything you see, from how it looks to how it works, we put together ourselves. Every single piece of code and design came from our team.
+                    Just so you know, Team 3850 built this whole thing ourselves. We didn't grab any pre-made themes or templates - everything you see, from how it looks to how it works, we put together ourselves. Every single piece of code and design came from our team.
                   </p>
                   <p>
                     Our design and how everything works together are completely unique, even though we use open source libraries (like the ones below) to build on the work of others. There were no pre-made templates used to make this website, so this proves it.
@@ -395,7 +395,7 @@ export default function ReferencePage() {
               </p>
               <p>
                 <strong>Original Content:</strong> All other content, design elements, and code not listed above
-                are original works created by the Central Academy of Technology and Arts TSA Chapter team specifically for this project.
+                are original works created by Team 3850 specifically for this project.
               </p>
             </CardContent>
           </Card>
@@ -418,7 +418,7 @@ export default function ReferencePage() {
                   </div>
                   <div>
                     <span className="font-semibold text-secondary-900">Organization:</span>
-                    <p>Central Academy of Technology and Arts TSA Chapter</p>
+                    <p>Team 3850</p>
                   </div>
                   <div>
                     <span className="font-semibold text-secondary-900">Location:</span>
