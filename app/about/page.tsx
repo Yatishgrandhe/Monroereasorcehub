@@ -7,9 +7,21 @@ import { Badge } from '@/components/ui/Badge';
 // team data
 const team = [
   {
-    name: 'Team 3850',
-    role: 'Development Team',
-    description: 'We are Team 3850, and we wanted to do something big for our community. The whole thing was our idea of helping our neighbors.',
+    name: 'Yatish Grandhe',
+    role: '10th Grader',
+    description: 'Passionate about web development and community service. Focused on creating user-friendly interfaces and seamless user experiences.',
+    image: '/team/tsa-team.jpg'
+  },
+  {
+    name: 'Ishan Bhatt',
+    role: '11th Grader',
+    description: 'Experienced in full-stack development and database design. Committed to building scalable solutions that make a real difference in our community.',
+    image: '/team/tsa-team.jpg'
+  },
+  {
+    name: 'Pranav Bodavula',
+    role: '10th Grader',
+    description: 'Dedicated to frontend development and UI/UX design. Enthusiastic about creating beautiful, accessible interfaces that help people find the resources they need.',
     image: '/team/tsa-team.jpg'
   }
 ];
