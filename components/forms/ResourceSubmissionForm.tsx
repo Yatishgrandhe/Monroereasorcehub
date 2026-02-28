@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Upload, MapPin, Phone, Mail, Globe, Clock, Users, FileText, CheckCircle, AlertCircle } from 'lucide-react';
+import { Upload, MapPin, Phone, Mail, Globe, Clock, Users, FileText, CheckCircle, AlertCircle, LayoutGrid, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { createClient } from '@/lib/supabase/client';
-import { formatDate } from '@/lib/utils';
+import { formatDate, cn } from '@/lib/utils';
 
 interface FormData {
   // Basic Information
@@ -660,55 +661,65 @@ export function ResourceSubmissionForm() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-slate-900">
-        <div className="container-custom section-padding">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="h-8 w-8 text-success-600" />
-            </div>
-            <h1 className="text-3xl font-bold text-white mb-4">
-              Thanks for sharing!
-            </h1>
-            <p className="text-lg text-slate-400 mb-8">
-              We've received your submission. We'll review it shortly and let you know when it's published.
-            </p>
-            <div className="space-y-4">
-              <Button variant="primary" asChild href="/resources">
-                Browse Resources
-              </Button>
-              <Button variant="outline" asChild href="/">
-                Return Home
-              </Button>
-            </div>
-          </div>
+      <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
+        <div className="container-custom section-padding pt-32">
+          <Card className="max-w-2xl mx-auto glass-card border-emerald-500/20 bg-emerald-500/5 overflow-hidden">
+            <CardContent className="p-16 text-center">
+              <div className="w-24 h-24 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-10 shadow-2xl shadow-emerald-500/20">
+                <CheckCircle className="h-12 w-12 text-emerald-400" />
+              </div>
+              <h1 className="text-4xl font-black text-white mb-6 tracking-tight uppercase">
+                Resource <span className="text-emerald-400">Captured</span>
+              </h1>
+              <p className="text-xl text-slate-400 mb-12 leading-relaxed font-medium">
+                We've received your submission. Our team will review the details to ensure community standards are met before publishing.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button variant="gradient" className="h-14 px-10 rounded-2xl font-bold" asChild href="/resources">
+                  <span className="flex items-center">
+                    <LayoutGrid className="mr-2 h-5 w-5" />
+                    Browse Directory
+                  </span>
+                </Button>
+                <Button variant="outline" className="h-14 px-10 rounded-2xl border-white/10 text-white hover:bg-white/5 font-bold" asChild href="/">
+                  Return Home
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
       <div className="container-custom section-padding">
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Share a Resource with the Community
-          </h1>
-          <p className="text-xl text-slate-400 max-w-3xl">
-            Help us grow our directory by sharing information about organizations or services that help people in Monroe.
-          </p>
+        <div className="mb-12 relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
+              <Sparkles className="w-3.5 h-3.5 mr-2" /> Community Growth
+            </Badge>
+            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
+              Share a <span className="text-gradient-logo">Resource</span>
+            </h1>
+            <p className="text-xl text-slate-400 max-w-3xl leading-relaxed">
+              Help us expand the Monroe Resource Hub. Every entry empowers your neighbors to find the support they need.
+            </p>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 relative z-10">
           {/* Progress Sidebar */}
           <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Your Progress</CardTitle>
-                <CardDescription>
-                  Step {currentStep} of {steps.length}
+            <Card className="glass-card border-white/10 rounded-3xl overflow-hidden backdrop-blur-2xl">
+              <CardHeader className="p-8 border-b border-white/5 bg-white/[0.02]">
+                <CardTitle className="text-white text-lg font-black uppercase tracking-widest">Progress</CardTitle>
+                <CardDescription className="text-slate-500 font-bold">
+                  Stage {currentStep} OF {steps.length}
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6">
                 <div className="space-y-3">
                   {steps.map((step) => {
                     const IconComponent = step.icon;
@@ -718,15 +729,22 @@ export function ResourceSubmissionForm() {
                     return (
                       <div
                         key={step.id}
-                        className={`flex items-center gap-3 p-3 rounded-lg ${isActive
-                          ? 'bg-primary-100 text-primary-700'
-                          : isCompleted
-                            ? 'bg-success-100 text-success-700'
-                            : 'text-slate-400'
-                          }`}
+                        className={cn(
+                          "flex items-center gap-4 p-4 rounded-2xl transition-all duration-300",
+                          isActive
+                            ? "bg-primary-500 text-white shadow-xl shadow-primary-500/20 font-black scale-[1.02] border border-primary-400/20"
+                            : isCompleted
+                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                              : "text-slate-500 border border-transparent"
+                        )}
                       >
-                        <IconComponent className="h-5 w-5" />
-                        <span className="font-medium">{step.name}</span>
+                        <div className={cn(
+                          "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
+                          isActive ? "bg-white/20" : isCompleted ? "bg-emerald-500/20" : "bg-white/5"
+                        )}>
+                          <IconComponent className="h-4 w-4" />
+                        </div>
+                        <span className="text-sm tracking-tight">{step.name}</span>
                       </div>
                     );
                   })}
@@ -737,49 +755,52 @@ export function ResourceSubmissionForm() {
 
           {/* Main Form */}
           <div className="lg:col-span-3">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
+            <Card className="glass-card border-white/5 rounded-3xl overflow-hidden backdrop-blur-2xl">
+              <CardHeader className="p-8 border-b border-white/5 bg-white/[0.02]">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div>
-                    <CardTitle>{steps[currentStep - 1]?.name}</CardTitle>
-                    <CardDescription>
-                      Step {currentStep} of {steps.length}
+                    <CardTitle className="text-3xl font-black text-white tracking-tight uppercase mb-1">{steps[currentStep - 1]?.name}</CardTitle>
+                    <CardDescription className="text-slate-500 font-bold tracking-widest text-[10px] uppercase">
+                      Operational Module {currentStep} OF {steps.length}
                     </CardDescription>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-3">
                     {currentStep > 1 && (
                       <Button
                         variant="outline"
-                        size="sm"
+                        size="lg"
                         onClick={() => setCurrentStep(currentStep - 1)}
+                        className="h-12 rounded-xl border-white/10 text-white hover:bg-white/5"
                       >
                         Back
                       </Button>
                     )}
                     {currentStep < steps.length ? (
                       <Button
-                        variant="primary"
-                        size="sm"
+                        variant="gradient"
+                        size="lg"
                         onClick={() => setCurrentStep(currentStep + 1)}
                         disabled={!validateStep(currentStep)}
+                        className="h-12 rounded-xl px-10 shadow-lg shadow-primary-500/20"
                       >
-                        Next
+                        Proceed
                       </Button>
                     ) : (
                       <Button
-                        variant="primary"
-                        size="sm"
+                        variant="gradient"
+                        size="lg"
                         onClick={handleSubmit}
                         loading={loading}
                         disabled={!validateStep(currentStep)}
+                        className="h-12 rounded-xl px-10 shadow-lg shadow-primary-500/20"
                       >
-                        Share Resource
+                        Submit Mission
                       </Button>
                     )}
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-10">
                 {error && (
                   <div className="mb-6 p-4 bg-error-50 border border-error-200 rounded-lg">
                     <div className="flex items-center gap-2 text-error-700">

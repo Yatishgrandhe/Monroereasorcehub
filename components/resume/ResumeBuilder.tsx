@@ -450,7 +450,7 @@ export function ResumeBuilder() {
     <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
       <div className="container-custom section-padding">
         <div className="mb-12 relative z-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <motion.div layout layoutId="header-content" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
               <Sparkles className="w-3.5 h-3.5 mr-2" />
               {isViewingMode ? 'Saved Asset' : 'AI Resume Platform'}
@@ -491,7 +491,15 @@ export function ResumeBuilder() {
           )}
           <div className={cn(isViewingMode ? "lg:col-span-4" : "lg:col-span-3")}>
             <AnimatePresence mode="wait">
-              <motion.div key={currentStep} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+              <motion.div
+                key={currentStep}
+                layout
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="min-h-[400px]"
+              >
                 {renderStepContent()}
               </motion.div>
             </AnimatePresence>

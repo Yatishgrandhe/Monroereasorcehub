@@ -1,13 +1,13 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, MapPin, Phone, Globe, Clock, Users, Share2, ExternalLink } from 'lucide-react';
+import { ArrowLeft, MapPin, Phone, Globe, Clock, Users, Share2, ExternalLink, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { ResourceCard } from '@/components/resources/ResourceCard';
 import { createClient } from '@/lib/supabase/server';
 import { Database } from '@/types/database';
-import { formatPhoneNumber, formatDate } from '@/lib/utils';
+import { formatPhoneNumber, formatDate, cn } from '@/lib/utils';
 
 type Resource = Database['public']['Tables']['resources']['Row'] & {
   categories: Database['public']['Tables']['categories']['Row'];
@@ -22,7 +22,7 @@ interface ResourceDetailPageProps {
 export async function generateMetadata({ params }: ResourceDetailPageProps) {
   const { id } = await params;
   const supabase = await createClient();
-  
+
   const { data: resource } = await supabase
     .from('resources')
     .select(`
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: ResourceDetailPageProps) {
 export default async function ResourceDetailPage({ params }: ResourceDetailPageProps) {
   const { id } = await params;
   const supabase = await createClient();
-  
+
   const { data: resource, error } = await supabase
     .from('resources')
     .select(`
@@ -94,7 +94,7 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
 
   const formatHours = (hours: any) => {
     if (!hours) return null;
-    
+
     // Convert 24-hour format to 12-hour AM/PM EST
     const formatTime12Hour = (time24: string): string => {
       if (!time24) return '';
@@ -105,10 +105,10 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
       const minutesStr = minutes.toString().padStart(2, '0');
       return `${hours12}:${minutesStr} ${period} EST`;
     };
-    
+
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    
+
     return days.map((day, index) => {
       const dayHours = hours[day];
       if (!dayHours || dayHours.closed) {
@@ -121,45 +121,48 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
   const hours = formatHours(resource.hours_of_operation);
 
   return (
-    <div className="min-h-screen bg-secondary-50">
-      <div className="container-custom section-padding">
+    <div className="min-h-screen bg-[#020617] pt-20 relative overflow-hidden">
+      <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+      <div className="container-custom section-padding relative z-10">
         {/* Back Button */}
-        <div className="mb-6">
-          <Button variant="ghost" size="sm" asChild href="/resources">
+        <div className="mb-10">
+          <Button variant="ghost" size="sm" asChild href="/resources" className="text-slate-400 hover:text-white bg-white/5 border border-white/10 rounded-xl px-6 py-2">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Resources
+            Back to Directory
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Header */}
-            <div className="bg-white rounded-xl p-6 shadow-soft">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl">{resource.categories.icon}</span>
+          <div className="lg:col-span-2 space-y-10">
+            {/* Header Section */}
+            <div className="glass-card p-10 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/5 blur-[100px] rounded-full -mr-32 -mt-32 pointer-events-none transition-all duration-700 group-hover:bg-primary-500/10" />
+
+              <div className="flex flex-col md:flex-row items-start justify-between gap-8 mb-10">
+                <div className="flex items-start gap-6">
+                  <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-3xl shadow-2xl group-hover:scale-110 transition-transform duration-500">
+                    {resource.categories.icon}
                   </div>
                   <div>
-                    <Badge variant="secondary" className="mb-2">
+                    <Badge variant="glass" className="mb-4 px-4 py-1.5 border-primary-500/20 text-primary-400 font-black uppercase tracking-[0.2em] text-[10px]">
                       {resource.categories.name}
                     </Badge>
-                    <h1 className="text-3xl font-bold text-secondary-900">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-none tracking-tighter">
                       {resource.name}
                     </h1>
                   </div>
                 </div>
-                
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm">
-                    <Share2 className="h-4 w-4 mr-2" />
+
+                <div className="flex items-center gap-3 w-full md:w-auto">
+                  <Button variant="outline" size="lg" className="flex-1 md:flex-none h-14 rounded-2xl border-white/10 text-white font-bold hover:bg-white/10 transition-all">
+                    <Share2 className="h-5 w-5 mr-2" />
                     Share
                   </Button>
                   {resource.website && (
-                    <Button variant="outline" size="sm" asChild>
+                    <Button variant="primary" size="lg" className="flex-1 md:flex-none h-14 rounded-2xl shadow-xl shadow-primary-500/20 font-black" asChild>
                       <a href={resource.website} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-4 w-4 mr-2" />
+                        <ExternalLink className="h-5 w-5 mr-2" />
                         Website
                       </a>
                     </Button>
@@ -168,198 +171,168 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
               </div>
 
               {resource.description && (
-                <p className="text-lg text-secondary-700 leading-relaxed">
+                <p className="text-xl text-slate-400 leading-relaxed font-medium">
                   {resource.description}
                 </p>
               )}
             </div>
 
-            {/* Services & Population */}
+            {/* Services & Population Grid */}
             {(resource.services_offered?.length > 0 || resource.population_served?.length > 0) && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {resource.services_offered && resource.services_offered.length > 0 && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <span className="text-lg">Services Offered</span>
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex flex-wrap gap-2">
-                        {resource.services_offered.map((service: string, index: number) => (
-                          <Badge key={index} variant="outline">
-                            {service}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <div className="glass-card p-8 group">
+                    <h3 className="text-xl font-black text-white mb-6 flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-primary-500" />
+                      Services Offered
+                    </h3>
+                    <div className="flex flex-wrap gap-2.5">
+                      {resource.services_offered.map((service: string, index: number) => (
+                        <Badge key={index} variant="glass" className="bg-white/5 border-white/5 text-slate-300 font-bold px-4 py-1.5 rounded-lg">
+                          {service}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
                 )}
 
                 {resource.population_served && resource.population_served.length > 0 && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Users className="h-5 w-5" />
-                        <span className="text-lg">Population Served</span>
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex flex-wrap gap-2">
-                        {resource.population_served.map((population: string, index: number) => (
-                          <Badge key={index} variant="outline">
-                            {population}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <div className="glass-card p-8 group">
+                    <h3 className="text-xl font-black text-white mb-6 flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-primary-400" />
+                      Who We Serve
+                    </h3>
+                    <div className="flex flex-wrap gap-2.5">
+                      {resource.population_served.map((population: string, index: number) => (
+                        <Badge key={index} variant="glass" className="bg-white/5 border-white/5 text-slate-300 font-bold px-4 py-1.5 rounded-lg">
+                          {population}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             )}
 
             {/* Hours of Operation */}
             {hours && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Clock className="h-5 w-5" />
-                    <span className="text-lg">Hours of Operation</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {hours.map((dayHours, index) => (
-                      <div key={index} className="flex justify-between items-center py-1">
-                        <span className="font-medium text-secondary-700">{dayHours.day}</span>
-                        <span className="text-secondary-600">{dayHours.hours}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="glass-card p-10">
+                <h3 className="text-2xl font-black text-white mb-8 flex items-center gap-4">
+                  <Clock className="h-6 w-6 text-primary-400" />
+                  Hours of Operation
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+                  {hours.map((dayHours, index) => (
+                    <div key={index} className="flex justify-between items-center py-3 border-b border-white/5 last:border-0 md:last:border-b">
+                      <span className="font-bold text-slate-200">{dayHours.day}</span>
+                      <span className={cn("text-sm font-medium", dayHours.hours === 'Closed' ? "text-slate-500" : "text-primary-400")}>
+                        {dayHours.hours}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Contact Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Contact Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+          <div className="space-y-8">
+            {/* Contact Information Card */}
+            <div className="glass-card p-8 bg-primary-500/[0.03] border-primary-500/10">
+              <h3 className="text-xl font-black text-white mb-8">Contact Information</h3>
+              <div className="space-y-8">
                 {resource.contact_info?.phone && (
-                  <div className="flex items-center gap-3">
-                    <Phone className="h-5 w-5 text-primary-600 flex-shrink-0" />
+                  <div className="flex items-center gap-4 group">
+                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary-500/10 group-hover:border-primary-500/30">
+                      <Phone className="h-5 w-5 text-primary-400" />
+                    </div>
                     <div>
-                      <p className="font-medium">{formatPhoneNumber(resource.contact_info.phone)}</p>
-                      <a 
-                        href={`tel:${resource.contact_info.phone}`}
-                        className="text-sm text-primary-600 hover:text-primary-700"
-                      >
-                        Call now
-                      </a>
+                      <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Phone Number</p>
+                      <p className="text-lg font-bold text-white transition-colors group-hover:text-primary-300">
+                        {formatPhoneNumber(resource.contact_info.phone)}
+                      </p>
                     </div>
                   </div>
                 )}
 
                 {resource.contact_info?.email && (
-                  <div className="flex items-center gap-3">
-                    <Globe className="h-5 w-5 text-primary-600 flex-shrink-0" />
+                  <div className="flex items-center gap-4 group">
+                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary-500/10 group-hover:border-primary-500/30">
+                      <Globe className="h-5 w-5 text-primary-400" />
+                    </div>
                     <div>
-                      <p className="font-medium">{resource.contact_info.email}</p>
-                      <a 
-                        href={`mailto:${resource.contact_info.email}`}
-                        className="text-sm text-primary-600 hover:text-primary-700"
-                      >
-                        Send email
-                      </a>
+                      <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Email Address</p>
+                      <p className="text-lg font-bold text-white transition-colors group-hover:text-primary-300 break-all">
+                        {resource.contact_info.email}
+                      </p>
                     </div>
                   </div>
                 )}
 
                 {resource.address && (
-                  <div className="flex items-start gap-3">
-                    <MapPin className="h-5 w-5 text-primary-600 flex-shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-4 group">
+                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary-500/10 group-hover:border-primary-500/30 shrink-0">
+                      <MapPin className="h-5 w-5 text-primary-400" />
+                    </div>
                     <div>
-                      <p className="font-medium">{resource.address}</p>
-                      <a 
+                      <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Our Location</p>
+                      <p className="text-lg font-bold text-white leading-tight mb-2">
+                        {resource.address}
+                      </p>
+                      <a
                         href={`https://maps.google.com/?q=${encodeURIComponent(resource.address)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-primary-600 hover:text-primary-700"
+                        className="text-xs font-black text-primary-400 uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2"
                       >
-                        View on map
+                        Navigate on Maps
+                        <ArrowRight className="h-3 w-3" />
                       </a>
                     </div>
                   </div>
                 )}
+              </div>
 
-                {resource.website && (
-                  <div className="pt-4 border-t border-secondary-200">
-                    <Button variant="primary" className="w-full" asChild href={resource.website}>
+              {resource.website && (
+                <div className="mt-10 pt-8 border-t border-white/5">
+                  <Button variant="primary" className="w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs" asChild>
+                    <a href={resource.website} target="_blank" rel="noopener noreferrer">
                       <Globe className="h-4 w-4 mr-2" />
-                      Visit Website
-                    </Button>
-                  </div>
-                )}
+                      Visit Site
+                    </a>
+                  </Button>
+                </div>
+              )}
+            </div>
 
-                {/* Branch Locations */}
-                {(resource.contact_info as any)?.branches && Array.isArray((resource.contact_info as any).branches) && (resource.contact_info as any).branches.length > 0 && (
-                  <div className="pt-4 border-t border-secondary-200">
-                    <h4 className="font-semibold text-secondary-900 mb-3">Branch Locations</h4>
-                    <div className="space-y-3">
-                      {(resource.contact_info as any).branches.map((branch: any, index: number) => (
-                        <div key={index} className="p-3 bg-secondary-50 rounded-lg">
-                          <p className="font-medium text-secondary-900 mb-1">{branch.name || `Branch ${index + 1}`}</p>
-                          {branch.address && (
-                            <p className="text-sm text-secondary-600 mb-1">
-                              <MapPin className="h-3 w-3 inline mr-1" />
-                              {branch.address}
-                            </p>
-                          )}
-                          {branch.phone && (
-                            <p className="text-sm text-secondary-600">
-                              <Phone className="h-3 w-3 inline mr-1" />
-                              {formatPhoneNumber(branch.phone)}
-                            </p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Quick Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button variant="outline" className="w-full" asChild href="/submit-resource">
-                  Suggest Similar Resource
+            {/* Quick Actions Card */}
+            <div className="glass-card p-8">
+              <h3 className="text-lg font-black text-white mb-6">Quick Links</h3>
+              <div className="space-y-3">
+                <Button variant="ghost" className="w-full h-12 justify-start px-4 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl border border-transparent hover:border-white/10" asChild href="/submit-resource">
+                  Suggest Changes
                 </Button>
-                <Button variant="outline" className="w-full" asChild href="/volunteer">
-                  Find Volunteer Opportunities
+                <Button variant="ghost" className="w-full h-12 justify-start px-4 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl border border-transparent hover:border-white/10" asChild href="/volunteer">
+                  Volunteer Here
                 </Button>
-                <Button variant="outline" className="w-full" asChild href="/career">
-                  Explore Career Services
+                <Button variant="ghost" className="w-full h-12 justify-start px-4 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl border border-transparent hover:border-white/10" asChild href="/career">
+                  Job Opportunities
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Related Resources */}
         {relatedResources && relatedResources.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold text-secondary-900 mb-6">
-              Related Resources
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-24 pt-20 border-t border-white/5">
+            <div className="flex items-center gap-4 mb-10">
+              <div className="w-2 h-10 bg-primary-500 rounded-full" />
+              <h2 className="text-4xl font-black text-white tracking-tighter">
+                Explore <span className="text-gradient-logo">Similar</span>
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {relatedResources.map((relatedResource) => (
                 <ResourceCard
                   key={relatedResource.id}

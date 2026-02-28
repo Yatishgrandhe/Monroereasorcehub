@@ -196,13 +196,13 @@ const requirements = [
 
 export default function VolunteerPage() {
   return (
-    <div className="min-h-screen bg-[#020617]">
+    <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
       {/* Hero Section */}
       <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[#020617] z-0">
+        <div className="absolute inset-0 bg-slate-900 z-0">
           <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
-          <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[70%] bg-primary-900/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-accent-950/10 rounded-full blur-[100px]" />
+          <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[70%] bg-primary-900/20 rounded-full blur-[120px]" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-accent-950/20 rounded-full blur-[100px]" />
         </div>
         <div className="relative container-custom section-padding">
           <div className="max-w-4xl mx-auto text-center">
@@ -250,14 +250,14 @@ export default function VolunteerPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="section-padding bg-slate-900/50">
+      <section className="section-padding bg-slate-900/50 relative z-10">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="title-section mb-4">
-              Why Give Back?
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
+              Impact of Service
             </h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-              Volunteering is a pretty good way to meet people around here and actually make a difference in Monroe.
+            <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
+              Volunteering is the cornerstone of our community. Here's why joining the movement matters.
             </p>
           </div>
 
@@ -265,15 +265,15 @@ export default function VolunteerPage() {
             {benefits.map((benefit, index) => {
               const IconComponent = benefit.icon;
               return (
-                <Card key={index} className="text-center">
-                  <CardContent className="p-6">
-                    <div className="w-16 h-16 bg-primary-500/20 text-primary-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Card key={index} className="glass-card border-white/10 text-center hover:border-primary-500/30 transition-all group">
+                  <CardContent className="p-10">
+                    <div className="w-16 h-16 bg-primary-500/10 text-primary-400 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-primary-500/20 transition-all">
                       <IconComponent className="h-8 w-8" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-3">
+                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-primary-300 transition-colors">
                       {benefit.title}
                     </h3>
-                    <p className="text-slate-400">
+                    <p className="text-slate-400 text-sm leading-relaxed">
                       {benefit.description}
                     </p>
                   </CardContent>
@@ -285,69 +285,60 @@ export default function VolunteerPage() {
       </section>
 
       {/* Community Spotlight */}
-      <section className="section-padding bg-gradient-to-br from-primary-700 via-accent-700 to-coral-600 text-white">
+      <section className="section-padding bg-gradient-to-br from-primary-900 via-slate-900 to-accent-900 text-white relative z-10">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Local Heroes
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">
+              Community <span className="text-primary-400">Spotlight</span>
             </h2>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              Meet some of the amazing folks making a difference in Monroe right now.
+            <p className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
+              Meet some of the dedicated organizations driving positive change in Monroe right now.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {volunteerOpportunities.slice(0, 3).map((volunteer, index) => (
-              <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300">
-                <div className="relative h-48 w-full mb-4 rounded-lg overflow-hidden">
+              <div key={index} className="bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/10 hover:border-primary-500/30 group transition-all duration-500">
+                <div className="relative h-64 w-full mb-8 rounded-3xl overflow-hidden shadow-2xl">
                   <ImageWithFallback
                     src={volunteer.image}
                     alt={volunteer.title}
                     title={volunteer.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-lg font-semibold text-white mb-1">{volunteer.title}</h3>
-                    <p className="text-white/90 text-sm">{volunteer.organization}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <h3 className="text-2xl font-black text-white mb-1 leading-tight">{volunteer.title}</h3>
+                    <p className="text-primary-400 font-bold text-sm tracking-widest uppercase">{volunteer.organization}</p>
                   </div>
                 </div>
-                <div className="space-y-3">
-                  <p className="text-white/90 text-sm">
+                <div className="space-y-6">
+                  <p className="text-slate-300 text-sm leading-relaxed">
                     {volunteer.description}
                   </p>
-                  <div className="flex items-center gap-2 text-sm text-white/80">
-                    <Clock className="h-4 w-4" />
-                    <span>{volunteer.timeCommitment}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-white/80">
-                    <MapPin className="h-4 w-4" />
-                    <span>{volunteer.address || volunteer.location}</span>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                      <Clock className="h-4 w-4 text-primary-500" />
+                      <span>{volunteer.timeCommitment}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                      <MapPin className="h-4 w-4 text-primary-500" />
+                      <span className="truncate">{volunteer.address || volunteer.location}</span>
+                    </div>
                   </div>
                   {volunteer.phone && (
                     <Button
-                      variant="outline"
+                      variant="gradient"
                       size="sm"
-                      className="w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md force-white-text"
+                      className="w-full mt-4 h-12 rounded-2xl shadow-lg shadow-primary-500/20"
                       asChild
                       href={`tel:${volunteer.phone.replace(/\D/g, '')}`}
                     >
-                      <>
+                      <span className="flex items-center font-bold">
                         <Phone className="h-4 w-4 mr-2" />
-                        Call {volunteer.phone}
-                      </>
+                        Connect: {volunteer.phone}
+                      </span>
                     </Button>
-                  )}
-                  {!volunteer.phone && volunteer.website && (
-                    <a
-                      href={volunteer.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-outline btn-sm w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md inline-flex items-center justify-center force-white-text opacity-100 hover:opacity-100 disabled:opacity-100"
-                    >
-                      <Mail className="h-4 w-4 mr-2" />
-                      Visit Website
-                    </a>
                   )}
                 </div>
               </div>
@@ -357,112 +348,97 @@ export default function VolunteerPage() {
       </section>
 
       {/* Volunteer Opportunities */}
-      <section id="opportunities" className="section-padding bg-slate-800/50">
+      <section id="opportunities" className="section-padding bg-slate-900/50 relative z-10">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="title-section mb-4">
-              Ways to Help Right Now
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-6">
+              Active Missions
             </h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-              Find the perfect opportunity that matches your interests.
+            <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
+              Find the perfect opportunity that matches your interests and availability.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {volunteerOpportunities.map((opportunity, index) => (
-              <Card key={index} hover className="overflow-hidden">
-                <div className="relative h-48 w-full">
+              <Card key={index} className="glass-card border-white/10 overflow-hidden group hover:border-primary-500/30 transition-all duration-300">
+                <div className="relative h-64 w-full">
                   <ImageWithFallback
                     src={opportunity.image}
                     alt={opportunity.title}
                     title={opportunity.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <CardTitle className="text-xl mb-2 text-white">{opportunity.title}</CardTitle>
-                    <CardDescription className="text-white/90 font-medium">
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <CardTitle className="text-3xl font-black text-white mb-2 tracking-tight group-hover:text-primary-300 transition-colors">{opportunity.title}</CardTitle>
+                    <CardDescription className="text-primary-400 font-bold uppercase tracking-widest text-xs">
                       {opportunity.organization}
                     </CardDescription>
                   </div>
                 </div>
-                <CardContent className="p-6">
-                  <p className="text-slate-300 mb-4">
+                <CardContent className="p-8">
+                  <p className="text-slate-400 mb-8 leading-relaxed">
                     {opportunity.description}
                   </p>
 
-                  <div className="space-y-3 mb-4">
-                    <div className="flex items-start gap-2 text-sm text-slate-400">
-                      <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5" />
-                      <span>{opportunity.address || opportunity.location}</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <div className="flex items-start gap-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                      <MapPin className="h-4 w-4 text-primary-500 flex-shrink-0" />
+                      <span className="leading-5">{opportunity.address || opportunity.location}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-slate-400">
-                      <Clock className="h-4 w-4" />
+                    <div className="flex items-center gap-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                      <Clock className="h-4 w-4 text-primary-500" />
                       <span>{opportunity.timeCommitment}</span>
                     </div>
-                    {opportunity.volunteerHours && (
-                      <div className="text-sm text-slate-400">
-                        <p className="font-medium mb-1">Volunteer Hours (EST):</p>
-                        <div className="space-y-1 text-xs">
-                          {Object.entries(opportunity.volunteerHours).map(([day, hours]: [string, any]) => {
-                            const dayName = day.charAt(0).toUpperCase() + day.slice(1);
-                            if (hours.closed) {
-                              return <div key={day}>{dayName}: Closed</div>;
-                            }
-                            return (
-                              <div key={day}>
-                                {dayName}: {formatTime12Hour(hours.open)} - {formatTime12Hour(hours.close)}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                    <div className="flex items-center gap-2 text-sm text-slate-400">
-                      <Users className="h-4 w-4" />
+                    <div className="flex items-center gap-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                      <Users className="h-4 w-4 text-primary-500" />
                       <span>Age: {opportunity.ageRequirement || '16+'}</span>
-                      {opportunity.backgroundCheck && (
-                        <Badge variant="outline" size="sm" className="ml-2">Background Check Required</Badge>
-                      )}
                     </div>
+                    {opportunity.backgroundCheck && (
+                      <Badge variant="glass" className="bg-warning-500/10 text-warning-400 border-none font-black text-[10px] tracking-tighter">
+                        Vetting Required
+                      </Badge>
+                    )}
                   </div>
 
-                  <div className="mb-4">
-                    <h4 className="text-sm font-medium text-white mb-2">Helpful Skills:</h4>
-                    <div className="flex flex-wrap gap-1">
+                  <div className="mb-8">
+                    <h4 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-4">Required Competencies</h4>
+                    <div className="flex flex-wrap gap-2">
                       {opportunity.skills.map((skill, skillIndex) => (
-                        <Badge key={skillIndex} variant="outline" size="sm">
+                        <Badge key={skillIndex} variant="glass" className="bg-white/5 border-white/5 text-slate-300 font-bold">
                           {skill}
                         </Badge>
                       ))}
                     </div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-2">
+                  <div className="flex flex-col sm:flex-row gap-4">
                     {opportunity.phone && (
                       <Button
-                        variant="primary"
-                        size="sm"
-                        className="flex-1"
+                        variant="gradient"
+                        className="flex-1 h-12 rounded-2xl font-bold"
                         asChild
                         href={`tel:${opportunity.phone.replace(/\D/g, '')}`}
                       >
-                        <>
+                        <span className="flex items-center justify-center">
                           <Phone className="h-4 w-4 mr-2" />
-                          Call {opportunity.phone}
-                        </>
+                          Call Office
+                        </span>
                       </Button>
                     )}
                     {opportunity.website && (
-                      <a
+                      <Button
+                        variant="outline"
+                        className="flex-1 h-12 rounded-2xl border-white/10 text-white hover:bg-white/5 font-bold"
+                        asChild
                         href={opportunity.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-outline btn-sm inline-flex items-center justify-center"
                       >
-                        <Mail className="h-4 w-4 mr-2" />
-                        Visit Website
-                      </a>
+                        <span className="flex items-center justify-center">
+                          <Mail className="h-4 w-4 mr-2" />
+                          Portal
+                        </span>
+                      </Button>
                     )}
                   </div>
                 </CardContent>
@@ -577,43 +553,45 @@ export default function VolunteerPage() {
       </section>
 
       {/* Call to Action */}
-      <section className="section-padding bg-gradient-to-r from-primary-600 to-primary-700 text-white">
+      <section className="section-padding pb-32 relative z-10">
         <div className="container-custom">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="title-section mb-6">
-              Make Monroe Better Together
-            </h2>
-            <p className="text-xl mb-8 text-white/90">
-              Every hour you give makes a real difference in someone\'s life.
-              Join your neighbors who are already giving back.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-white/30 backdrop-blur-sm text-white border-white/50 hover:bg-white/50 shadow-lg font-semibold force-white-text"
-                asChild
-                href="#opportunities"
-              >
-                <>
-                  <Heart className="mr-2 h-5 w-5" />
-                  Start Volunteering Today
-                </>
-              </Button>
-              <Button
-                size="lg"
-                variant="ghost"
-                className="bg-white/20 text-white hover:bg-white/40 backdrop-blur-sm font-semibold force-white-text border border-white/30"
-                asChild
-                href="/events"
-              >
-                <>
-                  <Calendar className="mr-2 h-5 w-5" />
-                  View Volunteer Events
-                </>
-              </Button>
-            </div>
-          </div>
+          <Card className="bg-gradient-to-br from-primary-600 to-accent-700 text-white rounded-[2.5rem] border-none shadow-2xl shadow-primary-500/20 overflow-hidden relative">
+            <div className="absolute inset-0 bg-mesh opacity-10" />
+            <CardContent className="p-12 md:p-20 text-center relative z-10">
+              <h2 className="text-4xl md:text-6xl font-black mb-8 tracking-tighter">
+                Orchestrate <span className="text-white/80">Positive Change</span>
+              </h2>
+              <p className="text-xl mb-12 text-white/80 max-w-3xl mx-auto leading-relaxed font-medium">
+                Every hour you invest ripples through our community. Join the collective efforts making Monroe a model for service.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="h-16 px-12 text-lg rounded-full bg-white text-primary-900 border-white hover:bg-slate-100 shadow-xl"
+                  asChild
+                  href="#opportunities"
+                >
+                  <span className="flex items-center font-bold">
+                    <Heart className="mr-3 h-5 w-5" />
+                    Start Your Mission
+                  </span>
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="h-16 px-12 text-lg rounded-full bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-md"
+                  asChild
+                  href="/events"
+                >
+                  <span className="flex items-center font-bold">
+                    <Calendar className="mr-3 h-5 w-5" />
+                    Operational Events
+                  </span>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
     </div>

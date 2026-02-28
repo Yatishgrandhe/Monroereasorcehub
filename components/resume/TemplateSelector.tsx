@@ -2,6 +2,7 @@
 
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { cn } from '@/lib/utils';
 
 interface TemplateSelectorProps {
   selectedTemplate: string;
@@ -37,47 +38,50 @@ const templates = [
 
 export function TemplateSelector({ selectedTemplate, onTemplateChange }: TemplateSelectorProps) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {templates.map((template) => (
         <div
           key={template.id}
           onClick={() => onTemplateChange(template.id)}
-          className={`cursor-pointer transition-all duration-200 ${
-            selectedTemplate === template.id
-              ? 'ring-2 ring-primary-500 ring-offset-2'
-              : 'hover:shadow-md'
-          }`}
+          className="cursor-pointer group"
         >
-          <Card className="p-4">
-            <div className="flex items-start justify-between">
+          <Card className={cn(
+            "p-6 transition-all duration-300 border-white/10 overflow-hidden relative",
+            selectedTemplate === template.id
+              ? "bg-primary-500/10 border-primary-500/40 shadow-xl shadow-primary-500/10"
+              : "bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/20"
+          )}>
+            <div className="flex items-start justify-between relative z-10">
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <h3 className="font-semibold text-secondary-900">{template.name}</h3>
+                <div className="flex items-center gap-3 mb-3">
+                  <h3 className="font-black text-white uppercase tracking-tighter text-lg">{template.name}</h3>
                   {selectedTemplate === template.id && (
-                    <Badge variant="primary" size="sm">Selected</Badge>
+                    <Badge variant="glass" className="bg-primary-500 text-white border-none font-black text-[10px] tracking-widest uppercase">Active</Badge>
                   )}
                 </div>
-                <p className="text-sm text-secondary-600 mb-2">{template.description}</p>
-                <p className="text-xs text-secondary-500">{template.preview}</p>
+                <p className="text-sm text-slate-400 mb-2 leading-relaxed">{template.description}</p>
+                <p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest italic">{template.preview}</p>
               </div>
-              <div className="ml-4">
-                <div className={`w-16 h-20 border-2 rounded ${
+              <div className="ml-6 shrink-0">
+                <div className={cn(
+                  "w-16 h-20 border-2 rounded-xl transition-all duration-500 group-hover:scale-110",
                   selectedTemplate === template.id
-                    ? 'border-primary-500 bg-primary-50'
-                    : 'border-secondary-300 bg-white'
-                }`}>
-                  {/* Template preview placeholder */}
-                  <div className="p-2 h-full flex flex-col">
-                    <div className="h-2 bg-secondary-300 rounded mb-1"></div>
-                    <div className="h-1 bg-secondary-200 rounded mb-2"></div>
-                    <div className="h-1 bg-secondary-200 rounded mb-1"></div>
-                    <div className="h-1 bg-secondary-200 rounded mb-2"></div>
-                    <div className="h-1 bg-secondary-200 rounded mb-1"></div>
-                    <div className="h-1 bg-secondary-200 rounded"></div>
+                    ? "border-primary-500 bg-primary-500/20"
+                    : "border-white/10 bg-white/5"
+                )}>
+                  <div className="p-3 h-full flex flex-col justify-center">
+                    <div className={cn("h-1.5 rounded mb-1", selectedTemplate === template.id ? "bg-primary-400" : "bg-slate-600")}></div>
+                    <div className={cn("h-1 rounded mb-2 w-2/3", selectedTemplate === template.id ? "bg-primary-500/50" : "bg-slate-700")}></div>
+                    <div className={cn("h-1 rounded mb-1", selectedTemplate === template.id ? "bg-primary-500/30" : "bg-slate-800")}></div>
+                    <div className={cn("h-1 rounded mb-1", selectedTemplate === template.id ? "bg-primary-500/30" : "bg-slate-800")}></div>
+                    <div className={cn("h-1 rounded mb-1", selectedTemplate === template.id ? "bg-primary-500/30" : "bg-slate-800")}></div>
                   </div>
                 </div>
               </div>
             </div>
+            {selectedTemplate === template.id && (
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-transparent pointer-events-none" />
+            )}
           </Card>
         </div>
       ))}

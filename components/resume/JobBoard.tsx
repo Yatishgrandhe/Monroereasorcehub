@@ -3,13 +3,14 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Search, MapPin, Calendar, Heart, ExternalLink, Filter, Briefcase, DollarSign, Clock, FileText } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { FilterPanel, FilterGroup } from '@/components/ui/FilterPanel';
-import { formatDate, getRelativeTime } from '@/lib/utils';
+import { formatDate, getRelativeTime, cn } from '@/lib/utils';
 import { supabase } from '@/lib/supabase/client';
 
 interface JobListing {
@@ -205,7 +206,7 @@ export function JobBoard() {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Try fetching from Supabase
         const { data, error: fetchError } = await supabase
           .from('job_listings')
@@ -215,15 +216,15 @@ export function JobBoard() {
 
         if (fetchError) {
           // If schema cache error, retry once after a short delay
-          if ((fetchError.message?.includes('schema cache') || 
-               fetchError.message?.includes('not found') ||
-               fetchError.code === 'PGRST116') && retryCount < 1) {
+          if ((fetchError.message?.includes('schema cache') ||
+            fetchError.message?.includes('not found') ||
+            fetchError.code === 'PGRST116') && retryCount < 1) {
             console.warn('Schema cache issue, retrying...', fetchError.message);
             // Wait a bit and retry
             await new Promise(resolve => setTimeout(resolve, 1000));
             return fetchJobs(retryCount + 1);
           }
-          
+
           // If retry failed or other error, use sample data
           console.warn('Using sample data due to:', fetchError.message);
           setJobs(sampleJobs);
@@ -316,15 +317,20 @@ export function JobBoard() {
   };
 
   return (
-    <div className="min-h-screen bg-secondary-50">
+    <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
       <div className="container-custom section-padding">
-        <div className="mb-8">
-          <h1 className="title-section mb-4">
-            Local Job Board
-          </h1>
-          <p className="text-xl text-secondary-600 max-w-3xl font-sans">
-            Discover career opportunities in Monroe, NC and surrounding Union County area
-          </p>
+        <div className="mb-12">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
+              <Briefcase className="w-3.5 h-3.5 mr-2" /> Opportunity Network
+            </Badge>
+            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
+              Local <span className="text-gradient-logo">Jobs</span>
+            </h1>
+            <p className="text-xl text-slate-400 max-w-3xl leading-relaxed">
+              Discover career opportunities in Monroe, NC and surrounding Union County area
+            </p>
+          </motion.div>
         </div>
 
         {/* Search and Filters */}
@@ -337,7 +343,7 @@ export function JobBoard() {
                 placeholder="Search jobs, companies, or keywords..."
               />
             </div>
-            
+
             <div className="flex items-center gap-2">
               <button
                 className="btn btn-outline btn-sm inline-flex items-center justify-center"
@@ -366,59 +372,61 @@ export function JobBoard() {
           {/* Job Listings */}
           <div className="lg:col-span-3">
             <div className="flex items-center justify-between mb-6">
-              <p className="text-secondary-600">
+              <p className="text-slate-400">
                 {loading ? 'Loading jobs...' : `${filteredJobs.length} job${filteredJobs.length !== 1 ? 's' : ''} found`}
               </p>
             </div>
 
             {loading ? (
               <div className="text-center py-12">
-                <div className="loading-spinner w-12 h-12 mx-auto mb-4"></div>
-                <p className="text-secondary-600">Loading job listings...</p>
+                <div className="loading-spinner w-12 h-12 mx-auto mb-4 border-primary-500"></div>
+                <p className="text-slate-400">Loading job listings...</p>
               </div>
             ) : error ? (
               <div className="text-center py-12">
-                <Briefcase className="h-16 w-16 text-secondary-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                <Briefcase className="h-16 w-16 text-slate-700 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white mb-2">
                   Error Loading Jobs
                 </h3>
-                <p className="text-secondary-600 mb-4">
+                <p className="text-slate-400 mb-4">
                   {error}
                 </p>
-                <button
-                  className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
+                <Button
+                  variant="primary"
+                  size="sm"
                   onClick={() => window.location.reload()}
+                  className="rounded-xl"
                 >
                   Try Again
-                </button>
+                </Button>
               </div>
             ) : filteredJobs.length > 0 ? (
               <div className="space-y-4">
                 {filteredJobs.map((job) => (
-                  <Card key={job.id} hover>
+                  <Card key={job.id} className="glass-card border-white/5 hover:border-primary-500/30 group transition-all duration-300">
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-start justify-between mb-3">
                             <div>
-                              <h3 className="text-xl font-semibold text-secondary-900 mb-1">
+                              <h3 className="text-xl font-bold text-white mb-1 tracking-tight group-hover:text-primary-400 transition-colors">
                                 {job.title}
                               </h3>
-                              <p className="text-lg text-primary-600 font-medium mb-2">
+                              <p className="text-lg text-primary-400 font-semibold mb-2">
                                 {job.company}
                               </p>
-                              <div className="flex items-center gap-4 text-sm text-secondary-600">
-                                <div className="flex items-center gap-1">
-                                  <MapPin className="h-4 w-4" />
+                              <div className="flex items-center gap-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                                <div className="flex items-center gap-1.5">
+                                  <MapPin className="h-3.5 w-3.5 text-primary-500" />
                                   <span>{job.location}</span>
-                                  {job.isRemote && <Badge variant="outline" size="sm">Remote</Badge>}
+                                  {job.isRemote && <Badge variant="glass" className="ml-2 py-0">Remote</Badge>}
                                 </div>
-                                <div className="flex items-center gap-1">
-                                  <Briefcase className="h-4 w-4" />
+                                <div className="flex items-center gap-1.5">
+                                  <Briefcase className="h-3.5 w-3.5 text-primary-500" />
                                   <span className="capitalize">{job.type.replace('-', ' ')}</span>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                  <Calendar className="h-4 w-4" />
+                                <div className="flex items-center gap-1.5">
+                                  <Calendar className="h-3.5 w-3.5 text-primary-500" />
                                   <span>{getRelativeTime(job.postedDate)}</span>
                                 </div>
                               </div>
@@ -428,50 +436,53 @@ export function JobBoard() {
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => toggleFavorite(job.id)}
-                                className={favoriteJobs.includes(job.id) ? 'text-red-500' : 'text-secondary-400'}
+                                className={cn("rounded-full", favoriteJobs.includes(job.id) ? 'text-red-500 bg-red-500/10' : 'text-slate-500 hover:bg-white/5')}
                               >
                                 <Heart className={`h-4 w-4 ${favoriteJobs.includes(job.id) ? 'fill-current' : ''}`} />
                               </Button>
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-2 mb-3">
-                            <Badge variant="secondary">{job.category}</Badge>
-                            <Badge variant="outline" className="capitalize">{job.experienceLevel} Level</Badge>
+                          <div className="flex items-center gap-2 mb-4">
+                            <Badge variant="glass" className="bg-primary-500/10 border-primary-500/20 text-primary-400">{job.category}</Badge>
+                            <Badge variant="outline" className="capitalize border-white/10 text-slate-400">{job.experienceLevel} Level</Badge>
                             {job.salary && (
-                              <Badge variant="outline" className="text-success-700">
+                              <Badge variant="outline" className="border-emerald-500/20 text-emerald-400">
                                 <DollarSign className="h-3 w-3 mr-1" />
                                 {job.salary}
                               </Badge>
                             )}
                           </div>
 
-                          <p className="text-secondary-700 mb-4 line-clamp-3">
+                          <p className="text-slate-400 mb-6 line-clamp-2 text-sm leading-relaxed">
                             {job.description}
                           </p>
 
-                          <div className="flex items-center justify-between">
-                            <div className="flex flex-wrap gap-1">
+                          <div className="flex items-center justify-between gap-4">
+                            <div className="flex flex-wrap gap-1.5">
                               {job.requirements.slice(0, 3).map((req, index) => (
-                                <Badge key={index} variant="outline" size="sm">
+                                <Badge key={index} variant="outline" size="sm" className="border-white/5 text-slate-500 text-[10px]">
                                   {req}
                                 </Badge>
                               ))}
                               {job.requirements.length > 3 && (
-                                <Badge variant="outline" size="sm">
+                                <Badge variant="outline" size="sm" className="border-white/5 text-slate-500 text-[10px]">
                                   +{job.requirements.length - 3} more
                                 </Badge>
                               )}
                             </div>
-                            <a 
-                              href={job.applicationUrl} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="btn btn-primary btn-sm text-white inline-flex items-center justify-center"
+                            <Button
+                              variant="primary"
+                              size="sm"
+                              className="rounded-xl shadow-lg shadow-primary-500/20 px-6 shrink-0"
+                              asChild
+                              href={job.applicationUrl}
                             >
-                              Apply Now
-                              <ExternalLink className="h-4 w-4 ml-2" />
-                            </a>
+                              <span className="flex items-center">
+                                Apply Now
+                                <ExternalLink className="h-3.5 w-3.5 ml-2" />
+                              </span>
+                            </Button>
                           </div>
                         </div>
                       </div>
@@ -481,49 +492,61 @@ export function JobBoard() {
               </div>
             ) : (
               <div className="text-center py-12">
-                <Briefcase className="h-16 w-16 text-secondary-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                <Briefcase className="h-16 w-16 text-slate-700 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white mb-2">
                   No jobs found
                 </h3>
-                <p className="text-secondary-600 mb-4">
+                <p className="text-slate-400 mb-6">
                   Try adjusting your search terms or filters to find what you're looking for.
                 </p>
-                <button
-                  className="btn btn-outline inline-flex items-center justify-center"
+                <Button
+                  variant="outline"
                   onClick={clearFilters}
+                  className="rounded-xl border-white/10 text-white"
                 >
                   Clear all filters
-                </button>
+                </Button>
               </div>
             )}
           </div>
         </div>
 
         {/* Call to Action */}
-        <div className="mt-12 text-center">
-          <Card className="bg-gradient-to-r from-primary-600 to-primary-700 text-white">
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-bold mb-4">
+        <div className="mt-16 text-center">
+          <Card className="bg-gradient-to-br from-primary-600 to-accent-700 text-white rounded-[2.5rem] border-none shadow-2xl shadow-primary-500/20 overflow-hidden relative">
+            <div className="absolute inset-0 bg-mesh opacity-10" />
+            <CardContent className="p-12 md:p-16 relative z-10">
+              <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight">
                 Don't see the perfect job?
               </h2>
-              <p className="text-white/90 mb-6">
+              <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto leading-relaxed">
                 Use our AI-powered job application assistant to create compelling cover letters and prepare for interviews.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link 
+                <Button
                   href="/career/job-assistant"
-                  className="btn btn-outline btn-lg text-white inline-flex items-center justify-center bg-white/20 border-white/30 hover:bg-white/30 force-white-text"
+                  variant="outline"
+                  size="lg"
+                  className="bg-white/10 border-white/20 text-white hover:bg-white/20 rounded-full px-10"
+                  asChild
                 >
-                  <Briefcase className="mr-2 h-5 w-5" />
-                  Job Application Assistant
-                </Link>
-                <Link 
+                  <span className="flex items-center">
+                    <Briefcase className="mr-2 h-5 w-5" />
+                    Job Assistant
+                  </span>
+                </Button>
+                <Button
                   href="/career/resume-builder"
-                  className="btn btn-outline btn-lg text-white inline-flex items-center justify-center bg-white/20 border-white/30 hover:bg-white/30 force-white-text"
+                  variant="outline"
+                  size="lg"
+                  className="bg-white text-primary-900 border-white hover:bg-slate-100 rounded-full px-10"
+                  asChild
                 >
-                  <FileText className="mr-2 h-5 w-5" />
-                  Build Your Resume
-                </Link>
+                  <span className="flex items-center">
+                    <FileText className="mr-2 h-5 w-5" />
+                    Build Your Resume
+                  </span>
+                </Button>
               </div>
             </CardContent>
           </Card>
