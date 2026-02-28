@@ -50,12 +50,12 @@ export function ProtectedRoute({ children, redirectTo = '/auth/signin' }: Protec
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
-        <Card className="w-96">
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <Card className="w-96 bg-white/5 border-white/10">
           <CardContent className="pt-6">
             <div className="text-center">
               <div className="loading-spinner w-8 h-8 mx-auto mb-4"></div>
-              <p className="text-secondary-600">Loading...</p>
+              <p className="text-slate-400">Loading...</p>
             </div>
           </CardContent>
         </Card>
@@ -65,11 +65,11 @@ export function ProtectedRoute({ children, redirectTo = '/auth/signin' }: Protec
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
-        <Card className="w-96">
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <Card className="w-96 bg-white/5 border-white/10">
           <CardHeader>
-            <CardTitle>Authentication Required</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-white">Authentication Required</CardTitle>
+            <CardDescription className="text-slate-400">
               You need to sign in to access this page
             </CardDescription>
           </CardHeader>

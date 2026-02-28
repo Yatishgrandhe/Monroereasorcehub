@@ -152,23 +152,23 @@ export default function SavedResumesPage() {
 
   if (loading) {
     return (
-        <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
+        <div className="min-h-screen bg-slate-900 flex items-center justify-center">
           <div className="text-center">
             <div className="loading-spinner w-12 h-12 mx-auto mb-4"></div>
-            <p className="text-secondary-600">Loading your resumes...</p>
+            <p className="text-slate-400">Loading your resumes...</p>
           </div>
         </div>
     );
   }
 
   return (
-      <div className="min-h-screen bg-secondary-50">
+      <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
         <div className="container-custom section-padding">
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h1 className="title-section mb-2">My Saved Resumes</h1>
-                <p className="text-xl text-secondary-600 max-w-3xl font-sans">
+                <h1 className="text-4xl font-black text-white mb-2">My Saved Resumes</h1>
+                <p className="text-xl text-slate-400 max-w-3xl font-sans">
                 {user ? 'Manage and export your saved resumes' : 'View and manage your resume saved in your browser'}
                 </p>
               </div>
@@ -181,31 +181,31 @@ export default function SavedResumesPage() {
           {/* Guest User Notice */}
           {!user && (
             <div className="mb-6">
-              <Card className="bg-primary-50 border-primary-200">
+              <Card className="bg-primary-500/10 border-primary-500/20">
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
-                    <Database className="h-5 w-5 text-primary-600 mt-0.5 flex-shrink-0" />
+                    <Database className="h-5 w-5 text-primary-400 mt-0.5 flex-shrink-0" />
                     <div className="flex-1">
-                      <p className="font-semibold text-primary-900 mb-1">Guest User - Local Storage</p>
-                      <p className="text-sm text-primary-700 mb-2">
+                      <p className="font-semibold text-white mb-1">Guest User - Local Storage</p>
+                      <p className="text-sm text-slate-300 mb-2">
                         Your resume is saved in your browser&apos;s local storage. This means your data stays on this device and won&apos;t sync across other devices or browsers. 
                         <strong> Consider creating an account</strong> to access your work from anywhere and save multiple resumes.
                       </p>
-                      <p className="text-xs text-primary-600 mb-3 italic">
+                      <p className="text-xs text-slate-400 mb-3 italic">
                         💡 <strong>Good news:</strong> When you create an account or log in, all your local data (resumes, cover letters, job analysis) 
                         will be automatically migrated to your account so you can access everything from anywhere!
                       </p>
                       <div className="flex items-center gap-2">
                         <Link 
                           href="/auth/signup"
-                          className="btn btn-outline btn-sm inline-flex items-center justify-center"
+                          className="btn btn-outline btn-sm inline-flex items-center justify-center border-white/20 text-white hover:bg-white/10"
                         >
                           <LogIn className="h-4 w-4 mr-2" />
                           Create Account
                         </Link>
                         <Link 
                           href="/career"
-                          className="btn btn-ghost btn-sm inline-flex items-center justify-center"
+                          className="btn btn-ghost btn-sm inline-flex items-center justify-center text-slate-400 hover:text-white"
                         >
                           <Info className="h-4 w-4 mr-2" />
                           Learn More
@@ -220,13 +220,13 @@ export default function SavedResumesPage() {
           </div>
 
           {resumes.length === 0 ? (
-            <Card>
+            <Card className="bg-white/5 border-white/10">
               <CardContent className="text-center py-12">
-                <FileText className="h-16 w-16 mx-auto mb-4 text-secondary-400" />
-                <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                <FileText className="h-16 w-16 mx-auto mb-4 text-slate-500" />
+                <h3 className="text-lg font-semibold text-white mb-2">
                   No saved resumes yet
                 </h3>
-                <p className="text-secondary-600 mb-6">
+                <p className="text-slate-400 mb-6">
                   {user 
                     ? 'Start building your first resume to save it here for easy access and editing.'
                     : "Start building your first resume. It will be saved in your browser's local storage for easy access and editing."}
@@ -240,30 +240,30 @@ export default function SavedResumesPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {resumes.map((resume) => (
-                <Card key={resume.id} className="hover:shadow-lg transition-shadow duration-200">
+                <Card key={resume.id} className="bg-white/5 border-white/10 hover:border-primary-500/30 transition-all duration-200">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <CardTitle className="text-lg mb-1">
+                        <CardTitle className="text-lg mb-1 text-white">
                           {resume.resume_data?.personalInfo?.firstName} {resume.resume_data?.personalInfo?.lastName}
                         </CardTitle>
-                        <CardDescription>{resume.title}</CardDescription>
+                        <CardDescription className="text-slate-400">{resume.title}</CardDescription>
                       </div>
-                      <FileText className="h-8 w-8 text-primary-600" />
+                      <FileText className="h-8 w-8 text-primary-400" />
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3 mb-4">
-                      <div className="flex items-center text-sm text-secondary-600">
+                      <div className="flex items-center text-sm text-slate-400">
                         <span className="font-medium mr-2">Created:</span>
                         {formatDate(resume.created_at)}
                       </div>
-                      <div className="flex items-center text-sm text-secondary-600">
+                      <div className="flex items-center text-sm text-slate-400">
                         <span className="font-medium mr-2">Updated:</span>
                         {formatDate(resume.updated_at)}
                       </div>
                       {resume.resume_data?.personalInfo?.email && (
-                        <div className="flex items-center text-sm text-secondary-600 truncate">
+                        <div className="flex items-center text-sm text-slate-400 truncate">
                           <span className="font-medium mr-2">Email:</span>
                           {resume.resume_data.personalInfo.email}
                         </div>
@@ -275,6 +275,7 @@ export default function SavedResumesPage() {
                         variant="outline"
                         size="sm"
                         onClick={() => handleView(resume.resume_data, resume.id)}
+                        className="border-white/20 text-white hover:bg-white/10"
                       >
                         <Eye className="h-4 w-4 mr-1" />
                         View
@@ -284,6 +285,7 @@ export default function SavedResumesPage() {
                         size="sm"
                         onClick={() => handleExport(resume.resume_data)}
                         loading={exporting === (resume.resume_data?.personalInfo?.firstName || 'export')}
+                        className="text-slate-400 hover:text-white"
                       >
                         <Download className="h-4 w-4 mr-1" />
                         PDF
@@ -291,7 +293,7 @@ export default function SavedResumesPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="col-span-2 text-error"
+                        className="col-span-2 text-red-400 hover:text-red-300"
                         onClick={() => handleDelete(resume.id)}
                         loading={deleting === resume.id}
                       >

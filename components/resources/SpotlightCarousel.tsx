@@ -43,7 +43,7 @@ export function SpotlightCarousel({ resources }: SpotlightCarouselProps) {
   if (spotlightedResources.length === 0) {
     return (
       <div className="glass-card p-12 text-center rounded-2xl">
-        <p className="text-secondary-500 font-medium text-lg">Our spotlight is currently recharging. Check back soon for featured community partners!</p>
+        <p className="text-slate-400 font-medium text-lg">Our spotlight is currently recharging. Check back soon for featured community partners!</p>
       </div>
     );
   }

@@ -16,15 +16,15 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
       <div className="max-w-md mx-auto text-center">
         <div className="w-16 h-16 bg-error-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <AlertTriangle className="h-8 w-8 text-error-600" />
         </div>
-        <h1 className="text-2xl font-bold text-secondary-900 mb-4">
+        <h1 className="text-2xl font-bold text-white mb-4">
           Something went wrong
         </h1>
-        <p className="text-secondary-600 mb-6">
+        <p className="text-slate-400 mb-6">
           We're sorry, but something unexpected happened. Please try again or contact support if the problem persists.
         </p>
         <div className="space-y-3">
