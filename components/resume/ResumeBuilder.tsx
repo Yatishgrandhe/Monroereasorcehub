@@ -64,7 +64,7 @@ export function ResumeBuilder() {
     // Initialize AI Worker (from public/workers/ - served at /workers/ai.worker.js)
     let aiWorker: Worker | null = null;
     try {
-      aiWorker = new Worker('/workers/ai.worker.js');
+      aiWorker = new Worker('/workers/ai.worker.js', { type: 'module' });
       setWorker(aiWorker);
 
       aiWorker.onmessage = (e) => {
@@ -85,6 +85,10 @@ export function ResumeBuilder() {
         console.error('Local AI Error:', error);
       }
     };
+      aiWorker.onerror = (err) => {
+        console.warn('AI worker load error, using server actions only:', err);
+        setWorker(null);
+      };
     } catch (err) {
       console.warn('AI worker not available, using server actions only:', err);
     }

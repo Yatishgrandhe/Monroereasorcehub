@@ -1,4 +1,5 @@
-import { pipeline, env } from '@xenova/transformers';
+// Use CDN - workers in public/ cannot resolve npm packages; must use full URL
+import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2';
 
 // Skip local check to allow loading from Hugging Face CDN
 env.allowLocalModels = false;
