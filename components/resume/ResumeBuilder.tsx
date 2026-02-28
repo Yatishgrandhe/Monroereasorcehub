@@ -15,7 +15,6 @@ import { ResumePreview } from './ResumePreview';
 import { TemplateSelector } from './TemplateSelector';
 import { AIAssistant } from './AIAssistant';
 import { supabase } from '@/lib/supabase/client';
-import { generateSummaryAction, enhanceBulletPointAction, suggestSkillsAction } from '@/app/actions/ai';
 import { migrateLocalDataToDatabase, hasLocalDataToMigrate } from '@/lib/utils/data-migration';
 import { generateId, cn } from '@/lib/utils';
 import { exportResumeToPDF } from '@/lib/utils/pdf-export';
@@ -50,12 +49,46 @@ export function ResumeBuilder() {
   const [saving, setSaving] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [targetJob, setTargetJob] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [experienceLevel, setExperienceLevel] = useState('');
+  const [aiStatus, setAiStatus] = useState<'idle' | 'loading' | 'ready' | 'generating'>('idle');
+  const [aiProgress, setAiProgress] = useState(0);
+  const [aiMessage, setAiMessage] = useState('');
+  const [worker, setWorker] = useState<Worker | null>(null);
   const [loadedFromStorage, setLoadedFromStorage] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [userLoading, setUserLoading] = useState(true);
   const LOCAL_STORAGE_KEY = 'monroe_resume_builder_data';
 
   useEffect(() => {
+    // Initialize AI Worker (from public/workers/ - served at /workers/ai.worker.js)
+    let aiWorker: Worker | null = null;
+    try {
+      aiWorker = new Worker('/workers/ai.worker.js');
+      setWorker(aiWorker);
+
+      aiWorker.onmessage = (e) => {
+      const { type, status, progress, message, output, error } = e.data;
+      if (type === 'progress') {
+        setAiProgress(progress);
+        setAiMessage(message);
+        if (status === 'ready') setAiStatus('ready');
+        if (status === 'downloading' || status === 'init') setAiStatus('loading');
+        if (status === 'generating') setAiStatus('generating');
+      } else if (type === 'result') {
+        setAiStatus('ready');
+        // We'll handle the actual result in the calling function via a promise or callback
+        // For simplicity, we'll dispatch a custom event or check for output
+        window.dispatchEvent(new CustomEvent('ai-result', { detail: { output } }));
+      } else if (type === 'error') {
+        setAiStatus('ready');
+        console.error('Local AI Error:', error);
+      }
+    };
+    } catch (err) {
+      console.warn('AI worker not available, using server actions only:', err);
+    }
+
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
@@ -75,7 +108,11 @@ export function ResumeBuilder() {
         }
       }
     });
-    return () => subscription.unsubscribe();
+
+    return () => {
+      subscription.unsubscribe();
+      aiWorker?.terminate();
+    };
   }, []);
 
   useEffect(() => {
@@ -229,14 +266,51 @@ export function ResumeBuilder() {
     }));
   };
 
+  const callLocalAI = (type: 'summary' | 'experience', text: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      if (!worker) return reject('AI Worker not initialized');
+
+      const requestId = generateId();
+      const handler = (e: MessageEvent) => {
+        if (e.data.type === 'result' && e.data.requestId === requestId) {
+          window.removeEventListener('ai-result', handler as any);
+          resolve(e.data.output);
+        } else if (e.data.type === 'error') {
+          reject(e.data.error);
+        }
+      };
+
+      // We use a window event to capture the result from the worker's onmessage globally
+      const resultHandler = (e: any) => {
+        if (e.detail && e.detail.output) {
+          window.removeEventListener('ai-result', resultHandler);
+          resolve(e.detail.output);
+        }
+      };
+      window.addEventListener('ai-result', resultHandler);
+
+      worker.postMessage({
+        type,
+        text,
+        jobTitle: targetJob,
+        industry,
+        experienceLevel,
+        requestId
+      });
+    });
+  };
+
   const generateSummary = async () => {
-    if (resumeData.experience.length === 0) return;
+    if (!targetJob || !industry) {
+      alert('Please select a Target Job and Industry first.');
+      return;
+    }
     setAiLoading(true);
     try {
-      const result = await generateSummaryAction(resumeData.experience, targetJob);
-      if (result.success && result.summary) {
-        setResumeData(prev => ({ ...prev, summary: result.summary }));
-      }
+      // Gather experience text for context if available
+      const expContext = resumeData.experience.map(e => `${e.position} at ${e.company}`).join(', ');
+      const result = await callLocalAI('summary', expContext || 'No experience listed yet.');
+      setResumeData(prev => ({ ...prev, summary: result }));
     } catch (error) {
       console.error(error);
     } finally {
@@ -249,14 +323,19 @@ export function ResumeBuilder() {
     if (!experience || !experience.achievements[achievementIndex]) return;
     setAiLoading(true);
     try {
-      const result = await enhanceBulletPointAction(
-        experience.achievements[achievementIndex],
-        `${experience.position} at ${experience.company}`
-      );
-      if (result.success && result.enhanced) {
-        const updatedAchievements = [...experience.achievements];
-        updatedAchievements[achievementIndex] = result.enhanced;
-        updateExperience(experienceId, 'achievements', updatedAchievements);
+      const result = await callLocalAI('experience', experience.achievements[achievementIndex]);
+      if (result) {
+        setResumeData(prev => {
+          const newExp = prev.experience.map(exp => {
+            if (exp.id === experienceId) {
+              const newAch = [...exp.achievements];
+              newAch[achievementIndex] = result;
+              return { ...exp, achievements: newAch };
+            }
+            return exp;
+          });
+          return { ...prev, experience: newExp };
+        });
       }
     } catch (error) {
       console.error(error);
@@ -315,77 +394,204 @@ export function ResumeBuilder() {
     switch (currentStep) {
       case 1:
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Input label="First Name" value={resumeData.personalInfo.firstName} onChange={(e) => updatePersonalInfo('firstName', e.target.value)} placeholder="John" className="bg-white/5 border-white/10 text-white" />
-              <Input label="Last Name" value={resumeData.personalInfo.lastName} onChange={(e) => updatePersonalInfo('lastName', e.target.value)} placeholder="Doe" className="bg-white/5 border-white/10 text-white" />
+              <Input label="First Name" value={resumeData.personalInfo.firstName} onChange={(e) => updatePersonalInfo('firstName', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" />
+              <Input label="Last Name" value={resumeData.personalInfo.lastName} onChange={(e) => updatePersonalInfo('lastName', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" />
             </div>
-            <Input label="Email" type="email" value={resumeData.personalInfo.email} onChange={(e) => updatePersonalInfo('email', e.target.value)} placeholder="john@example.com" className="bg-white/5 border-white/10 text-white" />
-            <Input label="Phone" value={resumeData.personalInfo.phone} onChange={(e) => updatePersonalInfo('phone', e.target.value)} placeholder="(704) 123-4567" className="bg-white/5 border-white/10 text-white" />
-            <Input label="Address" value={resumeData.personalInfo.address} onChange={(e) => updatePersonalInfo('address', e.target.value)} placeholder="Monroe, NC" className="bg-white/5 border-white/10 text-white" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Input label="Email Address" type="email" value={resumeData.personalInfo.email} onChange={(e) => updatePersonalInfo('email', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" />
+              <Input label="Phone Number" type="tel" value={resumeData.personalInfo.phone} onChange={(e) => updatePersonalInfo('phone', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" />
+            </div>
+
+            <div className="pt-8 border-t border-white/5 space-y-6">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-primary-500/20 flex items-center justify-center border border-primary-500/30">
+                  <Sparkles className="w-4 h-4 text-primary-400" />
+                </div>
+                <h3 className="text-lg font-black text-white uppercase tracking-widest">AI Context Engine</h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Target Job</label>
+                  <input
+                    className="w-full h-14 px-5 bg-white/5 border border-white/10 rounded-2xl text-white focus:border-primary-500 outline-none transition-all"
+                    placeholder="e.g. Software Engineer"
+                    value={targetJob}
+                    onChange={(e) => setTargetJob(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Industry</label>
+                  <select
+                    className="w-full h-14 px-5 bg-white/5 border border-white/10 rounded-2xl text-white focus:border-primary-500 outline-none transition-all appearance-none"
+                    value={industry}
+                    onChange={(e) => setIndustry(e.target.value)}
+                  >
+                    <option value="" disabled className="bg-slate-900">Select Industry</option>
+                    {['Technology', 'Healthcare', 'Finance', 'Education', 'Construction', 'Creative', 'Government', 'Retail'].map(opt => (
+                      <option key={opt} value={opt} className="bg-slate-900">{opt}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Exp. Level</label>
+                  <select
+                    className="w-full h-14 px-5 bg-white/5 border border-white/10 rounded-2xl text-white focus:border-primary-500 outline-none transition-all appearance-none"
+                    value={experienceLevel}
+                    onChange={(e) => setExperienceLevel(e.target.value)}
+                  >
+                    <option value="" disabled className="bg-slate-900">Select Level</option>
+                    {['Entry Level', 'Junior', 'Mid-Level', 'Senior', 'Executive'].map(opt => (
+                      <option key={opt} value={opt} className="bg-slate-900">{opt}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
         );
       case 2:
         return (
-          <div className="space-y-8">
-            <div className="bg-primary-500/10 border border-primary-500/20 rounded-2xl p-6 mb-8">
-              <h4 className="font-bold text-lg text-primary-400 mb-2 flex items-center gap-2">
-                <Sparkles className="h-5 w-5" /> AI Optimization
-              </h4>
-              <Input label="Target Job" value={targetJob} onChange={(e) => setTargetJob(e.target.value)} placeholder="Software Engineer" className="bg-white/5 border-white/10 text-white" />
-            </div>
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold text-white">Summary</h3>
-              <Button variant="gradient" size="sm" onClick={generateSummary} loading={aiLoading} disabled={resumeData.experience.length === 0} className="rounded-full">
-                <Sparkles className="h-4 w-4 mr-2" /> Generate with AI
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="flex items-center justify-between mb-4">
+              <div className="space-y-1">
+                <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Professional Summary</h3>
+                <p className="text-sm text-slate-500 font-medium">Define your narrative in exactly 3 impactful sentences.</p>
+              </div>
+              <Button
+                variant="gradient"
+                size="sm"
+                onClick={generateSummary}
+                loading={aiLoading || aiStatus === 'loading'}
+                className="rounded-full px-6 shadow-lg shadow-primary-500/20"
+              >
+                <Sparkles className="w-4 h-4 mr-2" />
+                Magic Generate
               </Button>
             </div>
-            <textarea className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl text-white min-h-[160px]" rows={6} value={resumeData.summary} onChange={(e) => setResumeData(prev => ({ ...prev, summary: e.target.value }))} placeholder="High-impact summary..." />
+
+            {aiStatus === 'loading' && (
+              <div className="mb-6 space-y-3">
+                <div className="flex justify-between text-[10px] font-bold text-primary-400 uppercase tracking-widest">
+                  <span>{aiMessage}</span>
+                  <span>{Math.round(aiProgress)}%</span>
+                </div>
+                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${aiProgress}%` }}
+                    className="h-full bg-gradient-to-r from-primary-500 to-blue-400"
+                  />
+                </div>
+              </div>
+            )}
+
+            <textarea
+              className="w-full min-h-[250px] p-8 bg-white/5 border border-white/10 rounded-[2rem] text-white text-lg leading-relaxed focus:border-primary-500 outline-none transition-all glass-card"
+              placeholder="Start typing your summary or use 'Magic Generate' to let local AI architect it for you based on your context..."
+              value={resumeData.summary}
+              onChange={(e) => setResumeData(prev => ({ ...prev, summary: e.target.value }))}
+            />
           </div>
         );
       case 3:
         return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-white">Experience</h3>
-              <Button variant="outline" size="sm" onClick={addExperience} className="rounded-xl border-white/10 text-white">
-                <Plus className="h-4 w-4 mr-2" /> Add
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Experience</h3>
+                <p className="text-sm text-slate-500 font-medium">Record your professional history and use AI to architect bullet points.</p>
+              </div>
+              <Button variant="outline" size="sm" onClick={addExperience} className="rounded-xl border-white/10 text-white hover:bg-white/5 h-12 px-6">
+                <Plus className="h-4 w-4 mr-2" /> Add Position
               </Button>
             </div>
+
+            {aiStatus === 'loading' && (
+              <div className="mb-6 space-y-3 p-4 bg-primary-500/5 rounded-2xl border border-primary-500/10">
+                <div className="flex justify-between text-[10px] font-bold text-primary-400 uppercase tracking-widest">
+                  <span>{aiMessage}</span>
+                  <span>{Math.round(aiProgress)}%</span>
+                </div>
+                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${aiProgress}%` }}
+                    className="h-full bg-gradient-to-r from-primary-500 to-blue-400"
+                  />
+                </div>
+              </div>
+            )}
+
             {resumeData.experience.map((exp, idx) => (
-              <Card key={exp.id} className="glass-card border-white/10 relative overflow-visible">
-                <Button variant="ghost" size="sm" onClick={() => removeExperience(exp.id)} className="absolute top-4 right-4 text-slate-500 hover:text-red-400">
-                  <Trash2 className="h-4 w-4" />
+              <Card key={exp.id} className="glass-card border-white/10 relative overflow-visible p-2 rounded-[2rem]">
+                <Button variant="ghost" size="sm" onClick={() => removeExperience(exp.id)} className="absolute top-6 right-6 text-slate-500 hover:text-red-400 z-20">
+                  <Trash2 className="h-5 w-5" />
                 </Button>
-                <CardHeader><CardTitle className="text-white">Experience {idx + 1}</CardTitle></CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input label="Title" value={exp.position} onChange={(e) => updateExperience(exp.id, 'position', e.target.value)} className="bg-white/5 border-white/10 text-white" />
-                    <Input label="Company" value={exp.company} onChange={(e) => updateExperience(exp.id, 'company', e.target.value)} className="bg-white/5 border-white/10 text-white" />
+                <CardHeader className="pt-8 px-8"><CardTitle className="text-white text-xl font-black">Position {idx + 1}</CardTitle></CardHeader>
+                <CardContent className="px-8 pb-8 space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Input label="Job Title" value={exp.position} onChange={(e) => updateExperience(exp.id, 'position', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" placeholder="e.g. Lead Developer" />
+                    <Input label="Corporation" value={exp.company} onChange={(e) => updateExperience(exp.id, 'company', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" placeholder="e.g. Stark Industries" />
                   </div>
-                  <div className="grid grid-cols-3 gap-4">
-                    <Input label="Start" type="month" value={exp.startDate} onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)} className="bg-white/5 border-white/10 text-white [color-scheme:dark]" />
-                    <Input label="End" type="month" value={exp.endDate} onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)} disabled={exp.current} className="bg-white/5 border-white/10 text-white [color-scheme:dark]" />
-                    <div className="pt-8 flex items-center gap-2">
-                      <input type="checkbox" checked={exp.current} onChange={(e) => updateExperience(exp.id, 'current', e.target.checked)} className="h-4 w-4 rounded border-white/20 bg-white/5 text-primary-500" />
-                      <span className="text-sm text-slate-400">Current</span>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <Input label="Start Date" type="month" value={exp.startDate} onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl [color-scheme:dark]" />
+                    <Input label="End Date" type="month" value={exp.endDate} onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)} disabled={exp.current} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl [color-scheme:dark]" />
+                    <div className="flex items-center gap-3 pt-8 pb-2">
+                      <input
+                        type="checkbox"
+                        checked={exp.current}
+                        onChange={(e) => updateExperience(exp.id, 'current', e.target.checked)}
+                        className="h-6 w-6 rounded-lg border-white/10 bg-white/5 text-primary-500 cursor-pointer"
+                      />
+                      <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Active Position</span>
                     </div>
                   </div>
-                  <div className="space-y-3">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Key Achievements & Impact</label>
+                    </div>
                     {exp.achievements.map((ach, achIdx) => (
-                      <div key={achIdx} className="flex gap-2">
-                        <textarea className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-sm" rows={2} value={ach} onChange={(e) => {
-                          const updated = [...exp.achievements];
-                          updated[achIdx] = e.target.value;
-                          updateExperience(exp.id, 'achievements', updated);
-                        }} />
-                        <Button variant="ghost" size="sm" onClick={() => enhanceBulletPoint(exp.id, achIdx)} loading={aiLoading} className="bg-primary-500/10 text-primary-400">
-                          <Sparkles className="h-4 w-4" />
-                        </Button>
+                      <div key={achIdx} className="group relative flex gap-3">
+                        <textarea
+                          className="flex-1 px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white text-sm leading-relaxed focus:border-primary-500 outline-none transition-all min-h-[80px]"
+                          placeholder="Briefly mention a success or responsibility..."
+                          value={ach}
+                          onChange={(e) => {
+                            const updated = [...exp.achievements];
+                            updated[achIdx] = e.target.value;
+                            updateExperience(exp.id, 'achievements', updated);
+                          }}
+                        />
+                        <div className="flex flex-col gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => enhanceBulletPoint(exp.id, achIdx)}
+                            loading={aiLoading || aiStatus === 'loading'}
+                            className="bg-primary-500/10 text-primary-400 hover:bg-primary-500/20 rounded-xl h-10 w-10 p-0"
+                            title="Enhance with Local AI"
+                          >
+                            <Sparkles className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              const updated = exp.achievements.filter((_, i) => i !== achIdx);
+                              updateExperience(exp.id, 'achievements', updated);
+                            }}
+                            className="text-slate-600 hover:text-red-400 rounded-xl h-10 w-10 p-0"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                     ))}
-                    <Button variant="ghost" size="sm" onClick={() => updateExperience(exp.id, 'achievements', [...exp.achievements, ''])} className="text-primary-400">
-                      <Plus className="h-3 w-3 mr-1" /> Add Achievement
+                    <Button variant="ghost" size="sm" onClick={() => updateExperience(exp.id, 'achievements', [...exp.achievements, ''])} className="text-primary-400 font-bold uppercase tracking-widest text-[10px] hover:bg-primary-500/5">
+                      <Plus className="h-4 w-4 mr-2" /> Add Achievement Line
                     </Button>
                   </div>
                 </CardContent>
@@ -398,14 +604,19 @@ export function ResumeBuilder() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-bold text-white">Education</h3>
-              <Button variant="outline" size="sm" onClick={addEducation} className="rounded-xl border-white/10 text-white">Add</Button>
+              <Button variant="outline" size="sm" onClick={addEducation} className="rounded-xl border-white/10 text-white">
+                <Plus className="h-4 w-4 mr-2" /> Add
+              </Button>
             </div>
             {resumeData.education.map((edu, idx) => (
-              <Card key={edu.id} className="glass-card border-white/10">
-                <CardContent className="pt-6 space-y-4">
+              <Card key={edu.id} className="glass-card border-white/10 relative overflow-visible">
+                <Button variant="ghost" size="sm" onClick={() => removeEducation(edu.id)} className="absolute top-4 right-4 text-slate-500 hover:text-red-400">
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+                <CardHeader><CardTitle className="text-white">Education {idx + 1}</CardTitle></CardHeader>
+                <CardContent className="space-y-4">
                   <Input label="Institution" value={edu.institution} onChange={(e) => updateEducation(edu.id, 'institution', e.target.value)} className="bg-white/5 border-white/10 text-white" />
-                  <Input label="Degree" value={edu.degree} onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)} className="bg-white/5 border-white/10 text-white" />
-                  <Button variant="ghost" onClick={() => removeEducation(edu.id)} className="text-red-400">Remove</Button>
+                  <Input label="Degree / Field" value={edu.degree} onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)} className="bg-white/5 border-white/10 text-white" />
                 </CardContent>
               </Card>
             ))}
