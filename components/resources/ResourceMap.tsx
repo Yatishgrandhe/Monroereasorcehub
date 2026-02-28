@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Navigation, Search, Map as MapIcon, Layers } from 'lucide-react';
+import Link from 'next/link';
 import { Reveal } from '@/components/ui/Reveal';
 import 'leaflet/dist/leaflet.css';
 
@@ -66,9 +67,9 @@ export function ResourceMap() {
                   <span class="w-1 h-1 rounded-full bg-slate-500"></span>
                   ${resource.address || 'Monroe, NC'}
                 </div>
-                <button class="w-full py-2.5 bg-primary-600 hover:bg-primary-500 text-white rounded-xl text-xs font-bold transition-all active:scale-[0.97] flex items-center justify-center gap-2 border-none cursor-pointer">
+                <a href="/resources/${resource.id}" class="w-full py-2.5 bg-primary-600 hover:bg-primary-500 text-white rounded-xl text-xs font-bold transition-all active:scale-[0.97] flex items-center justify-center gap-2 border-none cursor-pointer text-center no-underline">
                   View Full Details
-                </button>
+                </a>
               </div>
             `);
                     });
@@ -110,10 +111,10 @@ export function ResourceMap() {
                                 <MapIcon className="w-4 h-4" />
                                 Map View
                             </button>
-                            <button className="px-6 py-2.5 rounded-xl text-slate-400 text-sm font-bold hover:text-white hover:bg-white/5 transition-all flex items-center gap-2">
+                            <Link href="/resources" className="px-6 py-2.5 rounded-xl text-slate-400 text-sm font-bold hover:text-white hover:bg-white/5 transition-all flex items-center gap-2">
                                 <Layers className="w-4 h-4" />
                                 Directory
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </Reveal>
@@ -131,9 +132,8 @@ export function ResourceMap() {
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none z-10" />
 
                         <div className="absolute bottom-6 left-6 right-6 flex flex-col md:flex-row gap-4 items-center justify-between pointer-events-none z-20">
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
+                            <Link
+                                href="/resources/4d6313bd-c692-4bbf-8cbd-e0097cb2c339"
                                 className="bg-slate-900/90 backdrop-blur-2xl border border-white/10 p-5 rounded-3xl flex items-center gap-5 pointer-events-auto shadow-2xl transition-transform hover:scale-[1.02]"
                             >
                                 <div className="w-12 h-12 rounded-2xl bg-primary-500/20 flex items-center justify-center border border-primary-500/20">
@@ -143,13 +143,13 @@ export function ResourceMap() {
                                     <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-1">Regional Spotlight</div>
                                     <div className="text-base font-black text-white">Union County Crisis Assistance</div>
                                 </div>
-                            </motion.div>
+                            </Link>
 
                             <div className="flex gap-3 pointer-events-auto">
-                                <button className="px-8 py-4 bg-white text-black rounded-2xl font-black text-sm shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 group/btn">
+                                <Link href="/resources" className="px-8 py-4 bg-white text-black rounded-2xl font-black text-sm shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 group/btn">
                                     <Search className="w-4 h-4 transition-transform group-hover/btn:scale-120" />
                                     Explore Full Directory
-                                </button>
+                                </Link>
                             </div>
                         </div>
 
