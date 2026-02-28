@@ -15,6 +15,7 @@ import { ResumePreview } from './ResumePreview';
 import { TemplateSelector } from './TemplateSelector';
 import { AIAssistant } from './AIAssistant';
 import { supabase } from '@/lib/supabase/client';
+import { generateSummaryAction, enhanceBulletPointAction } from '@/app/actions/ai';
 import { migrateLocalDataToDatabase, hasLocalDataToMigrate } from '@/lib/utils/data-migration';
 import { generateId, cn } from '@/lib/utils';
 import { exportResumeToPDF } from '@/lib/utils/pdf-export';
@@ -68,23 +69,24 @@ export function ResumeBuilder() {
       setWorker(aiWorker);
 
       aiWorker.onmessage = (e) => {
-      const { type, status, progress, message, output, error } = e.data;
-      if (type === 'progress') {
-        setAiProgress(progress);
-        setAiMessage(message);
-        if (status === 'ready') setAiStatus('ready');
-        if (status === 'downloading' || status === 'init') setAiStatus('loading');
-        if (status === 'generating') setAiStatus('generating');
-      } else if (type === 'result') {
-        setAiStatus('ready');
-        // We'll handle the actual result in the calling function via a promise or callback
-        // For simplicity, we'll dispatch a custom event or check for output
-        window.dispatchEvent(new CustomEvent('ai-result', { detail: { output } }));
-      } else if (type === 'error') {
-        setAiStatus('ready');
-        console.error('Local AI Error:', error);
-      }
-    };
+        const { type, status, progress, message, output, error } = e.data;
+        if (type === 'progress') {
+          setAiProgress(progress);
+          setAiMessage(message);
+          if (status === 'ready') setAiStatus('ready');
+          if (status === 'downloading' || status === 'init') setAiStatus('loading');
+          if (status === 'generating') setAiStatus('generating');
+        } else if (type === 'result') {
+          setAiStatus('ready');
+          // Include requestId in the event detail
+          window.dispatchEvent(new CustomEvent('ai-result', {
+            detail: { output, requestId: e.data.requestId }
+          }));
+        } else if (type === 'error') {
+          setAiStatus('ready');
+          console.error('Local AI Error:', error);
+        }
+      };
       aiWorker.onerror = (err) => {
         console.warn('AI worker load error, using server actions only:', err);
         setWorker(null);
@@ -143,6 +145,9 @@ export function ResumeBuilder() {
         try {
           const parsed = JSON.parse(savedData);
           setResumeData(parsed);
+          if (parsed.targetJob) setTargetJob(parsed.targetJob);
+          if (parsed.industry) setIndustry(parsed.industry);
+          if (parsed.experienceLevel) setExperienceLevel(parsed.experienceLevel);
           setLoadedFromStorage(true);
         } catch (error) {
           console.error('Error loading from local storage:', error);
@@ -162,7 +167,11 @@ export function ResumeBuilder() {
         .single();
       if (error) throw error;
       if (data && data.resume_data) {
-        setResumeData(data.resume_data);
+        const rData = data.resume_data;
+        setResumeData(rData);
+        if (rData.targetJob) setTargetJob(rData.targetJob);
+        if (rData.industry) setIndustry(rData.industry);
+        if (rData.experienceLevel) setExperienceLevel(rData.experienceLevel);
         setCurrentStep(6);
       }
     } catch (error) {
@@ -286,7 +295,7 @@ export function ResumeBuilder() {
 
       // We use a window event to capture the result from the worker's onmessage globally
       const resultHandler = (e: any) => {
-        if (e.detail && e.detail.output) {
+        if (e.detail && e.detail.requestId === requestId) {
           window.removeEventListener('ai-result', resultHandler);
           resolve(e.detail.output);
         }
@@ -311,12 +320,20 @@ export function ResumeBuilder() {
     }
     setAiLoading(true);
     try {
-      // Gather experience text for context if available
+      // 1. Try Server-Side AI (Cloud / Vercel hosted) - 0 downloads for user
+      const result = await generateSummaryAction(resumeData.experience, targetJob);
+      if (result.success && result.summary) {
+        setResumeData(prev => ({ ...prev, summary: result.summary }));
+        return;
+      }
+
+      // 2. Fallback to Local AI (Worker) if cloud is unavailable or key is missing
+      console.warn('Server AI (Gemini) not responding, falling back to Local Engine...');
       const expContext = resumeData.experience.map(e => `${e.position} at ${e.company}`).join(', ');
-      const result = await callLocalAI('summary', expContext || 'No experience listed yet.');
-      setResumeData(prev => ({ ...prev, summary: result }));
+      const localResult = await callLocalAI('summary', expContext || 'No experience listed yet.');
+      setResumeData(prev => ({ ...prev, summary: localResult }));
     } catch (error) {
-      console.error(error);
+      console.error('AI generation failure:', error);
     } finally {
       setAiLoading(false);
     }
@@ -327,13 +344,33 @@ export function ResumeBuilder() {
     if (!experience || !experience.achievements[achievementIndex]) return;
     setAiLoading(true);
     try {
-      const result = await callLocalAI('experience', experience.achievements[achievementIndex]);
-      if (result) {
+      // 1. Try Server-Side AI (Cloud / Vercel hosted)
+      const contextStr = `${experience.position} at ${experience.company} in the ${industry} industry`;
+      const result = await enhanceBulletPointAction(experience.achievements[achievementIndex], contextStr);
+      if (result.success && result.enhanced) {
         setResumeData(prev => {
           const newExp = prev.experience.map(exp => {
             if (exp.id === experienceId) {
               const newAch = [...exp.achievements];
-              newAch[achievementIndex] = result;
+              newAch[achievementIndex] = result.enhanced!;
+              return { ...exp, achievements: newAch };
+            }
+            return exp;
+          });
+          return { ...prev, experience: newExp };
+        });
+        return;
+      }
+
+      // 2. Fallback to Local AI (Worker)
+      console.warn('Server AI (Gemini) not responding, falling back to Local Engine...');
+      const localResult = await callLocalAI('experience', experience.achievements[achievementIndex]);
+      if (localResult) {
+        setResumeData(prev => {
+          const newExp = prev.experience.map(exp => {
+            if (exp.id === experienceId) {
+              const newAch = [...exp.achievements];
+              newAch[achievementIndex] = localResult;
               return { ...exp, achievements: newAch };
             }
             return exp;
@@ -342,7 +379,7 @@ export function ResumeBuilder() {
         });
       }
     } catch (error) {
-      console.error(error);
+      console.error('AI generation failure:', error);
     } finally {
       setAiLoading(false);
     }
@@ -352,14 +389,15 @@ export function ResumeBuilder() {
     if (!user && typeof window !== 'undefined' && loadedFromStorage) {
       const timeoutId = setTimeout(() => {
         try {
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(resumeData));
+          const bundle = { ...resumeData, targetJob, industry, experienceLevel };
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bundle));
         } catch (error) {
           console.error(error);
         }
       }, 1000);
       return () => clearTimeout(timeoutId);
     }
-  }, [resumeData, user, loadedFromStorage]);
+  }, [resumeData, targetJob, industry, experienceLevel, user, loadedFromStorage]);
 
   const saveResume = async () => {
     setSaving(true);
@@ -371,9 +409,15 @@ export function ResumeBuilder() {
         }
         return;
       }
+      const bundle = {
+        ...resumeData,
+        targetJob,
+        industry,
+        experienceLevel
+      };
       await supabase.from('resumes').upsert({
         user_id: user.id,
-        resume_data: resumeData,
+        resume_data: bundle,
         title: `${resumeData.personalInfo.firstName} ${resumeData.personalInfo.lastName} - Resume`,
         updated_at: new Date().toISOString()
       });

@@ -3,6 +3,7 @@ import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers
 
 // Skip local check to allow loading from Hugging Face CDN
 env.allowLocalModels = false;
+env.useBrowserCache = true; // CRITICAL: This ensures the model is saved in the browser's Cache storage
 
 // Proxy the message back to the main thread
 class ProgressProxy {
@@ -22,8 +23,12 @@ async function loadModel() {
     // LaMini-Flan-T5-783M is excellent for text tasks and relatively compact
     generator = await pipeline('text2text-generation', 'Xenova/LaMini-Flan-T5-783M', {
         progress_callback: (data) => {
-            if (data.status === 'progress') {
-                ProgressProxy.post('downloading', data.progress, `Downloading model: ${Math.round(data.progress)}%`);
+            if (data.status === 'initiate') {
+                ProgressProxy.post('init', 5, 'Synchronizing Engine...');
+            } else if (data.status === 'progress') {
+                ProgressProxy.post('downloading', data.progress, `Transferring Data: ${Math.round(data.progress)}%`);
+            } else if (data.status === 'done') {
+                ProgressProxy.post('ready', 100, 'Optimization Complete');
             }
         }
     });
@@ -42,7 +47,7 @@ self.onmessage = async (e) => {
         if (type === 'summary') {
             prompt = `Generate a 3-sentence professional resume summary for a ${jobTitle} in the ${industry} industry with ${experienceLevel} level experience. Use these details: ${text}`;
         } else if (type === 'experience') {
-            prompt = `Transform these notes into 3-4 professional resume bullet points starting with strong action verbs for a ${jobTitle} position: ${text}`;
+            prompt = `Rewrite this achievement note for a ${jobTitle} resume into one or two high-impact professional bullet points using action verbs and the STAR method (Situation, Task, Action, Result). Focus on quantifiable results: ${text}`;
         }
 
         ProgressProxy.post('generating', 50, 'Architecting content...');
