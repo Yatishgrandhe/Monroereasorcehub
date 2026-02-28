@@ -196,36 +196,34 @@ const requirements = [
 
 export default function VolunteerPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#020617]">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-            alt="Volunteers working together"
-            className="w-full h-full object-cover opacity-20"
-          />
+      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden">
+        <div className="absolute inset-0 bg-[#020617] z-0">
+          <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+          <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[70%] bg-primary-900/10 rounded-full blur-[120px]" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-accent-950/10 rounded-full blur-[100px]" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-600/90 via-primary-700/90 to-primary-800/90"></div>
         <div className="relative container-custom section-padding">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center">
-                <Heart className="h-10 w-10" />
-              </div>
+            <div className="flex justify-center mb-10">
+              <Badge variant="glass" className="px-6 py-2.5 bg-white/[0.05] border-white/10 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-xl">
+                <Heart className="h-3.5 w-3.5 mr-2.5 animate-pulse" />
+                Community Service Hub
+              </Badge>
             </div>
-            <h1 className="title-hero mb-6">
-              Lend a Hand
+            <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
+              Lend a <span className="text-gradient-logo">Hand</span>.
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Want to help make Monroe a better place? There are lots of ways to pitch in, and we can help you find something 
-              that actually fits with your schedule and what you\'re interested in.
+            <p className="text-xl md:text-2xl mb-12 text-slate-400 max-w-3xl mx-auto leading-relaxed">
+              Want to help make Monroe a better place? There are lots of ways to pitch in, and we can help you find something
+              that actually fits with your schedule and what you're interested in.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="bg-white/30 backdrop-blur-sm text-white border-white/50 hover:bg-white/50 shadow-lg font-semibold force-white-text"
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Button
+                size="lg"
+                variant="gradient"
+                className="h-14 px-12 text-lg rounded-full shadow-lg shadow-primary-500/20"
                 asChild
                 href="#opportunities"
               >
@@ -234,10 +232,10 @@ export default function VolunteerPage() {
                   See What's Needed
                 </>
               </Button>
-              <Button 
-                size="lg" 
-                variant="ghost" 
-                className="bg-white/20 text-white hover:bg-white/40 backdrop-blur-sm font-semibold force-white-text border border-white/30"
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-14 px-12 text-lg rounded-full border-white/10 text-white hover:bg-white/10"
                 asChild
                 href="/events"
               >
@@ -252,13 +250,13 @@ export default function VolunteerPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="section-padding">
+      <section className="section-padding bg-slate-900/50">
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="title-section mb-4">
               Why Give Back?
             </h2>
-            <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
               Volunteering is a pretty good way to meet people around here and actually make a difference in Monroe.
             </p>
           </div>
@@ -269,13 +267,13 @@ export default function VolunteerPage() {
               return (
                 <Card key={index} className="text-center">
                   <CardContent className="p-6">
-                    <div className="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="w-16 h-16 bg-primary-500/20 text-primary-400 rounded-full flex items-center justify-center mx-auto mb-4">
                       <IconComponent className="h-8 w-8" />
                     </div>
-                    <h3 className="text-lg font-semibold text-secondary-900 mb-3">
+                    <h3 className="text-lg font-semibold text-white mb-3">
                       {benefit.title}
                     </h3>
-                    <p className="text-secondary-600">
+                    <p className="text-slate-400">
                       {benefit.description}
                     </p>
                   </CardContent>
@@ -287,7 +285,7 @@ export default function VolunteerPage() {
       </section>
 
       {/* Community Spotlight */}
-      <section className="section-padding bg-gradient-logo text-white">
+      <section className="section-padding bg-gradient-to-br from-primary-700 via-accent-700 to-coral-600 text-white">
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -327,9 +325,9 @@ export default function VolunteerPage() {
                     <span>{volunteer.address || volunteer.location}</span>
                   </div>
                   {volunteer.phone && (
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      variant="outline"
+                      size="sm"
                       className="w-full mt-4 border-white/50 bg-white/30 backdrop-blur-sm text-white hover:bg-white/40 font-semibold shadow-md force-white-text"
                       asChild
                       href={`tel:${volunteer.phone.replace(/\D/g, '')}`}
@@ -359,13 +357,13 @@ export default function VolunteerPage() {
       </section>
 
       {/* Volunteer Opportunities */}
-      <section id="opportunities" className="section-padding bg-secondary-50">
+      <section id="opportunities" className="section-padding bg-slate-800/50">
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="title-section mb-4">
               Ways to Help Right Now
             </h2>
-            <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
               Find the perfect opportunity that matches your interests.
             </p>
           </div>
@@ -389,21 +387,21 @@ export default function VolunteerPage() {
                   </div>
                 </div>
                 <CardContent className="p-6">
-                  <p className="text-secondary-700 mb-4">
+                  <p className="text-slate-300 mb-4">
                     {opportunity.description}
                   </p>
 
                   <div className="space-y-3 mb-4">
-                    <div className="flex items-start gap-2 text-sm text-secondary-600">
+                    <div className="flex items-start gap-2 text-sm text-slate-400">
                       <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5" />
                       <span>{opportunity.address || opportunity.location}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-secondary-600">
+                    <div className="flex items-center gap-2 text-sm text-slate-400">
                       <Clock className="h-4 w-4" />
                       <span>{opportunity.timeCommitment}</span>
                     </div>
                     {opportunity.volunteerHours && (
-                      <div className="text-sm text-secondary-600">
+                      <div className="text-sm text-slate-400">
                         <p className="font-medium mb-1">Volunteer Hours (EST):</p>
                         <div className="space-y-1 text-xs">
                           {Object.entries(opportunity.volunteerHours).map(([day, hours]: [string, any]) => {
@@ -420,7 +418,7 @@ export default function VolunteerPage() {
                         </div>
                       </div>
                     )}
-                    <div className="flex items-center gap-2 text-sm text-secondary-600">
+                    <div className="flex items-center gap-2 text-sm text-slate-400">
                       <Users className="h-4 w-4" />
                       <span>Age: {opportunity.ageRequirement || '16+'}</span>
                       {opportunity.backgroundCheck && (
@@ -430,7 +428,7 @@ export default function VolunteerPage() {
                   </div>
 
                   <div className="mb-4">
-                    <h4 className="text-sm font-medium text-secondary-900 mb-2">Helpful Skills:</h4>
+                    <h4 className="text-sm font-medium text-white mb-2">Helpful Skills:</h4>
                     <div className="flex flex-wrap gap-1">
                       {opportunity.skills.map((skill, skillIndex) => (
                         <Badge key={skillIndex} variant="outline" size="sm">
@@ -442,9 +440,9 @@ export default function VolunteerPage() {
 
                   <div className="flex flex-col sm:flex-row gap-2">
                     {opportunity.phone && (
-                      <Button 
-                        variant="primary" 
-                        size="sm" 
+                      <Button
+                        variant="primary"
+                        size="sm"
                         className="flex-1"
                         asChild
                         href={`tel:${opportunity.phone.replace(/\D/g, '')}`}
@@ -475,14 +473,14 @@ export default function VolunteerPage() {
       </section>
 
       {/* Requirements */}
-      <section className="section-padding">
+      <section className="section-padding bg-slate-900/50">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="title-section mb-4">
                 Good to Know
               </h2>
-              <p className="text-xl text-secondary-600">
+              <p className="text-xl text-slate-400">
                 A few things to keep in mind before you start.
               </p>
             </div>
@@ -492,10 +490,10 @@ export default function VolunteerPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {requirements.map((requirement, index) => (
                     <div key={index} className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-primary-500/20 text-primary-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <div className="w-2 h-2 bg-primary-600 rounded-full"></div>
                       </div>
-                      <p className="text-secondary-700">{requirement}</p>
+                      <p className="text-slate-300">{requirement}</p>
                     </div>
                   ))}
                 </div>
@@ -506,57 +504,57 @@ export default function VolunteerPage() {
       </section>
 
       {/* Getting Started */}
-      <section className="section-padding bg-secondary-50">
+      <section className="section-padding bg-slate-800/50">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="title-section mb-6">
               How to Join In
             </h2>
-            <p className="text-xl text-secondary-600 mb-8">
+            <p className="text-xl text-slate-400 mb-8">
               It\'s easy to get started. Here\'s how:
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
               <div className="text-center">
-                <div className="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-primary-500/20 text-primary-400 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold">1</span>
                 </div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                <h3 className="text-lg font-semibold text-white mb-2">
                   Choose an Opportunity
                 </h3>
-                <p className="text-secondary-600">
+                <p className="text-slate-400">
                   Browse our list and find something that sparks your interest.
                 </p>
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-primary-500/20 text-primary-400 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold">2</span>
                 </div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                <h3 className="text-lg font-semibold text-white mb-2">
                   Reach Out
                 </h3>
-                <p className="text-secondary-600">
+                <p className="text-slate-400">
                   Contact the organization to say you\'d like to help.
                 </p>
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-primary-500/20 text-primary-400 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold">3</span>
                 </div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                <h3 className="text-lg font-semibold text-white mb-2">
                   Start Helping
                 </h3>
-                <p className="text-secondary-600">
+                <p className="text-slate-400">
                   Show up, lend a hand, and make a difference!
                 </p>
               </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                variant="primary" 
+              <Button
+                variant="primary"
                 size="lg"
                 asChild
                 href="#opportunities"
@@ -590,9 +588,9 @@ export default function VolunteerPage() {
               Join your neighbors who are already giving back.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                variant="outline" 
+              <Button
+                size="lg"
+                variant="outline"
                 className="bg-white/30 backdrop-blur-sm text-white border-white/50 hover:bg-white/50 shadow-lg font-semibold force-white-text"
                 asChild
                 href="#opportunities"
@@ -602,9 +600,9 @@ export default function VolunteerPage() {
                   Start Volunteering Today
                 </>
               </Button>
-              <Button 
-                size="lg" 
-                variant="ghost" 
+              <Button
+                size="lg"
+                variant="ghost"
                 className="bg-white/20 text-white hover:bg-white/40 backdrop-blur-sm font-semibold force-white-text border border-white/30"
                 asChild
                 href="/events"

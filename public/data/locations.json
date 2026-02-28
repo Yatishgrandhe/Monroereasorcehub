@@ -1,0 +1,85 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Union County Crisis Assistance",
+                "category": "Food & Financial Aid",
+                "address": "1333 W Roosevelt Blvd, Monroe, NC 28110",
+                "description": "Provides emergency food, clothing, and financial assistance to families in crisis."
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -80.5623,
+                    34.9961
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Union County Public Library",
+                "category": "Education & Digital",
+                "address": "316 E Windsor St, Monroe, NC 28112",
+                "description": "A hub for learning, community events, and free internet access for all residents."
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -80.5482,
+                    34.9856
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Union County Community Shelter",
+                "category": "Housing & Support",
+                "address": "160 Avery Ave, Monroe, NC 28112",
+                "description": "Comprehensive services including emergency shelter and meals for the homeless community."
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -80.5411,
+                    34.9825
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Monroe Science Center",
+                "category": "Education & STEM",
+                "address": "720 E Franklin St, Monroe, NC 28112",
+                "description": "Interactive museum promoting STEM education and engagement for Monroe students."
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -80.5405,
+                    34.9805
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "CPCC Monroe Campus",
+                "category": "Education & Training",
+                "address": "100 CPCC Ln, Monroe, NC 28112",
+                "description": "Access to workforce training and higher education opportunities right in the city."
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -80.5342,
+                    34.9751
+                ]
+            }
+        }
+    ]
+}

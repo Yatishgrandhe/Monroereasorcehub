@@ -296,7 +296,7 @@ export function ResourceSubmissionForm() {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-secondary-900 mb-4">The Basics</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">The Basics</h3>
               <div className="space-y-4">
                 <Input
                   label="Organization Name *"
@@ -307,7 +307,7 @@ export function ResourceSubmissionForm() {
                 />
 
                 <div>
-                  <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     Description *
                   </label>
                   <textarea
@@ -321,7 +321,7 @@ export function ResourceSubmissionForm() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     Category *
                   </label>
                   <select
@@ -356,11 +356,11 @@ export function ResourceSubmissionForm() {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Services & People</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">Services & People</h3>
 
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-secondary-700 mb-3">
+                  <label className="block text-sm font-medium text-slate-300 mb-3">
                     What services do they offer? *
                   </label>
                   <div className="space-y-3">
@@ -385,7 +385,7 @@ export function ResourceSubmissionForm() {
                           type="button"
                           onClick={() => addService(service)}
                           disabled={formData.services_offered.includes(service)}
-                          className="text-left p-2 text-sm border border-secondary-300 rounded hover:bg-secondary-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="text-left p-2 text-sm border border-slate-600 rounded hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {service}
                         </button>
@@ -408,7 +408,7 @@ export function ResourceSubmissionForm() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-secondary-700 mb-3">
+                  <label className="block text-sm font-medium text-slate-300 mb-3">
                     Who is this for? *
                   </label>
                   <div className="space-y-3">
@@ -433,7 +433,7 @@ export function ResourceSubmissionForm() {
                           type="button"
                           onClick={() => addPopulation(population)}
                           disabled={formData.population_served.includes(population)}
-                          className="text-left p-2 text-sm border border-secondary-300 rounded hover:bg-secondary-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="text-left p-2 text-sm border border-slate-600 rounded hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {population}
                         </button>
@@ -450,7 +450,7 @@ export function ResourceSubmissionForm() {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Contact Info & Hours</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">Contact Info & Hours</h3>
 
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -495,13 +495,13 @@ export function ResourceSubmissionForm() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-secondary-700 mb-3">
+                  <label className="block text-sm font-medium text-slate-300 mb-3">
                     When are they open?
                   </label>
                   <div className="space-y-3">
                     {daysOfWeek.map(day => (
                       <div key={day.key} className="flex items-center gap-4">
-                        <div className="w-20 text-sm font-medium text-secondary-700">
+                        <div className="w-20 text-sm font-medium text-slate-300">
                           {day.label}
                         </div>
                         <div className="flex items-center gap-2">
@@ -511,7 +511,7 @@ export function ResourceSubmissionForm() {
                             onChange={(e) => updateHours(day.key, 'closed', e.target.checked)}
                             className="mr-2"
                           />
-                          <span className="text-sm text-secondary-600">Closed</span>
+                          <span className="text-sm text-slate-400">Closed</span>
                         </div>
                         {!formData.hours[day.key as keyof typeof formData.hours].closed && (
                           <div className="flex items-center gap-2">
@@ -521,7 +521,7 @@ export function ResourceSubmissionForm() {
                               onChange={(e) => updateHours(day.key, 'open', e.target.value)}
                               className="input w-32"
                             />
-                            <span className="text-secondary-600">to</span>
+                            <span className="text-slate-400">to</span>
                             <input
                               type="time"
                               value={formData.hours[day.key as keyof typeof formData.hours].close}
@@ -536,7 +536,7 @@ export function ResourceSubmissionForm() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     Anything else we should know?
                   </label>
                   <textarea
@@ -556,7 +556,7 @@ export function ResourceSubmissionForm() {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Does this look right?</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">Does this look right?</h3>
 
               <div className="space-y-6">
                 <Card>
@@ -620,7 +620,7 @@ export function ResourceSubmissionForm() {
                     <CardContent>
                       <div className="space-y-2">
                         {formData.files.map((file, index) => (
-                          <div key={index} className="flex items-center justify-between p-2 bg-secondary-50 rounded">
+                          <div key={index} className="flex items-center justify-between p-2 bg-slate-800 rounded">
                             <span className="text-sm">{file.name}</span>
                             <button
                               type="button"
@@ -660,16 +660,16 @@ export function ResourceSubmissionForm() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-secondary-50">
+      <div className="min-h-screen bg-slate-900">
         <div className="container-custom section-padding">
           <div className="max-w-2xl mx-auto text-center">
             <div className="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle className="h-8 w-8 text-success-600" />
             </div>
-            <h1 className="text-3xl font-bold text-secondary-900 mb-4">
+            <h1 className="text-3xl font-bold text-white mb-4">
               Thanks for sharing!
             </h1>
-            <p className="text-lg text-secondary-600 mb-8">
+            <p className="text-lg text-slate-400 mb-8">
               We've received your submission. We'll review it shortly and let you know when it's published.
             </p>
             <div className="space-y-4">
@@ -687,13 +687,13 @@ export function ResourceSubmissionForm() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary-50">
+    <div className="min-h-screen bg-slate-900">
       <div className="container-custom section-padding">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Share a Resource with the Community
           </h1>
-          <p className="text-xl text-secondary-600 max-w-3xl">
+          <p className="text-xl text-slate-400 max-w-3xl">
             Help us grow our directory by sharing information about organizations or services that help people in Monroe.
           </p>
         </div>
@@ -722,7 +722,7 @@ export function ResourceSubmissionForm() {
                           ? 'bg-primary-100 text-primary-700'
                           : isCompleted
                             ? 'bg-success-100 text-success-700'
-                            : 'text-secondary-600'
+                            : 'text-slate-400'
                           }`}
                       >
                         <IconComponent className="h-5 w-5" />

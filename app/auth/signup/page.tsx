@@ -117,7 +117,7 @@ export default function SignUpPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-secondary-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full">
           <Card>
             <CardContent className="pt-6">
@@ -125,14 +125,14 @@ export default function SignUpPage() {
                 <div className="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <UserPlus className="h-8 w-8 text-success-600" />
                 </div>
-                <h2 className="text-2xl font-bold text-secondary-900 mb-2">
+                <h2 className="text-2xl font-bold text-white mb-2">
                   You're In!
                 </h2>
-                <p className="text-secondary-600 mb-4">
+                <p className="text-slate-400 mb-4">
                   Check your email to verify your account, then log in to start building your resume.
                 </p>
                 {migrationResult && migrationResult.success && (
-                  <div className="mb-4 p-3 bg-success-50 rounded-lg border border-success-200">
+                  <div className="mb-4 p-3 bg-success-500/10 rounded-lg border border-success-500/30">
                     <div className="flex items-start gap-2">
                       <CheckCircle className="h-4 w-4 text-success-600 mt-0.5 flex-shrink-0" />
                       <div className="flex-1">
@@ -158,7 +158,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="flex justify-center">
@@ -166,10 +166,10 @@ export default function SignUpPage() {
               <span className="text-white font-bold text-2xl">M</span>
             </div>
           </div>
-          <h2 className="mt-6 text-3xl font-bold text-secondary-900">
+          <h2 className="mt-6 text-3xl font-bold text-white">
             Join the Community
           </h2>
-          <p className="mt-2 text-sm text-secondary-600">
+          <p className="mt-2 text-sm text-slate-400">
             Sign up to use our free career tools and find resources.
           </p>
         </div>
@@ -183,12 +183,12 @@ export default function SignUpPage() {
           </CardHeader>
           {hasLocalData && (
             <div className="px-6 pt-0 pb-4">
-              <div className="p-3 bg-primary-50 rounded-lg border border-primary-200">
+              <div className="p-3 bg-primary-500/10 rounded-lg border border-primary-500/30">
                 <div className="flex items-start gap-2">
                   <Database className="h-4 w-4 text-primary-600 mt-0.5 flex-shrink-0" />
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-primary-900 mb-1">Local Data Detected</p>
-                    <p className="text-xs text-primary-700">
+                    <p className="text-sm font-medium text-white mb-1">Local Data Detected</p>
+                    <p className="text-xs text-slate-300">
                       We found saved resumes or other data in your browser. When you create your account, 
                       all your local data will be automatically migrated to your account so you can access it from anywhere.
                     </p>
@@ -231,7 +231,7 @@ export default function SignUpPage() {
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-8 text-secondary-400 hover:text-secondary-600"
+                  className="absolute right-3 top-8 text-slate-400 hover:text-slate-300"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -254,7 +254,7 @@ export default function SignUpPage() {
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-8 text-secondary-400 hover:text-secondary-600"
+                  className="absolute right-3 top-8 text-slate-400 hover:text-slate-300"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword ? (
@@ -285,10 +285,10 @@ export default function SignUpPage() {
             <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-secondary-300" />
+                  <div className="w-full border-t border-slate-600" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-secondary-500">Or continue with</span>
+                  <span className="px-2 bg-slate-900 text-slate-400">Or continue with</span>
                 </div>
               </div>
 
@@ -324,7 +324,7 @@ export default function SignUpPage() {
             </div>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-secondary-600">
+              <p className="text-sm text-slate-400">
                 Already a member?{' '}
                 <Link href="/auth/signin" className="text-primary-600 hover:text-primary-700 font-medium">
                   Sign in
@@ -332,7 +332,7 @@ export default function SignUpPage() {
               </p>
             </div>
 
-            <div className="mt-4 text-xs text-secondary-500 text-center">
+            <div className="mt-4 text-xs text-slate-500 text-center">
               By creating an account, you agree to our{' '}
               <Link href="/terms" className="text-primary-600 hover:text-primary-700">
                 Terms of Service

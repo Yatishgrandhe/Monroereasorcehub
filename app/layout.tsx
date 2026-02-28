@@ -1,13 +1,8 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-// import { InspectProtection } from '@/components/protection/InspectProtection';
-// import { ObfuscatedScript } from '@/components/protection/ObfuscatedScript';
-
-const inter = Inter({ subsets: ['latin'] });
+import { SmoothScroll } from '@/components/layout/SmoothScroll';
 
 export const metadata: Metadata = {
   title: 'Monroe Resource Hub - Community Resources & Services',
@@ -74,11 +69,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={inter.className}>
-        {/* Developer tools protection - DISABLED FOR NOW */}
-        {/* <InspectProtection /> */}
-        {/* <ObfuscatedScript /> */}
+    <html lang="en" className="dark scroll-smooth">
+      <body className="font-sans antialiased text-secondary-800 dark:text-secondary-200 bg-[#020617]">
+        <SmoothScroll />
         <div className="min-h-screen flex flex-col w-full">
           <Header />
           <main className="flex-1 w-full">

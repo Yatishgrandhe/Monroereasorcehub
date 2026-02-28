@@ -8,21 +8,22 @@ const config: Config = {
     './lib/**/*.{js,ts,jsx,tsx,mdx}',
     './hooks/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Logo-Inspired Color Palette
         primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6', // Logo blue
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
+          50: '#f5f7ff',
+          100: '#ebf0fe',
+          200: '#ced9fd',
+          300: '#a1b6fb',
+          400: '#7389f8',
+          500: '#6366f1', // Electric Indigo
+          600: '#4f46e5',
+          700: '#4338ca',
+          800: '#3730a3',
+          900: '#312e81',
+          950: '#1e1b4b',
         },
         secondary: {
           50: '#f8fafc',
@@ -35,8 +36,9 @@ const config: Config = {
           700: '#334155',
           800: '#1e293b',
           900: '#0f172a',
+          950: '#020617',
         },
-        teal: {
+        accent: {
           50: '#f0fdfa',
           100: '#ccfbf1',
           200: '#99f6e4',
@@ -54,23 +56,11 @@ const config: Config = {
           200: '#fed7aa',
           300: '#fdba74',
           400: '#fb923c',
-          500: '#f97316', // Logo coral
+          500: '#f97316',
           600: '#ea580c',
           700: '#c2410c',
           800: '#9a3412',
           900: '#7c2d12',
-        },
-        accent: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#06b6d4', // Logo teal
-          600: '#0891b2',
-          700: '#0e7490',
-          800: '#155e75',
-          900: '#164e63',
         },
         success: {
           50: '#f0fdf4',
@@ -110,27 +100,21 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Georgia', 'serif'],
-        display: ['Inter', 'system-ui', 'sans-serif'],
-      },
-      fontWeight: {
-        thin: '100',
-        extralight: '200',
-        light: '300',
-        normal: '400',
-        medium: '500',
-        semibold: '600',
-        bold: '700',
-        extrabold: '800',
-        black: '900',
+        sans: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['Fraunces', 'Outfit', 'serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.3s ease-out',
         'bounce-gentle': 'bounceGentle 2s infinite',
+        'shimmer': 'shimmer 2s ease-in-out infinite',
       },
       keyframes: {
+        shimmer: {
+          '0%': { backgroundPosition: '200% 0' },
+          '100%': { backgroundPosition: '-200% 0' },
+        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
@@ -147,15 +131,18 @@ const config: Config = {
       boxShadow: {
         'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
         'medium': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        'strong': '0 10px 40px -10px rgba(0, 0, 0, 0.15), 0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-        'glow-blue': '0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1)',
-        'glow-teal': '0 0 20px rgba(6, 182, 212, 0.3), 0 0 40px rgba(6, 182, 212, 0.1)',
-        'glow-coral': '0 0 20px rgba(249, 115, 22, 0.3), 0 0 40px rgba(249, 115, 22, 0.1)',
-        'glow-multi': '0 0 20px rgba(59, 130, 246, 0.2), 0 0 40px rgba(6, 182, 212, 0.15), 0 0 60px rgba(249, 115, 22, 0.1)',
+        'premium': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+        'premium-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03)',
+        'glass': 'inset 0 0 0 1px rgba(255, 255, 255, 0.2)',
+        'glass-dark': 'inset 0 0 0 1px rgba(255, 255, 255, 0.05)',
       },
       backgroundImage: {
-        'gradient-logo': 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #f97316 100%)',
-        'gradient-logo-soft': 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 50%, rgba(249, 115, 22, 0.1) 100%)',
+        'gradient-premium': 'linear-gradient(135deg, #2563eb 0%, #0d9488 100%)',
+        'gradient-spline': 'linear-gradient(135deg, #2563eb 0%, #0d9488 50%, #f97316 100%)',
+        'gradient-logo': 'linear-gradient(135deg, #2563eb 0%, #0d9488 50%, #f97316 100%)',
+        'gradient-hero': 'linear-gradient(180deg, rgba(15, 23, 42, 0.3) 0%, rgba(15, 23, 42, 0.7) 100%)',
+        'gradient-surface': 'linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%)',
+        'mesh': 'radial-gradient(at 0% 0%, hsla(217, 91%, 60%, 0.12) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(174, 72%, 40%, 0.08) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(25, 95%, 53%, 0.06) 0, transparent 50%)',
       },
     },
   },

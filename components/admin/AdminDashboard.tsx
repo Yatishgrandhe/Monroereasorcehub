@@ -215,10 +215,10 @@ export function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-center">
           <div className="loading-spinner w-8 h-8 mx-auto mb-4"></div>
-          <p className="text-secondary-600">Loading admin dashboard...</p>
+          <p className="text-slate-400">Loading admin dashboard...</p>
         </div>
       </div>
     );
@@ -228,10 +228,10 @@ export function AdminDashboard() {
     <div className="min-h-screen bg-secondary-50">
       <div className="container-custom section-padding">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Admin Dashboard
           </h1>
-          <p className="text-xl text-secondary-600 max-w-3xl">
+          <p className="text-xl text-slate-400 max-w-3xl">
             Manage community resources, events, and platform content
           </p>
         </div>
@@ -242,8 +242,8 @@ export function AdminDashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-secondary-600">Total Resources</p>
-                  <p className="text-2xl font-bold text-secondary-900">{stats.totalResources}</p>
+                  <p className="text-sm font-medium text-slate-400">Total Resources</p>
+                  <p className="text-2xl font-bold text-white">{stats.totalResources}</p>
                 </div>
                 <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
                   <FileText className="h-6 w-6 text-primary-600" />
@@ -256,7 +256,7 @@ export function AdminDashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-secondary-600">Pending Resources</p>
+                  <p className="text-sm font-medium text-slate-400">Pending Resources</p>
                   <p className="text-2xl font-bold text-warning-600">{stats.pendingResources}</p>
                 </div>
                 <div className="w-12 h-12 bg-warning-100 rounded-lg flex items-center justify-center">
@@ -270,8 +270,8 @@ export function AdminDashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-secondary-600">Total Events</p>
-                  <p className="text-2xl font-bold text-secondary-900">{stats.totalEvents}</p>
+                  <p className="text-sm font-medium text-slate-400">Total Events</p>
+                  <p className="text-2xl font-bold text-white">{stats.totalEvents}</p>
                 </div>
                 <div className="w-12 h-12 bg-success-100 rounded-lg flex items-center justify-center">
                   <Calendar className="h-6 w-6 text-success-600" />
@@ -284,7 +284,7 @@ export function AdminDashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-secondary-600">Pending Events</p>
+                  <p className="text-sm font-medium text-slate-400">Pending Events</p>
                   <p className="text-2xl font-bold text-warning-600">{stats.pendingEvents}</p>
                 </div>
                 <div className="w-12 h-12 bg-warning-100 rounded-lg flex items-center justify-center">
@@ -299,7 +299,7 @@ export function AdminDashboard() {
           {/* Pending Resources */}
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-secondary-900">Pending Resources</h2>
+              <h2 className="text-2xl font-bold text-white">Pending Resources</h2>
               <Badge variant="warning">{pendingResources.length} pending</Badge>
             </div>
 
@@ -310,17 +310,17 @@ export function AdminDashboard() {
                     <CardContent className="p-6">
                       <div className="space-y-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-secondary-900 mb-1">
+                          <h3 className="text-lg font-semibold text-white mb-1">
                             {resource.name}
                           </h3>
                           <Badge variant="outline">{resource.category?.name || 'Uncategorized'}</Badge>
                         </div>
 
-                        <p className="text-secondary-700 line-clamp-3">
+                        <p className="text-slate-300 line-clamp-3">
                           {resource.description}
                         </p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-secondary-600">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-400">
                           {resource.email && (
                             <div>
                               <strong>Email:</strong> {resource.email}
@@ -345,7 +345,7 @@ export function AdminDashboard() {
 
                         <div className="space-y-2">
                           <div>
-                            <strong className="text-sm text-secondary-700">Services:</strong>
+                            <strong className="text-sm text-slate-300">Services:</strong>
                             <div className="flex flex-wrap gap-1 mt-1">
                               {resource.services_offered.slice(0, 5).map((service, index) => (
                                 <Badge key={index} variant="outline" size="sm">
@@ -361,7 +361,7 @@ export function AdminDashboard() {
                           </div>
                         </div>
 
-                        <div className="text-sm text-secondary-500">
+                        <div className="text-sm text-slate-500">
                           Submitted: {formatDate(resource.submitted_at)}
                         </div>
 
@@ -396,10 +396,10 @@ export function AdminDashboard() {
               <Card>
                 <CardContent className="p-8 text-center">
                   <CheckCircle className="h-12 w-12 text-success-500 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                  <h3 className="text-lg font-semibold text-white mb-2">
                     No Pending Resources
                   </h3>
-                  <p className="text-secondary-600">
+                  <p className="text-slate-400">
                     All resource submissions have been reviewed.
                   </p>
                 </CardContent>
@@ -410,7 +410,7 @@ export function AdminDashboard() {
           {/* Pending Events */}
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-secondary-900">Pending Events</h2>
+              <h2 className="text-2xl font-bold text-white">Pending Events</h2>
               <Badge variant="warning">{pendingEvents.length} pending</Badge>
             </div>
 
@@ -421,17 +421,17 @@ export function AdminDashboard() {
                     <CardContent className="p-6">
                       <div className="space-y-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-secondary-900 mb-1">
+                          <h3 className="text-lg font-semibold text-white mb-1">
                             {event.title}
                           </h3>
                           <Badge variant="outline">{event.category}</Badge>
                         </div>
 
-                        <p className="text-secondary-700 line-clamp-3">
+                        <p className="text-slate-300 line-clamp-3">
                           {event.description}
                         </p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-secondary-600">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-400">
                           <div>
                             <strong>Date:</strong> {formatDate(event.start_date)}
                           </div>
@@ -443,7 +443,7 @@ export function AdminDashboard() {
                           </div>
                         </div>
 
-                        <div className="text-sm text-secondary-500">
+                        <div className="text-sm text-slate-500">
                           Submitted: {formatDate(event.submitted_at)}
                         </div>
 
@@ -478,10 +478,10 @@ export function AdminDashboard() {
               <Card>
                 <CardContent className="p-8 text-center">
                   <CheckCircle className="h-12 w-12 text-success-500 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                  <h3 className="text-lg font-semibold text-white mb-2">
                     No Pending Events
                   </h3>
-                  <p className="text-secondary-600">
+                  <p className="text-slate-400">
                     All event submissions have been reviewed.
                   </p>
                 </CardContent>

@@ -2,21 +2,27 @@ import { FileText, Book, Code, Image, Globe, Link as LinkIcon } from 'lucide-rea
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Info | Monroe Resource Hub',
+  description: 'Project information, credits, and documentation for Monroe Resource Hub.',
+};
 
 const references = [
   {
     category: 'Web Frameworks & Libraries',
     items: [
       {
-        name: 'Next.js 15.5.5',
+        name: 'Next.js 16.1.6',
         type: 'Framework',
-        description: 'React framework for production',
+        description: 'React framework for production with App Router',
         url: 'https://nextjs.org/',
         license: 'MIT License',
         usage: 'Used as the core framework for building the web application'
       },
       {
-        name: 'React 19.1.0',
+        name: 'React 19.2.4',
         type: 'Library',
         description: 'JavaScript library for building user interfaces',
         url: 'https://react.dev/',
@@ -24,7 +30,7 @@ const references = [
         usage: 'Core UI library for all components'
       },
       {
-        name: 'Tailwind CSS 3.4.18',
+        name: 'Tailwind CSS 3.4',
         type: 'Framework',
         description: 'Utility-first CSS framework',
         url: 'https://tailwindcss.com/',
@@ -32,12 +38,20 @@ const references = [
         usage: 'Used for all styling and responsive design'
       },
       {
-        name: 'TypeScript 5',
+        name: 'TypeScript 5.9',
         type: 'Language',
         description: 'JavaScript with syntax for types',
         url: 'https://www.typescriptlang.org/',
         license: 'Apache License 2.0',
         usage: 'Type-safe development across the entire application'
+      },
+      {
+        name: 'Node.js 22 LTS',
+        type: 'Runtime',
+        description: 'JavaScript runtime built on V8',
+        url: 'https://nodejs.org/',
+        license: 'MIT License',
+        usage: 'Server-side JavaScript execution and build tooling'
       },
       {
         name: 'Supabase',
@@ -183,55 +197,58 @@ const documents = [
     name: 'Student Copyright Checklist',
     description: 'Complete documentation of all copyrighted materials used in this project',
     icon: FileText,
-    color: 'bg-primary-100 text-primary-800',
+    color: 'bg-primary-500/20 text-primary-300',
     href: '/documents/student-copyright-checklist.pdf'
   },
   {
     name: 'Work Log',
     description: 'Detailed log of all work completed during project development',
     icon: FileText,
-    color: 'bg-accent-100 text-accent-800',
+    color: 'bg-accent-500/20 text-accent-300',
     href: '/documents/work-log.pdf'
   }
 ];
 
-export default function ReferencePage() {
+export default function InfoPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#020617] pt-20 relative overflow-hidden">
+      <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white">
-        <div className="container-custom section-padding">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center">
-                <FileText className="h-10 w-10" />
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Project Info & Sources
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-              We wanted to be transparent about everything we used to build this site. Here's the full list of tools and sources.
-            </p>
-            <Badge variant="primary" className="bg-white/50 backdrop-blur-sm text-white border-white/50 shadow-lg font-semibold">
-              Central Academy of Technology and Arts TSA Chapter
+      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden">
+        <div className="absolute inset-0 bg-[#020617] z-0">
+          <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+          <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[70%] bg-primary-900/20 rounded-full blur-[120px]" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-slate-900/10 rounded-full blur-[100px]" />
+        </div>
+        <div className="container-custom section-padding relative z-10 text-center">
+          <div className="flex justify-center mb-10">
+            <Badge variant="glass" className="px-6 py-2.5 bg-white/[0.05] border-white/10 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-xl">
+              <FileText className="h-3.5 w-3.5 mr-2.5 animate-pulse" />
+              Documentation Center
             </Badge>
           </div>
+          <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none overflow-visible">
+            <span className="text-gradient-logo inline-block pr-2">Info</span>
+          </h1>
+          <p className="text-xl md:text-2xl mb-12 text-slate-400 max-w-3xl mx-auto leading-relaxed">
+            We wanted to be transparent about everything we used to build this site. Here's the full list of tools and sources.
+          </p>
+          <Badge variant="primary" className="bg-white/90 backdrop-blur-sm text-slate-900 border-white/80 shadow-lg font-semibold">
+            Central Academy of Technology and Arts TSA Chapter
+          </Badge>
         </div>
       </section>
 
       {/* Required Documents */}
-      <section className="section-padding bg-secondary-50">
+      <section className="section-padding bg-slate-800/20">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Competition Docs
             </h2>
-            <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
               Competition documents and all the project stuff we put together
-            </p>
-            <p className="text-sm text-secondary-500 mt-4 max-w-2xl mx-auto">
-              Click "Open PDF" to view the PDF document in a new tab. You can download it from there.
             </p>
           </div>
 
@@ -239,26 +256,23 @@ export default function ReferencePage() {
             {documents.map((doc, index) => {
               const IconComponent = doc.icon;
               return (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
+                <Card key={index} className="hover:shadow-lg transition-shadow bg-white/5 border-white/10">
                   <CardHeader>
                     <div className="flex items-center gap-3 mb-2">
                       <div className={`w-12 h-12 ${doc.color} rounded-lg flex items-center justify-center`}>
                         <IconComponent className="h-6 w-6" />
                       </div>
-                      <CardTitle className="text-xl">{doc.name}</CardTitle>
+                      <CardTitle className="text-xl text-white">{doc.name}</CardTitle>
                     </div>
-                    <CardDescription>{doc.description}</CardDescription>
+                    <CardDescription className="text-slate-400">{doc.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <a
-                      href={doc.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium rounded-lg border border-secondary-300 bg-white text-secondary-700 hover:bg-secondary-50 transition-colors"
-                    >
-                      <FileText className="mr-2 h-4 w-4" />
-                      Open PDF
-                    </a>
+                    <Button variant="outline" className="w-full text-white border-white/20 hover:bg-white/10" asChild href={doc.href}>
+                      <span className="flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        Open PDF
+                      </span>
+                    </Button>
                   </CardContent>
                 </Card>
               );
@@ -268,29 +282,28 @@ export default function ReferencePage() {
       </section>
 
       {/* Framework Statement */}
-      <section className="section-padding">
+      <section className="section-padding bg-[#020617]">
         <div className="container-custom">
-          <Card className="max-w-4xl mx-auto">
+          <Card className="max-w-4xl mx-auto bg-white/5 border-white/10">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Code className="h-6 w-6 text-primary-600" />
-                How it was done
+              <CardTitle className="flex items-center gap-2 text-white text-2xl">
+                <Code className="h-6 w-6 text-primary-400" />
+                Originality & Frameworks
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4 text-secondary-700">
+              <div className="space-y-6 text-slate-400 leading-relaxed">
                 <p>
-                  When this website was built, it used the Next.js framework (15.5.5), React (19.1.0), TypeScript 5, and Tailwind CSS 3.4.18.
+                  This platform was architected using Next.js 16, React 19, TypeScript 5, and Tailwind CSS 3.
                 </p>
-                <div className="text-secondary-700 space-y-4">
-                  <p className="font-semibold text-primary-700">
+                <div className="space-y-4">
+                  <p className="font-bold text-primary-400">
                     Guarantee of Originality:
                   </p>
                   <p>
-                    Just so you know, our team at Central Academy of Technology and Arts TSA Chapter built this whole thing ourselves. We didn't grab any pre-made themes or templates - everything you see, from how it looks to how it works, we put together ourselves. Every single piece of code and design came from our team.
-                  </p>
-                  <p>
-                    Our design and how everything works together are completely unique, even though we use open source libraries (like the ones below) to build on the work of others. There were no pre-made templates used to make this website, so this proves it.
+                    Developed entirely by the CATA TSA Chapter, this project contains zero pre-made themes or templates.
+                    Every design token, component intersection, and logic branch was handcrafted by our student team to ensure
+                    a truly unique community experience.
                   </p>
                 </div>
               </div>
@@ -300,67 +313,50 @@ export default function ReferencePage() {
       </section>
 
       {/* References */}
-      <section className="section-padding bg-secondary-50">
+      <section className="section-padding bg-slate-800/10">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-              Credits & Tools
-            </h2>
-            <p className="text-xl text-secondary-600 max-w-3xl mx-auto">
-              Complete list of all information sources, libraries, and materials used
-            </p>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-white">Credits & Tools</h2>
           </div>
 
-          <div className="space-y-12">
+          <div className="space-y-16">
             {references.map((section, sectionIndex) => (
               <div key={sectionIndex}>
-                <h3 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center gap-2">
-                  {sectionIndex === 0 && <Code className="h-6 w-6 text-primary-600" />}
-                  {sectionIndex === 1 && <Image className="h-6 w-6 text-primary-600" />}
-                  {sectionIndex === 2 && <Globe className="h-6 w-6 text-primary-600" />}
-                  {sectionIndex === 3 && <Book className="h-6 w-6 text-primary-600" />}
+                <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                  {sectionIndex === 0 && <Code className="h-6 w-6 text-primary-400" />}
+                  {sectionIndex === 1 && <Image className="h-6 w-6 text-primary-400" />}
+                  {sectionIndex === 2 && <Globe className="h-6 w-6 text-primary-400" />}
+                  {sectionIndex === 3 && <Book className="h-6 w-6 text-primary-400" />}
                   {section.category}
                 </h3>
 
-                <div className="grid grid-cols-1 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {section.items.map((item, itemIndex) => (
-                    <Card key={itemIndex}>
+                    <Card key={itemIndex} className="bg-white/5 border-white/10 hover:border-primary-500/30 transition-colors">
                       <CardHeader>
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1">
-                            <CardTitle className="text-lg flex items-center gap-2">
+                            <CardTitle className="text-lg text-white flex items-center gap-2">
                               {item.name}
                               {item.url && (
-                                <a
-                                  href={item.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-primary-600 hover:text-primary-700"
-                                >
+                                <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-primary-400 hover:text-white transition-colors">
                                   <LinkIcon className="h-4 w-4" />
                                 </a>
                               )}
                             </CardTitle>
-                            <CardDescription className="mt-1">{item.description}</CardDescription>
+                            <CardDescription className="text-slate-500">{item.description}</CardDescription>
                           </div>
-                          <Badge variant="outline">{item.type}</Badge>
+                          <Badge variant="glass" className="bg-white/5 border-white/10">{item.type}</Badge>
                         </div>
                       </CardHeader>
-                      <CardContent className="space-y-2">
-                        <div className="flex items-center gap-2 text-sm">
-                          <span className="text-secondary-600">License:</span>
-                          <span className="font-medium text-secondary-900">{item.license}</span>
+                      <CardContent className="space-y-3">
+                        <div className="flex items-center gap-2 text-sm text-slate-400">
+                          <span className="opacity-60">License:</span>
+                          <span className="font-medium text-slate-200">{item.license}</span>
                         </div>
-                        <div className="text-sm text-secondary-700">
-                          <span className="text-secondary-600">Usage:</span>{' '}
-                          {item.usage}
+                        <div className="text-sm text-slate-300">
+                          <span className="opacity-60">Usage:</span> {item.usage}
                         </div>
-                        {item.permission && (
-                          <div className="text-sm bg-accent-50 p-3 rounded-lg border border-accent-200">
-                            <span className="font-medium text-secondary-900">Permission:</span>{' '}
-                            <span className="text-secondary-700">{item.permission}</span>
-                          </div>
-                        )}
                       </CardContent>
                     </Card>
                   ))}
@@ -372,32 +368,26 @@ export default function ReferencePage() {
       </section>
 
       {/* Copyright Notice */}
-      <section className="section-padding">
+      <section className="section-padding bg-[#020617]">
         <div className="container-custom">
-          <Card className="max-w-4xl mx-auto border-2 border-primary-200">
+          <Card className="max-w-4xl mx-auto border border-primary-500/30 bg-primary-500/5">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-6 w-6 text-primary-600" />
-                Copyright Info
+              <CardTitle className="flex items-center gap-2 text-white">
+                <FileText className="h-6 w-6 text-primary-400" />
+                Copyright & Licensing
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4 text-secondary-700">
+            <CardContent className="text-slate-400 leading-relaxed space-y-4">
               <p>
                 All copyrighted materials used in this website have been properly documented and used in accordance
-                with their respective licenses. Where necessary, written permission has been obtained and is included
-                in the Student Copyright Checklist linked above.
+                with their respective licenses. Documentation is maintained in the Student Copyright Checklist.
               </p>
               <p>
-                <strong>Open Source Libraries:</strong> All open-source libraries used in this project are licensed
-                under permissive licenses (MIT, Apache, ISC) that allow commercial use, modification, and distribution.
+                <strong>Stock Media:</strong> All images from Unsplash are used under the Unsplash License (royalty-free for commercial use).
               </p>
               <p>
-                <strong>Stock Images:</strong> All images from Unsplash are used under the Unsplash License, which
-                provides free use for commercial and non-commercial purposes without attribution requirements.
-              </p>
-              <p>
-                <strong>Original Content:</strong> All other content, design elements, and code not listed above
-                are original works created by the Central Academy of Technology and Arts TSA Chapter team specifically for this project.
+                <strong>Original Intellectual Property:</strong> All other content, including the 3D interaction logic and custom design patterns,
+                are original works of the Central Academy of Technology and Arts TSA Chapter.
               </p>
             </CardContent>
           </Card>
@@ -405,31 +395,29 @@ export default function ReferencePage() {
       </section>
 
       {/* Project Information */}
-      <section className="section-padding bg-secondary-50">
+      <section className="section-padding bg-slate-900/10">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
-            <Card>
+            <Card className="bg-white/5 border-white/10">
               <CardHeader>
-                <CardTitle>Project Information</CardTitle>
+                <CardTitle className="text-white text-xl">Project Meta</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3 text-secondary-700">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <span className="font-semibold text-secondary-900">Project Name:</span>
-                    <p>Monroe Resource Hub</p>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-secondary-900">Organization:</span>
-                    <p>Central Academy of Technology and Arts TSA Chapter</p>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-secondary-900">Location:</span>
-                    <p>Monroe, North Carolina</p>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-secondary-900">Project Year:</span>
-                    <p>2024</p>
-                  </div>
+              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-400">
+                <div className="space-y-1">
+                  <p className="text-xs uppercase tracking-widest font-bold opacity-60">Project Name</p>
+                  <p className="text-white font-medium">Monroe Resource Hub</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs uppercase tracking-widest font-bold opacity-60">Organization</p>
+                  <p className="text-white font-medium">CATA TSA Chapter</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs uppercase tracking-widest font-bold opacity-60">Location</p>
+                  <p className="text-white font-medium">Monroe, NC</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs uppercase tracking-widest font-bold opacity-60">Launch Year</p>
+                  <p className="text-white font-medium">2026 (Rebuilt)</p>
                 </div>
               </CardContent>
             </Card>
@@ -439,4 +427,3 @@ export default function ReferencePage() {
     </div>
   );
 }
-

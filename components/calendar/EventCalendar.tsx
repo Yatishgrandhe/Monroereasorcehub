@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Plus, Filter, Grid, List } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Plus, Sparkles, LayoutGrid, List as ListIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -9,20 +9,15 @@ import { Badge } from '@/components/ui/Badge';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { FilterPanel, FilterGroup } from '@/components/ui/FilterPanel';
 import { createClient } from '@/lib/supabase/client';
-import { formatDate, formatTime, isToday, isTomorrow, getRelativeTime } from '@/lib/utils';
+import { formatDate, formatTime, isToday, isTomorrow, getRelativeTime, cn } from '@/lib/utils';
 import { Database } from '@/types/database';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type Event = Database['public']['Tables']['events']['Row'];
 
 const eventCategories = [
-  'Health & Wellness',
-  'Education',
-  'Community',
-  'Employment',
-  'Arts & Culture',
-  'Sports & Recreation',
-  'Business',
-  'Volunteer'
+  'Health & Wellness', 'Education', 'Community', 'Employment',
+  'Arts & Culture', 'Sports & Recreation', 'Business', 'Volunteer'
 ];
 
 export function EventCalendar() {
@@ -47,7 +42,6 @@ export function EventCalendar() {
     }
   ];
 
-  // Load events from database
   useEffect(() => {
     const loadEvents = async () => {
       try {
@@ -58,9 +52,8 @@ export function EventCalendar() {
           .eq('is_approved', true)
           .order('start_date', { ascending: true });
 
-        if (error) {
-          console.error('Error loading events:', error);
-        } else {
+        if (error) console.error('Error loading events:', error);
+        else {
           setEvents(eventsData || []);
           setFilteredEvents(eventsData || []);
         }
@@ -70,50 +63,22 @@ export function EventCalendar() {
         setLoading(false);
       }
     };
-
     loadEvents();
   }, []);
 
-  // Filter events based on search and filters
   useEffect(() => {
     let filtered = events;
-
-    // Apply search filter
     if (searchQuery) {
       filtered = filtered.filter(event =>
         event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        event.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        event.organizer?.toLowerCase().includes(searchQuery.toLowerCase())
+        event.description?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
-
-    // Apply category filters
-    if (selectedFilters.category && selectedFilters.category.length > 0) {
-      filtered = filtered.filter(event =>
-        event.category && selectedFilters.category.includes(event.category)
-      );
+    if (selectedFilters.category?.length > 0) {
+      filtered = filtered.filter(event => event.category && selectedFilters.category.includes(event.category));
     }
-
     setFilteredEvents(filtered);
   }, [events, searchQuery, selectedFilters]);
-
-  const getEventsForDate = (date: Date) => {
-    const dateStr = date.toISOString().split('T')[0];
-    return filteredEvents.filter(event => {
-      const eventDate = new Date(event.start_date).toISOString().split('T')[0];
-      return eventDate === dateStr;
-    });
-  };
-
-  const getEventsForWeek = (startDate: Date) => {
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 6);
-
-    return filteredEvents.filter(event => {
-      const eventDate = new Date(event.start_date);
-      return eventDate >= startDate && eventDate <= endDate;
-    });
-  };
 
   const renderMonthView = () => {
     const year = currentDate.getFullYear();
@@ -124,430 +89,161 @@ export function EventCalendar() {
     startDate.setDate(startDate.getDate() - firstDay.getDay());
 
     const weeks = [];
-    const currentWeek = new Date(startDate);
+    const currentWeekCursor = new Date(startDate);
 
-    while (currentWeek <= lastDay || currentWeek.getMonth() === month) {
+    while (currentWeekCursor <= lastDay || currentWeekCursor.getMonth() === month) {
       const week = [];
       for (let i = 0; i < 7; i++) {
-        const day = new Date(currentWeek);
-        const dayEvents = getEventsForDate(day);
+        const day = new Date(currentWeekCursor);
+        const dateStr = day.toISOString().split('T')[0];
+        const dayEvents = filteredEvents.filter(e => new Date(e.start_date).toISOString().split('T')[0] === dateStr);
         week.push({ date: day, events: dayEvents });
-        currentWeek.setDate(currentWeek.getDate() + 1);
+        currentWeekCursor.setDate(currentWeekCursor.getDate() + 1);
       }
       weeks.push(week);
     }
 
     return (
-      <div className="bg-white rounded-lg border border-secondary-200 overflow-hidden">
-        <div className="grid grid-cols-7">
-          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-            <div key={day} className="p-4 text-center font-semibold text-secondary-700 bg-secondary-50 border-b border-secondary-200">
+      <div className="glass-card border-white/10 rounded-[2rem] overflow-hidden shadow-2xl">
+        <div className="grid grid-cols-7 border-b border-white/5">
+          {['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map(day => (
+            <div key={day} className="p-4 text-center font-black text-[10px] text-slate-500 tracking-widest bg-white/[0.02]">
               {day}
             </div>
           ))}
-          {weeks.map((week, weekIndex) =>
-            week.map((day, dayIndex) => {
-              const isCurrentMonth = day.date.getMonth() === month;
-              const isTodayDate = isToday(day.date);
-
-              return (
-                <div
-                  key={`${weekIndex}-${dayIndex}`}
-                  className={`min-h-[120px] p-2 border-b border-r border-secondary-200 ${!isCurrentMonth ? 'bg-secondary-50' : 'bg-white'
-                    }`}
-                >
-                  <div className={`text-sm font-medium mb-1 ${isCurrentMonth ? 'text-secondary-900' : 'text-secondary-400'
-                    } ${isTodayDate ? 'text-primary-600' : ''}`}>
-                    {day.date.getDate()}
-                  </div>
-                  <div className="space-y-1">
-                    {day.events.slice(0, 2).map((event, eventIndex) => (
-                      <div
-                        key={event.id}
-                        className="text-xs p-1 bg-primary-100 text-primary-800 rounded truncate cursor-pointer hover:bg-primary-200"
-                        title={event.title}
-                      >
-                        {event.title}
-                      </div>
-                    ))}
-                    {day.events.length > 2 && (
-                      <div className="text-xs text-secondary-500">
-                        +{day.events.length - 2} more
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })
-          )}
         </div>
-      </div>
-    );
-  };
-
-  const renderWeekView = () => {
-    const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
-    const weekEvents = getEventsForWeek(startOfWeek);
-
-    const days = [];
-    for (let i = 0; i < 7; i++) {
-      const day = new Date(startOfWeek);
-      day.setDate(startOfWeek.getDate() + i);
-      const dayEvents = weekEvents.filter(event => {
-        const eventDate = new Date(event.start_date);
-        return eventDate.toDateString() === day.toDateString();
-      });
-      days.push({ date: day, events: dayEvents });
-    }
-
-    return (
-      <div className="bg-white rounded-lg border border-secondary-200 overflow-hidden">
         <div className="grid grid-cols-7">
-          {days.map((day, index) => {
+          {weeks.flatMap((week, wi) => week.map((day, di) => {
+            const isCurrMonth = day.date.getMonth() === month;
             const isTodayDate = isToday(day.date);
-            const dayName = day.date.toLocaleDateString('en-US', { weekday: 'short' });
-            const dayNumber = day.date.getDate();
-
             return (
-              <div key={index} className="border-r border-secondary-200 last:border-r-0">
-                <div className={`p-4 text-center border-b border-secondary-200 ${isTodayDate ? 'bg-primary-50' : 'bg-secondary-50'
-                  }`}>
-                  <div className="text-sm font-medium text-secondary-600">{dayName}</div>
-                  <div className={`text-lg font-semibold ${isTodayDate ? 'text-primary-600' : 'text-secondary-900'}`}>
-                    {dayNumber}
-                  </div>
+              <div key={`${wi}-${di}`} className={cn(
+                "min-h-[140px] p-3 border-r border-b border-white/5 transition-colors",
+                !isCurrMonth ? "bg-black/20 opacity-30" : "bg-white/[0.01] hover:bg-white/[0.03]"
+              )}>
+                <div className={cn(
+                  "text-sm font-bold mb-3 flex items-center justify-center w-8 h-8 rounded-full transition-all",
+                  isTodayDate ? "bg-primary-500 text-white shadow-lg shadow-primary-500/30" : isCurrMonth ? "text-slate-300" : "text-slate-600"
+                )}>
+                  {day.date.getDate()}
                 </div>
-                <div className="p-2 min-h-[200px]">
-                  <div className="space-y-2">
-                    {day.events.map((event) => (
-                      <div
-                        key={event.id}
-                        className="p-2 bg-primary-100 text-primary-800 rounded text-sm cursor-pointer hover:bg-primary-200"
-                        title={event.title}
-                      >
-                        <div className="font-medium truncate">{event.title}</div>
-                        <div className="text-xs text-primary-600">
-                          {formatTime(event.start_date)}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="space-y-1.5">
+                  {day.events.slice(0, 3).map(event => (
+                    <div key={event.id} className="text-[10px] p-1.5 px-2 bg-primary-500/10 border border-primary-500/20 text-primary-300 rounded-lg truncate font-medium">
+                      {event.title}
+                    </div>
+                  ))}
+                  {day.events.length > 3 && (
+                    <div className="text-[10px] text-slate-500 font-bold pl-1">
+                      +{day.events.length - 3} MORE
+                    </div>
+                  )}
                 </div>
               </div>
             );
-          })}
+          }))}
         </div>
       </div>
     );
   };
 
-  const renderDayView = () => {
-    const dayEvents = getEventsForDate(currentDate);
-
-    return (
-      <div className="bg-white rounded-lg border border-secondary-200">
-        <div className="p-6 border-b border-secondary-200">
-          <h3 className="text-xl font-semibold text-secondary-900">
-            {currentDate.toLocaleDateString('en-US', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </h3>
-        </div>
-        <div className="p-6">
-          {dayEvents.length > 0 ? (
-            <div className="space-y-4">
-              {dayEvents.map((event) => (
-                <Card key={event.id} hover>
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-secondary-900 mb-2">{event.title}</h4>
-                        {event.description && (
-                          <p className="text-secondary-600 mb-3 line-clamp-2">{event.description}</p>
-                        )}
-                        <div className="flex items-center gap-4 text-sm text-secondary-600">
-                          <div className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
-                            <span>{formatTime(event.start_date)} - {formatTime(event.end_date)}</span>
-                          </div>
-                          {event.location && (
-                            <div className="flex items-center gap-1">
-                              <MapPin className="h-4 w-4" />
-                              <span>{event.location}</span>
-                            </div>
-                          )}
-                          {event.organizer && (
-                            <div className="flex items-center gap-1">
-                              <Users className="h-4 w-4" />
-                              <span>{event.organizer}</span>
-                            </div>
-                          )}
-                        </div>
-                        {event.category && (
-                          <Badge variant="outline" className="mt-2">
-                            {event.category}
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <Calendar className="h-16 w-16 text-secondary-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-secondary-900 mb-2">
-                Nothing on the calendar for this day
-              </h3>
-              <p className="text-secondary-600">
-                Check back later or try looking at a different date!
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
-
-  const renderListView = () => {
-    return (
-      <div className="space-y-4">
-        {filteredEvents.map((event) => (
-          <Card key={event.id} hover>
-            <CardContent className="p-6">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="text-xl font-semibold text-secondary-900 mb-1">
-                        {event.title}
-                      </h3>
-                      {event.organizer && (
-                        <p className="text-primary-600 font-medium mb-2">
-                          Organized by {event.organizer}
-                        </p>
-                      )}
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-secondary-600">
-                        {formatDate(event.start_date)}
-                      </div>
-                      <div className="text-sm text-secondary-600">
-                        {formatTime(event.start_date)} - {formatTime(event.end_date)}
-                      </div>
-                    </div>
-                  </div>
-
-                  {event.description && (
-                    <p className="text-secondary-700 mb-4 line-clamp-3">
-                      {event.description}
-                    </p>
-                  )}
-
-                  <div className="flex items-center gap-4 text-sm text-secondary-600 mb-3">
-                    {event.location && (
-                      <div className="flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        <span>{event.location}</span>
-                      </div>
-                    )}
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      <span>{getRelativeTime(event.start_date)}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    {event.category && (
-                      <Badge variant="outline">{event.category}</Badge>
-                    )}
-                    {isToday(new Date(event.start_date)) && (
-                      <Badge variant="primary">Today</Badge>
-                    )}
-                    {isTomorrow(new Date(event.start_date)) && (
-                      <Badge variant="secondary">Tomorrow</Badge>
-                    )}
-                  </div>
+  const renderListView = () => (
+    <div className="space-y-6">
+      {filteredEvents.map((event, idx) => (
+        <motion.div key={event.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }}>
+          <Card className="glass-card border-white/5 overflow-hidden group hover:border-primary-500/30 transition-all">
+            <CardContent className="p-0 flex flex-col md:flex-row">
+              <div className="md:w-48 bg-gradient-to-br from-primary-600 to-accent-700 p-8 flex flex-col items-center justify-center text-center shrink-0">
+                <div className="text-sm font-bold uppercase tracking-widest text-white/70 mb-1">{formatDate(event.start_date).split(' ')[0]}</div>
+                <div className="text-4xl font-black text-white">{new Date(event.start_date).getDate()}</div>
+                <div className="text-sm font-bold text-white/80">{formatTime(event.start_date)}</div>
+              </div>
+              <div className="p-8 flex-1">
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <Badge variant="glass" className="bg-primary-500/10 border-primary-500/20 text-primary-400">{event.category}</Badge>
+                </div>
+                <h3 className="text-2xl font-black text-white mb-2 group-hover:text-primary-400 transition-colors uppercase tracking-tight">{event.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-2">{event.description}</p>
+                <div className="flex flex-wrap gap-6 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                  <div className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary-500" /> {event.location || 'Monroe, NC'}</div>
+                  <div className="flex items-center gap-2"><Users className="h-4 w-4 text-primary-500" /> {event.organizer || 'Community Host'}</div>
                 </div>
               </div>
             </CardContent>
           </Card>
-        ))}
-      </div>
-    );
+        </motion.div>
+      ))}
+    </div>
+  );
+
+  const navigateDate = (dir: 'prev' | 'next') => {
+    const d = new Date(currentDate);
+    if (viewMode === 'month') d.setMonth(d.getMonth() + (dir === 'next' ? 1 : -1));
+    else d.setDate(d.getDate() + (dir === 'next' ? 7 : -7));
+    setCurrentDate(d);
   };
-
-  const navigateDate = (direction: 'prev' | 'next') => {
-    const newDate = new Date(currentDate);
-
-    if (viewMode === 'month') {
-      newDate.setMonth(currentDate.getMonth() + (direction === 'next' ? 1 : -1));
-    } else if (viewMode === 'week') {
-      newDate.setDate(currentDate.getDate() + (direction === 'next' ? 7 : -7));
-    } else if (viewMode === 'day') {
-      newDate.setDate(currentDate.getDate() + (direction === 'next' ? 1 : -1));
-    }
-
-    setCurrentDate(newDate);
-  };
-
-  const goToToday = () => {
-    setCurrentDate(new Date());
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="loading-spinner w-8 h-8 mx-auto mb-4"></div>
-          <p className="text-secondary-600">Loading events...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-secondary-50">
+    <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
       <div className="container-custom section-padding">
-        <div className="mb-8">
-          <h1 className="title-section mb-4">
-            What's Happening
-          </h1>
-          <p className="text-xl text-secondary-600 max-w-3xl">
-            See what's going on in Monroe. Workshops, gatherings, and fun stuff for everyone.
-          </p>
+        <div className="mb-12">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
+              <Sparkles className="w-3.5 h-3.5 mr-2" /> Community Pulse
+            </Badge>
+            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
+              Event <span className="text-gradient-logo">Nexus</span>
+            </h1>
+            <p className="text-xl text-slate-400 max-w-2xl leading-relaxed">Discover workshops, social gatherings, and community initiatives driving Monroe forward.</p>
+          </motion.div>
         </div>
 
-        {/* Search and Controls */}
-        <div className="mb-6">
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-            <div className="flex-1 max-w-2xl">
-              <SearchBar
-                value={searchQuery}
-                onChange={setSearchQuery}
-                placeholder="Looking for something to do?"
-              />
+        <div className="flex flex-col lg:flex-row gap-8 mb-12 items-center justify-between z-10 relative">
+          <div className="w-full lg:max-w-xl">
+            <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Filter by event name or mission..." />
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="bg-white/5 p-1 rounded-2xl border border-white/10 flex">
+              <button onClick={() => setViewMode('month')} className={cn("px-6 py-2 rounded-xl text-xs font-bold transition-all uppercase tracking-widest", viewMode === 'month' ? "bg-primary-500 text-white shadow-lg shadow-primary-500/30" : "text-slate-500 hover:text-slate-300")}>Month</button>
+              <button onClick={() => setViewMode('list')} className={cn("px-6 py-2 rounded-xl text-xs font-bold transition-all uppercase tracking-widest", viewMode === 'list' ? "bg-primary-500 text-white shadow-lg shadow-primary-500/30" : "text-slate-500 hover:text-slate-300")}>List</button>
             </div>
-
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" onClick={goToToday}>
-                Today
-              </Button>
-
-              <div className="flex items-center border border-secondary-300 rounded-lg">
-                <Button
-                  variant={viewMode === 'month' ? 'primary' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('month')}
-                  className="rounded-r-none border-r border-secondary-300"
-                >
-                  Month
-                </Button>
-                <Button
-                  variant={viewMode === 'week' ? 'primary' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('week')}
-                  className="rounded-none border-r border-secondary-300"
-                >
-                  Week
-                </Button>
-                <Button
-                  variant={viewMode === 'day' ? 'primary' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('day')}
-                  className="rounded-none border-r border-secondary-300"
-                >
-                  Day
-                </Button>
-                <Button
-                  variant={viewMode === 'list' ? 'primary' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('list')}
-                  className="rounded-l-none"
-                >
-                  List
-                </Button>
-              </div>
-            </div>
+            <Button variant="gradient" className="rounded-2xl" onClick={() => setCurrentDate(new Date())}>Today</Button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Filters Sidebar */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 relative z-10">
           <div className="lg:col-span-1">
-            <FilterPanel
-              filters={filterGroups}
-              selectedFilters={selectedFilters}
-              onFilterChange={(filterId, values) => {
-                setSelectedFilters(prev => ({ ...prev, [filterId]: values }));
-              }}
-              onClearAll={() => setSelectedFilters({})}
-            />
+            <FilterPanel filters={filterGroups} selectedFilters={selectedFilters} onFilterChange={(id, v) => setSelectedFilters(p => ({ ...p, [id]: v }))} onClearAll={() => setSelectedFilters({})} />
+
+            <Card className="mt-8 bg-gradient-to-br from-primary-600/20 to-accent-600/20 border-white/5 rounded-3xl overflow-hidden">
+              <CardContent className="p-8 text-center">
+                <h4 className="text-white font-black uppercase tracking-widest text-sm mb-4">Start an Event?</h4>
+                <p className="text-slate-400 text-xs leading-relaxed mb-6">Empower Monroe by hosting your own community initiative.</p>
+                <Button variant="gradient" className="w-full rounded-xl py-6" asChild href="/submit-event">
+                  <span className="flex items-center justify-center gap-2"><Plus className="h-4 w-4" /> SUBMIT NOW</span>
+                </Button>
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Calendar/Events */}
           <div className="lg:col-span-3">
-            {/* Calendar Navigation */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => navigateDate('prev')}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <h2 className="text-xl font-semibold text-secondary-900 min-w-[200px] text-center">
-                  {viewMode === 'month' && currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                  {viewMode === 'week' && `Week of ${currentDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}`}
-                  {viewMode === 'day' && currentDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
-                  {viewMode === 'list' && 'All Events'}
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-4">
+                <Button variant="outline" size="sm" onClick={() => navigateDate('prev')} className="h-10 w-10 p-0 rounded-xl border-white/10 text-white"><ChevronLeft className="h-4 w-4" /></Button>
+                <h2 className="text-2xl font-black text-white uppercase tracking-tighter">
+                  {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </h2>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => navigateDate('next')}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
+                <Button variant="outline" size="sm" onClick={() => navigateDate('next')} className="h-10 w-10 p-0 rounded-xl border-white/10 text-white"><ChevronRight className="h-4 w-4" /></Button>
               </div>
-
-              <p className="text-secondary-600">
-                {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''} found
-              </p>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">{filteredEvents.length} RESULTS</div>
             </div>
 
-            {/* Calendar/Events Content */}
-            {viewMode === 'month' && renderMonthView()}
-            {viewMode === 'week' && renderWeekView()}
-            {viewMode === 'day' && renderDayView()}
-            {viewMode === 'list' && renderListView()}
+            <AnimatePresence mode="wait">
+              <motion.div key={viewMode + currentDate.toISOString()} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
+                {viewMode === 'month' ? renderMonthView() : renderListView()}
+              </motion.div>
+            </AnimatePresence>
           </div>
-        </div>
-
-        {/* Call to Action */}
-        <div className="mt-12 text-center">
-          <Card className="bg-gradient-to-r from-primary-600 to-primary-700 text-white">
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-bold mb-4">
-                Hosting something?
-              </h2>
-              <p className="text-white/90 mb-6">
-                Let the community know what you're planning.
-              </p>
-              <Button variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30 force-white-text" asChild>
-                <Link href="/submit-event">
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add to Calendar
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>
