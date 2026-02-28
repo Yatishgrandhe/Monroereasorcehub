@@ -23,6 +23,8 @@ interface MigrationResult {
   errors: string[];
 }
 
+let isMigrating = false;
+
 /**
  * Migrate all local storage data to Supabase database
  */
@@ -38,9 +40,11 @@ export async function migrateLocalDataToDatabase(userId: string): Promise<Migrat
     errors: [],
   };
 
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || isMigrating) {
     return result;
   }
+
+  isMigrating = true;
 
   try {
     // Migrate resume data
@@ -123,12 +127,20 @@ export async function migrateLocalDataToDatabase(userId: string): Promise<Migrat
 
     // Note: Interview questions are typically generated on-demand, so we don't need to migrate them
 
+    // CRITICAL: Clear local storage after successful migration OR if we skipped because data exists
+    // This prevents multiple migration attempts and duplicates
+    if (result.migrated.resumes > 0 || (resumeData && result.migrated.resumes === 0)) {
+      clearLocalDataAfterMigration();
+    }
+
     if (result.errors.length > 0) {
       result.success = false;
     }
   } catch (error) {
     result.success = false;
     result.errors.push(`Migration error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  } finally {
+    isMigrating = false;
   }
 
   return result;
