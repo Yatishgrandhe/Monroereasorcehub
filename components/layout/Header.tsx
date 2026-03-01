@@ -102,20 +102,20 @@ export function Header() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-xs lg:text-sm xl:text-base font-black logo-title hidden xl:inline tracking-tighter uppercase whitespace-nowrap truncate font-display">
+              <span className="text-xs lg:text-sm xl:text-base font-black logo-title hidden 2xl:inline tracking-tighter uppercase whitespace-nowrap truncate font-display">
                 Monroe Resource Hub
               </span>
-              <div className="hidden xl:flex items-center gap-2 mt-0.5">
+              <div className="hidden 2xl:flex items-center gap-2 mt-0.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                   Live: {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
             </div>
-            <span className="text-xs lg:text-sm font-bold logo-title hidden sm:inline xl:hidden whitespace-nowrap shrink-0">MRH</span>
+            <span className="text-xs lg:text-sm font-bold logo-title hidden sm:inline 2xl:hidden whitespace-nowrap shrink-0">MRH</span>
           </Link>
 
-          <div className="hidden lg:flex lg:items-center lg:gap-0.5 xl:gap-1 2xl:gap-2 justify-center min-w-0 flex-nowrap overflow-x-auto overflow-y-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div className="hidden xl:flex xl:items-center lg:gap-0.5 xl:gap-1 2xl:gap-2 justify-center min-w-0 flex-nowrap overflow-x-auto overflow-y-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {filteredNavigation.map((item) => (
               <Link
                 key={item.name}
@@ -133,7 +133,7 @@ export function Header() {
             </Link>
           </div>
 
-          <div className="hidden lg:flex lg:items-center lg:gap-1.5 xl:gap-2 2xl:gap-3 shrink-0 flex-nowrap overflow-visible">
+          <div className="hidden xl:flex xl:items-center xl:gap-1.5 xl:gap-2 2xl:gap-3 shrink-0 flex-nowrap overflow-visible">
             <Button
               variant="ghost"
               size="sm"
@@ -190,7 +190,7 @@ export function Header() {
             )}
           </div>
 
-          <div className="lg:hidden shrink-0 col-start-3 row-start-1 justify-self-end">
+          <div className="xl:hidden shrink-0 col-start-3 row-start-1 justify-self-end">
             <Button
               variant="ghost"
               size="sm"
@@ -220,7 +220,7 @@ export function Header() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="lg:hidden overflow-hidden"
+              className="xl:hidden overflow-hidden"
             >
               <div className="py-4 border-t border-white/[0.06] bg-white/[0.04] backdrop-blur-xl space-y-1">
                 {filteredNavigation.map((item) => (

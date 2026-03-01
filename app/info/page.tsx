@@ -224,7 +224,7 @@ export default function InfoPage() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-9xl font-black text-white mb-8 tracking-tighter leading-none"
+            className="text-5xl sm:text-7xl lg:text-9xl font-black text-white mb-8 tracking-tighter leading-none"
           >
             Terminal <span className="text-gradient-logo">Info</span>
           </motion.h1>

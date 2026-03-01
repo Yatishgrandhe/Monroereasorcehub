@@ -62,13 +62,13 @@ export interface JobPosting {
 export async function generateProfessionalSummary(experience: ResumeData['experience']): Promise<string> {
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-    
-    const experienceText = experience.map(exp => 
+
+    const experienceText = experience.map(exp =>
       `${exp.position} at ${exp.company} (${exp.startDate} - ${exp.endDate}): ${exp.description}`
     ).join('\n');
 
-    const prompt = `Generate a professional summary for a resume based on the following work experience. 
-    Make it 2-3 sentences, professional, and highlight key achievements and skills. Focus on quantifiable results when possible.
+    const prompt = `Generate a powerful, narrative-driven career summary of 5-6 detailed sentences for a professional resume. 
+    Focus on career trajectory, core specializations, leadership traits, and unique value proposition. Use sophisticated industry-specific terminology and ensure the tone is elite and high-performing.
 
     Work Experience:
     ${experienceText}
@@ -90,9 +90,9 @@ export async function generateProfessionalSummary(experience: ResumeData['experi
 export async function enhanceBulletPoint(originalText: string, context?: string): Promise<string> {
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-    
-    const prompt = `Improve this resume bullet point to be more impactful and professional. 
-    Use action verbs, quantify results when possible, and make it more specific.
+
+    const prompt = `Dramatically expand and optimize this resume bullet point into multiple high-impact statements (2-3 detailed bullets if appropriate). 
+    Use the STAR method (Situation, Task, Action, Result), incorporate advanced industry-specific terminology, and provide extensive context for maximum impact. 
     
     Original bullet point: "${originalText}"
     ${context ? `Context: ${context}` : ''}
@@ -114,7 +114,7 @@ export async function enhanceBulletPoint(originalText: string, context?: string)
 export async function suggestSkills(jobDescription: string, currentSkills: string[] = []): Promise<string[]> {
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-    
+
     const prompt = `Based on this job description, suggest 5-8 relevant skills that would be valuable for this position.
     Focus on technical skills, software, and competencies mentioned or implied in the job description.
     
@@ -128,7 +128,7 @@ export async function suggestSkills(jobDescription: string, currentSkills: strin
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const skillsText = response.text().trim();
-    
+
     return skillsText.split(',').map(skill => skill.trim()).filter(skill => skill.length > 0);
   } catch (error) {
     console.error('Error suggesting skills:', error);
@@ -140,13 +140,13 @@ export async function suggestSkills(jobDescription: string, currentSkills: strin
  * Generate a cover letter based on resume and job posting
  */
 export async function generateCoverLetter(
-  resumeData: ResumeData, 
+  resumeData: ResumeData,
   jobPosting: JobPosting,
   companyName?: string
 ): Promise<string> {
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-    
+
     const experienceSummary = resumeData.experience
       .slice(0, 3) // Use top 3 most relevant experiences
       .map(exp => `${exp.position} at ${exp.company}: ${exp.description}`)
@@ -208,7 +208,7 @@ export async function analyzeJobDescription(jobDescription: string): Promise<{
 }> {
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-    
+
     const prompt = `Analyze this job description and extract key information in JSON format:
     
     Job Description:
@@ -228,7 +228,7 @@ export async function analyzeJobDescription(jobDescription: string): Promise<{
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const jsonText = response.text().trim();
-    
+
     // Try to parse the JSON response
     try {
       return JSON.parse(jsonText);
@@ -258,7 +258,7 @@ export async function analyzeJobDescription(jobDescription: string): Promise<{
 export async function generateInterviewQuestions(jobPosting: JobPosting): Promise<string[]> {
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-    
+
     const prompt = `Generate 8-10 relevant interview questions for this job position.
     
     Job Title: ${jobPosting.title}
@@ -276,7 +276,7 @@ export async function generateInterviewQuestions(jobPosting: JobPosting): Promis
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const questionsText = response.text().trim();
-    
+
     return questionsText.split('\n').filter(q => q.trim().length > 0);
   } catch (error) {
     console.error('Error generating interview questions:', error);

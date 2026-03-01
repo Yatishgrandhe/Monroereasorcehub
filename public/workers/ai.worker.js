@@ -45,17 +45,17 @@ self.onmessage = async (e) => {
 
         let prompt = '';
         if (type === 'summary') {
-            prompt = `Generate a 3-sentence professional resume summary for a ${jobTitle} in the ${industry} industry with ${experienceLevel} level experience. Use these details: ${text}`;
+            prompt = `Write a powerful, narrative-driven career summary of 5-6 sentences for a ${jobTitle} in the ${industry} industry with ${experienceLevel} level experience. Foundation: ${text}. Include career milestones, unique value proposition, and a clear statement of career focus.`;
         } else if (type === 'experience') {
-            prompt = `Rewrite this achievement note for a ${jobTitle} resume into one or two high-impact professional bullet points using action verbs and the STAR method (Situation, Task, Action, Result). Focus on quantifiable results: ${text}`;
+            prompt = `Transform this note for a ${jobTitle} role into 4-5 highly detailed, high-impact STAR-method professional bullet points. Use advanced industry-specific terminology and ensure every point is quantifiable: ${text}`;
         }
 
         ProgressProxy.post('generating', 50, 'Architecting content...');
 
         const output = await model(prompt, {
-            max_new_tokens: 256,
-            temperature: 0.7,
-            repetition_penalty: 1.2,
+            max_new_tokens: 1024,
+            temperature: 0.8,
+            repetition_penalty: 1.05,
         });
 
         self.postMessage({

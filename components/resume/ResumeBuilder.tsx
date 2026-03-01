@@ -649,22 +649,59 @@ export function ResumeBuilder() {
         );
       case 4:
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold text-white">Education</h3>
-              <Button variant="outline" size="sm" onClick={addEducation} className="rounded-xl border-white/10 text-white">
-                <Plus className="h-4 w-4 mr-2" /> Add
+              <div className="space-y-1">
+                <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Education</h3>
+                <p className="text-sm text-slate-500 font-medium">Add your academic background and certifications.</p>
+              </div>
+              <Button variant="outline" size="sm" onClick={addEducation} className="rounded-xl border-white/10 text-white hover:bg-white/5 h-12 px-6">
+                <Plus className="h-4 w-4 mr-2" /> Add Education
               </Button>
             </div>
+
             {resumeData.education.map((edu, idx) => (
-              <Card key={edu.id} className="glass-card border-white/10 relative overflow-visible">
-                <Button variant="ghost" size="sm" onClick={() => removeEducation(edu.id)} className="absolute top-4 right-4 text-slate-500 hover:text-red-400">
-                  <Trash2 className="h-4 w-4" />
+              <Card key={edu.id} className="glass-card border-white/10 relative overflow-visible p-2 rounded-[2rem]">
+                <Button variant="ghost" size="sm" onClick={() => removeEducation(edu.id)} className="absolute top-6 right-6 text-slate-500 hover:text-red-400 z-20">
+                  <Trash2 className="h-5 w-5" />
                 </Button>
-                <CardHeader><CardTitle className="text-white">Education {idx + 1}</CardTitle></CardHeader>
-                <CardContent className="space-y-4">
-                  <Input label="Institution" value={edu.institution} onChange={(e) => updateEducation(edu.id, 'institution', e.target.value)} className="bg-white/5 border-white/10 text-white" />
-                  <Input label="Degree / Field" value={edu.degree} onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)} className="bg-white/5 border-white/10 text-white" />
+                <CardHeader className="pt-8 px-8"><CardTitle className="text-white text-xl font-black">Institution {idx + 1}</CardTitle></CardHeader>
+                <CardContent className="px-8 pb-8 space-y-8">
+                  <Input label="School / University" value={edu.institution} onChange={(e) => updateEducation(edu.id, 'institution', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" placeholder="e.g. NC State University" />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Degree Type</label>
+                      <select
+                        className="w-full h-14 px-5 bg-white/5 border border-white/10 rounded-2xl text-white focus:border-primary-500 outline-none transition-all appearance-none"
+                        value={edu.degree}
+                        onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)}
+                      >
+                        <option value="" disabled className="bg-slate-900">Select Degree</option>
+                        {['High School Diploma', "Associate's Degree", "Bachelor's Degree", "Master's Degree", 'PhD / Doctorate', 'Professional Certification', 'Other'].map(opt => (
+                          <option key={opt} value={opt} className="bg-slate-900">{opt}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Field of Study</label>
+                      <select
+                        className="w-full h-14 px-5 bg-white/5 border border-white/10 rounded-2xl text-white focus:border-primary-500 outline-none transition-all appearance-none"
+                        value={edu.field}
+                        onChange={(e) => updateEducation(edu.id, 'field', e.target.value)}
+                      >
+                        <option value="" disabled className="bg-slate-900">Select Field</option>
+                        {['Computer Science', 'Business Administration', 'Nursing', 'Psychology', 'Mechanical Engineering', 'General Studies', 'Communications', 'Accounting', 'Criminal Justice', 'Other'].map(opt => (
+                          <option key={opt} value={opt} className="bg-slate-900">{opt}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Input label="Start Date" type="month" value={edu.startDate} onChange={(e) => updateEducation(edu.id, 'startDate', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl [color-scheme:dark]" />
+                    <Input label="End Date (Expected)" type="month" value={edu.endDate} onChange={(e) => updateEducation(edu.id, 'endDate', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl [color-scheme:dark]" />
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -714,7 +751,7 @@ export function ResumeBuilder() {
               <Sparkles className="w-3.5 h-3.5 mr-2" />
               {isViewingMode ? 'Saved Asset' : 'AI Resume Platform'}
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-black text-white mb-6">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-6">
               {isViewingMode ? <><span className="text-gradient-logo">Preview</span> Resume</> : <>AI <span className="text-gradient-logo">Resume</span> Builder</>}
             </h1>
             <p className="text-xl text-slate-400 max-w-2xl">Construct a world-class resume with intelligent AI assistance for summaries, content enhancement, and skill mapping.</p>
