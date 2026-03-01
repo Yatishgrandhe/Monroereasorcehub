@@ -110,7 +110,7 @@ export default function SignInPage() {
             <span className="text-2xl font-black text-white tracking-tighter uppercase font-display">Monroe Resource Hub</span>
           </Link>
           <h2 className="text-4xl font-black text-white mb-3 tracking-tight">
-            Terminal <span className="text-gradient-logo">Login</span>
+            Initialize <span className="text-gradient-logo">Session</span>
           </h2>
           <p className="text-slate-400 font-medium">
             Sync your career assets across the hub.

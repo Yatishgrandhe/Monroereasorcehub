@@ -42,6 +42,7 @@ export function Header() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
       setUser(session?.user ?? null);
       setLoading(false);
+      router.refresh(); // Refresh data throughout the app
     });
     return () => subscription.unsubscribe();
   }, []);
@@ -178,7 +179,7 @@ export function Header() {
               <div className="flex items-center gap-1.5 xl:gap-2 shrink-0 flex-nowrap">
                 <Magnetic strength={0.2}>
                   <Button variant="outline" size="sm" className="h-9 px-4 rounded-full whitespace-nowrap text-[11px] lg:text-xs xl:text-[13px] border-white/10" asChild href="/auth/signin">
-                    Sign In
+                    Initialize Session
                   </Button>
                 </Magnetic>
                 <Magnetic strength={0.3}>
@@ -269,7 +270,7 @@ export function Header() {
                   ) : (
                     <>
                       <Button variant="outline" size="sm" className="w-full justify-center h-10 rounded-lg" asChild href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
-                        Sign In
+                        Initialize Session
                       </Button>
                       <Button variant="gradient" size="sm" className="w-full justify-center h-10 rounded-full font-semibold bg-gradient-spline border-none shadow-primary-500/25" asChild href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
                         Sign Up

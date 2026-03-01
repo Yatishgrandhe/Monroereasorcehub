@@ -105,6 +105,7 @@ export function ResumeBuilder() {
       const newUser = session?.user ?? null;
       setUser(newUser);
       if (newUser && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
+        setLoadedFromStorage(false); // Force re-fetch from DB on login
         if (hasLocalDataToMigrate()) {
           try {
             await migrateLocalDataToDatabase(newUser.id);
