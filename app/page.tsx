@@ -15,13 +15,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { ResourceMap } from '@/components/resources/ResourceMap';
 import { Magnetic } from '@/components/ui/Magnetic';
 
-const categories = [
-  { name: 'Food Assistance', icon: Utensils, description: 'Local food banks and pantries', href: '/resources?category=Food Assistance', color: 'text-emerald-600', bg: 'bg-emerald-500/10' },
-  { name: 'Healthcare', icon: Stethoscope, description: 'Clinics and wellness programs', href: '/resources?category=Healthcare', color: 'text-primary-600', bg: 'bg-primary-500/10' },
-  { name: 'Education', icon: GraduationCap, description: 'Schools and tutoring aid', href: '/resources?category=Education', color: 'text-accent-600', bg: 'bg-accent-500/10' },
-  { name: 'Housing', icon: Home, description: 'Shelters and rent assistance', href: '/resources?category=Housing', color: 'text-coral-600', bg: 'bg-coral-500/10' },
-  { name: 'Family', icon: Baby, description: 'Childcare and parent support', href: '/resources?category=Family Support', color: 'text-coral-600', bg: 'bg-coral-500/10' },
-];
+import { CategoryGrid } from '@/components/home/CategoryGrid';
 
 export default function HomePage() {
   return (
@@ -32,42 +26,7 @@ export default function HomePage() {
       {/* 2. LOGO CLOUD — Compact trust bar */}
       <LogoCloud className="pt-2 pb-6 md:pt-4 md:pb-8 border-y border-white/[0.06]" />
 
-      {/* 3. CATEGORIES — Core navigation, prominent placement */}
-      <section className="section-padding-sm overflow-visible bg-[#020617]">
-        <div className="container-custom overflow-visible">
-          <Reveal width="100%">
-            <div className="mb-6 md:mb-10">
-              <h2 className="mb-4 text-white">Everything you need</h2>
-              <p className="text-xl text-slate-400 max-w-2xl">
-                Quickly jump to the services that matter most to you and your family.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {categories.map((cat, i) => (
-              <Reveal key={cat.name} delay={i * 0.1}>
-                <Link
-                  href={cat.href}
-                  className="group relative h-full flex flex-col p-8 rounded-[24px] bg-white/[0.03] border border-white/10 backdrop-blur-xl
-                    hover:-translate-y-2 hover:border-primary-500/30 transition-all duration-500 block overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className={`w-14 h-14 ${cat.bg} rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-white/5 group-hover:scale-110 transition-transform duration-500`}>
-                    <cat.icon className={`h-7 w-7 ${cat.color}`} />
-                  </div>
-                  <h3 className="text-lg font-black mb-3 text-white group-hover:text-primary-400 transition-colors uppercase tracking-tight font-display">
-                    {cat.name}
-                  </h3>
-                  <p className="text-sm text-slate-400 leading-relaxed">
-                    {cat.description}
-                  </p>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <CategoryGrid />
 
       {/* 4. VALUE PROPOSITION — Why Monroe Resource Hub */}
       <Reveal width="100%">

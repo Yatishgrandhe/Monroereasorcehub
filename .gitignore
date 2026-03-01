@@ -53,3 +53,13 @@ ENV/
 # Model checkpoints
 /training/checkpoints/
 /training/logs/
+# Agent and IDR dotfiles
+.*
+!/.gitignore
+!/.github
+!/.agents
+!/.agent
+
+# Project specific
+/queue/
+/scripts/fetch-stitch.sh

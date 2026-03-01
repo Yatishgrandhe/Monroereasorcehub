@@ -185,8 +185,8 @@ export function Hero3D() {
                     </motion.div>
 
                     <h1 className="text-[11vw] sm:text-[9.5vw] lg:text-[7vw] xl:text-[7.5rem] 2xl:text-[8.5rem] font-black text-white leading-[0.85] tracking-tight sm:tracking-tighter mb-12 sm:mb-16 pointer-events-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-visible px-6 py-2">
-                        Empowering <br />
-                        <span className="text-gradient-logo pr-4 inline-block">Monroe</span> Together.
+                        Everything Monroe, <br />
+                        <span className="text-gradient-logo pr-4 inline-block">In one place.</span>
                     </h1>
 
                     <div className="flex flex-col items-center gap-16 pointer-events-auto w-full max-w-4xl mx-auto">
