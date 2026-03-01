@@ -323,14 +323,6 @@ export function EventCalendar() {
                   </p>
                 </div>
 
-                <div className="flex gap-4">
-                  <Button variant="gradient" className="flex-1 rounded-xl h-14 font-black uppercase tracking-widest">
-                    Interested
-                  </Button>
-                  <Button variant="outline" className="flex-1 rounded-xl h-14 border-white/10 hover:bg-white/[0.05] font-black uppercase tracking-widest">
-                    Add to Calendar
-                  </Button>
-                </div>
               </div>
             </div>
           )}
