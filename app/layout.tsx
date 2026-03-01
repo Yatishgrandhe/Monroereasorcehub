@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { SmoothScroll } from '@/components/layout/SmoothScroll';
 
 export const metadata: Metadata = {
   title: 'Monroe Resource Hub - Community Resources & Services',
@@ -71,15 +69,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <head>
-        <script
-          async
-          crossOrigin="anonymous"
-          src="https://tweakcn.com/live-preview.min.js"
-        />
-      </head>
       <body className="font-sans antialiased text-secondary-800 dark:text-secondary-200 bg-[#020617]">
-        <SmoothScroll />
         <div className="min-h-screen flex flex-col w-full">
           <Header />
           <main className="flex-1 w-full">

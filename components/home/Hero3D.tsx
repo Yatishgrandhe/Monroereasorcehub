@@ -44,10 +44,10 @@ function ResourceCore() {
         <group>
             <Float speed={3} rotationIntensity={0.8} floatIntensity={2} floatingRange={[-0.4, 0.4]}>
                 <mesh ref={meshRef} onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)} scale={1.5}>
-                    <sphereGeometry args={[1, 128, 128]} />
+                    <sphereGeometry args={[1, 48, 48]} />
                     <MeshTransmissionMaterial
                         backside
-                        samples={12}
+                        samples={6}
                         thickness={2.0}
                         chromaticAberration={0.12}
                         anisotropy={0.3}
@@ -142,7 +142,7 @@ export function Hero3D() {
                         >
                             <div className="w-full h-full max-w-[1600px] opacity-100">
                                 <Canvas
-                                    dpr={[1, 1.5]}
+                                    dpr={[1, 1.25]}
                                     camera={{ position: [0, 0, 10], fov: 35 }}
                                     gl={{
                                         alpha: true,

@@ -57,9 +57,13 @@ ENV/
 .*
 !/.gitignore
 !/.github
-!/.agents
-!/.agent
+
+# Agent skills - not needed for website build/run
+/.agents
 
 # Project specific
 /queue/
 /scripts/fetch-stitch.sh
+
+# Logs and temp
+.cache

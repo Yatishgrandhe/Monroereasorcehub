@@ -50,9 +50,9 @@ export function SpotlightCarousel({ resources }: SpotlightCarouselProps) {
 
   const current = spotlightedResources[currentIndex];
   const slideVariants = {
-    enter: (d: number) => ({ x: d > 0 ? 120 : -120, opacity: 0, scale: 0.94, filter: 'blur(8px)' }),
-    center: { x: 0, opacity: 1, scale: 1, filter: 'blur(0px)' },
-    exit: (d: number) => ({ x: d > 0 ? -120 : 120, opacity: 0, scale: 0.94, filter: 'blur(8px)' }),
+    enter: (d: number) => ({ x: d > 0 ? 80 : -80, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (d: number) => ({ x: d > 0 ? -80 : 80, opacity: 0 }),
   };
 
   return (
@@ -66,7 +66,7 @@ export function SpotlightCarousel({ resources }: SpotlightCarouselProps) {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+            transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
             className="relative"
           >
             <div className="relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 shadow-2xl ring-2 ring-white/5">
