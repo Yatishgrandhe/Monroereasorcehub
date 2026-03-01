@@ -11,11 +11,11 @@ interface ResumePreviewProps {
 }
 
 export function ResumePreview({ resumeData, template }: ResumePreviewProps) {
-  const { personalInfo, summary, experience, education, skills } = resumeData;
+  const { personalInfo, summary, experience, education, skills, certifications, languages } = resumeData;
 
   const renderModernTemplate = () => (
     <div className="bg-white p-8 max-w-4xl mx-auto shadow-lg">
-      {/* Header */}
+      {/* Header - same as before */}
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-secondary-900 mb-2">
           {personalInfo.firstName} {personalInfo.lastName}
@@ -42,17 +42,17 @@ export function ResumePreview({ resumeData, template }: ResumePreviewProps) {
       {/* Professional Summary */}
       {summary && (
         <div className="mb-8">
-          <h2 className="text-xl font-semibold text-secondary-900 mb-3 border-b-2 border-primary-600 pb-1">
+          <h2 className="text-xl font-semibold text-secondary-900 mb-3 border-b-2 border-primary-600 pb-1 uppercase tracking-tight">
             Professional Summary
           </h2>
-          <p className="text-secondary-700 leading-relaxed">{summary}</p>
+          <p className="text-secondary-700 leading-relaxed text-sm">{summary}</p>
         </div>
       )}
 
       {/* Experience */}
       {experience.length > 0 && (
         <div className="mb-8">
-          <h2 className="text-xl font-semibold text-secondary-900 mb-4 border-b-2 border-primary-600 pb-1">
+          <h2 className="text-xl font-semibold text-secondary-900 mb-4 border-b-2 border-primary-600 pb-1 uppercase tracking-tight">
             Professional Experience
           </h2>
           <div className="space-y-6">
@@ -63,17 +63,14 @@ export function ResumePreview({ resumeData, template }: ResumePreviewProps) {
                     <h3 className="text-lg font-semibold text-secondary-900">{exp.position}</h3>
                     <p className="text-primary-600 font-medium">{exp.company}</p>
                   </div>
-                  <div className="text-right text-secondary-600">
+                  <div className="text-right text-secondary-600 text-xs font-bold uppercase">
                     <p>{formatDate(exp.startDate)} - {exp.current ? 'Present' : formatDate(exp.endDate)}</p>
                   </div>
                 </div>
-                {exp.description && (
-                  <p className="text-secondary-700 mb-3">{exp.description}</p>
-                )}
                 {exp.achievements.length > 0 && (
-                  <ul className="list-disc list-inside text-secondary-700 space-y-1">
+                  <ul className="list-disc list-inside text-secondary-700 space-y-1 text-sm pl-2">
                     {exp.achievements.filter(ach => ach.trim()).map((achievement, achIndex) => (
-                      <li key={achIndex}>{achievement}</li>
+                      <li key={achIndex} className="leading-snug">{achievement}</li>
                     ))}
                   </ul>
                 )}
@@ -83,48 +80,81 @@ export function ResumePreview({ resumeData, template }: ResumePreviewProps) {
         </div>
       )}
 
-      {/* Education */}
-      {education.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-secondary-900 mb-4 border-b-2 border-primary-600 pb-1">
-            Education
-          </h2>
-          <div className="space-y-4">
-            {education.map((edu, index) => (
-              <div key={index} className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-lg font-semibold text-secondary-900">
-                    {edu.degree} in {edu.field}
-                  </h3>
-                  <p className="text-primary-600 font-medium">{edu.institution}</p>
-                  {edu.gpa && <p className="text-secondary-600">GPA: {edu.gpa}</p>}
-                </div>
-                <div className="text-right text-secondary-600">
-                  <p>{formatDate(edu.startDate)} - {formatDate(edu.endDate)}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Skills */}
       {skills.length > 0 && (
-        <div>
-          <h2 className="text-xl font-semibold text-secondary-900 mb-4 border-b-2 border-primary-600 pb-1">
-            Skills
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-secondary-900 mb-4 border-b-2 border-primary-600 pb-1 uppercase tracking-tight">
+            Core Competencies
           </h2>
           <div className="flex flex-wrap gap-2">
             {skills.filter(skill => skill.trim()).map((skill, index) => (
-              <Badge key={index} variant="outline" className="text-sm">
+              <Badge key={index} variant="secondary" className="bg-secondary-50 text-secondary-900 border-secondary-200 text-[10px] font-bold uppercase tracking-wider px-3 py-1">
                 {skill}
               </Badge>
             ))}
           </div>
         </div>
       )}
+
+      <div className="grid grid-cols-2 gap-8">
+        {/* Education */}
+        {education.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4 border-b-2 border-primary-600 pb-1 uppercase tracking-tight">
+              Education
+            </h2>
+            <div className="space-y-4">
+              {education.map((edu, index) => (
+                <div key={index}>
+                  <h3 className="text-md font-bold text-secondary-900">
+                    {edu.degree}
+                  </h3>
+                  <p className="text-primary-600 font-medium text-sm">{edu.institution}</p>
+                  <p className="text-secondary-500 text-xs font-bold uppercase mt-1">{formatDate(edu.startDate)} - {formatDate(edu.endDate)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Certifications & Languages */}
+        <div className="space-y-8">
+          {certifications && certifications.length > 0 && (
+            <div>
+              <h2 className="text-xl font-semibold text-secondary-900 mb-4 border-b-2 border-primary-600 pb-1 uppercase tracking-tight">
+                Certifications
+              </h2>
+              <div className="space-y-2">
+                {certifications.map((cert) => (
+                  <div key={cert.id}>
+                    <p className="text-sm font-bold text-secondary-900">{cert.name}</p>
+                    <p className="text-xs text-secondary-500 font-medium">{cert.issuer}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {languages && languages.length > 0 && (
+            <div>
+              <h2 className="text-xl font-semibold text-secondary-900 mb-4 border-b-2 border-primary-600 pb-1 uppercase tracking-tight">
+                Languages
+              </h2>
+              <div className="flex flex-wrap gap-x-4 gap-y-2">
+                {languages.map((lang) => (
+                  <div key={lang.id} className="text-sm">
+                    <span className="font-bold text-secondary-900">{lang.language}</span>
+                    <span className="text-secondary-500 ml-1">({lang.proficiency})</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
+
 
   const renderClassicTemplate = () => (
     <div className="bg-white p-8 max-w-4xl mx-auto shadow-lg">

@@ -15,7 +15,7 @@ import { ResumePreview } from './ResumePreview';
 import { TemplateSelector } from './TemplateSelector';
 import { AIAssistant } from './AIAssistant';
 import { supabase } from '@/lib/supabase/client';
-import { generateSummaryAction, enhanceBulletPointAction } from '@/app/actions/ai';
+import { generateSummaryAction, enhanceBulletPointAction, suggestSkillsAction } from '@/app/actions/ai';
 import { migrateLocalDataToDatabase, hasLocalDataToMigrate } from '@/lib/utils/data-migration';
 import { generateId, cn } from '@/lib/utils';
 import { exportResumeToPDF } from '@/lib/utils/pdf-export';
@@ -188,7 +188,8 @@ export function ResumeBuilder() {
     { id: 3, name: 'Experience', icon: Briefcase },
     { id: 4, name: 'Education', icon: GraduationCap },
     { id: 5, name: 'Skills', icon: Award },
-    { id: 6, name: 'Preview', icon: Globe }
+    { id: 6, name: 'Expertise', icon: Globe },
+    { id: 7, name: 'Preview', icon: CheckCircle }
   ];
 
   const updatePersonalInfo = (field: string, value: string) => {
@@ -277,6 +278,48 @@ export function ResumeBuilder() {
     setResumeData(prev => ({
       ...prev,
       skills: prev.skills.filter((_, i) => i !== index)
+    }));
+  };
+
+  const addCertification = () => {
+    setResumeData(prev => ({
+      ...prev,
+      certifications: [...prev.certifications, { id: generateId(), name: '', issuer: '', date: '' }]
+    }));
+  };
+
+  const updateCertification = (id: string, field: string, value: string) => {
+    setResumeData(prev => ({
+      ...prev,
+      certifications: prev.certifications.map(cert => cert.id === id ? { ...cert, [field]: value } : cert)
+    }));
+  };
+
+  const removeCertification = (id: string) => {
+    setResumeData(prev => ({
+      ...prev,
+      certifications: prev.certifications.filter(cert => cert.id !== id)
+    }));
+  };
+
+  const addLanguage = () => {
+    setResumeData(prev => ({
+      ...prev,
+      languages: [...prev.languages, { id: generateId(), language: '', proficiency: 'Professional' }]
+    }));
+  };
+
+  const updateLanguage = (id: string, field: string, value: string) => {
+    setResumeData(prev => ({
+      ...prev,
+      languages: prev.languages.map(lang => lang.id === id ? { ...lang, [field]: value } : lang)
+    }));
+  };
+
+  const removeLanguage = (id: string) => {
+    setResumeData(prev => ({
+      ...prev,
+      languages: prev.languages.filter(lang => lang.id !== id)
     }));
   };
 
@@ -381,6 +424,33 @@ export function ResumeBuilder() {
       }
     } catch (error) {
       console.error('AI generation failure:', error);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const suggestSkills = async () => {
+    if (!targetJob) {
+      alert('Please specify a Target Job in Step 1 for the AI to suggest mapping skills.');
+      return;
+    }
+    setAiLoading(true);
+    try {
+      const result = await suggestSkillsAction(targetJob, resumeData.skills);
+      if (result.success && result.skills) {
+        // Add only new skills
+        const existingSet = new Set(resumeData.skills.map(s => s.toLowerCase()));
+        const newSkills = result.skills.filter(s => !existingSet.has(s.toLowerCase()));
+
+        if (newSkills.length > 0) {
+          setResumeData(prev => ({
+            ...prev,
+            skills: [...prev.skills, ...newSkills]
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Skill suggestion failed:', error);
     } finally {
       setAiLoading(false);
     }
@@ -710,33 +780,124 @@ export function ResumeBuilder() {
         );
       case 5:
         return (
-          <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white">Skills</h3>
-            {resumeData.skills.map((skill, idx) => (
-              <div key={idx} className="flex gap-2">
-                <Input value={skill} onChange={(e) => updateSkill(idx, e.target.value)} className="bg-white/5 border-white/10 text-white" />
-                <Button variant="ghost" onClick={() => removeSkill(idx)} className="text-red-400">×</Button>
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="flex items-center justify-between mb-4">
+              <div className="space-y-1">
+                <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Strategic Skills</h3>
+                <p className="text-sm text-slate-500 font-medium">Map your core competencies to the target role.</p>
               </div>
-            ))}
-            <Button variant="outline" onClick={addSkill} className="text-white border-white/10">Add Skill</Button>
+              <Button
+                variant="gradient"
+                size="sm"
+                onClick={suggestSkills}
+                loading={aiLoading}
+                className="rounded-full px-6 shadow-lg shadow-primary-500/20"
+              >
+                <Sparkles className="w-4 h-4 mr-2" />
+                Auto-Suggest
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {resumeData.skills.map((skill, idx) => (
+                <div key={idx} className="group flex items-center gap-3 bg-white/5 border border-white/10 p-2 pl-4 rounded-2xl focus-within:border-primary-500/50 transition-all">
+                  <input
+                    value={skill}
+                    onChange={(e) => updateSkill(idx, e.target.value)}
+                    className="flex-1 bg-transparent border-none text-white text-sm font-bold uppercase tracking-wider focus:outline-none"
+                    placeholder="e.g. Project Architecture"
+                  />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeSkill(idx)}
+                    className="h-8 w-8 p-0 text-slate-600 hover:text-red-400 rounded-xl"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+              <button
+                onClick={addSkill}
+                className="flex items-center justify-center gap-3 p-4 rounded-2xl border border-dashed border-white/10 text-slate-500 hover:border-primary-500/50 hover:text-primary-400 transition-all group h-14"
+              >
+                <Plus className="h-4 w-4 transition-transform group-hover:rotate-90" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Append Manual Skill</span>
+              </button>
+            </div>
           </div>
         );
       case 6:
         return (
+          <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="space-y-8">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Certifications</h3>
+                  <p className="text-sm text-slate-500 font-medium">Add professional licenses and credentials.</p>
+                </div>
+                <Button variant="outline" size="sm" onClick={addCertification} className="rounded-xl border-white/10 text-white hover:bg-white/5 h-12 px-6">
+                  <Plus className="h-4 w-4 mr-2" /> Add Credential
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {resumeData.certifications.map((cert) => (
+                  <div key={cert.id} className="relative bg-white/5 border border-white/10 p-6 rounded-[2rem] group">
+                    <button onClick={() => removeCertification(cert.id)} className="absolute top-4 right-4 text-slate-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                    <div className="space-y-4">
+                      <Input label="Certification Name" value={cert.name} onChange={(e) => updateCertification(cert.id, 'name', e.target.value)} className="bg-white/5 border-white/10 text-white" />
+                      <Input label="Issuing Organization" value={cert.issuer} onChange={(e) => updateCertification(cert.id, 'issuer', e.target.value)} className="bg-white/5 border-white/10 text-white" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-8 pt-8 border-t border-white/5">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Languages</h3>
+                  <p className="text-sm text-slate-500 font-medium">Specify your linguistic proficiency.</p>
+                </div>
+                <Button variant="outline" size="sm" onClick={addLanguage} className="rounded-xl border-white/10 text-white hover:bg-white/5 h-12 px-6">
+                  <Plus className="h-4 w-4 mr-2" /> Add Language
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {resumeData.languages.map((lang) => (
+                  <div key={lang.id} className="relative bg-white/5 border border-white/10 p-4 rounded-2xl group flex flex-col gap-3">
+                    <button onClick={() => removeLanguage(lang.id)} className="absolute top-2 right-2 text-slate-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Trash2 className="h-3 w-3" />
+                    </button>
+                    <input className="bg-transparent border-none text-white font-bold placeholder:text-slate-600 focus:outline-none" placeholder="Language" value={lang.language} onChange={(e) => updateLanguage(lang.id, 'language', e.target.value)} />
+                    <select className="bg-white/5 border border-white/10 rounded-xl text-[10px] text-primary-400 font-black uppercase p-2 outline-none" value={lang.proficiency} onChange={(e) => updateLanguage(lang.id, 'proficiency', e.target.value)}>
+                      {['Native', 'Fluent', 'Professional', 'Intermediate', 'Basic'].map(p => <option key={p} value={p} className="bg-slate-900">{p}</option>)}
+                    </select>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      case 7:
+        return (
           <div className="space-y-6">
             <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-bold text-white">Preview</h3>
+              <h3 className="text-2xl font-bold text-white uppercase tracking-tighter">Final Preview</h3>
               <div className="flex gap-3">
                 <Button variant="gradient" onClick={exportToPDF} loading={loading} className="rounded-full px-8">
                   <Download className="h-4 w-4 mr-2" /> PDF Export
                 </Button>
               </div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl">
+            <div className="bg-white/5 border border-white/10 rounded-[3rem] p-1 shadow-2xl overflow-hidden backdrop-blur-3xl">
               <ResumePreview resumeData={resumeData} template={selectedTemplate} />
             </div>
           </div>
         );
+
       default: return null;
     }
   };
