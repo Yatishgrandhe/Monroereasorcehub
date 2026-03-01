@@ -400,7 +400,7 @@ export default function InfoPage() {
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
-                { label: 'Project Name', val: 'Monroe Hub' },
+                { label: 'Project Name', val: 'Monroe Resource Hub' },
                 { label: 'Organization', val: 'CATA TSA' },
                 { label: 'Locale', val: 'North Carolina' },
                 { label: 'Build Version', val: '2026.1.0' }

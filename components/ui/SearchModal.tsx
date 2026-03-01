@@ -104,7 +104,7 @@ export function SearchModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                                 </span>
                                 <span>ESC TO CLOSE</span>
                             </div>
-                            <div className="text-[10px] text-primary-400/50 font-bold">MONROE HUB</div>
+                            <div className="text-[10px] text-primary-400/50 font-bold">MONROE RESOURCE HUB</div>
                         </div>
                     </motion.div>
                 </div>

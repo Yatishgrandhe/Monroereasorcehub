@@ -13,10 +13,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-24 mb-24">
           <div className="flex flex-col">
             <Link href="/" className="flex items-center space-x-3 mb-8 group">
-              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 duration-500">
-                <span className="text-black font-black text-2xl">M</span>
+              <div className="w-12 h-12 rounded-2xl overflow-hidden shadow-md ring-1 ring-white/10 group-hover:ring-primary-500/50 transition-all duration-300 shrink-0">
+                <img
+                  src="/logo.png"
+                  alt="Monroe Resource Hub Logo"
+                  className="w-full h-full object-contain p-2"
+                />
               </div>
-              <span className="text-2xl font-black tracking-tighter uppercase font-display">Monroe Hub</span>
+              <span className="text-2xl font-black tracking-tighter uppercase font-display">Monroe Resource Hub</span>
             </Link>
             <p className="text-slate-400 text-base mb-10 max-w-sm leading-relaxed">
               Empowering the residents of Monroe, North Carolina with access to essential services and community opportunities.

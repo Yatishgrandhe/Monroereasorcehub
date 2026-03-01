@@ -100,10 +100,14 @@ export default function SignInPage() {
       >
         <div className="text-center mb-10">
           <Link href="/" className="inline-flex items-center space-x-3 group mb-8">
-            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 duration-500">
-              <span className="text-black font-black text-2xl">M</span>
+            <div className="w-12 h-12 rounded-2xl overflow-hidden shadow-md ring-1 ring-white/10 group-hover:ring-primary-500/50 transition-all duration-300 shrink-0">
+              <img
+                src="/logo.png"
+                alt="Monroe Resource Hub Logo"
+                className="w-full h-full object-contain p-2"
+              />
             </div>
-            <span className="text-2xl font-black text-white tracking-tighter uppercase font-display">Monroe Hub</span>
+            <span className="text-2xl font-black text-white tracking-tighter uppercase font-display">Monroe Resource Hub</span>
           </Link>
           <h2 className="text-4xl font-black text-white mb-3 tracking-tight">
             Terminal <span className="text-gradient-logo">Login</span>
