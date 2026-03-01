@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Plus, Sparkles, LayoutGrid, List as ListIcon } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Plus, Sparkles, LayoutGrid, List as ListIcon, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -184,8 +184,10 @@ export function EventCalendar() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
-      <div className="container-custom section-padding">
+    <div className="min-h-screen bg-[#020617] pt-20 relative overflow-hidden">
+      <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+
+      <div className="container-custom section-padding relative z-10">
         <div className="mb-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
@@ -198,7 +200,7 @@ export function EventCalendar() {
           </motion.div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8 mb-12 items-center justify-between z-10 relative">
+        <div className="flex flex-col lg:flex-row gap-8 mb-12 items-center justify-between">
           <div className="w-full lg:max-w-xl">
             <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Filter by event name or mission..." />
           </div>
@@ -211,19 +213,9 @@ export function EventCalendar() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-20">
           <div className="lg:col-span-1">
             <FilterPanel filters={filterGroups} selectedFilters={selectedFilters} onFilterChange={(id, v) => setSelectedFilters(p => ({ ...p, [id]: v }))} onClearAll={() => setSelectedFilters({})} />
-
-            <Card className="mt-8 bg-gradient-to-br from-primary-600/20 to-accent-600/20 border-white/5 rounded-3xl overflow-hidden">
-              <CardContent className="p-8 text-center">
-                <h4 className="text-white font-black uppercase tracking-widest text-sm mb-4">Start an Event?</h4>
-                <p className="text-slate-400 text-xs leading-relaxed mb-6">Empower Monroe by hosting your own community initiative.</p>
-                <Button variant="gradient" className="w-full rounded-xl py-6" asChild href="/submit-event">
-                  <span className="flex items-center justify-center gap-2"><Plus className="h-4 w-4" /> SUBMIT NOW</span>
-                </Button>
-              </CardContent>
-            </Card>
           </div>
 
           <div className="lg:col-span-3">
@@ -245,6 +237,42 @@ export function EventCalendar() {
             </AnimatePresence>
           </div>
         </div>
+
+        {/* Start an Event CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative group p-1"
+        >
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary-600/20 to-accent-600/20 rounded-[3rem] blur-2xl opacity-50 group-hover:opacity-100 transition duration-1000" />
+          <Card className="relative glass-card border-white/10 overflow-hidden rounded-[3rem] p-12 md:p-20 text-center">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-600/10 to-transparent pointer-events-none" />
+            <div className="max-w-3xl mx-auto">
+              <Badge variant="glass" className="mb-8 px-6 py-2 border-primary-500/20 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px]">
+                Community Initiative
+              </Badge>
+              <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">
+                Start an <span className="text-gradient-logo">Event?</span>
+              </h2>
+              <p className="text-xl text-slate-400 mb-12 leading-relaxed">
+                Empower Monroe by hosting your own community initiative. We provide the platform, you provide the vision.
+              </p>
+              <Button
+                variant="gradient"
+                size="lg"
+                className="rounded-full px-12 py-8 text-lg font-black uppercase tracking-widest shadow-2xl shadow-primary-500/30 group/btn"
+                asChild
+                href="/submit-event"
+              >
+                <span className="flex items-center gap-3">
+                  SUBMIT NOW
+                  <ArrowRight className="w-6 h-6 group-hover/btn:translate-x-2 transition-transform" />
+                </span>
+              </Button>
+            </div>
+          </Card>
+        </motion.div>
       </div>
     </div>
   );
