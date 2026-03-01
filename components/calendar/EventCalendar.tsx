@@ -17,7 +17,7 @@ type Event = Database['public']['Tables']['events']['Row'];
 
 const eventCategories = [
   'Health & Wellness', 'Education', 'Community', 'Employment',
-  'Arts & Culture', 'Sports & Recreation', 'Business', 'Volunteer'
+  'Arts & Culture', 'Sports & Recreation', 'Business', 'Volunteer', 'Government'
 ];
 
 export function EventCalendar() {
