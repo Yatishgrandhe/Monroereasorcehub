@@ -64,6 +64,10 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -103,20 +107,20 @@ export function Header() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-xs lg:text-sm xl:text-base font-black logo-title hidden 2xl:inline tracking-tighter uppercase whitespace-nowrap truncate font-display">
+              <span className="text-[clamp(12px,1.2vw,16px)] font-black logo-title hidden lg:inline tracking-tighter uppercase whitespace-nowrap truncate font-display">
                 Monroe Resource Hub
               </span>
-              <div className="hidden 2xl:flex items-center gap-2 mt-0.5">
+              <div className="hidden lg:flex items-center gap-2 mt-0.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                <span className="text-[clamp(8px,0.8vw,10px)] font-bold text-slate-500 uppercase tracking-widest">
                   Live: {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
             </div>
-            <span className="text-xs lg:text-sm font-bold logo-title hidden sm:inline 2xl:hidden whitespace-nowrap shrink-0">MRH</span>
+            <span className="text-xs font-bold logo-title lg:hidden whitespace-nowrap shrink-0">MRH</span>
           </Link>
 
-          <div className="hidden xl:flex xl:items-center lg:gap-0.5 xl:gap-1 2xl:gap-2 justify-center min-w-0 flex-nowrap overflow-x-auto overflow-y-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div className="hidden lg:flex lg:items-center lg:gap-0.5 xl:gap-1 2xl:gap-2 justify-center min-w-0 flex-nowrap overflow-x-auto overflow-y-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {filteredNavigation.map((item) => (
               <Link
                 key={item.name}
@@ -134,11 +138,11 @@ export function Header() {
             </Link>
           </div>
 
-          <div className="hidden xl:flex xl:items-center xl:gap-1.5 xl:gap-2 2xl:gap-3 shrink-0 flex-nowrap overflow-visible">
+          <div className="hidden lg:flex lg:items-center lg:gap-1.5 xl:gap-2 2xl:gap-3 shrink-0 flex-nowrap overflow-visible">
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 lg:h-9 px-2 xl:px-2.5 2xl:px-3 rounded-lg hover:bg-white/5 whitespace-nowrap shrink-0 text-[11px] lg:text-xs xl:text-[13px] text-slate-400 hover:text-white"
+              className="h-8 lg:h-9 px-2 xl:px-2.5 2xl:px-3 rounded-lg hover:bg-white/5 whitespace-nowrap shrink-0 text-[clamp(10px,1vw,13px)] text-slate-400 hover:text-white"
               asChild
               href="/resources"
             >
@@ -148,7 +152,7 @@ export function Header() {
             <Button
               variant="outline"
               size="sm"
-              className="h-8 lg:h-9 px-2 xl:px-3 2xl:px-4 rounded-lg border-white/20 whitespace-nowrap shrink-0 text-[11px] lg:text-xs xl:text-[13px] text-slate-200 hover:bg-white/5"
+              className="h-8 lg:h-9 px-2 xl:px-3 2xl:px-4 rounded-lg border-white/20 whitespace-nowrap shrink-0 text-[clamp(10px,1vw,13px)] text-slate-200 hover:bg-white/5"
               asChild
               href="/submit-resource"
             >
@@ -191,7 +195,7 @@ export function Header() {
             )}
           </div>
 
-          <div className="xl:hidden shrink-0 col-start-3 row-start-1 justify-self-end">
+          <div className="lg:hidden shrink-0 col-start-3 row-start-1 justify-self-end">
             <Button
               variant="ghost"
               size="sm"

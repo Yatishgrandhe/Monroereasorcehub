@@ -208,11 +208,12 @@
 
   /* Navbar — sliding underline, adaptive font sizes */
   .nav-link {
-    @apply relative px-2 lg:px-2.5 xl:px-3 2xl:px-4 py-2 rounded-xl font-medium text-slate-400 hover:text-primary-300 transition-all duration-300 ease-in-out whitespace-nowrap tracking-wide text-[11px] lg:text-[12px] xl:text-[13px] 2xl:text-[14px] after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-primary-500 after:rounded-full after:transition-all after:duration-300 after:w-0 hover:after:w-[80%];
+    @apply relative px-2 lg:px-2.5 xl:px-3 py-2 rounded-xl font-medium text-slate-400 hover:text-primary-300 transition-all duration-300 ease-in-out whitespace-nowrap tracking-wide after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-primary-500 after:rounded-full after:transition-all after:duration-300 after:w-0 hover:after:w-[80%];
+    font-size: clamp(10px, 0.9vw + 1px, 14px);
   }
 
   .nav-link.active {
-    @apply text-primary-300 font-semibold;
+    @apply text-primary-300 font-bold;
   }
 
   .nav-link.active::after {
