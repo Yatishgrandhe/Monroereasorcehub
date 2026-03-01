@@ -37,10 +37,10 @@ export function CategoryGrid() {
                                 className="group relative h-full flex flex-col p-8 rounded-[32px] bg-white/[0.03] border border-white/10 backdrop-blur-xl 
                   hover:-translate-y-2 hover:border-primary-500/30 transition-all duration-500 overflow-hidden"
                             >
-                                {/* Hover Gradient Background */}
+                                {/* Uniform hover overlay — same color across entire card */}
                                 <div
-                                    className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"
-                                    style={{ background: `radial-gradient(circle at center, ${cat.color} 0%, transparent 70%)` }}
+                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[32px]"
+                                    style={{ background: `${cat.color}12` }}
                                 />
 
                                 <div className="relative z-10">

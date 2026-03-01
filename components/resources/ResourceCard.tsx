@@ -45,8 +45,8 @@ export function ResourceCard({ resource, showCategory = true }: ResourceCardProp
       className="h-full group"
     >
       <Card className="glass-card h-full flex flex-col border-white/10 hover:border-primary-500/30 transition-all duration-300 overflow-hidden relative">
-        {/* Background Accent */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 blur-3xl rounded-full -mr-16 -mt-16 pointer-events-none" />
+        {/* Background Accent — fades on hover for uniform card color */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 blur-3xl rounded-full -mr-16 -mt-16 pointer-events-none transition-opacity duration-300 group-hover:opacity-40" />
 
         <CardHeader className="pb-4 relative z-10">
           <div className="flex items-start justify-between">
