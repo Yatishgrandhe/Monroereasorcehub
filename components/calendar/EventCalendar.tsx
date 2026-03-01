@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Plus, Sparkles, LayoutGrid, List as ListIcon, ArrowRight } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Plus, Sparkles, LayoutGrid, List as ListIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -237,42 +237,6 @@ export function EventCalendar() {
             </AnimatePresence>
           </div>
         </div>
-
-        {/* Start an Event CTA Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative group p-1"
-        >
-          <div className="absolute -inset-1 bg-gradient-to-r from-primary-600/20 to-accent-600/20 rounded-[3rem] blur-2xl opacity-50 group-hover:opacity-100 transition duration-1000" />
-          <Card className="relative glass-card border-white/10 overflow-hidden rounded-[3rem] p-12 md:p-20 text-center">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-600/10 to-transparent pointer-events-none" />
-            <div className="max-w-3xl mx-auto">
-              <Badge variant="glass" className="mb-8 px-6 py-2 border-primary-500/20 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px]">
-                Community Initiative
-              </Badge>
-              <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">
-                Start an <span className="text-gradient-logo">Event?</span>
-              </h2>
-              <p className="text-xl text-slate-400 mb-12 leading-relaxed">
-                Empower Monroe by hosting your own community initiative. We provide the platform, you provide the vision.
-              </p>
-              <Button
-                variant="gradient"
-                size="lg"
-                className="rounded-full px-12 py-8 text-lg font-black uppercase tracking-widest shadow-2xl shadow-primary-500/30 group/btn"
-                asChild
-                href="/submit-event"
-              >
-                <span className="flex items-center gap-3">
-                  SUBMIT NOW
-                  <ArrowRight className="w-6 h-6 group-hover/btn:translate-x-2 transition-transform" />
-                </span>
-              </Button>
-            </div>
-          </Card>
-        </motion.div>
       </div>
     </div>
   );
