@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Plus, Sparkles, LayoutGrid, List as ListIcon } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Plus, Sparkles, LayoutGrid, List as ListIcon, X, CalendarDays, ExternalLink, Info } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -12,6 +12,13 @@ import { createClient } from '@/lib/supabase/client';
 import { formatDate, formatTime, isToday, isTomorrow, getRelativeTime, cn } from '@/lib/utils';
 import { Database } from '@/types/database';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 
 type Event = Database['public']['Tables']['events']['Row'];
 
@@ -28,6 +35,7 @@ export function EventCalendar() {
   const [viewMode, setViewMode] = useState<'month' | 'week' | 'day' | 'list'>('month');
   const [currentDate, setCurrentDate] = useState(new Date());
   const [loading, setLoading] = useState(true);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   const filterGroups: FilterGroup[] = [
     {
@@ -129,9 +137,13 @@ export function EventCalendar() {
                 </div>
                 <div className="space-y-1.5">
                   {day.events.slice(0, 3).map(event => (
-                    <div key={event.id} className="text-[10px] p-1.5 px-2 bg-primary-500/10 border border-primary-500/20 text-primary-300 rounded-lg truncate font-medium">
+                    <button
+                      key={event.id}
+                      onClick={() => setSelectedEvent(event)}
+                      className="w-full text-left text-[10px] p-1.5 px-2 bg-primary-500/10 border border-primary-500/20 text-primary-300 rounded-lg truncate font-medium hover:bg-primary-500/20 transition-colors"
+                    >
                       {event.title}
-                    </div>
+                    </button>
                   ))}
                   {day.events.length > 3 && (
                     <div className="text-[10px] text-slate-500 font-bold pl-1">
@@ -151,7 +163,10 @@ export function EventCalendar() {
     <div className="space-y-6">
       {filteredEvents.map((event, idx) => (
         <motion.div key={event.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }}>
-          <Card className="glass-card border-white/5 overflow-hidden group hover:border-primary-500/30 transition-all">
+          <Card
+            className="glass-card border-white/5 overflow-hidden group hover:border-primary-500/30 transition-all cursor-pointer"
+            onClick={() => setSelectedEvent(event)}
+          >
             <CardContent className="p-0 flex flex-col md:flex-row">
               <div className="md:w-48 bg-gradient-to-br from-primary-600 to-accent-700 p-8 flex flex-col items-center justify-center text-center shrink-0">
                 <div className="text-sm font-bold uppercase tracking-widest text-white/70 mb-1">{formatDate(event.start_date).split(' ')[0]}</div>
@@ -238,6 +253,89 @@ export function EventCalendar() {
           </div>
         </div>
       </div>
+
+      {/* Event Details Dialog */}
+      <Dialog open={!!selectedEvent} onOpenChange={(open) => !open && setSelectedEvent(null)}>
+        <DialogContent className="max-w-2xl bg-[#020617] border-white/10 text-white p-0 overflow-hidden rounded-[2rem]">
+          {selectedEvent && (
+            <div className="relative">
+              <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-primary-600/20 to-accent-600/20 pointer-events-none" />
+
+              <div className="p-8 pt-12 relative z-10">
+                <div className="flex justify-between items-start mb-6">
+                  <Badge variant="glass" className="bg-primary-500/10 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px] px-3 py-1">
+                    {selectedEvent.category}
+                  </Badge>
+                </div>
+
+                <DialogTitle className="text-4xl font-black text-white mb-6 uppercase tracking-tight leading-none">
+                  {selectedEvent.title}
+                </DialogTitle>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div className="w-10 h-10 rounded-xl bg-primary-500/20 flex items-center justify-center">
+                      <CalendarDays className="w-5 h-5 text-primary-400" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Date</div>
+                      <div className="text-sm font-bold text-white">{formatDate(selectedEvent.start_date)}</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div className="w-10 h-10 rounded-xl bg-accent-500/20 flex items-center justify-center">
+                      <Clock className="w-5 h-5 text-accent-400" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Time</div>
+                      <div className="text-sm font-bold text-white">{formatTime(selectedEvent.start_date)}</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
+                      <MapPin className="w-5 h-5 text-emerald-400" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Location</div>
+                      <div className="text-sm font-bold text-white">{selectedEvent.location || 'Monroe, NC'}</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center">
+                      <Users className="w-5 h-5 text-amber-400" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Organizer</div>
+                      <div className="text-sm font-bold text-white">{selectedEvent.organizer || 'Community Host'}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                    <Info className="w-3 h-3" /> Description
+                  </div>
+                  <p className="text-slate-300 leading-relaxed font-medium bg-white/[0.02] p-6 rounded-[1.5rem] border border-white/5">
+                    {selectedEvent.description}
+                  </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <Button variant="gradient" className="flex-1 rounded-xl h-14 font-black uppercase tracking-widest">
+                    Interested
+                  </Button>
+                  <Button variant="outline" className="flex-1 rounded-xl h-14 border-white/10 hover:bg-white/[0.05] font-black uppercase tracking-widest">
+                    Add to Calendar
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
