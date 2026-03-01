@@ -11,24 +11,24 @@ export default function ResourcesPage() {
   return (
     <div className="min-h-screen bg-[#020617] text-white">
       {/* Search Header */}
-      <section className="pt-32 pb-16 bg-gradient-to-b from-indigo-950/20 to-transparent">
+      <section className="pt-32 pb-16 bg-gradient-to-b from-primary-950/10 to-transparent">
         <div className="container-custom">
           <Reveal width="100%">
             <div className="max-w-4xl">
-              <Badge className="mb-6 bg-primary-500/10 text-primary-400 border-primary-500/20 font-black tracking-widest uppercase text-[10px] px-4 py-1.5 backdrop-blur-md">Directory</Badge>
-              <h1 className="text-6xl md:text-7xl font-black mb-8 tracking-tighter">
-                Find <span className="text-primary-400 italic font-serif">Support</span> in Monroe.
+              <Badge variant="glass" className="mb-6 border-primary-500/20 text-primary-400 font-black tracking-widest uppercase text-[10px] px-4 py-1.5 backdrop-blur-md">Resources</Badge>
+              <h1 className="text-6xl md:text-7xl font-black mb-8 tracking-tighter text-white">
+                Explore <span className="text-gradient-logo italic font-serif">Community</span>.
               </h1>
 
               <div className="relative group max-w-2xl">
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary-500/20 to-indigo-500/20 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000"></div>
-                <div className="relative flex items-center bg-slate-900/90 backdrop-blur-3xl border border-white/10 rounded-2xl px-6 py-4">
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary-500/20 to-accent-500/20 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000"></div>
+                <div className="relative flex items-center bg-slate-950/90 backdrop-blur-3xl border border-white/10 rounded-2xl px-6 py-4">
                   <Search className="w-5 h-5 text-slate-500 mr-4" />
                   <Input
                     placeholder="Search by name, category, or service..."
                     className="bg-transparent border-none text-lg h-auto focus-visible:ring-0 placeholder:text-slate-600"
                   />
-                  <Button variant="gradient" className="ml-4 rounded-xl px-8 h-12 bg-indigo-600 hover:bg-indigo-500">
+                  <Button variant="gradient" className="ml-4 rounded-xl px-8 h-12">
                     Search
                   </Button>
                 </div>

@@ -196,10 +196,10 @@ const requirements = [
 
 export default function VolunteerPage() {
   return (
-    <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
+    <div className="min-h-screen bg-[#020617] pt-20">
       {/* Hero Section */}
       <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-slate-900 z-0">
+        <div className="absolute inset-0 bg-[#020617] z-0">
           <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
           <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[70%] bg-primary-900/20 rounded-full blur-[120px]" />
           <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-accent-950/20 rounded-full blur-[100px]" />
@@ -209,7 +209,7 @@ export default function VolunteerPage() {
             <div className="flex justify-center mb-10">
               <Badge variant="glass" className="px-6 py-2.5 bg-white/[0.05] border-white/10 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-xl">
                 <Heart className="h-3.5 w-3.5 mr-2.5 animate-pulse" />
-                Community Service Hub
+                Volunteer
               </Badge>
             </div>
             <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none">

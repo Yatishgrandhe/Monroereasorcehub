@@ -218,7 +218,7 @@ export default function InfoPage() {
           <div className="flex justify-center mb-10">
             <Badge variant="glass" className="px-6 py-2.5 border-primary-500/20 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px]">
               <FileText className="h-3.5 w-3.5 mr-2.5 animate-pulse" />
-              Documentation Center
+              Information
             </Badge>
           </div>
           <motion.h1

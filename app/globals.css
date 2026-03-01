@@ -128,23 +128,53 @@
   }
 
   .btn-primary {
-    @apply btn bg-primary-600 text-white hover:bg-primary-500 shadow-premium hover:shadow-premium-hover active:scale-[0.98] focus:ring-primary-400;
+    @apply btn bg-primary-600 text-white relative overflow-hidden transition-all duration-500;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+  }
+
+  .btn-primary:hover {
+    @apply bg-primary-500 -translate-y-1 shadow-premium-primary;
+  }
+
+  .btn-primary::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-1000;
+  }
+
+  .btn-primary:hover::after {
+    @apply translate-x-full;
   }
 
   .btn-secondary {
-    @apply btn bg-secondary-100 dark:bg-secondary-800 text-secondary-900 dark:text-white hover:bg-secondary-200 dark:hover:bg-secondary-700 active:scale-95;
+    @apply btn bg-white/[0.05] border border-white/10 text-white hover:bg-white/[0.1] hover:border-white/20 active:scale-95 backdrop-blur-md transition-all;
   }
 
   .btn-outline {
-    @apply btn bg-transparent border-2 border-secondary-200 dark:border-secondary-700 text-secondary-900 dark:text-white hover:bg-secondary-50 dark:hover:bg-secondary-800 active:scale-95;
+    @apply btn bg-transparent border-2 border-white/10 text-white hover:bg-white/[0.05] hover:border-white/30 active:scale-95 transition-all;
+  }
+
+  .btn-outline:hover {
+    @apply shadow-premium-glow;
   }
 
   .btn-ghost {
-    @apply btn bg-transparent text-secondary-600 dark:text-secondary-400 hover:bg-secondary-100 dark:hover:bg-secondary-800/50 active:scale-95;
+    @apply btn bg-transparent text-slate-400 hover:text-white hover:bg-white/[0.05] active:scale-95;
+  }
+
+  .btn-destructive {
+    @apply btn bg-red-600 text-white hover:bg-red-500 shadow-premium active:scale-[0.98] focus:ring-red-400;
+  }
+
+  .btn-destructive:hover {
+    @apply shadow-premium-destructive;
   }
 
   .btn-gradient {
-    @apply btn bg-gradient-premium text-white shadow-premium hover:shadow-premium-hover active:scale-[0.98] border-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2;
+    @apply btn bg-gradient-to-r from-primary-600 to-accent-600 text-white shadow-premium active:scale-[0.98] border-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2;
+  }
+
+  .btn-gradient:hover {
+    @apply shadow-premium-accent;
   }
 
   .card {
@@ -156,15 +186,20 @@
   }
 
   .glass {
-    @apply bg-white/60 dark:bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] dark:border-white/[0.06];
+    @apply bg-white/[0.03] backdrop-blur-2xl border border-white/[0.08];
   }
 
   .glass-card {
-    @apply glass rounded-[24px] shadow-premium border border-white/10;
+    @apply bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[32px] shadow-premium transition-all duration-700;
+    will-change: transform, opacity, border-color;
+  }
+
+  .glass-card:hover {
+    @apply border-primary-500/40 bg-white/[0.06] shadow-premium-hover -translate-y-2;
   }
 
   .glass-spline {
-    @apply bg-white/[0.04] dark:bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] dark:border-white/[0.04];
+    @apply bg-white/[0.02] backdrop-blur-3xl border border-white/[0.05];
   }
 
   .input {

@@ -16,10 +16,10 @@ const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Resources', href: '/resources' },
   { name: 'Events', href: '/events' },
-  { name: 'Career Help', href: '/career' },
+  { name: 'Career Center', href: '/career' },
   { name: 'Volunteer', href: '/volunteer' },
   { name: 'About Us', href: '/about' },
-  { name: 'Info', href: '/info' },
+  { name: 'Information', href: '/info' },
 ];
 
 export function Header() {
@@ -183,7 +183,7 @@ export function Header() {
                   </Button>
                 </Magnetic>
                 <Magnetic strength={0.3}>
-                  <Button variant="gradient" size="sm" className="h-9 px-5 rounded-full font-bold whitespace-nowrap shadow-lg shadow-primary-500/25 text-[11px] lg:text-xs xl:text-[13px] bg-indigo-600 hover:bg-indigo-500 transition-colors" asChild href="/auth/signup">
+                  <Button variant="gradient" size="sm" className="h-9 px-5 rounded-full font-bold whitespace-nowrap shadow-lg shadow-primary-500/25 text-[11px] lg:text-xs xl:text-[13px] active:scale-95 transition-all" asChild href="/auth/signup">
                     Sign Up
                   </Button>
                 </Magnetic>

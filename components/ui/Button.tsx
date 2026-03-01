@@ -21,7 +21,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       secondary: 'btn-secondary',
       outline: 'btn-outline',
       ghost: 'btn-ghost',
-      destructive: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-premium',
+      destructive: 'btn-destructive',
       gradient: 'btn-gradient',
     }[variant];
 
@@ -63,7 +63,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <motion.button
-        whileHover={{ scale: 1.02 }}
+        whileHover={{ scale: 1.02, y: -2 }}
         whileTap={{ scale: 0.98 }}
         className={baseClasses}
         ref={ref as any}

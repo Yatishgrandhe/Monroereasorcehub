@@ -189,10 +189,10 @@ export function EventCalendar() {
         <div className="mb-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
-              <Sparkles className="w-3.5 h-3.5 mr-2" /> Community Pulse
+              <Sparkles className="w-3.5 h-3.5 mr-2" /> Events
             </Badge>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
-              Event <span className="text-gradient-logo">Nexus</span>
+              Event <span className="text-gradient-logo">Hub</span>
             </h1>
             <p className="text-xl text-slate-400 max-w-2xl leading-relaxed">Discover workshops, social gatherings, and community initiatives driving Monroe forward.</p>
           </motion.div>

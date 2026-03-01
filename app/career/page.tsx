@@ -75,10 +75,10 @@ export default function CareerCenterPage() {
             >
               <Badge variant="glass" className="mb-8 px-5 py-2 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
                 <Sparkles className="w-4 h-4 mr-2" />
-                Career Advancement Suite
+                Career Center
               </Badge>
               <h1 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tight leading-[1.1]">
-                Your Future, <span className="text-gradient-logo">Accelerated</span>.
+                Your Future, <span className="text-gradient-logo">Unlocked</span>.
               </h1>
               <p className="text-xl md:text-2xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed">
                 Elevate your professional presence with our AI-powered career tools.
