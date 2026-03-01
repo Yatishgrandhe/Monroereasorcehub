@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X, Search, LogOut, UserCircle, ChevronRight } from 'lucide-react';
@@ -11,6 +11,8 @@ import { supabase } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import { SearchModal } from '@/components/ui/SearchModal';
 import { Magnetic } from '@/components/ui/Magnetic';
+
+const COMPACT_NAV_BREAKPOINT = 960;
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -29,8 +31,30 @@ export function Header() {
   const [loading, setLoading] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [useCompactNav, setUseCompactNav] = useState(true);
+  const showDesktopNav = !useCompactNav;
   const pathname = usePathname();
   const router = useRouter();
+
+  const checkViewport = useCallback(() => {
+    const vv = typeof window !== 'undefined' ? window.visualViewport : null;
+    const w = vv?.width ?? (typeof window !== 'undefined' ? window.innerWidth : 1024);
+    setUseCompactNav(w < COMPACT_NAV_BREAKPOINT);
+  }, []);
+
+  useEffect(() => {
+    checkViewport();
+    const vv = typeof window !== 'undefined' ? window.visualViewport : null;
+    if (!vv) return;
+    vv.addEventListener('resize', checkViewport);
+    vv.addEventListener('scroll', checkViewport);
+    window.addEventListener('resize', checkViewport);
+    return () => {
+      vv.removeEventListener('resize', checkViewport);
+      vv.removeEventListener('scroll', checkViewport);
+      window.removeEventListener('resize', checkViewport);
+    };
+  }, [checkViewport]);
 
   useEffect(() => {
     const getInitialSession = async () => {
@@ -68,6 +92,10 @@ export function Header() {
   }, [pathname]);
 
   useEffect(() => {
+    if (showDesktopNav) setMobileMenuOpen(false);
+  }, [showDesktopNav]);
+
+  useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -81,18 +109,18 @@ export function Header() {
   const filteredNavigation = navigation;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full pt-4 px-4 sm:pt-5 sm:px-6 lg:pt-5 lg:px-8 overflow-visible pointer-events-none [&>*]:pointer-events-auto">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 px-4 sm:pt-5 sm:px-6 lg:pt-5 lg:px-8 overflow-x-hidden pointer-events-none [&>*]:pointer-events-auto">
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       <nav
         className={cn(
-          'w-full max-w-[100%] rounded-2xl transition-all duration-300 ease-in-out',
+          'w-full min-w-0 max-w-full rounded-2xl transition-all duration-300 ease-in-out',
           scrolled
             ? 'bg-[#020617]/80 backdrop-blur-2xl border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.3)] py-2'
             : 'bg-white/[0.03] backdrop-blur-xl border border-white/[0.05] py-2'
         )}
         aria-label="Global"
       >
-        <div className="grid grid-cols-[auto_1fr_auto] lg:grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 lg:gap-4 xl:gap-6 2xl:gap-8 px-3 sm:px-4 lg:px-6 transition-all duration-300 ease-in-out h-14 sm:h-[52px] lg:h-[56px]">
+        <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2 lg:gap-4 px-3 sm:px-4 lg:px-6 transition-all duration-300 ease-in-out h-14 sm:h-[52px] lg:h-[56px] min-w-0">
           <Link
             href="/"
             className="flex items-center gap-2 sm:gap-2.5 group min-w-0 shrink-0"
@@ -106,21 +134,27 @@ export function Header() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <div className="flex flex-col">
-              <span className="text-[clamp(12px,1.2vw,16px)] font-black logo-title hidden lg:inline tracking-tighter uppercase whitespace-nowrap truncate font-display">
+            <div className="flex flex-col min-w-0">
+              <span className={cn(
+                "text-[clamp(12px,1.2vw,16px)] font-black logo-title tracking-tighter uppercase truncate font-display",
+                showDesktopNav ? "inline" : "hidden"
+              )}>
                 Monroe Resource Hub
               </span>
-              <div className="hidden lg:flex items-center gap-2 mt-0.5">
+              <div className={cn("items-center gap-2 mt-0.5", showDesktopNav ? "flex" : "hidden")}>
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="text-[clamp(8px,0.8vw,10px)] font-bold text-slate-500 uppercase tracking-widest">
                   Live: {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
             </div>
-            <span className="text-xs font-bold logo-title lg:hidden whitespace-nowrap shrink-0">MRH</span>
+            <span className={cn("text-xs font-bold logo-title whitespace-nowrap shrink-0", showDesktopNav ? "hidden" : "inline")}>MRH</span>
           </Link>
 
-          <div className="hidden lg:flex lg:items-center lg:gap-0.5 xl:gap-1 2xl:gap-2 justify-center min-w-0 flex-nowrap overflow-x-auto overflow-y-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div className={cn(
+            "items-center gap-0.5 xl:gap-1 justify-center min-w-0 flex-nowrap overflow-x-auto overflow-y-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+            showDesktopNav ? "flex" : "hidden"
+          )}>
             {filteredNavigation.map((item) => (
               <Link
                 key={item.name}
@@ -138,7 +172,10 @@ export function Header() {
             </Link>
           </div>
 
-          <div className="hidden lg:flex lg:items-center lg:gap-1.5 xl:gap-2 2xl:gap-3 shrink-0 flex-nowrap overflow-visible">
+          <div className={cn(
+            "items-center gap-1.5 xl:gap-2 shrink-0 flex-nowrap min-w-0",
+            showDesktopNav ? "flex" : "hidden"
+          )}>
             <Button
               variant="ghost"
               size="sm"
@@ -183,7 +220,7 @@ export function Header() {
               <div className="flex items-center gap-1.5 xl:gap-2 shrink-0 flex-nowrap">
                 <Magnetic strength={0.2}>
                   <Button variant="outline" size="sm" className="h-9 px-4 rounded-full whitespace-nowrap text-[11px] lg:text-xs xl:text-[13px] border-white/10" asChild href="/auth/signin">
-                    Initialize Session
+                    Login
                   </Button>
                 </Magnetic>
                 <Magnetic strength={0.3}>
@@ -195,7 +232,7 @@ export function Header() {
             )}
           </div>
 
-          <div className="lg:hidden shrink-0 col-start-3 row-start-1 justify-self-end">
+          <div className={cn("shrink-0 col-start-3 row-start-1 justify-self-end", showDesktopNav ? "hidden" : "flex")}>
             <Button
               variant="ghost"
               size="sm"
@@ -274,7 +311,7 @@ export function Header() {
                   ) : (
                     <>
                       <Button variant="outline" size="sm" className="w-full justify-center h-10 rounded-lg" asChild href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
-                        Initialize Session
+                        Login
                       </Button>
                       <Button variant="gradient" size="sm" className="w-full justify-center h-10 rounded-full font-semibold bg-gradient-spline border-none shadow-primary-500/25" asChild href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
                         Sign Up

@@ -70,6 +70,8 @@
     scroll-behavior: smooth;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    /* Prevent overflow when AI sidebars (Gemini, Perplexity) reduce viewport */
+    max-width: 100dvw;
   }
 
   body {

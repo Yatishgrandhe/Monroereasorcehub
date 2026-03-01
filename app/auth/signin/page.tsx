@@ -89,7 +89,7 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] flex items-center justify-center py-20 px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-[#020617] flex items-center justify-center pt-32 pb-20 px-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary-900/10 rounded-full blur-[120px]" />
 
@@ -110,7 +110,7 @@ export default function SignInPage() {
             <span className="text-2xl font-black text-white tracking-tighter uppercase font-display">Monroe Resource Hub</span>
           </Link>
           <h2 className="text-4xl font-black text-white mb-3 tracking-tight">
-            Initialize <span className="text-gradient-logo">Session</span>
+            <span className="text-gradient-logo">Login</span>
           </h2>
           <p className="text-slate-400 font-medium">
             Sync your career assets across the hub.
@@ -180,7 +180,7 @@ export default function SignInPage() {
                 disabled={loading}
               >
                 <LogIn className="h-4 w-4 mr-2" />
-                Initialize Session
+                Login
               </Button>
             </form>
 

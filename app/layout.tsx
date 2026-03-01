@@ -70,7 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <body className="font-sans antialiased text-secondary-800 dark:text-secondary-200 bg-[#020617]">
-        <div className="min-h-screen flex flex-col w-full">
+        <div className="min-h-screen flex flex-col w-full min-w-0 max-w-full overflow-x-hidden">
           <Header />
           <main className="flex-1 w-full">
             {children}
