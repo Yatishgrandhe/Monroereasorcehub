@@ -403,8 +403,9 @@ export function JobBoard() {
             ) : filteredJobs.length > 0 ? (
               <div className="space-y-4">
                 {filteredJobs.map((job) => (
-                  <Card key={job.id} className="glass-card border-white/5 hover:border-primary-500/30 group transition-all duration-300">
-                    <CardContent className="p-6">
+                  <Card key={job.id} className="glass-card border-white/5 hover:border-primary-500/30 group transition-all duration-300 relative overflow-hidden">
+                    <div className="absolute inset-0 -z-10 rounded-[32px] bg-slate-900/80 pointer-events-none" aria-hidden />
+                    <CardContent className="p-6 relative z-10">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-start justify-between mb-3">
