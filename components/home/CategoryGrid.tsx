@@ -17,55 +17,55 @@ const categories = [
 
 export function CategoryGrid() {
     return (
-        <section className="py-24 bg-[#020617] relative overflow-hidden">
+        <section className="py-16 md:py-24 bg-[#020617] relative overflow-hidden">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.03),transparent_70%)] pointer-events-none" />
 
             <div className="container-custom relative z-10">
                 <Reveal width="100%">
-                    <div className="mb-20 text-center md:text-left">
-                        <div className="flex items-center justify-center md:justify-start gap-4 mb-6">
-                            <div className="h-px w-12 bg-primary-500/50 hidden md:block" />
-                            <Badge variant="glass" className="bg-primary-500/10 text-primary-400 border-none font-black uppercase tracking-[0.3em] text-[10px] px-5 py-2">
+                    <div className="mb-8 sm:mb-10 md:mb-12 text-center md:text-left">
+                        <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
+                            <div className="h-px w-10 bg-primary-500/50 hidden md:block" />
+                            <Badge variant="glass" className="bg-primary-500/10 text-primary-400 border-none font-black uppercase tracking-[0.25em] text-[10px] px-4 py-1.5">
                                 Explorer
                             </Badge>
                         </div>
-                        <h2 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-none">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 md:mb-6 tracking-tighter leading-none">
                             Community <span className="text-gradient-logo">Pillars</span>
                         </h2>
-                        <p className="text-xl text-slate-400 max-w-2xl leading-relaxed italic font-medium">
+                        <p className="text-base md:text-lg text-slate-400 max-w-2xl leading-relaxed font-medium">
                             Direct access to essential services forming the foundation of our community.
                         </p>
                     </div>
                 </Reveal>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6 md:gap-6 lg:gap-8">
                     {categories.map((cat, i) => (
                         <Reveal key={cat.name} delay={i * 0.1}>
                             <Link
                                 href={cat.href}
-                                className="group relative h-full flex flex-col p-6 sm:p-10 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl 
-                  hover:-translate-y-2 hover:border-primary-500/40 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden shadow-premium hover:shadow-premium-hover"
+                                className="group relative h-full min-h-[200px] sm:min-h-[220px] flex flex-col p-5 sm:p-6 md:p-6 rounded-2xl md:rounded-[1.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl
+                                  hover:-translate-y-2 hover:border-primary-500/40 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden shadow-premium hover:shadow-premium-hover"
                             >
-                                <div className="relative z-10 flex flex-col items-center sm:items-start text-center sm:text-left h-full">
+                                <div className="relative z-10 flex flex-col items-center sm:items-start text-center sm:text-left h-full flex-1">
                                     <div
-                                        className="w-14 h-14 sm:w-20 sm:h-20 rounded-[1.5rem] flex items-center justify-center mb-6 sm:mb-10 transition-all duration-700 group-hover:scale-110 group-hover:rotate-6 shadow-2xl border border-white/10 relative overflow-hidden group/icon"
+                                        className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl md:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-lg border border-white/10 relative overflow-hidden group/icon"
                                         style={{ backgroundColor: `${cat.color}15`, color: cat.color }}
                                     >
                                         <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity" />
-                                        <cat.icon className="h-6 w-6 sm:h-10 sm:w-10 relative z-10" />
+                                        <cat.icon className="h-5 w-5 sm:h-6 sm:w-6 relative z-10" />
                                     </div>
 
-                                    <h3 className="text-lg sm:text-2xl font-black mb-3 sm:mb-6 text-white group-hover:text-primary-300 transition-colors uppercase tracking-tight leading-tight">
+                                    <h3 className="text-sm sm:text-base lg:text-lg font-black mb-1.5 sm:mb-2 text-white group-hover:text-primary-300 transition-colors uppercase tracking-tight leading-tight">
                                         {cat.name}
                                     </h3>
 
-                                    <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-8 font-medium line-clamp-2 md:line-clamp-none">
+                                    <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed mb-3 sm:mb-4 font-medium line-clamp-2 flex-1">
                                         {cat.description}
                                     </p>
 
-                                    <div className="mt-auto flex items-center text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-white transition-colors">
+                                    <div className="mt-auto pt-2 sm:pt-3 flex items-center justify-center sm:justify-start text-[9px] sm:text-[10px] font-black uppercase tracking-[0.15em] text-slate-500 group-hover:text-white transition-colors">
                                         Explore Hub
-                                        <ArrowUpRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                                        <ArrowUpRight className="ml-1.5 h-3 w-3 sm:h-3.5 sm:w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0" />
                                     </div>
                                 </div>
                             </Link>
