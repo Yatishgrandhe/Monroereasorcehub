@@ -164,6 +164,24 @@
     @apply btn bg-transparent text-slate-400 hover:text-white hover:bg-white/[0.05] active:scale-95;
   }
 
+  /* Buttons as links: prevent global `a` styles from overriding */
+  a.btn {
+    @apply no-underline font-semibold;
+  }
+  a.btn-primary {
+    @apply text-white hover:text-white;
+  }
+  a.btn-outline,
+  a.btn-ghost {
+    @apply text-inherit hover:text-inherit;
+  }
+  a.btn-outline {
+    @apply text-white hover:text-white border-white/10 hover:border-white/30 hover:bg-white/[0.05];
+  }
+  a.btn-ghost {
+    @apply text-slate-400 hover:text-white hover:bg-white/[0.05];
+  }
+
   .btn-destructive {
     @apply btn bg-red-600 text-white hover:bg-red-500 shadow-premium active:scale-[0.98] focus:ring-red-400;
   }

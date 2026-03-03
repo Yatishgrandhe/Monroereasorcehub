@@ -46,7 +46,7 @@ export default function ResourcesPage() {
             <aside className="lg:w-1/4">
               <Reveal width="100%">
                 <div className="sticky top-24 p-8 rounded-[32px] bg-white/[0.03] border border-white/10 backdrop-blur-3xl">
-                  <h3 className="text-xl font-black mb-8 uppercase tracking-tight">Refine Results</h3>
+                  <h3 className="text-xl font-black mb-8 uppercase tracking-tight text-white">Refine Results</h3>
 
                   <div className="space-y-8">
                     <div>
@@ -81,7 +81,7 @@ export default function ResourcesPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                   <Reveal key={i} delay={i * 0.05}>
-                    <div className="group relative p-8 rounded-[32px] bg-white/[0.03] border border-white/10 backdrop-blur-3xl hover:border-primary-500/30 transition-all duration-500 overflow-hidden">
+                    <div className="group relative p-8 rounded-[32px] glass-card overflow-hidden">
                       <div className="flex justify-between items-start mb-6">
                         <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center">
                           <Sparkles className="w-6 h-6 text-indigo-400" />

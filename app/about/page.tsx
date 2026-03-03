@@ -170,7 +170,7 @@ export default function AboutPage() {
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ delay: index * 0.1, duration: 0.6 }}
                 >
-                  <Card className="glass-card border-white/5 h-full group hover:border-primary-500/30 hover:bg-white/[0.05] transition-all duration-500 p-2 overflow-hidden">
+                  <Card className="glass-card border-white/5 h-full group p-2 overflow-hidden">
                     <CardContent className="p-8 relative">
                       <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity pointer-events-none">
                         <Icon className="w-32 h-32 rotate-12" />

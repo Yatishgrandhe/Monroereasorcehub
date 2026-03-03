@@ -151,7 +151,7 @@ export default function CareerCenterPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
               >
-                <Card className="glass-card p-8 h-full border-white/10 hover:border-primary-500/30 group transition-all duration-300">
+                <Card className="glass-card p-8 h-full border-white/10 group transition-all duration-300">
                   <div className={`w-14 h-14 ${feature.bg} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary-500/20 transition-all`}>
                     <feature.icon className={`h-7 w-7 ${feature.color}`} />
                   </div>

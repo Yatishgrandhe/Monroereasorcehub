@@ -164,7 +164,7 @@ export function EventCalendar() {
       {filteredEvents.map((event, idx) => (
         <motion.div key={event.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }}>
           <Card
-            className="glass-card border-white/5 overflow-hidden group hover:border-primary-500/30 transition-all cursor-pointer"
+            className="glass-card border-white/5 overflow-hidden group cursor-pointer"
             onClick={() => setSelectedEvent(event)}
           >
             <CardContent className="p-0 flex flex-col md:flex-row">

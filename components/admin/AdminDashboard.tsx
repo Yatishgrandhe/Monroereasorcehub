@@ -312,7 +312,7 @@ export function AdminDashboard() {
             {pendingResources.length > 0 ? (
               <div className="space-y-4">
                 {pendingResources.map((resource) => (
-                  <Card key={resource.id} className="glass-card border-white/5 hover:border-primary-500/30 transition-all">
+                  <Card key={resource.id} className="glass-card border-white/5 transition-all">
                     <CardContent className="p-8">
                       <div className="space-y-6">
                         <div>
@@ -425,7 +425,7 @@ export function AdminDashboard() {
             {pendingEvents.length > 0 ? (
               <div className="space-y-4">
                 {pendingEvents.map((event) => (
-                  <Card key={event.id} className="glass-card border-white/5 hover:border-emerald-500/30 transition-all">
+                  <Card key={event.id} className="glass-card border-white/5 transition-all">
                     <CardContent className="p-8">
                       <div className="space-y-6">
                         <div>

@@ -265,7 +265,7 @@ export default function VolunteerPage() {
             {benefits.map((benefit, index) => {
               const IconComponent = benefit.icon;
               return (
-                <Card key={index} className="glass-card border-white/10 text-center hover:border-primary-500/30 transition-all group">
+                <Card key={index} className="glass-card border-white/10 text-center group">
                   <CardContent className="p-10">
                     <div className="w-16 h-16 bg-primary-500/10 text-primary-400 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-primary-500/20 transition-all">
                       <IconComponent className="h-8 w-8" />
@@ -361,7 +361,7 @@ export default function VolunteerPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {volunteerOpportunities.map((opportunity, index) => (
-              <Card key={index} className="glass-card border-white/10 overflow-hidden group hover:border-primary-500/30 transition-all duration-300">
+              <Card key={index} className="glass-card border-white/10 overflow-hidden group transition-all duration-300">
                 <div className="relative h-64 w-full">
                   <ImageWithFallback
                     src={opportunity.image}

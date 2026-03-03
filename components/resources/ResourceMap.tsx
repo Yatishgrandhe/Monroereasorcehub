@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Navigation, Search, Map as MapIcon, Layers } from 'lucide-react';
 import Link from 'next/link';
 import { Reveal } from '@/components/ui/Reveal';
+import { Badge } from '@/components/ui/Badge';
 import 'leaflet/dist/leaflet.css';
 
 export function ResourceMap() {
@@ -93,34 +94,36 @@ export function ResourceMap() {
         <section className="section-padding-sm overflow-hidden bg-[#020617] relative">
             <div className="container-custom">
                 <Reveal width="100%">
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-6 gap-6">
-                        <div className="max-w-2xl">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="h-[1px] w-8 bg-primary-500/50" />
-                                <span className="text-xs font-black text-primary-400 uppercase tracking-[0.3em]">Live Resource Discovery</span>
+                    <div className="flex flex-col md:flex-row justify-between items-end mb-10 md:mb-16 gap-8">
+                        <div className="max-w-2xl text-center md:text-left">
+                            <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
+                                <span className="h-[1px] w-8 bg-primary-500/50 hidden md:block" />
+                                <Badge variant="glass" className="bg-primary-500/10 text-primary-400 border-none font-black uppercase tracking-[0.3em] text-[10px] px-4 py-1.5">
+                                    Geo-Discovery
+                                </Badge>
                             </div>
-                            <h2 className="text-white mb-4 text-4xl md:text-5xl font-black tracking-tighter">
-                                Explore Monroe
+                            <h2 className="text-white mb-6 text-5xl md:text-7xl font-black tracking-tighter leading-none">
+                                Explore <span className="text-gradient-logo">Monroe</span>
                             </h2>
-                            <p className="text-xl text-slate-400 leading-relaxed font-medium">
-                                Visualize all community resources in Monroe at a glance. Our interactive map connects you to help, right in your neighborhood.
+                            <p className="text-xl text-slate-400 leading-relaxed font-medium italic">
+                                Visualize all community resources in Monroe at a glance. Helping you find support right in your neighborhood.
                             </p>
                         </div>
-                        <div className="flex bg-white/5 border border-white/10 rounded-2xl p-1.5 self-start md:self-auto backdrop-blur-xl">
-                            <button className="px-6 py-2.5 rounded-xl bg-primary-600 text-white text-sm font-bold shadow-lg shadow-primary-500/20 flex items-center gap-2 transition-all">
+                        <div className="flex bg-white/[0.03] border border-white/10 rounded-[1.5rem] p-1.5 backdrop-blur-3xl shadow-2xl">
+                            <button className="px-6 py-3 rounded-xl bg-primary-600 text-white text-xs font-black uppercase tracking-widest shadow-lg shadow-primary-500/20 flex items-center gap-2 transition-all">
                                 <MapIcon className="w-4 h-4" />
-                                Map View
+                                Map
                             </button>
-                            <Link href="/resources" className="px-6 py-2.5 rounded-xl text-slate-400 text-sm font-bold hover:text-white hover:bg-white/5 transition-all flex items-center gap-2">
+                            <Link href="/resources" className="px-6 py-3 rounded-xl text-slate-500 text-xs font-black uppercase tracking-widest hover:text-white hover:bg-white/5 transition-all flex items-center gap-2">
                                 <Layers className="w-4 h-4" />
-                                Directory
+                                List
                             </Link>
                         </div>
                     </div>
                 </Reveal>
 
                 <Reveal width="100%" delay={0.4}>
-                    <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-[32px] overflow-hidden border border-white/10 shadow-2xl bg-slate-950 group">
+                    <div className="relative w-full aspect-[4/5] sm:aspect-[16/9] md:aspect-[21/9] rounded-[2.5rem] sm:rounded-[4rem] overflow-hidden border border-white/10 shadow-[0_32px_128px_-16px_rgba(0,0,0,0.8)] bg-slate-950 group">
                         {/* Real Leaflet Map Container */}
                         <div
                             id="map"
@@ -128,33 +131,41 @@ export function ResourceMap() {
                             className="absolute inset-0 z-0"
                         />
 
-                        {/* UI Overlays */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none z-10" />
+                        {/* UI Overlays — Optimized for mobile with higher contrast and better positioning */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60 pointer-events-none z-10" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-transparent pointer-events-none z-10" />
 
-                        <div className="absolute bottom-6 left-6 right-6 flex flex-col md:flex-row gap-4 items-center justify-between pointer-events-none z-20">
+                        {/* Top Left Status (Desktop only or very subtle on mobile) */}
+                        <div className="absolute top-6 left-6 z-20 hidden sm:flex">
+                            <Badge variant="glass" className="bg-emerald-500/20 text-emerald-400 border-none font-black uppercase tracking-widest text-[9px] px-3 py-1 animate-pulse">
+                                Live Updates Active
+                            </Badge>
+                        </div>
+
+                        <div className="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between pointer-events-none z-20">
                             <Link
                                 href="/resources/4d6313bd-c692-4bbf-8cbd-e0097cb2c339"
-                                className="bg-slate-900/90 backdrop-blur-2xl border border-white/10 p-5 rounded-3xl flex items-center gap-5 pointer-events-auto shadow-2xl transition-transform hover:scale-[1.02]"
+                                className="bg-slate-900/40 backdrop-blur-3xl border border-white/10 p-4 sm:p-6 rounded-[2rem] flex items-center gap-4 sm:gap-6 pointer-events-auto shadow-2xl transition-all hover:scale-[1.02] hover:bg-slate-900/60 group/spotlight"
                             >
-                                <div className="w-12 h-12 rounded-2xl bg-primary-500/20 flex items-center justify-center border border-primary-500/20">
-                                    <Navigation className="w-6 h-6 text-primary-400" />
+                                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-500/20 flex items-center justify-center border border-primary-500/20 group-hover/spotlight:scale-110 transition-transform">
+                                    <Navigation className="w-6 h-6 sm:w-7 sm:h-7 text-primary-400" />
                                 </div>
-                                <div>
-                                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-1">Regional Spotlight</div>
-                                    <div className="text-base font-black text-white">Union County Crisis Assistance</div>
+                                <div className="text-left">
+                                    <div className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-1">Regional Spotlight</div>
+                                    <div className="text-sm sm:text-lg font-black text-white leading-tight">Union County Crisis Assistance</div>
                                 </div>
                             </Link>
 
-                            <div className="flex gap-3 pointer-events-auto">
-                                <Link href="/resources" className="px-8 py-4 bg-white text-black rounded-2xl font-black text-sm shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 group/btn">
-                                    <Search className="w-4 h-4 transition-transform group-hover/btn:scale-120" />
-                                    Explore Full Directory
+                            <div className="flex pointer-events-auto">
+                                <Link href="/resources" className="w-full sm:w-auto px-8 sm:px-10 py-5 sm:py-6 bg-white text-black rounded-[1.5rem] sm:rounded-3xl font-black text-xs sm:text-sm shadow-[0_20px_40px_-10px_rgba(255,255,255,0.2)] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 group/btn uppercase tracking-widest">
+                                    <Search className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:scale-125" />
+                                    Explore Directory
                                 </Link>
                             </div>
                         </div>
 
                         {/* Decorative vignette */}
-                        <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_120px_rgba(0,0,0,0.5)] z-10" />
+                        <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_120px_rgba(0,0,0,0.4)] z-10" />
                     </div>
                 </Reveal>
             </div>

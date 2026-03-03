@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Utensils, Stethoscope, GraduationCap, Home, Baby, ArrowUpRight } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
+import { Badge } from '@/components/ui/Badge';
 
 const categories = [
     { name: 'Food Assistance', icon: Utensils, description: 'Local food banks and pantries', href: '/resources?category=Food Assistance', color: '#10B981' },
@@ -16,58 +17,56 @@ const categories = [
 
 export function CategoryGrid() {
     return (
-        <section className="py-24 bg-[#020617] overflow-visible">
-            <div className="container-custom">
+        <section className="py-24 bg-[#020617] relative overflow-hidden">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.03),transparent_70%)] pointer-events-none" />
+
+            <div className="container-custom relative z-10">
                 <Reveal width="100%">
-                    <div className="mb-16">
-                        <h2 className="text-4xl md:text-5xl font-black text-white mb-6 font-display uppercase tracking-tight">
-                            Community <span className="text-primary-400">Pillars</span>
+                    <div className="mb-20 text-center md:text-left">
+                        <div className="flex items-center justify-center md:justify-start gap-4 mb-6">
+                            <div className="h-px w-12 bg-primary-500/50 hidden md:block" />
+                            <Badge variant="glass" className="bg-primary-500/10 text-primary-400 border-none font-black uppercase tracking-[0.3em] text-[10px] px-5 py-2">
+                                Explorer
+                            </Badge>
+                        </div>
+                        <h2 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-none">
+                            Community <span className="text-gradient-logo">Pillars</span>
                         </h2>
-                        <p className="text-xl text-slate-400 max-w-2xl leading-relaxed">
-                            Direct access to the essential services that form the foundation of our community.
+                        <p className="text-xl text-slate-400 max-w-2xl leading-relaxed italic font-medium">
+                            Direct access to essential services forming the foundation of our community.
                         </p>
                     </div>
                 </Reveal>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
                     {categories.map((cat, i) => (
                         <Reveal key={cat.name} delay={i * 0.1}>
                             <Link
                                 href={cat.href}
-                                className="group relative h-full flex flex-col p-8 rounded-[32px] bg-white/[0.03] border border-white/10 backdrop-blur-xl 
-                  hover:-translate-y-2 hover:border-primary-500/30 transition-all duration-500 overflow-hidden"
+                                className="group relative h-full flex flex-col p-6 sm:p-10 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl 
+                  hover:-translate-y-2 hover:border-primary-500/40 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden shadow-premium hover:shadow-premium-hover"
                             >
-                                {/* Uniform hover overlay — same color across entire card */}
-                                <div
-                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[32px]"
-                                    style={{ background: `${cat.color}12` }}
-                                />
-
-                                <div className="relative z-10">
+                                <div className="relative z-10 flex flex-col items-center sm:items-start text-center sm:text-left h-full">
                                     <div
-                                        className="w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/10"
+                                        className="w-14 h-14 sm:w-20 sm:h-20 rounded-[1.5rem] flex items-center justify-center mb-6 sm:mb-10 transition-all duration-700 group-hover:scale-110 group-hover:rotate-6 shadow-2xl border border-white/10 relative overflow-hidden group/icon"
                                         style={{ backgroundColor: `${cat.color}15`, color: cat.color }}
                                     >
-                                        <cat.icon className="h-8 w-8" />
+                                        <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity" />
+                                        <cat.icon className="h-6 w-6 sm:h-10 sm:w-10 relative z-10" />
                                     </div>
 
-                                    <h3 className="text-xl font-black mb-4 text-white group-hover:text-primary-300 transition-colors uppercase tracking-tight font-display">
+                                    <h3 className="text-lg sm:text-2xl font-black mb-3 sm:mb-6 text-white group-hover:text-primary-300 transition-colors uppercase tracking-tight leading-tight">
                                         {cat.name}
                                     </h3>
 
-                                    <p className="text-sm text-slate-400 leading-relaxed mb-6">
+                                    <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-8 font-medium line-clamp-2 md:line-clamp-none">
                                         {cat.description}
                                     </p>
 
-                                    <div className="mt-auto flex items-center text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-white transition-colors">
-                                        Explore Resources
-                                        <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                                    <div className="mt-auto flex items-center text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-white transition-colors">
+                                        Explore Hub
+                                        <ArrowUpRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                     </div>
-                                </div>
-
-                                {/* Decorative Elements */}
-                                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
-                                    <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: cat.color }} />
                                 </div>
                             </Link>
                         </Reveal>

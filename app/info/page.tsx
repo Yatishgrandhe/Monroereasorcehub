@@ -253,7 +253,7 @@ export default function InfoPage() {
             {documents.map((doc, index) => {
               const IconComponent = doc.icon;
               return (
-                <Card key={index} className="glass-card border-white/10 group hover:border-primary-500/30 transition-all duration-500 p-2">
+                <Card key={index} className="glass-card border-white/10 group p-2">
                   <CardHeader className="p-8">
                     <div className="flex items-center gap-5 mb-4 font-black">
                       <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", doc.color)}>
@@ -333,7 +333,7 @@ export default function InfoPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {section.items.map((item, itemIndex) => (
-                    <Card key={itemIndex} className="glass-card border-white/5 hover:border-primary-500/30 group transition-all duration-300">
+                    <Card key={itemIndex} className="glass-card border-white/5 group transition-all duration-300">
                       <CardHeader className="p-8 pb-0">
                         <div className="flex items-start justify-between gap-4 mb-4">
                           <CardTitle className="text-xl text-white font-black tracking-tight group-hover:text-primary-400 transition-colors">

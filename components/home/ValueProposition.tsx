@@ -96,13 +96,13 @@ export function ValueProposition({ className }: { className?: string }) {
               viewport={{ once: true, margin: '-50px' }}
               transition={{ delay: i * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                "group relative p-8 md:p-10 rounded-[32px] border border-white/10 backdrop-blur-3xl overflow-hidden transition-all duration-700",
-                "hover:border-primary-500/30 hover:shadow-2xl hover:shadow-primary-500/5",
+                "group relative p-8 md:p-10 rounded-[32px] bg-white/[0.03] border border-white/10 backdrop-blur-3xl overflow-hidden transition-all duration-500",
+                "hover:border-primary-500/40 hover:bg-white/[0.06] hover:shadow-premium-hover",
                 item.className
               )}
             >
-              {/* Animated Gradient Background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              {/* Uniform hover overlay — same as glass-card everywhere */}
+              <div className="absolute inset-0 bg-white/[0.06] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden />
 
               <div className="relative z-10 h-full flex flex-col">
                 <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-white/5 shadow-inner">
