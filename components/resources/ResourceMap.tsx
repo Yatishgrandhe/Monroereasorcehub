@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Navigation, Search, Map as MapIcon, Layers } from 'lucide-react';
+import { Search, Map as MapIcon, Layers } from 'lucide-react';
 import Link from 'next/link';
 import { Reveal } from '@/components/ui/Reveal';
 import { Badge } from '@/components/ui/Badge';
@@ -33,6 +33,13 @@ export function ResourceMap() {
 
             // Add Zoom Control at the top right
             L.control.zoom({ position: 'topright' }).addTo(map);
+
+            // Click on empty map area opens full map page in new tab (marker clicks are consumed by markers)
+            map.on('click', () => {
+                window.open('/resources/map', '_blank', 'noopener,noreferrer');
+            });
+            map.getContainer().style.cursor = 'pointer';
+            map.getContainer().setAttribute('title', 'Click to open full map in new tab');
 
             // Load Data from Supabase
             try {
@@ -73,6 +80,7 @@ export function ResourceMap() {
                 </a>
               </div>
             `);
+                        marker.on('click', (e: any) => L.DomEvent.stopPropagation(e));
                     });
                 }
             } catch (error) {
@@ -94,7 +102,7 @@ export function ResourceMap() {
         <section className="section-padding-sm overflow-hidden bg-[#020617] relative">
             <div className="container-custom">
                 <Reveal width="100%">
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-10 md:mb-16 gap-8">
+                    <div className="flex flex-col md:flex-row justify-between items-end mb-6 md:mb-10 gap-6">
                         <div className="max-w-2xl text-center md:text-left">
                             <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
                                 <span className="h-[1px] w-8 bg-primary-500/50 hidden md:block" />
@@ -102,20 +110,20 @@ export function ResourceMap() {
                                     Geo-Discovery
                                 </Badge>
                             </div>
-                            <h2 className="text-white mb-6 text-5xl md:text-7xl font-black tracking-tighter leading-none">
+                            <h2 className="text-white mb-4 text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-none">
                                 Explore <span className="text-gradient-logo">Monroe</span>
                             </h2>
-                            <p className="text-xl text-slate-400 leading-relaxed font-medium italic">
+                            <p className="text-base md:text-lg text-slate-400 leading-relaxed font-medium">
                                 Visualize all community resources in Monroe at a glance. Helping you find support right in your neighborhood.
                             </p>
                         </div>
-                        <div className="flex bg-white/[0.03] border border-white/10 rounded-[1.5rem] p-1.5 backdrop-blur-3xl shadow-2xl">
-                            <button className="px-6 py-3 rounded-xl bg-primary-600 text-white text-xs font-black uppercase tracking-widest shadow-lg shadow-primary-500/20 flex items-center gap-2 transition-all">
-                                <MapIcon className="w-4 h-4" />
+                        <div className="flex bg-white/[0.03] border border-white/10 rounded-xl sm:rounded-[1.25rem] md:rounded-[1.5rem] p-1 sm:p-1.5 backdrop-blur-3xl shadow-2xl">
+                            <button className="px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 md:py-3 rounded-lg sm:rounded-xl bg-primary-600 text-white text-[10px] sm:text-xs font-black uppercase tracking-widest shadow-lg shadow-primary-500/20 flex items-center gap-1.5 sm:gap-2 transition-all">
+                                <MapIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" />
                                 Map
                             </button>
-                            <Link href="/resources" className="px-6 py-3 rounded-xl text-slate-500 text-xs font-black uppercase tracking-widest hover:text-white hover:bg-white/5 transition-all flex items-center gap-2">
-                                <Layers className="w-4 h-4" />
+                            <Link href="/resources" className="px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 md:py-3 rounded-lg sm:rounded-xl text-slate-500 text-[10px] sm:text-xs font-black uppercase tracking-widest hover:text-white hover:bg-white/5 transition-all flex items-center gap-1.5 sm:gap-2">
+                                <Layers className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" />
                                 List
                             </Link>
                         </div>
@@ -135,30 +143,21 @@ export function ResourceMap() {
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60 pointer-events-none z-10" />
                         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-transparent pointer-events-none z-10" />
 
-                        {/* Top Left Status (Desktop only or very subtle on mobile) */}
-                        <div className="absolute top-6 left-6 z-20 hidden sm:flex">
-                            <Badge variant="glass" className="bg-emerald-500/20 text-emerald-400 border-none font-black uppercase tracking-widest text-[9px] px-3 py-1 animate-pulse">
-                                Live Updates Active
+                        {/* Top Left Status — responsive badge */}
+                        <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-6 md:left-6 z-20 hidden sm:flex">
+                            <Badge variant="glass" className="bg-emerald-500/20 text-emerald-400 border-none font-black uppercase tracking-widest text-[8px] md:text-[9px] px-2 py-0.5 md:px-3 md:py-1 animate-pulse">
+                                Live
                             </Badge>
                         </div>
 
-                        <div className="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between pointer-events-none z-20">
-                            <Link
-                                href="/resources/4d6313bd-c692-4bbf-8cbd-e0097cb2c339"
-                                className="bg-slate-900/40 backdrop-blur-3xl border border-white/10 p-4 sm:p-6 rounded-[2rem] flex items-center gap-4 sm:gap-6 pointer-events-auto shadow-2xl transition-all hover:scale-[1.02] hover:bg-slate-900/60 group/spotlight"
-                            >
-                                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-500/20 flex items-center justify-center border border-primary-500/20 group-hover/spotlight:scale-110 transition-transform">
-                                    <Navigation className="w-6 h-6 sm:w-7 sm:h-7 text-primary-400" />
-                                </div>
-                                <div className="text-left">
-                                    <div className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-1">Regional Spotlight</div>
-                                    <div className="text-sm sm:text-lg font-black text-white leading-tight">Union County Crisis Assistance</div>
-                                </div>
-                            </Link>
-
-                            <div className="flex pointer-events-auto">
-                                <Link href="/resources" className="w-full sm:w-auto px-8 sm:px-10 py-5 sm:py-6 bg-white text-black rounded-[1.5rem] sm:rounded-3xl font-black text-xs sm:text-sm shadow-[0_20px_40px_-10px_rgba(255,255,255,0.2)] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 group/btn uppercase tracking-widest">
-                                    <Search className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:scale-125" />
+                        {/* Bottom bar — Explore Directory only; click map opens full map */}
+                        <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 md:bottom-6 md:left-6 md:right-6 flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center justify-end pointer-events-none z-20">
+                            <div className="flex pointer-events-auto w-full sm:w-auto">
+                                <Link
+                                    href="/resources"
+                                    className="w-full sm:w-auto px-4 py-3 sm:px-6 sm:py-3.5 md:px-8 md:py-4 bg-white text-black rounded-xl sm:rounded-2xl md:rounded-[1.5rem] font-black text-[10px] sm:text-xs md:text-sm shadow-[0_20px_40px_-10px_rgba(255,255,255,0.2)] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 sm:gap-3 uppercase tracking-widest"
+                                >
+                                    <Search className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 flex-shrink-0" />
                                     Explore Directory
                                 </Link>
                             </div>
