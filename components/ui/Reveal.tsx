@@ -7,12 +7,15 @@ interface RevealProps {
   children: React.ReactNode;
   width?: 'fit-content' | '100%';
   delay?: number;
+  className?: string;
 }
 
-export function Reveal({ children, width = 'fit-content', delay = 0.15 }: RevealProps) {
+export function Reveal({ children, width = 'fit-content', delay = 0.15, className }: RevealProps) {
   return (
-    <div style={{ position: 'relative', width, overflow: 'visible' }}>
+    <div className={className} style={{ position: 'relative', width, overflow: 'visible' }}>
       <motion.div
+        className={className?.includes('h-full') ? 'h-full' : undefined}
+        style={className?.includes('h-full') ? { height: '100%' } : undefined}
         variants={{
           hidden: { opacity: 0, y: 20 },
           visible: { opacity: 1, y: 0 },

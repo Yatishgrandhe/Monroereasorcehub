@@ -32,7 +32,7 @@ export function SpotlightBento({ resources }: SpotlightBentoProps) {
   const hasContent = resources.filter((r) => r.is_spotlighted).length > 0;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)]">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 auto-rows-[minmax(160px,auto)]">
       {hasContent ? (
         <div className="lg:col-span-4">
           <div className="rounded-2xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-sm">

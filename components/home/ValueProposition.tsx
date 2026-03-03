@@ -57,15 +57,15 @@ export function ValueProposition({ className }: { className?: string }) {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container-custom relative z-10">
-        <div className="text-left max-w-3xl mb-6 md:mb-10">
+        <div className="text-left max-w-3xl mb-8 md:mb-10">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex items-center gap-3 mb-6"
+            className="flex items-center gap-3 mb-4"
           >
-            <div className="h-[1px] w-12 bg-primary-500/50" />
-            <span className="text-xs font-black text-primary-400 uppercase tracking-[0.3em]">
+            <div className="h-[1px] w-10 bg-primary-500/50" />
+            <span className="text-[10px] md:text-xs font-black text-primary-400 uppercase tracking-[0.25em]">
               Why Monroe Resource Hub
             </span>
           </motion.div>
@@ -73,7 +73,7 @@ export function ValueProposition({ className }: { className?: string }) {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-6 text-white text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter"
+            className="mb-4 text-white text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter"
           >
             Everything you need,<br />in one place
           </motion.h2>
@@ -81,22 +81,22 @@ export function ValueProposition({ className }: { className?: string }) {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-xl text-slate-400 leading-relaxed font-medium"
+            className="text-base md:text-lg text-slate-400 leading-relaxed font-medium"
           >
             We connect Monroe residents with essential resources, opportunities, and community support.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 auto-rows-fr">
           {valueItems.map((item, i) => (
             <motion.div
               key={item.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
-              transition={{ delay: i * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                "group relative p-8 md:p-10 rounded-[32px] bg-white/[0.03] border border-white/10 backdrop-blur-3xl overflow-hidden transition-all duration-500",
+                "group relative p-6 md:p-7 rounded-2xl md:rounded-[1.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl overflow-hidden transition-all duration-500",
                 "hover:border-primary-500/40 hover:bg-white/[0.06] hover:shadow-premium-hover",
                 item.className
               )}
@@ -105,13 +105,13 @@ export function ValueProposition({ className }: { className?: string }) {
               <div className="absolute inset-0 bg-white/[0.06] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden />
 
               <div className="relative z-10 h-full flex flex-col">
-                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-white/5 shadow-inner">
-                  <item.icon className={cn('h-7 w-7', item.color)} />
+                <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-5 md:mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-white/5 shadow-inner">
+                  <item.icon className={cn('h-6 w-6', item.color)} />
                 </div>
-                <h3 className="text-2xl md:text-3xl font-black mb-4 text-white tracking-tighter group-hover:text-primary-400 transition-colors">
+                <h3 className="text-xl md:text-2xl font-black mb-2 md:mb-3 text-white tracking-tighter group-hover:text-primary-400 transition-colors">
                   {item.title}
                 </h3>
-                <p className="text-lg text-slate-400 leading-relaxed font-medium group-hover:text-slate-300 transition-colors">
+                <p className="text-sm md:text-base text-slate-400 leading-relaxed font-medium group-hover:text-slate-300 transition-colors">
                   {item.description}
                 </p>
               </div>

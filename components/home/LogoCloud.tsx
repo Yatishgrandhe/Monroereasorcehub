@@ -28,13 +28,13 @@ const PLACEHOLDER_LOGOS = [
 
 export function LogoCloud({ logos = PLACEHOLDER_LOGOS, className, title = 'Trusted by our community' }: LogoCloudProps) {
   return (
-    <section className={cn('py-12 sm:py-16 overflow-hidden', className)}>
+    <section className={cn('py-8 md:py-10 overflow-hidden', className)}>
       <div className="container-custom">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center text-sm font-semibold uppercase tracking-wider text-slate-400 mb-6"
+          className="text-center text-xs md:text-sm font-semibold uppercase tracking-wider text-slate-400 mb-4 md:mb-5"
         >
           {title}
         </motion.p>
@@ -43,7 +43,7 @@ export function LogoCloud({ logos = PLACEHOLDER_LOGOS, className, title = 'Trust
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 sm:gap-x-16 sm:gap-y-10"
+          className="flex flex-wrap justify-center items-center gap-x-8 gap-y-5 sm:gap-x-12 sm:gap-y-6"
         >
           {logos.map((logo, i) => (
             <motion.span

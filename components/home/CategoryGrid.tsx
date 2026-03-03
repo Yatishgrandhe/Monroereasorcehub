@@ -40,12 +40,13 @@ export function CategoryGrid() {
 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6 md:gap-6 lg:gap-8">
                     {categories.map((cat, i) => (
-                        <Reveal key={cat.name} delay={i * 0.1}>
-                            <Link
-                                href={cat.href}
-                                className="group relative h-full min-h-[200px] sm:min-h-[220px] flex flex-col p-5 sm:p-6 md:p-6 rounded-2xl md:rounded-[1.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl
-                                  hover:-translate-y-2 hover:border-primary-500/40 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden shadow-premium hover:shadow-premium-hover"
-                            >
+                        <div key={cat.name} className="min-h-0 h-full">
+                            <Reveal delay={i * 0.1} className="h-full" width="100%">
+                                <Link
+                                    href={cat.href}
+                                    className="group relative h-full min-h-[200px] sm:min-h-[220px] flex flex-col p-5 sm:p-6 md:p-6 rounded-2xl md:rounded-[1.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl
+                                      hover:-translate-y-2 hover:border-primary-500/40 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden shadow-premium hover:shadow-premium-hover"
+                                >
                                 <div className="relative z-10 flex flex-col items-center sm:items-start text-center sm:text-left h-full flex-1">
                                     <div
                                         className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl md:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-lg border border-white/10 relative overflow-hidden group/icon"
@@ -69,7 +70,8 @@ export function CategoryGrid() {
                                     </div>
                                 </div>
                             </Link>
-                        </Reveal>
+                            </Reveal>
+                        </div>
                     ))}
                 </div>
             </div>
