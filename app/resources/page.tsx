@@ -17,7 +17,7 @@ export default function ResourcesPage() {
             <div className="max-w-4xl">
               <Badge variant="glass" className="mb-6 border-primary-500/20 text-primary-400 font-black tracking-widest uppercase text-[10px] px-4 py-1.5 backdrop-blur-md">Resources</Badge>
               <h1 className="text-6xl md:text-7xl font-black mb-8 tracking-tighter text-white">
-                Explore <span className="text-gradient-logo italic font-serif">Community</span>.
+                <span className="text-gradient-logo">Resources</span>
               </h1>
 
               <div className="relative group max-w-2xl">

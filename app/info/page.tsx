@@ -226,7 +226,7 @@ export default function InfoPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl sm:text-7xl lg:text-9xl font-black text-white mb-8 tracking-tighter leading-none"
           >
-            Terminal <span className="text-gradient-logo">Info</span>
+            <span className="text-gradient-logo">Information</span>
           </motion.h1>
           <p className="text-xl md:text-2xl mb-12 text-slate-400 max-w-3xl mx-auto leading-relaxed">
             Full technical transparency on our architecture, data sources, and legal documentation.

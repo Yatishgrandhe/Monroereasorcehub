@@ -136,8 +136,7 @@ export default function AboutPage() {
               </Badge>
             </div>
             <h1 className="text-6xl md:text-9xl font-black text-white mb-8 tracking-tighter leading-none">
-              Elite <span className="text-gradient-logo">Craft</span>,<br />
-              Local <span className="text-gradient-logo">Impact</span>.
+              <span className="text-gradient-logo">About Us</span>
             </h1>
             <p className="text-xl md:text-2xl mb-12 text-slate-400 max-w-3xl mx-auto leading-relaxed font-medium">
               A specialized chapter of student innovators from the <span className="text-white">Central Academy of Technology and Arts</span>, rewriting the rules of community resource navigation.

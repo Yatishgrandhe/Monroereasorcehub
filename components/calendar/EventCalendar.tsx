@@ -209,7 +209,7 @@ export function EventCalendar() {
               <Sparkles className="w-3.5 h-3.5 mr-2" /> Events
             </Badge>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
-              Event <span className="text-gradient-logo">Hub</span>
+              <span className="text-gradient-logo">Events</span>
             </h1>
             <p className="text-xl text-slate-400 max-w-2xl leading-relaxed">Discover workshops, social gatherings, and community initiatives driving Monroe forward.</p>
           </motion.div>

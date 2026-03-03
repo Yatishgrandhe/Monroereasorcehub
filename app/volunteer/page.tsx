@@ -213,7 +213,7 @@ export default function VolunteerPage() {
               </Badge>
             </div>
             <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
-              Lend a <span className="text-gradient-logo">Hand</span>.
+              <span className="text-gradient-logo">Volunteer</span>
             </h1>
             <p className="text-xl md:text-2xl mb-12 text-slate-400 max-w-3xl mx-auto leading-relaxed">
               Want to help make Monroe a better place? There are lots of ways to pitch in, and we can help you find something
