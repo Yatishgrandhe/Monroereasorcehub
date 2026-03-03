@@ -4,7 +4,10 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
-  title: 'Monroe Resource Hub - Community Resources & Services',
+  title: {
+    template: '%s | Monroe Resource Hub',
+    default: 'Monroe Resource Hub - Community Resources & Services',
+  },
   description: 'Connecting Monroe, North Carolina residents with vital community resources, services, and opportunities. Find food assistance, healthcare, education, housing, and more.',
   keywords: 'Monroe NC, community resources, food assistance, healthcare, education, housing, family support, senior services',
   authors: [{ name: 'Central Academy of Technology and Arts TSA Chapter' }],

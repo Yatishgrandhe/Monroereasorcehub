@@ -39,12 +39,12 @@ export async function generateMetadata({ params }: ResourceDetailPageProps) {
 
   if (!resource) {
     return {
-      title: 'Resource Not Found - Monroe Resource Hub',
+      title: 'Resource Not Found',
     };
   }
 
   return {
-    title: `${resource.name} - Monroe Resource Hub`,
+    title: resource.name,
     description: resource.description || `Learn more about ${resource.name} and their services in Monroe, North Carolina.`,
     openGraph: {
       title: resource.name,
