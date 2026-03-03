@@ -58,7 +58,7 @@ export default function ResourceMapPage() {
                   <span class="w-1 h-1 rounded-full bg-slate-500"></span>
                   ${resource.address || 'Monroe, NC'}
                 </div>
-                <a href="/resources/${resource.id}" class="w-full py-2.5 bg-primary-600 hover:bg-primary-500 text-white rounded-xl text-xs font-bold transition-all active:scale-[0.97] flex items-center justify-center gap-2 border-none cursor-pointer text-center no-underline">
+                <a href="/resources/${resource.id}" class="map-popup-view-btn">
                   View Full Details
                 </a>
               </div>
