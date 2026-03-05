@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   Save, Download, Sparkles, User, Briefcase, GraduationCap,
@@ -43,6 +43,7 @@ const initialResumeData: ResumeData = {
 
 export function ResumeBuilder() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTemplate, setSelectedTemplate] = useState('modern');
@@ -965,8 +966,17 @@ export function ResumeBuilder() {
             {!isViewingMode && (
               <div className="mt-12 flex justify-between">
                 <Button variant="ghost" onClick={() => setCurrentStep(Math.max(1, currentStep - 1))} disabled={currentStep === 1} className="text-slate-400">Back</Button>
-                <Button variant="gradient" onClick={() => setCurrentStep(Math.min(6, currentStep + 1))} className="rounded-full px-8">
-                  {currentStep === 6 ? 'Finalize' : 'Next Step'}
+                <Button variant="gradient"
+                  onClick={() => {
+                    if (currentStep === 7) {
+                      router.push('/career/saved-resumes');
+                    } else {
+                      setCurrentStep(currentStep + 1);
+                    }
+                  }}
+                  className="rounded-full px-8"
+                >
+                  {currentStep === 7 ? 'Finalize' : 'Next Step'}
                 </Button>
               </div>
             )}
