@@ -249,9 +249,9 @@ export default function SavedResumesPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -8 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.5 }}
               >
-                <Card className="glass-card border-white/10 hover:border-primary-500/50 transition-all duration-500 group overflow-hidden rounded-[2.5rem] h-full flex flex-col">
+                <Card className="glass-card border-white/10 hover:border-primary-500/50 transition-all duration-500 group overflow-hidden rounded-[2.5rem] h-full flex flex-col hover:shadow-2xl hover:shadow-primary-500/10">
                   <CardHeader className="p-8 pb-4">
                     <div className="flex items-start justify-between">
                       <div className="flex-1 min-w-0">

@@ -150,20 +150,22 @@ export default function CareerCenterPage() {
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -8 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
               >
-                <Card className="glass-card p-8 h-full border-white/10 group transition-all duration-300">
-                  <div className={`w-14 h-14 ${feature.bg} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary-500/20 transition-all`}>
-                    <feature.icon className={`h-7 w-7 ${feature.color}`} />
+                <Card className="glass-card p-10 h-full border-white/10 group transition-all duration-500 hover:border-primary-500/50 hover:shadow-2xl hover:shadow-primary-500/10 rounded-[2.5rem] relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 blur-3xl rounded-full -mr-16 -mt-16 group-hover:bg-primary-500/10 transition-colors" />
+                  <div className={`w-16 h-16 ${feature.bg} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary-500/20 transition-all border border-white/5`}>
+                    <feature.icon className={`h-8 w-8 ${feature.color}`} />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary-300 transition-colors">{feature.title}</h3>
-                  <p className="text-slate-400 leading-relaxed mb-8">
+                  <h3 className="text-2xl font-black text-white mb-4 group-hover:text-primary-300 transition-colors uppercase tracking-tight">{feature.title}</h3>
+                  <p className="text-slate-400 leading-relaxed mb-10 font-medium">
                     {feature.description}
                   </p>
-                  <Button variant="outline" className="w-full h-12 rounded-xl border-white/10 text-white group-hover:bg-white/10" asChild href={feature.href}>
+                  <Button variant="outline" className="w-full h-14 rounded-2xl border-white/10 text-white group-hover:bg-white/10 font-bold uppercase tracking-widest text-[10px] h-12" asChild href={feature.href}>
                     <span className="flex items-center gap-2">
-                      Access Tool <ArrowRight className="h-4 w-4" />
+                      Access Tool <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </span>
                   </Button>
                 </Card>

@@ -1,0 +1,3 @@
+# For scripts/generate_tsa_pdfs.py (TSA PDF generation)
+reportlab>=4.0.0
+pillow>=10.0.0
