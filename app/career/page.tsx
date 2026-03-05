@@ -86,28 +86,30 @@ export default function CareerCenterPage() {
               </p>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-12"
-            >
-              <Card className="bg-white/[0.04] backdrop-blur-xl border border-white/10 text-white max-w-2xl mx-auto rounded-3xl p-2">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="flex items-center gap-4 text-left">
-                    <div className="w-12 h-12 rounded-2xl bg-primary-500/20 flex items-center justify-center shrink-0">
-                      <Info className="h-6 w-6 text-primary-400" />
+            {!user && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="mb-12"
+              >
+                <Card className="bg-white/[0.04] backdrop-blur-xl border border-white/10 text-white max-w-2xl mx-auto rounded-3xl p-2">
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="flex items-center gap-4 text-left">
+                      <div className="w-12 h-12 rounded-2xl bg-primary-500/20 flex items-center justify-center shrink-0">
+                        <Info className="h-6 w-6 text-primary-400" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-lg mb-1">Open Access for Everyone</p>
+                        <p className="text-sm text-slate-400">
+                          No account required to start. Your progress is saved locally in your browser immediately.
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-bold text-lg mb-1">Open Access for Everyone</p>
-                      <p className="text-sm text-slate-400">
-                        No account required to start. Your progress is saved locally in your browser immediately.
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
