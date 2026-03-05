@@ -1,7 +1,8 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'About Us',
+    description: 'Learn about the Monroe Resource Hub and our mission.',
 };
 
 export default function AboutLayout({
@@ -9,5 +10,5 @@ export default function AboutLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return children;
+    return <>{children}</>;
 }

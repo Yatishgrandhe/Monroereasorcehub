@@ -1,7 +1,8 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Job Board',
+    description: 'Find local jobs in Monroe and Union County.',
 };
 
 export default function JobsLayout({
@@ -9,5 +10,5 @@ export default function JobsLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return children;
+    return <>{children}</>;
 }

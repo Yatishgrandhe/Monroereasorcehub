@@ -1,7 +1,8 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Resume Builder',
+    description: 'Build a professional AI-enhanced resume.',
 };
 
 export default function ResumeBuilderLayout({
@@ -9,5 +10,5 @@ export default function ResumeBuilderLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return children;
+    return <>{children}</>;
 }

@@ -87,9 +87,29 @@ if SIGNATURE_FONT == 'Helvetica-BoldOblique':
     print('Note: No cursive TTF found. Add scripts/fonts/DancingScript-Regular.ttf for signature style.', file=sys.stderr)
 
 
+from PIL import Image
+
+def _get_optimized_logo():
+    """Create a smaller version of the logo for PDF embedding to save space."""
+    opt_logo_path = os.path.join(OUT_DIR, 'logo_opt.png')
+    if os.path.exists(LOGO_PATH):
+        try:
+            os.makedirs(OUT_DIR, exist_ok=True)
+            with Image.open(LOGO_PATH) as img:
+                # Resize to 256px max dimension (plenty for a small PDF icon)
+                img.thumbnail((256, 256))
+                img.save(opt_logo_path, optimize=True)
+            return opt_logo_path
+        except Exception as e:
+            print(f"Logo optimization failed: {e}")
+    return LOGO_PATH
+
+OPT_LOGO = _get_optimized_logo()
+
 def draw_black_background(canvas, _doc):
-    """Draw full-page black background."""
+    """Draw full-page black background and enable compression."""
     canvas.saveState()
+    canvas.setPageCompression(1) # Enable PDF compression
     canvas.setFillColor(BG_BLACK)
     canvas.rect(0, 0, letter[0], letter[1], fill=1, stroke=0)
     canvas.restoreState()
@@ -100,8 +120,9 @@ def draw_header(canvas, _doc, title_text, subtitle_text='Monroe Resource Hub | C
     canvas.saveState()
     page_w, page_h = letter[0], letter[1]
     # Logo at left
-    if os.path.exists(LOGO_PATH):
-        canvas.drawImage(LOGO_PATH, MARGIN, page_h - MARGIN - LOGO_SIZE, width=LOGO_SIZE, height=LOGO_SIZE)
+    logo_to_use = OPT_LOGO if os.path.exists(OPT_LOGO) else LOGO_PATH
+    if os.path.exists(logo_to_use):
+        canvas.drawImage(logo_to_use, MARGIN, page_h - MARGIN - LOGO_SIZE, width=LOGO_SIZE, height=LOGO_SIZE, preserveAspectRatio=True, mask='auto')
     # Title to the right of logo
     canvas.setFillColor(WHITE)
     canvas.setFont('Helvetica-Bold', 19)

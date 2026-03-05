@@ -1,7 +1,8 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Saved Resumes',
+    description: 'Manage and export your saved resumes.',
 };
 
 export default function SavedResumesLayout({
@@ -9,5 +10,5 @@ export default function SavedResumesLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return children;
+    return <>{children}</>;
 }

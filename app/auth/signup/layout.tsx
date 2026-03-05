@@ -1,7 +1,8 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Sign Up',
+    description: 'Create a new account on the Monroe Resource Hub.',
 };
 
 export default function SignUpLayout({
@@ -9,5 +10,5 @@ export default function SignUpLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return children;
+    return <>{children}</>;
 }
