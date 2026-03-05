@@ -36,7 +36,7 @@ export async function generateSummaryAction(
       summary = await generateProfessionalSummary(experience, targetJob, industry, experienceLevel);
     } catch (error) {
       console.error('Gemini failed, using local AI fallback:', error);
-      summary = generateProfessionalSummaryLocal(experience as ResumeExperience[], targetJob);
+      summary = generateProfessionalSummaryLocal(experience as ResumeExperience[], targetJob, industry, experienceLevel);
     }
 
     return { success: true, summary };

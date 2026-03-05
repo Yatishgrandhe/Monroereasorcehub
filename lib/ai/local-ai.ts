@@ -42,62 +42,56 @@ export interface ResumeData {
  * Generate professional summary using enhanced local AI
  * Analyzes experience context, industry, and key achievements
  */
-export function generateProfessionalSummaryLocal(experience: ResumeExperience[], targetJob?: string): string {
+export function generateProfessionalSummaryLocal(experience: ResumeExperience[], targetJob?: string, industry?: string, experienceLevel?: string): string {
+  // Extract key information
+  const years = calculateTotalYears(experience);
+  const topPosition = experience[0]?.position || targetJob || 'Professional';
+  const currentIndustry = industry || analyzeIndustry(experience) || 'the industry';
+  const level = experienceLevel || determineExperienceLevelFromYears(years);
+  const skills = extractAdvancedSkills(experience, targetJob);
+  const relevantSkills = skills.slice(0, 3).join(', ') || 'strategic planning, operational excellence, and team collaboration';
+
   if (experience.length === 0) {
-    return 'Experienced professional seeking to leverage expertise in a challenging new role.';
+    return generateZeroExperienceSummary(topPosition, currentIndustry, level, relevantSkills);
   }
 
-  // Extract key information from experience
-  const totalYears = calculateTotalYears(experience);
-  const industries = extractUniqueValues(experience, 'company');
-  const positions = experience.map(exp => exp.position);
-  const topPosition = experience[0]?.position || 'professional';
-
-  // Analyze achievements and impact
+  // Analyze achievements and profile
   const achievements = extractAchievements(experience);
   const hasQuantifiedResults = achievements.some(ach => /\d+/.test(ach));
-  const keySkills = extractAdvancedSkills(experience, targetJob);
-  const industry = analyzeIndustry(experience);
-
-  // Generate context-aware summary
-  const impactLevel = assessImpactLevel(experience);
   const leadershipExperience = hasLeadershipExperience(experience);
+  const impactLevel = assessImpactLevel(experience);
 
-  // Build personalized summary based on profile
-  let summary = '';
-
+  // construction
   if (targetJob) {
-    summary = generateTargetedSummary(topPosition, totalYears, experience, keySkills, targetJob);
+    return generateTargetedSummary(topPosition, years, currentIndustry, relevantSkills, targetJob);
   } else if (hasQuantifiedResults && impactLevel === 'high') {
-    summary = generateImpactDrivenSummary(topPosition, totalYears, achievements, keySkills, industry);
+    return generateImpactDrivenSummary(topPosition, years, relevantSkills, currentIndustry);
   } else if (leadershipExperience) {
-    summary = generateLeadershipSummary(topPosition, totalYears, experience, keySkills);
-  } else {
-    summary = generateStandardSummary(topPosition, totalYears, experience, keySkills, industry);
+    return generateLeadershipSummary(topPosition, years, relevantSkills, currentIndustry);
   }
 
-  return summary;
+  return generateStandardSummary(topPosition, years, relevantSkills, currentIndustry);
 }
 
-function generateTargetedSummary(position: string, years: number, experience: ResumeExperience[], skills: string[], targetJob: string): string {
-  const relevantSkills = skills.slice(0, 4).join(', ');
-  return `Results-driven ${position} with ${years}+ years of experience in ${analyzeIndustry(experience)}. Proven expertise in ${relevantSkills} with a track record of delivering measurable impact. Seeking to contribute expertise in ${targetJob.toLowerCase()} role.`;
+function generateZeroExperienceSummary(position: string, industry: string, level: string, skills: string[] | string): string {
+  const skillsStr = typeof skills === 'string' ? skills : skills.slice(0, 3).join(', ');
+  return `Highly motivated ${position} with a strong foundation in ${industry} and a dedicated focus on professional excellence. Committed to leveraging core competencies in ${skillsStr} to drive immediate value in a ${level.toLowerCase()} capacity. Eager to contribute energy and technical acumen to a high-performing team while accelerating professional growth.`;
 }
 
-function generateImpactDrivenSummary(position: string, years: number, achievements: string[], skills: string[], industry: string): string {
-  const topSkills = skills.slice(0, 3).join(', ');
-  return `Accomplished ${position} with ${years}+ years of ${industry} experience. Specialized in ${topSkills} with demonstrated success in driving results and optimizing performance. Strong background in strategic planning and execution.`;
+function generateTargetedSummary(position: string, years: number, industry: string, skills: string, targetJob: string): string {
+  return `Results-oriented ${position} with ${years}+ years of specialized experience in ${industry}. Proven track record of leveraging ${skills} to deliver measurable impact and operational efficiency. Seeking to contribute advanced technical expertise and strategic vision to a ${targetJob.toLowerCase()} role.`;
 }
 
-function generateLeadershipSummary(position: string, years: number, experience: ResumeExperience[], skills: string[]): string {
-  const teamSize = estimateTeamSize(experience);
-  const keySkills = skills.slice(0, 3).join(', ');
-  return `Leadership-focused ${position} with ${years}+ years of experience managing teams and delivering operational excellence. Expertise in ${keySkills} with a proven ability to drive organizational growth and team development.`;
+function generateImpactDrivenSummary(position: string, years: number, skills: string, industry: string): string {
+  return `Accomplished ${position} driven by a high-performance background and ${years}+ years of success in ${industry}. Specialized in ${skills} with a demonstrated ability to catalyze growth and optimize organizational performance. Committed to delivering strategic wins through data-driven decision-making and excellence in execution.`;
 }
 
-function generateStandardSummary(position: string, years: number, experience: ResumeExperience[], skills: string[], industry: string): string {
-  const keySkills = skills.slice(0, 3).join(', ');
-  return `Dedicated ${position} with ${years}+ years of experience in ${industry}. Proficient in ${keySkills} with a commitment to quality and innovation. Seeking opportunities to leverage expertise in challenging new environment.`;
+function generateLeadershipSummary(position: string, years: number, skills: string, industry: string): string {
+  return `Leadership-focused ${position} with ${years}+ years of distinguished experience in ${industry} and team orchestration. Orchestrated high-level initiatives in ${skills} while fostering a culture of accountability and professional development. Dedicated to driving organizational mission through strategic leadership and operational mastery.`;
+}
+
+function generateStandardSummary(position: string, years: number, skills: string, industry: string): string {
+  return `Dedicated ${position} with ${years}+ years of comprehensive experience in ${industry}. Proficient in ${skills} with a persistent commitment to quality and architectural innovation. Seeking opportunities to leverage deep-seated technical expertise in a challenging and forward-thinking environment.`;
 }
 
 /**
@@ -345,6 +339,13 @@ function estimateTeamSize(experience: ResumeExperience[]): number {
     }
   });
   return maxTeamSize || 3; // Default to 3 if not found
+}
+
+function determineExperienceLevelFromYears(years: number): string {
+  if (years === 0) return 'Entry Level';
+  if (years < 3) return 'Junior';
+  if (years < 7) return 'Mid-Level';
+  return 'Senior';
 }
 
 function analyzeIndustry(experience: ResumeExperience[]): string {

@@ -66,7 +66,7 @@ export async function generateProfessionalSummary(
   experienceLevel?: string
 ): Promise<string> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const experienceText = experience.length > 0
       ? experience.map(exp => `${exp.position} at ${exp.company}: ${exp.achievements.join('; ')}`).join('\n')
@@ -113,7 +113,7 @@ export async function generateProfessionalSummary(
  */
 export async function enhanceBulletPoint(originalText: string, context?: string): Promise<string> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const prompt = `Act as an elite career strategist. Transform the following basic resume bullet point into a high-impact, results-driven achievement statement.
     
@@ -143,7 +143,7 @@ export async function enhanceBulletPoint(originalText: string, context?: string)
  */
 export async function suggestSkills(jobDescription: string, currentSkills: string[] = []): Promise<string[]> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const prompt = `Act as a technical recruiter analyzing a high-stakes job description.
     
@@ -178,7 +178,7 @@ export async function generateCoverLetter(
   jobPosting: JobPosting
 ): Promise<string> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const experienceSummary = resumeData.experience
       .slice(0, 3)
@@ -223,7 +223,7 @@ export async function analyzeJobDescription(jobDescription: string): Promise<{
   benefits?: string[];
 }> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const prompt = `Deep-dive analysis of the provided job description. Act as a headhunter.
     
@@ -278,7 +278,7 @@ export async function analyzeJobDescription(jobDescription: string): Promise<{
  */
 export async function generateInterviewQuestions(jobPosting: JobPosting): Promise<string[]> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const prompt = `Act as an elite interviewer for ${jobPosting.company}. Generate 10 high-caliber interview questions for the ${jobPosting.title} role.
     

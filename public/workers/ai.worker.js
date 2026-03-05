@@ -45,8 +45,13 @@ self.onmessage = async (e) => {
 
         let prompt = '';
         if (type === 'summary') {
-            prompt = `Write a powerful, narrative-driven career summary of 5-6 sentences for a ${jobTitle} in the ${industry} industry with ${experienceLevel} level experience. Foundation: ${text}. Include career milestones, unique value proposition, and a clear statement of career focus.`;
-        } else if (type === 'experience') {
+            const contextText = text === 'No experience listed yet.' ? 'an aspiring professional entering the field' : `a professional with these achievements: ${text}`;
+            prompt = `Write a prestigious, elite career summary consisting of EXACTLY 3 powerful sentences for a ${jobTitle} in the ${industry} industry. 
+            Context: ${contextText}. 
+            Focus: Senior-level impact, quantifiable wins, and future-forward capabilities. 
+            Strictly return only the 3 sentences.`;
+        }
+        else if (type === 'experience') {
             prompt = `Transform this note for a ${jobTitle} role into 4-5 highly detailed, high-impact STAR-method professional bullet points. Use advanced industry-specific terminology and ensure every point is quantifiable: ${text}`;
         }
 
