@@ -45,24 +45,6 @@ const team = [
     color: 'text-accent-400 bg-accent-500/10'
   },
   {
-    name: 'Aman Gandhi',
-    grade: '10th Grade',
-    school: 'Central Academy of Technology and Arts',
-    role: 'Backend Infrastructure Specialist',
-    description: 'Managed complex data migrations, database schema optimization, and secure server-to-client communication channels.',
-    icon: Database,
-    color: 'text-emerald-400 bg-emerald-500/10'
-  },
-  {
-    name: 'Tanishq Juneja',
-    grade: '10th Grade',
-    school: 'Central Academy of Technology and Arts',
-    role: 'AI & Intelligence Lead',
-    description: 'Integrated advanced AI logic for resume building, content generation, and intelligent search systems.',
-    icon: Zap,
-    color: 'text-yellow-400 bg-yellow-500/10'
-  },
-  {
     name: 'Vihaan Kotagiri',
     grade: '10th Grade',
     school: 'Central Academy of Technology and Arts',
@@ -70,15 +52,6 @@ const team = [
     description: 'Strategized content reach and resource categorization, ensuring the platform truly serves the residents of Monroe.',
     icon: MessageSquare,
     color: 'text-purple-400 bg-purple-500/10'
-  },
-  {
-    name: 'Saahil Mehta',
-    grade: '10th Grade',
-    school: 'Central Academy of Technology and Arts',
-    role: 'Security & Quality Engineer',
-    description: 'Oversaw platform security protocols and rigorous testing to ensure 100% reliability and data integrity.',
-    icon: Shield,
-    color: 'text-rose-400 bg-rose-500/10'
   }
 ];
 
