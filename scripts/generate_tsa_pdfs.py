@@ -7,16 +7,17 @@ Output: public/documents/
 """
 
 import os
-from reportlab.lib import colors
+import sys
 from reportlab.lib.colors import HexColor
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer, Image,
+    SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer,
     PageBreak, KeepTogether,
 )
-from reportlab.pdfgen.canvas import Canvas
 
 # --- Paths (run from repo root) ---
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,10 +37,54 @@ WHITE = HexColor('#E2E8F0')
 MUTED = HexColor('#94A3B8')
 FOOTER_TEXT = HexColor('#475569')
 
-# Header height for both docs
-HEADER_HEIGHT = 1.4 * inch
+# Header: logo + title + subtitle + gap + line; content starts below line
+HEADER_HEIGHT = 1.7 * inch  # space reserved so line never overlaps text
 LOGO_SIZE = 0.6 * inch
 MARGIN = 0.75 * inch
+# Footer: line above text, text in reserved band
+FOOTER_LINE_Y = 0.72 * inch  # line position from bottom
+FOOTER_TEXT_Y = 0.42 * inch  # footer text baseline from bottom
+BOTTOM_MARGIN = 1.0 * inch  # content must stay above this
+
+
+def _register_cursive_font():
+    """Register a cursive/script TTF for signatures; return font name or fallback."""
+    script_font_name = 'SignatureScript'
+    fonts_dir = os.path.join(REPO_ROOT, 'scripts', 'fonts')
+    local_ttf = os.path.join(fonts_dir, 'DancingScript-Regular.ttf')
+    search_paths = [
+        local_ttf,
+        os.path.join(fonts_dir, 'Script.ttf'),
+        '/System/Library/Fonts/Supplemental/Brush Script.ttf',
+        '/Library/Fonts/Brush Script MT.ttf',
+        '/usr/share/fonts/truetype/google-dancing-script/DancingScript-Regular.ttf',
+        os.path.expanduser('~/Library/Fonts/Dancing Script.ttf'),
+    ]
+    # Try to download Dancing Script if not present
+    if not os.path.isfile(local_ttf):
+        try:
+            import urllib.request
+            os.makedirs(fonts_dir, exist_ok=True)
+            url = 'https://github.com/google/fonts/raw/main/ofl/dancingscript/DancingScript%5Bwght%5D.ttf'
+            # Use static Regular variant from jsDelivr
+            url = 'https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/dancingscript/DancingScript-Regular.ttf'
+            urllib.request.urlretrieve(url, local_ttf)
+        except Exception:
+            pass
+    for path in search_paths:
+        if path and os.path.isfile(path):
+            try:
+                pdfmetrics.registerFont(TTFont(script_font_name, path))
+                return script_font_name
+            except Exception:
+                continue
+    # Fallback: Helvetica-BoldOblique (not cursive but script-like)
+    return 'Helvetica-BoldOblique'
+
+
+SIGNATURE_FONT = _register_cursive_font()
+if SIGNATURE_FONT == 'Helvetica-BoldOblique':
+    print('Note: No cursive TTF found. Add scripts/fonts/DancingScript-Regular.ttf for signature style.', file=sys.stderr)
 
 
 def draw_black_background(canvas, _doc):
@@ -51,7 +96,7 @@ def draw_black_background(canvas, _doc):
 
 
 def draw_header(canvas, _doc, title_text, subtitle_text='Monroe Resource Hub | Central Academy of Technology and Arts | TSA 2026'):
-    """Draw logo, title, subtitle, and blue accent line."""
+    """Draw logo, title, subtitle, then blue accent line below with gap so line never covers text."""
     canvas.saveState()
     page_w, page_h = letter[0], letter[1]
     # Logo at left
@@ -61,16 +106,18 @@ def draw_header(canvas, _doc, title_text, subtitle_text='Monroe Resource Hub | C
     canvas.setFillColor(WHITE)
     canvas.setFont('Helvetica-Bold', 19)
     title_x = MARGIN + LOGO_SIZE + 0.2 * inch
-    title_y = page_h - MARGIN - 0.35 * inch
+    title_y = page_h - MARGIN - 0.5 * inch
     canvas.drawString(title_x, title_y, title_text)
-    # Subtitle
+    # Subtitle below title with spacing
     canvas.setFillColor(MUTED)
     canvas.setFont('Helvetica', 9)
-    canvas.drawString(title_x, title_y - 0.2 * inch, subtitle_text)
-    # Blue accent line
+    subtitle_y = title_y - 0.22 * inch
+    canvas.drawString(title_x, subtitle_y, subtitle_text)
+    # Blue accent line well below subtitle so it never touches text
+    line_y = subtitle_y - 0.18 * inch
     canvas.setStrokeColor(BLUE_ACCENT)
     canvas.setLineWidth(2)
-    canvas.line(MARGIN, page_h - HEADER_HEIGHT + 0.15 * inch, page_w - MARGIN, page_h - HEADER_HEIGHT + 0.15 * inch)
+    canvas.line(MARGIN, line_y, page_w - MARGIN, line_y)
     canvas.restoreState()
 
 
@@ -88,20 +135,63 @@ def later_pages_cb(canvas, doc, title, subtitle):
 
 
 def _draw_footer(canvas, doc):
+    """Draw footer line above the text so the line never covers the footer text."""
     canvas.saveState()
-    page_w, page_h = letter[0], letter[1]
+    page_w = letter[0]
+    # Line above the text with gap
     canvas.setStrokeColor(FOOTER_TEXT)
     canvas.setLineWidth(0.5)
-    canvas.line(MARGIN, 0.6 * inch, page_w - MARGIN, 0.6 * inch)
+    canvas.line(MARGIN, FOOTER_LINE_Y, page_w - MARGIN, FOOTER_LINE_Y)
     canvas.setFillColor(FOOTER_TEXT)
     canvas.setFont('Helvetica', 8)
-    canvas.drawCentredString(page_w / 2, 0.4 * inch,
+    canvas.drawCentredString(page_w / 2, FOOTER_TEXT_Y,
         'Monroe Resource Hub | Central Academy of Technology and Arts | TSA Chapter | monroeresourcehub.us')
     canvas.restoreState()
 
 
 def build_styles():
     styles = getSampleStyleSheet()
+    # Cell styles: wrap text in tables, no word-splitting so words stay whole
+    styles.add(ParagraphStyle(
+        name='Cell',
+        fontName='Helvetica',
+        fontSize=9,
+        textColor=WHITE,
+        leading=11,
+        spaceAfter=0,
+        spaceBefore=0,
+        splitLongWords=False,
+    ))
+    styles.add(ParagraphStyle(
+        name='CellHeader',
+        fontName='Helvetica-Bold',
+        fontSize=9,
+        textColor=WHITE,
+        leading=11,
+        spaceAfter=0,
+        spaceBefore=0,
+        splitLongWords=False,
+    ))
+    styles.add(ParagraphStyle(
+        name='CellMuted',
+        fontName='Helvetica',
+        fontSize=9,
+        textColor=MUTED,
+        leading=11,
+        spaceAfter=0,
+        spaceBefore=0,
+        splitLongWords=False,
+    ))
+    styles.add(ParagraphStyle(
+        name='PhaseTitle',
+        fontName='Helvetica-Bold',
+        fontSize=10,
+        textColor=TEAL_ACCENT,
+        leading=12,
+        spaceAfter=0,
+        spaceBefore=0,
+        splitLongWords=False,
+    ))
     styles.add(ParagraphStyle(
         name='WhiteBold',
         fontName='Helvetica-Bold',
@@ -125,15 +215,17 @@ def build_styles():
     ))
     styles.add(ParagraphStyle(
         name='Signature',
-        fontName='Helvetica-BoldOblique',
+        fontName=SIGNATURE_FONT,
         fontSize=12,
         textColor=BLUE_ACCENT,
+        spaceAfter=0,
     ))
     styles.add(ParagraphStyle(
         name='SignatureTeal',
-        fontName='Helvetica-BoldOblique',
+        fontName=SIGNATURE_FONT,
         fontSize=12,
         textColor=TEAL_ACCENT,
+        spaceAfter=0,
     ))
     styles.add(ParagraphStyle(
         name='GreenItalic',
@@ -154,18 +246,26 @@ def build_styles():
 
 
 def table_style_card(bg=CARD_BG):
+    """Table style with padding so borders/lines do not cover text."""
     return TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), bg),
         ('TEXTCOLOR', (0, 0), (-1, -1), WHITE),
-        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
-        ('FONTSIZE', (0, 0), (-1, -1), 9),
         ('GRID', (0, 0), (-1, -1), 0.5, BORDER),
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-        ('LEFTPADDING', (0, 0), (-1, -1), 8),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 8),
-        ('TOPPADDING', (0, 0), (-1, -1), 6),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 10),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+        ('TOPPADDING', (0, 0), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
     ])
+
+
+def _escape(s):
+    return str(s).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+
+
+def cell_para(text, styles, style_name='Cell'):
+    """Wrap text in a Paragraph so it wraps inside table cells and fits the box."""
+    return Paragraph(_escape(text), styles[style_name])
 
 
 def build_student_copyright_checklist():
@@ -177,30 +277,23 @@ def build_student_copyright_checklist():
         pagesize=letter,
         leftMargin=MARGIN,
         rightMargin=MARGIN,
-        topMargin=HEADER_HEIGHT + 0.2 * inch,
-        bottomMargin=0.9 * inch,
+        topMargin=HEADER_HEIGHT + 0.25 * inch,
+        bottomMargin=BOTTOM_MARGIN,
     )
     styles = build_styles()
     story = []
 
-    # Meta info grid (4 columns)
+    # Meta info grid (4 columns) — Paragraphs so text fits in cells
     meta_data = [
-        ['PROJECT:', 'Monroe Resource Hub'],
-        ['SCHOOL:', 'Central Academy of Technology and Arts'],
-        ['ORGANIZATION:', 'TSA'],
-        ['DATE:', '02/05/2026'],
+        [cell_para('PROJECT:', styles, 'CellMuted'), cell_para('Monroe Resource Hub', styles),
+         cell_para('SCHOOL:', styles, 'CellMuted'), cell_para('Central Academy of Technology and Arts', styles)],
+        [cell_para('ORGANIZATION:', styles, 'CellMuted'), cell_para('TSA', styles),
+         cell_para('DATE:', styles, 'CellMuted'), cell_para('02/05/2026', styles)],
     ]
-    col_widths = [1.3 * inch, None, 1.3 * inch, None]  # ORGANIZATION label column at least 1.3 in
     meta_table = Table(meta_data, colWidths=[1.3 * inch, 2.2 * inch, 1.3 * inch, 2.2 * inch])
     meta_table.setStyle(table_style_card())
-    meta_table.setStyle(TableStyle([
-        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
-        ('FONTNAME', (2, 0), (2, -1), 'Helvetica-Bold'),
-        ('TEXTCOLOR', (0, 0), (0, -1), MUTED),
-        ('TEXTCOLOR', (2, 0), (2, -1), MUTED),
-    ]))
     story.append(meta_table)
-    story.append(Spacer(1, 0.15 * inch))
+    story.append(Spacer(1, 0.2 * inch))
 
     # Italic note
     story.append(Paragraph(
@@ -209,136 +302,139 @@ def build_student_copyright_checklist():
     ))
     story.append(Spacer(1, 0.2 * inch))
 
-    # Section 1 - Images
-    story.append(Paragraph('1. Images', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=4)))
+    # Section 1 - Images (all cells as Paragraphs so text fits and wraps)
+    story.append(Paragraph('1. Images', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
     sect1_data = [
-        ['Image Description', 'Source', 'License/Permission', 'Location Used'],
-        ['Unsplash Stock Photos', 'Unsplash.com', 'Unsplash License (Free Use)', 'Hero sections, featured content'],
-        ['Custom Logo Design', 'Original Design', 'N/A - Original Work', 'Website branding, navigation'],
-        ['Community Images', 'Original Photos', 'N/A - Original Work', 'Various pages'],
+        [cell_para('Image Description', styles, 'CellHeader'), cell_para('Source', styles, 'CellHeader'),
+         cell_para('License/Permission', styles, 'CellHeader'), cell_para('Location Used', styles, 'CellHeader')],
+        [cell_para('Unsplash Stock Photos', styles), cell_para('Unsplash.com', styles),
+         cell_para('Unsplash License (Free Use)', styles), cell_para('Hero sections, featured content', styles)],
+        [cell_para('Custom Logo Design', styles), cell_para('Original Design', styles),
+         cell_para('N/A - Original Work', styles), cell_para('Website branding, navigation', styles)],
+        [cell_para('Community Images', styles), cell_para('Original Photos', styles),
+         cell_para('N/A - Original Work', styles), cell_para('Various pages', styles)],
     ]
-    t1 = Table(sect1_data, colWidths=[1.4 * inch, 1.3 * inch, 1.8 * inch, 1.5 * inch])
+    t1 = Table(sect1_data, colWidths=[1.5 * inch, 1.4 * inch, 1.9 * inch, 1.5 * inch])
     t1.setStyle(table_style_card())
     t1.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), BLUE_HEADER),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 9),
     ]))
     story.append(t1)
-    story.append(Spacer(1, 0.25 * inch))
+    story.append(Spacer(1, 0.3 * inch))
 
     # Section 2 - Text Content
-    story.append(Paragraph('2. Text Content', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=4)))
+    story.append(Paragraph('2. Text Content', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
     sect2_data = [
-        ['Image Description', 'Source', 'License/Permission', 'Location Used'],
-        ['Community Resource Information', 'Monroe Community Organizations / City Government', 'Public Information / Public Domain', 'Resource directory listings'],
-        ['All Website Content', 'Original Writing by Student Team', 'N/A - Original Work', 'Entire website'],
+        [cell_para('Image Description', styles, 'CellHeader'), cell_para('Source', styles, 'CellHeader'),
+         cell_para('License/Permission', styles, 'CellHeader'), cell_para('Location Used', styles, 'CellHeader')],
+        [cell_para('Community Resource Information', styles), cell_para('Monroe Community Organizations / City Government', styles),
+         cell_para('Public Information / Public Domain', styles), cell_para('Resource directory listings', styles)],
+        [cell_para('All Website Content', styles), cell_para('Original Writing by Student Team', styles),
+         cell_para('N/A - Original Work', styles), cell_para('Entire website', styles)],
     ]
-    t2 = Table(sect2_data, colWidths=[1.5 * inch, 2.0 * inch, 1.5 * inch, 1.5 * inch])
+    t2 = Table(sect2_data, colWidths=[1.6 * inch, 2.1 * inch, 1.6 * inch, 1.5 * inch])
     t2.setStyle(table_style_card())
     t2.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), BLUE_HEADER),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
     ]))
     story.append(t2)
-    story.append(Spacer(1, 0.25 * inch))
+    story.append(Spacer(1, 0.3 * inch))
 
     # Section 3 - Code and Libraries
-    story.append(Paragraph('3. Code and Libraries', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=4)))
-    sect3_data = [
-        ['Library/Framework', 'Version', 'License', 'Usage'],
-        ['Next.js', '16.1.6', 'MIT License', 'Core framework (App Router)'],
-        ['React', '19.2.4', 'MIT License', 'UI library for all components'],
-        ['Tailwind CSS', '3.4', 'MIT License', 'Styling and responsive design'],
-        ['TypeScript', '5.9', 'Apache License 2.0', 'Type-safe development'],
-        ['Node.js', '22 LTS', 'MIT License', 'Server-side runtime and build tooling'],
-        ['Supabase', 'Latest', 'Apache License 2.0', 'Database, authentication, backend services'],
-        ['Lucide React', 'Latest', 'ISC License', 'All icons throughout application'],
-        ['React Hook Form', 'Latest', 'MIT License', 'Form handling and validation'],
-        ['Zod', 'Latest', 'MIT License', 'Schema validation for forms and API'],
-        ['Google Generative AI (Gemini)', 'Latest', 'Terms of Service', 'AI resume builder and job assistant'],
-        ['React Big Calendar', 'Latest', 'MIT License', 'Event calendar display'],
-        ['jspdf and html2canvas', 'Latest', 'MIT License', 'Resume PDF export functionality'],
-        ['Other libraries', 'See package.json', 'MIT / Apache', 'Various supporting utilities'],
+    story.append(Paragraph('3. Code and Libraries', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    sect3_rows = [
+        [cell_para('Library/Framework', styles, 'CellHeader'), cell_para('Version', styles, 'CellHeader'),
+         cell_para('License', styles, 'CellHeader'), cell_para('Usage', styles, 'CellHeader')],
+        [cell_para('Next.js', styles), cell_para('16.1.6', styles), cell_para('MIT License', styles), cell_para('Core framework (App Router)', styles)],
+        [cell_para('React', styles), cell_para('19.2.4', styles), cell_para('MIT License', styles), cell_para('UI library for all components', styles)],
+        [cell_para('Tailwind CSS', styles), cell_para('3.4', styles), cell_para('MIT License', styles), cell_para('Styling and responsive design', styles)],
+        [cell_para('TypeScript', styles), cell_para('5.9', styles), cell_para('Apache License 2.0', styles), cell_para('Type-safe development', styles)],
+        [cell_para('Node.js', styles), cell_para('22 LTS', styles), cell_para('MIT License', styles), cell_para('Server-side runtime and build tooling', styles)],
+        [cell_para('Supabase', styles), cell_para('Latest', styles), cell_para('Apache License 2.0', styles), cell_para('Database, authentication, backend services', styles)],
+        [cell_para('Lucide React', styles), cell_para('Latest', styles), cell_para('ISC License', styles), cell_para('All icons throughout application', styles)],
+        [cell_para('React Hook Form', styles), cell_para('Latest', styles), cell_para('MIT License', styles), cell_para('Form handling and validation', styles)],
+        [cell_para('Zod', styles), cell_para('Latest', styles), cell_para('MIT License', styles), cell_para('Schema validation for forms and API', styles)],
+        [cell_para('Google Generative AI (Gemini)', styles), cell_para('Latest', styles), cell_para('Terms of Service', styles), cell_para('AI resume builder and job assistant', styles)],
+        [cell_para('React Big Calendar', styles), cell_para('Latest', styles), cell_para('MIT License', styles), cell_para('Event calendar display', styles)],
+        [cell_para('jspdf and html2canvas', styles), cell_para('Latest', styles), cell_para('MIT License', styles), cell_para('Resume PDF export functionality', styles)],
+        [cell_para('Other libraries', styles), cell_para('See package.json', styles), cell_para('MIT / Apache', styles), cell_para('Various supporting utilities', styles)],
     ]
-    t3 = Table(sect3_data, colWidths=[1.8 * inch, 0.9 * inch, 1.5 * inch, 2.3 * inch])
+    t3 = Table(sect3_rows, colWidths=[1.9 * inch, 0.95 * inch, 1.55 * inch, 2.25 * inch])
     t3.setStyle(table_style_card())
     t3.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), BLUE_HEADER),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [CARD_BG, ROW_ALT]),
     ]))
     story.append(t3)
-    story.append(Spacer(1, 0.25 * inch))
+    story.append(Spacer(1, 0.3 * inch))
 
-    # Section 4 - Written Permissions
-    story.append(Paragraph('4. Written Permissions', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=4)))
-    perm_text = """• All materials used are original work, MIT/Apache/ISC licensed, Unsplash licensed, or public domain.<br/>
-• No written permissions were required for the materials used in this project."""
-    perm_para = Paragraph(perm_text, ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, leftIndent=12, spaceAfter=8,
-        borderColor=TEAL_ACCENT, borderWidth=0, borderPadding=10, backColor=CARD_BG))
-    # Teal left bar via table
-    perm_table = Table([['', perm_para]], colWidths=[0.08 * inch, 6.0 * inch])
+    # Section 4 - Written Permissions (teal left bar, padding so text not covered)
+    story.append(Paragraph('4. Written Permissions', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    perm_text = """&bull; All materials used are original work, MIT/Apache/ISC licensed, Unsplash licensed, or public domain.<br/>
+&bull; No written permissions were required for the materials used in this project."""
+    perm_para = Paragraph(perm_text, ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, leftIndent=12, spaceAfter=0,
+        backColor=CARD_BG, leading=12, splitLongWords=False))
+    perm_table = Table([['', perm_para]], colWidths=[0.1 * inch, 5.95 * inch])
     perm_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (0, -1), TEAL_ACCENT),
         ('BACKGROUND', (1, 0), (1, -1), CARD_BG),
-        ('LEFTPADDING', (1, 0), (1, -1), 12),
-        ('TOPPADDING', (1, 0), (1, -1), 10),
-        ('BOTTOMPADDING', (1, 0), (1, -1), 10),
+        ('LEFTPADDING', (1, 0), (1, -1), 14),
+        ('RIGHTPADDING', (1, 0), (1, -1), 14),
+        ('TOPPADDING', (1, 0), (1, -1), 12),
+        ('BOTTOMPADDING', (1, 0), (1, -1), 12),
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
     ]))
     story.append(perm_table)
-    story.append(Spacer(1, 0.2 * inch))
+    story.append(Spacer(1, 0.25 * inch))
 
     # Section 5 - Framework Template Statement
-    story.append(Paragraph('5. Framework Template Statement', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=4)))
-    frame_text = """All templates, themes, components, and designs were custom-built by the CATA TSA team. No pre-built templates or themes were used."""
-    frame_para = Paragraph(frame_text, ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, leftIndent=12, spaceAfter=6,
-        backColor=CARD_BG))
-    frame_table = Table([['', frame_para]], colWidths=[0.08 * inch, 6.0 * inch])
+    story.append(Paragraph('5. Framework Template Statement', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    frame_text = 'All templates, themes, components, and designs were custom-built by the CATA TSA team. No pre-built templates or themes were used.'
+    frame_para = Paragraph(_escape(frame_text), ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, leftIndent=12, spaceAfter=0,
+        backColor=CARD_BG, leading=12, splitLongWords=False))
+    frame_table = Table([['', frame_para]], colWidths=[0.1 * inch, 5.95 * inch])
     frame_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (0, -1), TEAL_ACCENT),
         ('BACKGROUND', (1, 0), (1, -1), CARD_BG),
-        ('LEFTPADDING', (1, 0), (1, -1), 12),
-        ('TOPPADDING', (1, 0), (1, -1), 10),
-        ('BOTTOMPADDING', (1, 0), (1, -1), 10),
+        ('LEFTPADDING', (1, 0), (1, -1), 14),
+        ('RIGHTPADDING', (1, 0), (1, -1), 14),
+        ('TOPPADDING', (1, 0), (1, -1), 12),
+        ('BOTTOMPADDING', (1, 0), (1, -1), 12),
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
     ]))
     story.append(frame_table)
-    story.append(Spacer(1, 0.25 * inch))
+    story.append(Spacer(1, 0.3 * inch))
 
-    # Section 6 - Student Signatures
-    story.append(Paragraph('6. Student Signatures', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=4)))
-    story.append(Paragraph('Students certify the accuracy of the information above.', ParagraphStyle('Muted', fontName='Helvetica', fontSize=9, textColor=MUTED, spaceAfter=10)))
+    # Section 6 - Student Signatures (cursive font for signature column)
+    story.append(Paragraph('6. Student Signatures', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    story.append(Paragraph('Students certify the accuracy of the information above.', ParagraphStyle('Muted', fontName='Helvetica', fontSize=9, textColor=MUTED, spaceAfter=12)))
 
     sig_date = '02/05/2026'
     students = [
-        ('Yatish Grandhe', 'Yatish Grandhe', BLUE_ACCENT, 'Signature'),
-        ('Dhyan Kanna', 'Dhyan Kanna', BLUE_ACCENT, 'Signature'),
-        ('Vihaan Kotagiri', 'Vihaan Kotagiri', BLUE_ACCENT, 'Signature'),
+        ('Yatish Grandhe', 'Yatish Grandhe'),
+        ('Dhyan Kanna', 'Dhyan Kanna'),
+        ('Vihaan Kotagiri', 'Vihaan Kotagiri'),
     ]
-    for name, sig_name, _c, _l in students:
+    for name, sig_name in students:
         row = [
-            Paragraph(f'<b>Name</b><br/>{name}', styles['WhiteBody']),
-            Paragraph(f'<font color="#3B82F6"><b><i>{sig_name}</i></b></font>', ParagraphStyle('Sig', fontName='Helvetica-BoldOblique', fontSize=12, textColor=BLUE_ACCENT)),
-            Paragraph(f'<b>Date</b><br/>{sig_date}', styles['WhiteBody']),
+            Paragraph('<b>Name</b><br/>' + _escape(name), styles['WhiteBody']),
+            Paragraph(sig_name, styles['Signature']),  # Cursive/script font
+            Paragraph('<b>Date</b><br/>' + _escape(sig_date), styles['WhiteBody']),
         ]
-        sig_t = Table([['Name', 'Signature', 'Date'], row], colWidths=[2.0 * inch, 2.2 * inch, 1.5 * inch])
+        sig_t = Table([[cell_para('Name', styles, 'CellMuted'), cell_para('Signature', styles, 'CellMuted'), cell_para('Date', styles, 'CellMuted')], row],
+                     colWidths=[2.0 * inch, 2.2 * inch, 1.5 * inch])
         sig_t.setStyle(table_style_card())
-        sig_t.setStyle(TableStyle([
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('TEXTCOLOR', (0, 0), (-1, 0), MUTED),
-        ]))
         story.append(sig_t)
-        story.append(Spacer(1, 0.15 * inch))
+        story.append(Spacer(1, 0.2 * inch))
 
-    # Advisor
+    # Advisor (cursive in teal)
     advisor_row = [
-        Paragraph('<b>Name</b><br/>Tyler Powell', styles['WhiteBody']),
-        Paragraph(f'<font color="#2DD4BF"><b><i>Tyler Powell</i></b></font>', ParagraphStyle('SigTeal', fontName='Helvetica-BoldOblique', fontSize=12, textColor=TEAL_ACCENT)),
-        Paragraph(f'<b>Date</b><br/>{sig_date}', styles['WhiteBody']),
+        Paragraph('<b>Name</b><br/>' + _escape('Tyler Powell'), styles['WhiteBody']),
+        Paragraph('Tyler Powell', styles['SignatureTeal']),  # Cursive in teal
+        Paragraph('<b>Date</b><br/>' + _escape(sig_date), styles['WhiteBody']),
     ]
-    adv_table = Table([['Name', 'Signature', 'Date'], advisor_row], colWidths=[2.0 * inch, 2.2 * inch, 1.5 * inch])
+    adv_table = Table([[cell_para('Name', styles, 'CellMuted'), cell_para('Signature', styles, 'CellMuted'), cell_para('Date', styles, 'CellMuted')], advisor_row],
+                     colWidths=[2.0 * inch, 2.2 * inch, 1.5 * inch])
     adv_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), ROW_ALT),
         ('TEXTCOLOR', (0, 0), (-1, -1), WHITE),
@@ -373,44 +469,42 @@ def build_work_log():
         pagesize=letter,
         leftMargin=MARGIN,
         rightMargin=MARGIN,
-        topMargin=HEADER_HEIGHT + 0.2 * inch,
-        bottomMargin=0.9 * inch,
+        topMargin=HEADER_HEIGHT + 0.25 * inch,
+        bottomMargin=BOTTOM_MARGIN,
     )
     styles = build_styles()
     story = []
 
-    # Meta grid
+    # Meta grid (Paragraphs so text fits)
     meta_data = [
-        ['PROJECT:', 'Monroe Resource Hub', 'DATE RANGE:', 'January 2025 - January 2026'],
-        ['SCHOOL:', 'Central Academy of Technology and Arts', 'STUDENTS:', 'Yatish Grandhe, Dhyan Kanna, Vihaan Kotagiri'],
-        ['ORGANIZATION:', 'TSA', 'STATUS:', 'Completed and Deployed'],
+        [cell_para('PROJECT:', styles, 'CellMuted'), cell_para('Monroe Resource Hub', styles),
+         cell_para('DATE RANGE:', styles, 'CellMuted'), cell_para('January 2025 - January 2026', styles)],
+        [cell_para('SCHOOL:', styles, 'CellMuted'), cell_para('Central Academy of Technology and Arts', styles),
+         cell_para('STUDENTS:', styles, 'CellMuted'), cell_para('Yatish Grandhe, Dhyan Kanna, Vihaan Kotagiri', styles)],
+        [cell_para('ORGANIZATION:', styles, 'CellMuted'), cell_para('TSA', styles),
+         cell_para('STATUS:', styles, 'CellMuted'), cell_para('Completed and Deployed', styles)],
     ]
     meta_table = Table(meta_data, colWidths=[1.3 * inch, 2.0 * inch, 1.3 * inch, 2.4 * inch])
     meta_table.setStyle(table_style_card())
-    meta_table.setStyle(TableStyle([
-        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
-        ('FONTNAME', (2, 0), (2, -1), 'Helvetica-Bold'),
-        ('TEXTCOLOR', (0, 0), (0, -1), MUTED),
-        ('TEXTCOLOR', (2, 0), (2, -1), MUTED),
-    ]))
     story.append(meta_table)
-    story.append(Spacer(1, 0.2 * inch))
+    story.append(Spacer(1, 0.25 * inch))
 
-    # Project Summary card (teal left bar)
+    # Project Summary card (teal left bar, padding so text fits)
     summary_text = """The Monroe Resource Hub is a comprehensive community platform designed to connect residents of Monroe, North Carolina with vital resources, services, and opportunities. The platform includes a resource directory, an AI-powered resume builder, a job application assistant, a community events calendar, and volunteer opportunity listings. Built with Next.js, React, Supabase, and Google Gemini AI, the application is fully deployed at monroeresourcehub.us."""
-    summary_para = Paragraph(summary_text, ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, leftIndent=12, spaceAfter=6, backColor=CARD_BG))
-    summary_table = Table([['', summary_para]], colWidths=[0.08 * inch, 6.0 * inch])
+    summary_para = Paragraph(_escape(summary_text), ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, leftIndent=12, spaceAfter=0, backColor=CARD_BG, leading=12, splitLongWords=False))
+    summary_table = Table([['', summary_para]], colWidths=[0.1 * inch, 5.95 * inch])
     summary_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (0, -1), TEAL_ACCENT),
         ('BACKGROUND', (1, 0), (1, -1), CARD_BG),
-        ('LEFTPADDING', (1, 0), (1, -1), 12),
-        ('TOPPADDING', (1, 0), (1, -1), 10),
-        ('BOTTOMPADDING', (1, 0), (1, -1), 10),
+        ('LEFTPADDING', (1, 0), (1, -1), 14),
+        ('RIGHTPADDING', (1, 0), (1, -1), 14),
+        ('TOPPADDING', (1, 0), (1, -1), 12),
+        ('BOTTOMPADDING', (1, 0), (1, -1), 12),
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
     ]))
-    story.append(Paragraph('Project Summary', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=4)))
+    story.append(Paragraph('Project Summary', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
     story.append(summary_table)
-    story.append(Spacer(1, 0.25 * inch))
+    story.append(Spacer(1, 0.3 * inch))
 
     # Work Log Entries
     story.append(Paragraph('Work Log Entries', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=12, textColor=WHITE, spaceAfter=10)))
@@ -444,21 +538,20 @@ def build_work_log():
 
     for num, title, date_range, hours, team, tasks_list, outcome in phases:
         phase_story = []
-        # Header row: phase title (teal) and date (right)
-        header_data = [[title, date_range]]
+        # Header row: phase title (teal) and date (right) as Paragraphs so long text wraps
+        header_data = [[cell_para(title, styles, 'PhaseTitle'), cell_para(date_range, styles)]]
         header_t = Table(header_data, colWidths=[4.5 * inch, 2.0 * inch])
         header_t.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, -1), CARD_BG),
             ('TEXTCOLOR', (0, 0), (0, -1), TEAL_ACCENT),
             ('TEXTCOLOR', (1, 0), (1, -1), WHITE),
-            ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
-            ('FONTSIZE', (0, 0), (-1, -1), 10),
             ('ALIGN', (1, 0), (1, -1), 'RIGHT'),
             ('GRID', (0, 0), (-1, -1), 0.5, BORDER),
-            ('LEFTPADDING', (0, 0), (-1, -1), 8),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 8),
-            ('TOPPADDING', (0, 0), (-1, -1), 6),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+            ('LEFTPADDING', (0, 0), (-1, -1), 10),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+            ('TOPPADDING', (0, 0), (-1, -1), 8),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
         ]))
         phase_story.append(header_t)
         phase_story.append(Spacer(1, 0.08 * inch))
@@ -472,67 +565,61 @@ def build_work_log():
         story.append(KeepTogether(phase_story))
         story.append(Spacer(1, 0.1 * inch))
 
-    # Total Time Summary table
-    story.append(Spacer(1, 0.2 * inch))
+    # Total Time Summary table (Paragraphs so text fits)
+    story.append(Spacer(1, 0.25 * inch))
     story.append(Paragraph('Total Time Summary', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
     total_data = [
-        ['Phase', 'Date Range', 'Hours', 'Team Members'],
-        ['1. Project Planning and Research', 'January 2025', '15', 'All team members'],
-        ['2. UI/UX Design and Wireframing', 'February 2025', '20', 'Design team'],
-        ['3. Database Setup and Backend', 'March - April 2025', '25', 'Backend team'],
-        ['4. Frontend - Core Pages', 'May - June 2025', '30', 'Frontend team'],
-        ['5. Career Center Development', 'July - September 2025', '35', 'AI/Backend team'],
-        ['6. Testing and QA', 'November 2025', '18', 'All team members'],
-        ['7. Content Population', 'December 2025', '15', 'Content team'],
-        ['8. Documentation and Final Prep', 'January 2026', '12', 'All team members'],
-        ['TOTAL', 'Jan 2025 - Jan 2026', '170', '25+ students'],
+        [cell_para('Phase', styles, 'CellHeader'), cell_para('Date Range', styles, 'CellHeader'),
+         cell_para('Hours', styles, 'CellHeader'), cell_para('Team Members', styles, 'CellHeader')],
+        [cell_para('1. Project Planning and Research', styles), cell_para('January 2025', styles), cell_para('15', styles), cell_para('All team members', styles)],
+        [cell_para('2. UI/UX Design and Wireframing', styles), cell_para('February 2025', styles), cell_para('20', styles), cell_para('Design team', styles)],
+        [cell_para('3. Database Setup and Backend', styles), cell_para('March - April 2025', styles), cell_para('25', styles), cell_para('Backend team', styles)],
+        [cell_para('4. Frontend - Core Pages', styles), cell_para('May - June 2025', styles), cell_para('30', styles), cell_para('Frontend team', styles)],
+        [cell_para('5. Career Center Development', styles), cell_para('July - September 2025', styles), cell_para('35', styles), cell_para('AI/Backend team', styles)],
+        [cell_para('6. Testing and QA', styles), cell_para('November 2025', styles), cell_para('18', styles), cell_para('All team members', styles)],
+        [cell_para('7. Content Population', styles), cell_para('December 2025', styles), cell_para('15', styles), cell_para('Content team', styles)],
+        [cell_para('8. Documentation and Final Prep', styles), cell_para('January 2026', styles), cell_para('12', styles), cell_para('All team members', styles)],
+        [cell_para('TOTAL', styles, 'CellHeader'), cell_para('Jan 2025 - Jan 2026', styles, 'CellHeader'), cell_para('170', styles, 'CellHeader'), cell_para('25+ students', styles, 'CellHeader')],
     ]
-    total_table = Table(total_data, colWidths=[2.2 * inch, 1.6 * inch, 0.8 * inch, 1.4 * inch])
+    total_table = Table(total_data, colWidths=[2.25 * inch, 1.65 * inch, 0.85 * inch, 1.45 * inch])
     total_table.setStyle(table_style_card())
     total_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), BLUE_HEADER),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('ROWBACKGROUNDS', (0, 1), (-1, -2), [CARD_BG, ROW_ALT]),
         ('BACKGROUND', (0, -1), (-1, -1), BLUE_HEADER),
-        ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold'),
         ('LINEABOVE', (0, -1), (-1, -1), 2, TEAL_ACCENT),
     ]))
     story.append(total_table)
-    story.append(Spacer(1, 0.25 * inch))
+    story.append(Spacer(1, 0.3 * inch))
 
     # Team Contributions
-    story.append(Paragraph('Team Contributions', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=4)))
+    story.append(Paragraph('Team Contributions', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
     contrib_text = 'Collaborative project by the CATA TSA Chapter. Student developers led development, design, and content.'
-    story.append(Paragraph(contrib_text, ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, spaceAfter=8)))
+    story.append(Paragraph(_escape(contrib_text), ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, spaceAfter=10, splitLongWords=False)))
     named_data = [
-        ['Name', 'Role'],
-        ['Yatish Grandhe', 'Student Developer'],
-        ['Dhyan Kanna', 'Student Developer'],
-        ['Vihaan Kotagiri', 'Student Developer'],
+        [cell_para('Name', styles, 'CellHeader'), cell_para('Role', styles, 'CellHeader')],
+        [cell_para('Yatish Grandhe', styles), cell_para('Student Developer', styles)],
+        [cell_para('Dhyan Kanna', styles), cell_para('Student Developer', styles)],
+        [cell_para('Vihaan Kotagiri', styles), cell_para('Student Developer', styles)],
     ]
     named_table = Table(named_data, colWidths=[2.5 * inch, 2.0 * inch])
     named_table.setStyle(table_style_card())
     named_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), BLUE_HEADER),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('LINEABOVE', (0, 0), (-1, 0), 2, BLUE_ACCENT),
     ]))
     story.append(named_table)
-    story.append(Spacer(1, 0.2 * inch))
+    story.append(Spacer(1, 0.25 * inch))
 
     # Completion info grid
     comp_data = [
-        ['PROJECT COMPLETION:', 'January 2026', 'STATUS:', 'Completed and Deployed'],
-        ['DEPLOYMENT:', 'Vercel Platform', 'URL:', 'https://monroeresourcehub.us'],
+        [cell_para('PROJECT COMPLETION:', styles, 'CellMuted'), cell_para('January 2026', styles),
+         cell_para('STATUS:', styles, 'CellMuted'), cell_para('Completed and Deployed', styles)],
+        [cell_para('DEPLOYMENT:', styles, 'CellMuted'), cell_para('Vercel Platform', styles),
+         cell_para('URL:', styles, 'CellMuted'), cell_para('https://monroeresourcehub.us', styles)],
     ]
     comp_table = Table(comp_data, colWidths=[1.5 * inch, 1.8 * inch, 1.0 * inch, 2.2 * inch])
     comp_table.setStyle(table_style_card())
-    comp_table.setStyle(TableStyle([
-        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
-        ('FONTNAME', (2, 0), (2, -1), 'Helvetica-Bold'),
-        ('TEXTCOLOR', (0, 0), (0, -1), MUTED),
-        ('TEXTCOLOR', (2, 0), (2, -1), MUTED),
-    ]))
     story.append(comp_table)
 
     def on_first(canvas, doc):
