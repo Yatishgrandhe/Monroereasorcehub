@@ -67,3 +67,20 @@ ENV/
 
 # Logs and temp
 .cache
+
+# AI Agent & MCP related (Not part of the website)
+.qwen/
+.roo/
+.trae/
+.vibe/
+.windsurf/
+.zencoder/
+.gemini/
+.agents/
+.cursorrules
+.aierc
+mcp_config.json
+/skills/
+/training/
+skills-lock.json
+stitch.json
