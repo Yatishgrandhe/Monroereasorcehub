@@ -132,7 +132,7 @@ export function ResumeBuilder() {
         try {
           const parsed = JSON.parse(savedData);
           setResumeData(parsed);
-          setCurrentStep(6);
+          setCurrentStep(7);
           setLoadedFromStorage(true);
           sessionStorage.removeItem('viewingResume');
         } catch (error) {
@@ -174,7 +174,7 @@ export function ResumeBuilder() {
         if (rData.targetJob) setTargetJob(rData.targetJob);
         if (rData.industry) setIndustry(rData.industry);
         if (rData.experienceLevel) setExperienceLevel(rData.experienceLevel);
-        setCurrentStep(6);
+        setCurrentStep(7);
       }
     } catch (error) {
       console.error('Error loading resume from database:', error);

@@ -10,6 +10,8 @@ import { FileText, Download, Trash2, Eye, Edit, Plus, Database, LogIn, Info } fr
 import { formatDate } from '@/lib/utils';
 import { exportResumeToPDF } from '@/lib/utils/pdf-export';
 import type { User } from '@supabase/supabase-js';
+import { motion } from 'framer-motion';
+import { Badge } from '@/components/ui/Badge';
 
 interface SavedResume {
   id: string;
@@ -58,14 +60,14 @@ export default function SavedResumesPage() {
 
       if (user) {
         // Load from database for logged-in users
-      const { data, error } = await supabase
-        .from('resumes')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('updated_at', { ascending: false });
+        const { data, error } = await supabase
+          .from('resumes')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('updated_at', { ascending: false });
 
-      if (error) throw error;
-      setResumes(data || []);
+        if (error) throw error;
+        setResumes(data || []);
       } else {
         // Load from local storage for guest users
         if (typeof window !== 'undefined') {
@@ -106,12 +108,12 @@ export default function SavedResumesPage() {
     try {
       if (user) {
         // Delete from database for logged-in users
-      const { error } = await supabase
-        .from('resumes')
-        .delete()
-        .eq('id', id);
+        const { error } = await supabase
+          .from('resumes')
+          .delete()
+          .eq('id', id);
 
-      if (error) throw error;
+        if (error) throw error;
       } else {
         // Delete from local storage for guest users
         if (typeof window !== 'undefined') {
@@ -152,31 +154,31 @@ export default function SavedResumesPage() {
 
   if (loading) {
     return (
-        <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-          <div className="text-center">
-            <div className="loading-spinner w-12 h-12 mx-auto mb-4"></div>
-            <p className="text-slate-400">Loading your resumes...</p>
-          </div>
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="loading-spinner w-12 h-12 mx-auto mb-4"></div>
+          <p className="text-slate-400">Loading your resumes...</p>
         </div>
+      </div>
     );
   }
 
   return (
-      <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
-        <div className="container-custom section-padding">
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h1 className="text-4xl font-black text-white mb-2">My Saved Resumes</h1>
-                <p className="text-xl text-slate-400 max-w-3xl font-sans">
+    <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
+      <div className="container-custom section-padding">
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-4xl font-black text-white mb-2">My Saved Resumes</h1>
+              <p className="text-xl text-slate-400 max-w-3xl font-sans">
                 {user ? 'Manage and export your saved resumes' : 'View and manage your resume saved in your browser'}
-                </p>
-              </div>
-              <Button variant="gradient" size="md" asChild href="/career/resume-builder">
-                <Plus className="h-4 w-4 mr-2" />
-                Create New Resume
-              </Button>
+              </p>
             </div>
+            <Button variant="gradient" size="md" asChild href="/career/resume-builder">
+              <Plus className="h-4 w-4 mr-2" />
+              Create New Resume
+            </Button>
+          </div>
 
           {/* Guest User Notice */}
           {!user && (
@@ -188,22 +190,22 @@ export default function SavedResumesPage() {
                     <div className="flex-1">
                       <p className="font-semibold text-white mb-1">Guest User - Local Storage</p>
                       <p className="text-sm text-slate-300 mb-2">
-                        Your resume is saved in your browser&apos;s local storage. This means your data stays on this device and won&apos;t sync across other devices or browsers. 
+                        Your resume is saved in your browser&apos;s local storage. This means your data stays on this device and won&apos;t sync across other devices or browsers.
                         <strong> Consider creating an account</strong> to access your work from anywhere and save multiple resumes.
                       </p>
                       <p className="text-xs text-slate-400 mb-3 italic">
-                        💡 <strong>Good news:</strong> When you create an account or log in, all your local data (resumes, cover letters, job analysis) 
+                        💡 <strong>Good news:</strong> When you create an account or log in, all your local data (resumes, cover letters, job analysis)
                         will be automatically migrated to your account so you can access everything from anywhere!
                       </p>
                       <div className="flex items-center gap-2">
-                        <Link 
+                        <Link
                           href="/auth/signup"
                           className="btn btn-outline btn-sm inline-flex items-center justify-center border-white/20 text-white hover:bg-white/10"
                         >
                           <LogIn className="h-4 w-4 mr-2" />
                           Create Account
                         </Link>
-                        <Link 
+                        <Link
                           href="/career"
                           className="btn btn-ghost btn-sm inline-flex items-center justify-center text-slate-400 hover:text-white"
                         >
@@ -217,67 +219,76 @@ export default function SavedResumesPage() {
               </Card>
             </div>
           )}
-          </div>
+        </div>
 
-          {resumes.length === 0 ? (
-            <Card className="bg-white/5 border-white/10">
-              <CardContent className="text-center py-12">
-                <FileText className="h-16 w-16 mx-auto mb-4 text-slate-500" />
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  No saved resumes yet
-                </h3>
-                <p className="text-slate-400 mb-6">
-                  {user 
-                    ? 'Start building your first resume to save it here for easy access and editing.'
-                    : "Start building your first resume. It will be saved in your browser's local storage for easy access and editing."}
-                </p>
-                <Button variant="gradient" size="md" asChild href="/career/resume-builder">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create Your First Resume
-                </Button>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {resumes.map((resume) => (
-                <Card key={resume.id} className="bg-white/5 border-white/10 hover:border-primary-500/30 transition-all duration-200">
-                  <CardHeader>
+        {resumes.length === 0 ? (
+          <Card className="glass-card border-white/10 overflow-hidden rounded-[3rem]">
+            <CardContent className="text-center py-24">
+              <div className="w-24 h-24 rounded-3xl bg-white/5 flex items-center justify-center mx-auto mb-8 border border-white/10 shadow-inner">
+                <FileText className="h-10 w-10 text-slate-500" />
+              </div>
+              <h3 className="text-3xl font-black text-white mb-4 uppercase tracking-tighter">
+                No Saved Resumes
+              </h3>
+              <p className="text-slate-400 mb-10 max-w-md mx-auto font-medium">
+                {user
+                  ? 'Start building your first resume to architect your career story and save it for easy access.'
+                  : "Your browser storage is currently empty. Start building your first resume now to see it here."}
+              </p>
+              <Button variant="gradient" size="lg" asChild href="/career/resume-builder" className="rounded-full px-10 shadow-lg shadow-primary-500/20">
+                <Plus className="h-5 w-5 mr-3" />
+                Architect Resume
+              </Button>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {resumes.map((resume) => (
+              <motion.div
+                key={resume.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -8 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Card className="glass-card border-white/10 hover:border-primary-500/50 transition-all duration-500 group overflow-hidden rounded-[2.5rem] h-full flex flex-col">
+                  <CardHeader className="p-8 pb-4">
                     <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <CardTitle className="text-lg mb-1 text-white">
+                      <div className="flex-1 min-w-0">
+                        <CardTitle className="text-xl font-black text-white mb-1 truncate tracking-tight">
                           {resume.resume_data?.personalInfo?.firstName} {resume.resume_data?.personalInfo?.lastName}
                         </CardTitle>
-                        <CardDescription className="text-slate-400">{resume.title}</CardDescription>
+                        <Badge variant="glass" className="bg-primary-500/10 text-primary-400 border-none text-[9px] font-black uppercase tracking-[0.15em] px-2 py-0.5">
+                          {resume.title.split(' - ')[1] || 'Professional Resume'}
+                        </Badge>
                       </div>
-                      <FileText className="h-8 w-8 text-primary-400" />
+                      <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-primary-500/30 transition-colors">
+                        <FileText className="h-6 w-6 text-primary-400" />
+                      </div>
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3 mb-4">
-                      <div className="flex items-center text-sm text-slate-400">
-                        <span className="font-medium mr-2">Created:</span>
-                        {formatDate(resume.created_at)}
+                  <CardContent className="p-8 pt-4 flex-1 flex flex-col">
+                    <div className="space-y-4 mb-8 flex-1">
+                      <div className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-primary-500/50" />
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Updated {formatDate(resume.updated_at)}</span>
                       </div>
-                      <div className="flex items-center text-sm text-slate-400">
-                        <span className="font-medium mr-2">Updated:</span>
-                        {formatDate(resume.updated_at)}
-                      </div>
-                      {resume.resume_data?.personalInfo?.email && (
-                        <div className="flex items-center text-sm text-slate-400 truncate">
-                          <span className="font-medium mr-2">Email:</span>
-                          {resume.resume_data.personalInfo.email}
-                        </div>
+                      {resume.resume_data?.targetJob && (
+                        <p className="text-sm text-slate-400 line-clamp-2 font-medium">
+                          <span className="text-slate-500 font-bold uppercase text-[9px] block mb-1 tracking-widest">Target Role</span>
+                          {resume.resume_data.targetJob}
+                        </p>
                       )}
                     </div>
-                    
-                    <div className="grid grid-cols-2 gap-2">
+
+                    <div className="grid grid-cols-2 gap-3 pt-6 border-t border-white/5">
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => handleView(resume.resume_data, resume.id)}
-                        className="border-white/20 text-white hover:bg-white/10"
+                        className="rounded-2xl border-white/10 text-white hover:bg-white/5 font-bold uppercase tracking-widest text-[10px] h-12"
                       >
-                        <Eye className="h-4 w-4 mr-1" />
+                        <Eye className="h-3.5 w-3.5 mr-2" />
                         View
                       </Button>
                       <Button
@@ -285,29 +296,30 @@ export default function SavedResumesPage() {
                         size="sm"
                         onClick={() => handleExport(resume.resume_data)}
                         loading={exporting === (resume.resume_data?.personalInfo?.firstName || 'export')}
-                        className="text-slate-400 hover:text-white"
+                        className="rounded-2xl bg-white/5 text-slate-300 hover:text-white font-bold uppercase tracking-widest text-[10px] h-12"
                       >
-                        <Download className="h-4 w-4 mr-1" />
+                        <Download className="h-3.5 w-3.5 mr-2" />
                         PDF
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="col-span-2 text-red-400 hover:text-red-300"
+                        className="col-span-2 text-slate-600 hover:text-red-400 hover:bg-red-400/5 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] transition-all h-8 mt-2"
                         onClick={() => handleDelete(resume.id)}
                         loading={deleting === resume.id}
                       >
-                        <Trash2 className="h-4 w-4 mr-1" />
-                        Delete
+                        <Trash2 className="h-3 w-3 mr-2" />
+                        Purged Archive
                       </Button>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          )}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
+    </div>
   );
 }
 
