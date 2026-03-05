@@ -59,40 +59,52 @@ export interface JobPosting {
 /**
  * Generate a professional summary based on experience
  */
-export async function generateProfessionalSummary(experience: ResumeData['experience'], targetJob?: string): Promise<string> {
+export async function generateProfessionalSummary(
+  experience: ResumeData['experience'],
+  targetJob?: string,
+  industry?: string,
+  experienceLevel?: string
+): Promise<string> {
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 
-    const experienceText = experience.map(exp =>
-      `${exp.position} at ${exp.company} (${exp.startDate} - ${exp.endDate}): ${exp.achievements.join('; ')}`
-    ).join('\n\n');
+    const experienceText = experience.length > 0
+      ? experience.map(exp => `${exp.position} at ${exp.company}: ${exp.achievements.join('; ')}`).join('\n')
+      : 'Entry level with focus on high-performance learning and immediate impact.';
 
-    const prompt = `Act as a world-class executive recruiter and resume architect. Generate an elite, narrative-driven professional summary consisting of EXACTLY 3 high-impact sentences for a high-performance resume. 
+    const prompt = `Act as an elite executive recruiter. Generate a professional summary consisting of EXACTLY 3 powerful sentences.
     
-    ${targetJob ? `Target Role: ${targetJob}` : ''}
+    Context:
+    - Target Role: ${targetJob || 'Professional'}
+    - Industry: ${industry || 'General Business'}
+    - Experience Level: ${experienceLevel || 'Mid-Career'}
+    - Experience History: ${experienceText}
     
-    Strategic Directives:
-    1. Sentence 1: A powerful "hook" that defines the professional identity and years of expertise.
-    2. Sentence 2: A cohesive narrative of key career achievements and scaled impact.
-    3. Sentence 3: A final statement on unique value propositions and future-looking capabilities.
+    Structure Requirements (Strict):
+    1. Sentence 1: A high-impact opening that fuses identity, total years of expertise, and core industry background.
+    2. Sentence 2: A narrative of historical professional impact, highlighting quantifiable wins or scaled projects.
+    3. Sentence 3: A definitive value proposition explaining exactly how the candidate's expertise solves pain points in the ${targetJob || 'target'} role.
     
     Rules:
-    - Strictly 3 sentences. No more, no less.
-    - Use "power verbs" and sophisticated industry terminology.
-    - Avoid generic platitudes; focus on quantifiable impact.
-    - Tone: Authoritative, prestigious, and high-energy.
-
-    Professional Context:
-    ${experienceText}
-
-    Generate only the summary text. No labels, no introduction, just the raw 3-sentence narrative.`;
+    - Exactly 3 sentences. No more, no less.
+    - No markdown formatting. No bolding. No labels like "Summary:".
+    - Avoid generic words like "passionate" or "hardworking". Use "orchestrated", "architected", "spearheaded".
+    - If experience is limited, focus on potential, technical acumen, and career trajectory.
+    
+    Return ONLY the 3 sentences of raw text.`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    return response.text().trim();
+    let text = response.text().trim();
+
+    // Safety cleanup: remove any labels or markdown Gemini might have added
+    text = text.replace(/^(Summary|Professional Summary|Narrative):\s*/i, '');
+    text = text.replace(/\*\*/g, ''); // Remove bolding
+
+    return text;
   } catch (error) {
     console.error('Error generating professional summary:', error);
-    return 'Strategic and results-oriented professional with a distinguished career trajectory and a proven record of driving operational excellence across diverse organizational landscapes.';
+    return `Results-driven ${targetJob || 'professional'} with a proven record of excellence in ${industry || 'the field'}. Committed to contributing strategic value and driving organizational success through high-level expertise. Seeking to leverage specialized skills for immediate impact in a ${experienceLevel || 'dynamic'} environment.`;
   }
 }
 

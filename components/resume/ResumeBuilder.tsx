@@ -365,7 +365,7 @@ export function ResumeBuilder() {
     setAiLoading(true);
     try {
       // 1. Try Server-Side AI (Cloud / Vercel hosted) - 0 downloads for user
-      const result = await generateSummaryAction(resumeData.experience, targetJob);
+      const result = await generateSummaryAction(resumeData.experience, targetJob, industry, experienceLevel);
       if (result.success && result.summary) {
         setResumeData(prev => ({ ...prev, summary: result.summary }));
         return;

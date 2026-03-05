@@ -1,10 +1,10 @@
 'use server';
 
-import { 
-  generateProfessionalSummary, 
-  enhanceBulletPoint, 
-  suggestSkills, 
-  generateCoverLetter, 
+import {
+  generateProfessionalSummary,
+  enhanceBulletPoint,
+  suggestSkills,
+  generateCoverLetter,
   analyzeJobDescription,
   generateInterviewQuestions,
   type ResumeData,
@@ -22,28 +22,23 @@ import {
 } from '@/lib/ai/local-ai';
 import { createClient } from '@/lib/supabase/server';
 
-export async function generateSummaryAction(experience: ResumeData['experience'], targetJob?: string) {
+export async function generateSummaryAction(
+  experience: ResumeData['experience'],
+  targetJob?: string,
+  industry?: string,
+  experienceLevel?: string
+) {
   try {
-    // Use local AI for all users (works offline and for guests)
     let summary: string;
-    if (shouldUseLocalAI()) {
+
+    // Attempt Gemini AI first (Cloud / Server)
+    try {
+      summary = await generateProfessionalSummary(experience, targetJob, industry, experienceLevel);
+    } catch (error) {
+      console.error('Gemini failed, using local AI fallback:', error);
       summary = generateProfessionalSummaryLocal(experience as ResumeExperience[], targetJob);
-    } else {
-      try {
-        const supabase = await createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-        summary = await generateProfessionalSummary(experience);
-        } else {
-          // Use local AI for guest users
-          summary = generateProfessionalSummaryLocal(experience as ResumeExperience[], targetJob);
-        }
-      } catch (error) {
-        console.error('Gemini failed, using local AI fallback:', error);
-        summary = generateProfessionalSummaryLocal(experience as ResumeExperience[], targetJob);
-      }
     }
-    
+
     return { success: true, summary };
   } catch (error) {
     console.error('Error generating summary:', error);
@@ -62,7 +57,7 @@ export async function enhanceBulletPointAction(originalText: string, context?: s
         const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-        enhanced = await enhanceBulletPoint(originalText, context);
+          enhanced = await enhanceBulletPoint(originalText, context);
         } else {
           // Use local AI for guest users
           enhanced = enhanceBulletPointLocal(originalText, context);
@@ -91,7 +86,7 @@ export async function suggestSkillsAction(jobDescription: string, currentSkills:
         const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-        skills = await suggestSkills(jobDescription, currentSkills);
+          skills = await suggestSkills(jobDescription, currentSkills);
         } else {
           // Use local AI for guest users
           skills = suggestSkillsLocal(jobDescription, currentSkills);
@@ -118,20 +113,20 @@ export async function generateCoverLetterAction(resumeData: ResumeData, jobPosti
       coverLetter = generateCoverLetterLocal(resumeData, jobPosting);
     } else {
       try {
-    const supabase = await createClient();
+        const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           coverLetter = await generateCoverLetter(resumeData, jobPosting);
         } else {
           // Use local AI for guest users
           coverLetter = generateCoverLetterLocal(resumeData, jobPosting);
-    }
+        }
       } catch (error) {
         console.error('Gemini failed, using local AI fallback:', error);
         coverLetter = generateCoverLetterLocal(resumeData, jobPosting);
       }
     }
-    
+
     return { success: true, coverLetter };
   } catch (error) {
     console.error('Error generating cover letter:', error);
@@ -147,7 +142,7 @@ export async function analyzeJobAction(jobDescription: string) {
       analysis = analyzeJobDescriptionLocal(jobDescription);
     } else {
       try {
-    const supabase = await createClient();
+        const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           analysis = await analyzeJobDescription(jobDescription);
@@ -160,7 +155,7 @@ export async function analyzeJobAction(jobDescription: string) {
         analysis = analyzeJobDescriptionLocal(jobDescription);
       }
     }
-    
+
     return { success: true, analysis };
   } catch (error) {
     console.error('Error analyzing job:', error);
@@ -177,20 +172,20 @@ export async function generateInterviewQuestionsAction(jobPosting: JobPosting) {
       questions = generateInterviewQuestionsLocal(jobPosting);
     } else {
       try {
-    const supabase = await createClient();
+        const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           questions = await generateInterviewQuestions(jobPosting);
         } else {
           // Use local AI for guest users
           questions = generateInterviewQuestionsLocal(jobPosting);
-    }
+        }
       } catch (error) {
         console.error('Gemini failed, using local AI fallback:', error);
         questions = generateInterviewQuestionsLocal(jobPosting);
       }
     }
-    
+
     return { success: true, questions };
   } catch (error) {
     console.error('Error generating interview questions:', error);
