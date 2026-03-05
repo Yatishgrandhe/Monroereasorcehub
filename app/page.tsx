@@ -93,12 +93,12 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 md:gap-5 justify-center">
                 <Magnetic strength={0.3}>
-                  <Button size="lg" variant="gradient" className="w-full sm:w-auto px-12 h-16 rounded-3xl bg-primary-600 hover:bg-primary-500 border-none shadow-2xl shadow-primary-500/30 text-sm font-black uppercase tracking-[0.1em] text-white" asChild href="/resources">
+                  <Button size="lg" className="w-full sm:w-auto px-12 h-16 rounded-3xl bg-white text-slate-950 hover:bg-white/90 border-none shadow-2xl shadow-white/10 text-sm font-bold uppercase tracking-[0.15em] transition-all" asChild href="/resources">
                     <Link href="/resources">Get Started</Link>
                   </Button>
                 </Magnetic>
                 <Magnetic strength={0.2}>
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto px-12 h-16 rounded-3xl border-white/30 text-white hover:bg-white/10 font-black text-sm uppercase tracking-[0.1em]" asChild href="/career/resume-builder">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto px-12 h-16 rounded-3xl border-white/40 text-white hover:bg-white/5 font-bold text-sm uppercase tracking-[0.15em]" asChild href="/career/resume-builder">
                     <Link href="/career/resume-builder">Build Resume</Link>
                   </Button>
                 </Magnetic>
