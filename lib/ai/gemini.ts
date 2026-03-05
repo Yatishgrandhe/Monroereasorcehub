@@ -67,22 +67,25 @@ export async function generateProfessionalSummary(experience: ResumeData['experi
       `${exp.position} at ${exp.company} (${exp.startDate} - ${exp.endDate}): ${exp.achievements.join('; ')}`
     ).join('\n\n');
 
-    const prompt = `Act as a world-class executive recruiter and resume architect. Generate an elite, narrative-driven professional summary (4-6 complex sentences) for a high-performance resume. 
+    const prompt = `Act as a world-class executive recruiter and resume architect. Generate an elite, narrative-driven professional summary consisting of EXACTLY 3 high-impact sentences for a high-performance resume. 
     
     ${targetJob ? `Target Role: ${targetJob}` : ''}
     
     Strategic Directives:
-    1. Open with a powerful "hook" that defines the professional identity.
-    2. Weave a cohesive narrative of career progression and escalating impact.
-    3. Use "power verbs" and ultra-sophisticated industry terminology.
-    4. Focus on unique value propositions, leadership philosophy, and multi-disciplinary expertise.
-    5. Avoid generic platitudes; focus on "Hard Metrics" and "Strategic Wins" implied by the experience.
-    6. Tone must be authoritative, prestigious, and high-energy.
+    1. Sentence 1: A powerful "hook" that defines the professional identity and years of expertise.
+    2. Sentence 2: A cohesive narrative of key career achievements and scaled impact.
+    3. Sentence 3: A final statement on unique value propositions and future-looking capabilities.
+    
+    Rules:
+    - Strictly 3 sentences. No more, no less.
+    - Use "power verbs" and sophisticated industry terminology.
+    - Avoid generic platitudes; focus on quantifiable impact.
+    - Tone: Authoritative, prestigious, and high-energy.
 
     Professional Context:
     ${experienceText}
 
-    Generate only the summary text. No labels, no introduction, just the raw narrative.`;
+    Generate only the summary text. No labels, no introduction, just the raw 3-sentence narrative.`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
