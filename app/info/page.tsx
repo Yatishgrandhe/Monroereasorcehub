@@ -265,10 +265,10 @@ export default function InfoPage() {
                       </div>
                     </div>
                     <p className="text-slate-400 leading-relaxed mb-8">{doc.description}</p>
-                    <Button variant="gradient" className="w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs" asChild href={doc.href}>
+                    <Button variant="gradient" className="w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs" asChild href={doc.href} target="_blank" rel="noopener noreferrer">
                       <span className="flex items-center gap-2">
-                        <Download className="h-4 w-4" />
-                        Download Asset
+                        <Globe className="h-4 w-4" />
+                        Open
                       </span>
                     </Button>
                   </CardHeader>

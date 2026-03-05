@@ -11,6 +11,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   asChild?: boolean;
   href?: string;
+  target?: string;
+  rel?: string;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -54,7 +56,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     if (asChild && href) {
       return (
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="inline-block">
-          <Link href={href} className={baseClasses}>
+          <Link href={href} className={baseClasses} {...(props as any)}>
             {content}
           </Link>
         </motion.div>
