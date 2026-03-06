@@ -101,7 +101,7 @@ export default function SignUpPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-[var(--color-bg)] flex items-center justify-center py-20 px-4 relative overflow-hidden">
+      <div className="min-h-screen bg-[var(--color-bg)] flex items-center justify-center pt-32 pb-20 px-4 relative overflow-hidden">
         <div className="hero-orb-before opacity-60" aria-hidden="true" />
         <div className="hero-orb-after opacity-60" aria-hidden="true" />
 
@@ -143,7 +143,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] flex items-center justify-center py-20 px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-[var(--color-bg)] flex items-center justify-center pt-32 pb-20 px-4 relative overflow-hidden">
       <div className="hero-orb-before opacity-60" aria-hidden="true" />
       <div className="hero-orb-after opacity-60" aria-hidden="true" />
 
