@@ -75,7 +75,7 @@ export default function RootLayout({
       <body className="font-sans antialiased text-gray-900 dark:text-gray-100 bg-white dark:bg-[#000d1a]">
         <div className="min-h-screen flex flex-col w-full min-w-0 max-w-full overflow-x-hidden">
           <Header />
-          <main className="flex-1 w-full">
+          <main className="flex-1 w-full min-w-0 overflow-x-hidden">
             {children}
           </main>
           <Footer />

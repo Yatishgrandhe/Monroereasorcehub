@@ -103,7 +103,7 @@ export function Header() {
   const filteredNavigation = navigation;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 px-4 sm:pt-4 sm:px-6 lg:px-8 pointer-events-none [&>*]:pointer-events-auto">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 px-5 sm:pt-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 pointer-events-none [&>*]:pointer-events-auto">
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       <nav
         className={cn(
