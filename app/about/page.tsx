@@ -10,7 +10,7 @@ import { SPLINE_PAGES_URL } from '@/lib/spline';
 const team = [
   { name: 'Yatish Grandhe', role: 'Platform Architect' },
   { name: 'Dhyan Kanna', role: 'Interface Designer' },
-  { name: 'Aman Gandhi', role: 'Resource Verification' },
+  { name: 'Vihaan Kotagiri', role: 'Resource Verification' },
 ];
 
 const values = [
