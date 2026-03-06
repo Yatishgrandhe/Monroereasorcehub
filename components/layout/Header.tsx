@@ -113,7 +113,7 @@ export function Header() {
         )}
         aria-label="Global"
       >
-        <div className="flex items-center gap-2 sm:gap-4 lg:gap-5 px-4 sm:px-5 lg:px-8 h-12 sm:h-14 min-w-0">
+        <div className="flex items-center gap-2 sm:gap-4 lg:gap-5 pl-8 sm:pl-10 lg:pl-12 pr-4 sm:pr-5 lg:pr-8 h-12 sm:h-14 min-w-0">
           <Link
             href="/"
             className="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0"
