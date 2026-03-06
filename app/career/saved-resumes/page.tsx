@@ -154,166 +154,176 @@ export default function SavedResumesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="loading-spinner w-12 h-12 mx-auto mb-4"></div>
-          <p className="text-slate-400">Loading your resumes...</p>
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
+        <div className="text-center relative">
+          <div className="absolute -inset-8 bg-primary-500/10 blur-3xl rounded-full" />
+          <div className="relative">
+            <div className="w-16 h-16 border-4 border-primary-500/20 border-t-primary-500 rounded-full animate-spin mx-auto mb-6 shadow-lg shadow-primary-500/20" />
+            <h2 className="text-2xl font-black text-primary-950 mb-2 tracking-tighter uppercase font-serif italic">
+              Monroe <span className="text-primary-700">Resource</span> Hub
+            </h2>
+            <p className="text-slate-500 font-medium font-serif italic">
+              Accessing your career archives...
+            </p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
-      <div className="container-custom section-padding">
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-4xl font-black text-white mb-2">My Saved Resumes</h1>
-              <p className="text-xl text-slate-400 max-w-3xl font-sans">
-                {user ? 'Manage and export your saved resumes' : 'View and manage your resume saved in your browser'}
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      {/* Background patterns */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
+
+      {/* Hero Header */}
+      <div className="pt-32 pb-16 bg-primary-50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(52,97,173,0.1),transparent)]" />
+        <div className="container-custom relative z-10">
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
+            <div className="max-w-3xl">
+              <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block">Personal Archives</span>
+              <h1 className="text-5xl md:text-7xl font-serif font-black text-primary-950 tracking-tighter leading-none italic mb-6">
+                My Resumes<span className="text-primary-700 not-italic">.</span>
+              </h1>
+              <p className="text-xl text-gray-400 font-serif italic max-w-2xl">
+                {user
+                  ? 'Professional infrastructure for auditing and exporting your career documentation.'
+                  : 'Local browser cache containing your active resume development data.'}
               </p>
             </div>
-            <Button variant="gradient" size="md" asChild href="/career/resume-builder">
-              <Plus className="h-4 w-4 mr-2" />
-              Create New Resume
+            <Button size="lg" asChild className="bg-primary-950 hover:bg-black text-white px-10 h-16 rounded-3xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transition-all transform hover:-translate-y-1 active:translate-y-0" href="/career/resume-builder">
+              <Plus className="h-4 w-4 mr-3" />
+              New Archive
             </Button>
           </div>
-
-          {/* Guest User Notice */}
-          {!user && (
-            <div className="mb-6">
-              <Card className="bg-primary-500/10 border-primary-500/20">
-                <CardContent className="p-4">
-                  <div className="flex items-start gap-3">
-                    <Database className="h-5 w-5 text-primary-400 mt-0.5 flex-shrink-0" />
-                    <div className="flex-1">
-                      <p className="font-semibold text-white mb-1">Guest User - Local Storage</p>
-                      <p className="text-sm text-slate-300 mb-2">
-                        Your resume is saved in your browser&apos;s local storage. This means your data stays on this device and won&apos;t sync across other devices or browsers.
-                        <strong> Consider creating an account</strong> to access your work from anywhere and save multiple resumes.
-                      </p>
-                      <p className="text-xs text-slate-400 mb-3 italic">
-                        💡 <strong>Good news:</strong> When you create an account or log in, all your local data (resumes, cover letters, job analysis)
-                        will be automatically migrated to your account so you can access everything from anywhere!
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <Link
-                          href="/auth/signup"
-                          className="btn btn-outline btn-sm inline-flex items-center justify-center border-white/20 text-white hover:bg-white/10"
-                        >
-                          <LogIn className="h-4 w-4 mr-2" />
-                          Create Account
-                        </Link>
-                        <Link
-                          href="/career"
-                          className="btn btn-ghost btn-sm inline-flex items-center justify-center text-slate-400 hover:text-white"
-                        >
-                          <Info className="h-4 w-4 mr-2" />
-                          Learn More
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          )}
         </div>
+      </div>
+
+      <div className="container-custom py-24 relative z-10">
+        {/* Guest User Notice */}
+        {!user && (
+          <div className="mb-16">
+            <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-soft relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-bl-[4rem] pointer-events-none opacity-50" />
+              <div className="flex items-start gap-8">
+                <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-950 shrink-0">
+                  <Database className="h-7 w-7" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-serif font-black text-primary-950 mb-3 italic tracking-tight">Guest Protocol Active</h3>
+                  <p className="text-gray-500 font-serif italic leading-relaxed text-lg mb-8 max-w-3xl">
+                    Your documentation is currently stored within this browser&apos;s local cache. This data is device-specific and will not persist across different systems.
+                    <strong className="text-primary-700"> Sync your archives</strong> to the cloud for universal professional access.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <Button variant="outline" size="sm" asChild className="rounded-2xl border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[9px] h-12 px-8 hover:bg-gray-50 shadow-soft" href="/auth/signup">
+                      <LogIn className="h-4 w-4 mr-3" />
+                      Create Account
+                    </Button>
+                    <Button variant="ghost" size="sm" asChild className="rounded-2xl text-gray-400 hover:text-primary-950 font-black uppercase tracking-[0.2em] text-[9px] h-12 px-8" href="/career">
+                      <Info className="h-4 w-4 mr-3" />
+                      Learn More
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {resumes.length === 0 ? (
-          <Card className="glass-card border-white/10 overflow-hidden rounded-[3rem]">
-            <CardContent className="text-center py-24">
-              <div className="w-24 h-24 rounded-3xl bg-white/5 flex items-center justify-center mx-auto mb-8 border border-white/10 shadow-inner">
-                <FileText className="h-10 w-10 text-slate-500" />
+          <div className="bg-white p-24 text-center rounded-[5rem] border border-gray-50 shadow-soft relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-10" />
+            <div className="relative z-10">
+              <div className="w-24 h-24 rounded-[2rem] bg-primary-50 flex items-center justify-center mx-auto mb-10 border border-primary-100 shadow-inner">
+                <FileText className="h-10 w-10 text-primary-400" />
               </div>
-              <h3 className="text-3xl font-black text-white mb-4 uppercase tracking-tighter">
-                No Saved Resumes
-              </h3>
-              <p className="text-slate-400 mb-10 max-w-md mx-auto font-medium">
+              <h3 className="text-4xl font-serif font-black text-primary-950 mb-6 italic tracking-tight">No Active Archives</h3>
+              <p className="text-xl text-gray-400 font-serif italic max-w-md mx-auto mb-12">
                 {user
-                  ? 'Start building your first resume to architect your career story and save it for easy access.'
-                  : "Your browser storage is currently empty. Start building your first resume now to see it here."}
+                  ? 'Start building your professional narrative to architect your career story and save it for easy access.'
+                  : "Your browser storage is currently empty. Start building your first resume to see it archived here."}
               </p>
-              <Button variant="gradient" size="lg" asChild href="/career/resume-builder" className="rounded-full px-10 shadow-lg shadow-primary-500/20">
+              <Button size="lg" asChild className="bg-primary-950 hover:bg-black text-white px-12 h-20 rounded-[2.5rem] font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transition-all transform hover:-translate-y-1 active:translate-y-0" href="/career/resume-builder">
                 <Plus className="h-5 w-5 mr-3" />
                 Architect Resume
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
             {resumes.map((resume) => (
               <motion.div
                 key={resume.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -8 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.7 }}
               >
-                <Card className="glass-card border-white/10 hover:border-primary-500/50 transition-all duration-500 group overflow-hidden rounded-[2.5rem] h-full flex flex-col hover:shadow-2xl hover:shadow-primary-500/10">
-                  <CardHeader className="p-8 pb-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1 min-w-0">
-                        <CardTitle className="text-xl font-black text-white mb-1 truncate tracking-tight">
-                          {resume.resume_data?.personalInfo?.firstName} {resume.resume_data?.personalInfo?.lastName}
-                        </CardTitle>
-                        <Badge variant="outline" className="bg-primary-500/10 text-primary-400 border-none text-[9px] font-black uppercase tracking-[0.15em] px-2 py-0.5">
-                          {resume.title.split(' - ')[1] || 'Professional Resume'}
-                        </Badge>
-                      </div>
-                      <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-primary-500/30 transition-colors">
-                        <FileText className="h-6 w-6 text-primary-400" />
-                      </div>
+                <div className="bg-white p-12 lg:p-14 h-full flex flex-col border border-gray-50 rounded-[4rem] shadow-soft hover:shadow-civic-hover hover:-translate-y-2 transition-all duration-700 group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-bl-[4rem] pointer-events-none opacity-50" />
+
+                  <div className="flex items-start justify-between mb-10">
+                    <div className="flex-1 min-w-0 pr-4">
+                      <h3 className="text-2xl font-serif font-black text-primary-950 mb-2 italic tracking-tight truncate">
+                        {resume.resume_data?.personalInfo?.firstName} {resume.resume_data?.personalInfo?.lastName}
+                      </h3>
+                      <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary-50 text-primary-700 text-[9px] font-black uppercase tracking-[0.2em]">
+                        {resume.title.split(' - ')[1] || 'Professional Archive'}
+                      </span>
                     </div>
-                  </CardHeader>
-                  <CardContent className="p-8 pt-4 flex-1 flex flex-col">
-                    <div className="space-y-4 mb-8 flex-1">
-                      <div className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary-500/50" />
-                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Updated {formatDate(resume.updated_at)}</span>
-                      </div>
-                      {resume.resume_data?.targetJob && (
-                        <p className="text-sm text-slate-400 line-clamp-2 font-medium">
-                          <span className="text-slate-500 font-bold uppercase text-[9px] block mb-1 tracking-widest">Target Role</span>
+                    <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-950 group-hover:bg-primary-950 group-hover:text-white transition-all duration-500 shadow-sm">
+                      <FileText className="h-7 w-7" />
+                    </div>
+                  </div>
+
+                  <div className="flex-1 space-y-6 mb-12">
+                    <div className="flex items-center gap-4">
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary-700" />
+                      <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.25em]">Updated {formatDate(resume.updated_at)}</span>
+                    </div>
+                    {resume.resume_data?.targetJob && (
+                      <div>
+                        <span className="text-[9px] font-black text-primary-700 uppercase tracking-[0.3em] block mb-2">Operational Goal</span>
+                        <p className="text-lg text-gray-500 font-serif italic line-clamp-2 leading-snug">
                           {resume.resume_data.targetJob}
                         </p>
-                      )}
-                    </div>
+                      </div>
+                    )}
+                  </div>
 
-                    <div className="grid grid-cols-2 gap-3 pt-6 border-t border-white/5">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleView(resume.resume_data, resume.id)}
-                        className="rounded-2xl border-white/10 text-white hover:bg-white/5 font-bold uppercase tracking-widest text-[10px] h-12"
-                      >
-                        <Eye className="h-3.5 w-3.5 mr-2" />
-                        View
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleExport(resume.resume_data)}
-                        loading={exporting === (resume.resume_data?.personalInfo?.firstName || 'export')}
-                        className="rounded-2xl bg-white/5 text-slate-300 hover:text-white font-bold uppercase tracking-widest text-[10px] h-12"
-                      >
-                        <Download className="h-3.5 w-3.5 mr-2" />
-                        PDF
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="col-span-2 text-slate-600 hover:text-red-400 hover:bg-red-400/5 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] transition-all h-8 mt-2"
-                        onClick={() => handleDelete(resume.id)}
-                        loading={deleting === resume.id}
-                      >
-                        <Trash2 className="h-3 w-3 mr-2" />
-                        Purged Archive
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                  <div className="grid grid-cols-2 gap-4 pt-10 border-t border-gray-50">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleView(resume.resume_data, resume.id)}
+                      className="rounded-2xl border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[9px] h-14 hover:bg-gray-50 shadow-soft"
+                    >
+                      <Eye className="h-4 w-4 mr-3" />
+                      View
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleExport(resume.resume_data)}
+                      loading={exporting === (resume.resume_data?.personalInfo?.firstName || 'export')}
+                      className="rounded-2xl bg-primary-50 text-primary-950 hover:bg-primary-100 font-black uppercase tracking-[0.2em] text-[9px] h-14 shadow-sm"
+                    >
+                      <Download className="h-4 w-4 mr-3" />
+                      PDF
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="col-span-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl text-[8px] font-black uppercase tracking-[0.3em] transition-all h-10 mt-4"
+                      onClick={() => handleDelete(resume.id)}
+                      loading={deleting === resume.id}
+                    >
+                      <Trash2 className="h-3.5 w-3.5 mr-3" />
+                      Purge Archive
+                    </Button>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -322,4 +332,5 @@ export default function SavedResumesPage() {
     </div>
   );
 }
+
 

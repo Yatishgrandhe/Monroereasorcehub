@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, MapPin, Calendar, Heart, ExternalLink, Filter, Briefcase, DollarSign, Clock, FileText } from 'lucide-react';
+import { Search, MapPin, Calendar, Heart, ExternalLink, Filter, Briefcase, DollarSign, Clock, FileText, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -215,17 +215,14 @@ export function JobBoard() {
           .order('posted_date', { ascending: false });
 
         if (fetchError) {
-          // If schema cache error, retry once after a short delay
           if ((fetchError.message?.includes('schema cache') ||
             fetchError.message?.includes('not found') ||
             fetchError.code === 'PGRST116') && retryCount < 1) {
             console.warn('Schema cache issue, retrying...', fetchError.message);
-            // Wait a bit and retry
             await new Promise(resolve => setTimeout(resolve, 1000));
             return fetchJobs(retryCount + 1);
           }
 
-          // If retry failed or other error, use sample data
           console.warn('Using sample data due to:', fetchError.message);
           setJobs(sampleJobs);
           setFilteredJobs(sampleJobs);
@@ -234,7 +231,6 @@ export function JobBoard() {
         }
 
         if (data && data.length > 0) {
-          // Transform Supabase data to JobListing format
           const transformedJobs: JobListing[] = data.map((job: any) => ({
             id: job.id,
             title: job.title,
@@ -254,14 +250,12 @@ export function JobBoard() {
           setJobs(transformedJobs);
           setFilteredJobs(transformedJobs);
         } else {
-          // No data returned, use sample jobs
           setJobs(sampleJobs);
           setFilteredJobs(sampleJobs);
         }
       } catch (err: any) {
         console.error('Error fetching jobs:', err);
         setError(err.message || 'Failed to load job listings');
-        // Fallback to sample jobs if fetch fails
         setJobs(sampleJobs);
         setFilteredJobs(sampleJobs);
       } finally {
@@ -276,7 +270,6 @@ export function JobBoard() {
   useEffect(() => {
     let filtered = jobs;
 
-    // Apply search filter
     if (searchQuery) {
       filtered = filtered.filter(job =>
         job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -285,17 +278,14 @@ export function JobBoard() {
       );
     }
 
-    // Apply category filters
     if (selectedFilters.category && selectedFilters.category.length > 0) {
       filtered = filtered.filter(job => selectedFilters.category.includes(job.category));
     }
 
-    // Apply type filters
     if (selectedFilters.type && selectedFilters.type.length > 0) {
       filtered = filtered.filter(job => selectedFilters.type.includes(job.type));
     }
 
-    // Apply experience level filters
     if (selectedFilters.experience && selectedFilters.experience.length > 0) {
       filtered = filtered.filter(job => selectedFilters.experience.includes(job.experienceLevel));
     }
@@ -317,222 +307,233 @@ export function JobBoard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
-      <div className="container-custom section-padding">
-        <div className="mb-12">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
-              <Briefcase className="w-3.5 h-3.5 mr-2" /> Opportunity Network
-            </Badge>
-            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
-              Local <span className="text-gradient-logo">Jobs</span>
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      {/* Background patterns */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
+
+      {/* Hero Section */}
+      <div className="pt-32 pb-16 bg-primary-50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(52,97,173,0.1),transparent)]" />
+        <div className="container-custom relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block">Opportunity Network</span>
+            <h1 className="text-5xl md:text-7xl font-serif font-black text-primary-950 tracking-tighter leading-none italic mb-6">
+              Local <span className="text-primary-700 not-italic">Jobs.</span>
             </h1>
-            <p className="text-xl text-slate-400 max-w-3xl leading-relaxed">
-              Discover career opportunities in Monroe, NC and surrounding Union County area
+            <p className="text-xl text-gray-400 font-serif italic max-w-2xl leading-relaxed">
+              Discover career opportunities in Monroe, NC and across the expanded Union County professional landscape.
             </p>
           </motion.div>
         </div>
+      </div>
 
-        {/* Search and Filters */}
-        <div className="mb-6">
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-            <div className="flex-1 max-w-2xl">
+      <div className="container-custom py-24 relative z-10">
+        {/* Search and Filters Hub */}
+        <div className="mb-12">
+          <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-soft">
+            <div className="flex-1 w-full max-w-2xl">
               <SearchBar
                 value={searchQuery}
                 onChange={setSearchQuery}
                 placeholder="Search jobs, companies, or keywords..."
+                className="bg-gray-50 border-none rounded-2xl h-14"
               />
             </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                className="btn btn-outline btn-sm inline-flex items-center justify-center"
+            <div className="flex items-center gap-4">
+              <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] hidden sm:block">
+                {filteredJobs.length} matches found
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={clearFilters}
                 disabled={Object.keys(selectedFilters).length === 0 && !searchQuery}
+                className="rounded-xl border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[9px] h-12 px-6 shadow-soft"
               >
-                Clear Filters
-              </button>
+                Reset Filters
+              </Button>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-16">
           {/* Filters Sidebar */}
           <div className="lg:col-span-1">
-            <FilterPanel
-              filters={filterGroups}
-              selectedFilters={selectedFilters}
-              onFilterChange={(filterId, values) => {
-                setSelectedFilters(prev => ({ ...prev, [filterId]: values }));
-              }}
-              onClearAll={clearFilters}
-            />
+            <div className="sticky top-32">
+              <FilterPanel
+                filters={filterGroups}
+                selectedFilters={selectedFilters}
+                onFilterChange={(filterId, values) => {
+                  setSelectedFilters(prev => ({ ...prev, [filterId]: values }));
+                }}
+                onClearAll={clearFilters}
+                className="bg-white rounded-[3rem] border border-gray-50 p-8 shadow-soft"
+              />
+            </div>
           </div>
 
-          {/* Job Listings */}
+          {/* Job Listings Archive */}
           <div className="lg:col-span-3">
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-slate-400">
-                {loading ? 'Loading jobs...' : `${filteredJobs.length} job${filteredJobs.length !== 1 ? 's' : ''} found`}
-              </p>
-            </div>
-
             {loading ? (
-              <div className="text-center py-12">
-                <div className="loading-spinner w-12 h-12 mx-auto mb-4 border-primary-500"></div>
-                <p className="text-slate-400">Loading job listings...</p>
+              <div className="text-center py-24 bg-white rounded-[4rem] border border-gray-50 shadow-soft">
+                <div className="w-16 h-16 border-4 border-primary-500/20 border-t-primary-500 rounded-full animate-spin mx-auto mb-6 shadow-lg shadow-primary-500/20" />
+                <p className="text-gray-400 font-serif italic text-lg">Accessing job database...</p>
               </div>
             ) : error ? (
-              <div className="text-center py-12">
-                <Briefcase className="h-16 w-16 text-slate-700 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  Error Loading Jobs
-                </h3>
-                <p className="text-slate-400 mb-4">
-                  {error}
-                </p>
+              <div className="text-center py-24 bg-white rounded-[4rem] border border-gray-50 shadow-soft">
+                <Briefcase className="h-20 w-20 text-gray-200 mx-auto mb-8" />
+                <h3 className="text-3xl font-serif font-black text-primary-950 mb-4 italic tracking-tight">Access Protocol Failure</h3>
+                <p className="text-lg text-gray-400 font-serif italic mb-10">{error}</p>
                 <Button
-                  variant="primary"
-                  size="sm"
+                  size="lg"
                   onClick={() => window.location.reload()}
-                  className="rounded-xl"
+                  className="bg-primary-950 hover:bg-black text-white px-10 h-16 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px]"
                 >
-                  Try Again
+                  Retry Connection
                 </Button>
               </div>
             ) : filteredJobs.length > 0 ? (
-              <div className="space-y-4">
+              <div className="space-y-8 lg:space-y-12">
                 {filteredJobs.map((job) => (
-                  <Card key={job.id} className="glass-card border-white/5 group relative overflow-hidden">
-                    <div className="absolute inset-0 -z-10 rounded-[32px] bg-slate-900/80 pointer-events-none" aria-hidden />
-                    <CardContent className="p-6 relative z-10">
-                      <div className="flex items-start justify-between">
+                  <motion.div
+                    key={job.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="bg-white p-10 lg:p-12 rounded-[4rem] border border-gray-50 shadow-soft hover:shadow-civic-hover hover:-translate-y-1 transition-all duration-700 group relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-bl-[4rem] pointer-events-none opacity-50" />
+
+                      <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
                         <div className="flex-1">
-                          <div className="flex items-start justify-between mb-3">
+                          <div className="flex items-start justify-between mb-6">
                             <div>
-                              <h3 className="text-xl font-bold text-white mb-1 tracking-tight group-hover:text-primary-400 transition-colors">
+                              <h3 className="text-3xl font-serif font-black text-primary-950 mb-2 italic tracking-tight group-hover:text-primary-700 transition-colors">
                                 {job.title}
                               </h3>
-                              <p className="text-lg text-primary-400 font-semibold mb-2">
+                              <p className="text-xl text-primary-700 font-serif italic mb-6">
                                 {job.company}
                               </p>
-                              <div className="flex items-center gap-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
-                                <div className="flex items-center gap-1.5">
-                                  <MapPin className="h-3.5 w-3.5 text-primary-500" />
+                              <div className="flex flex-wrap items-center gap-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                                <div className="flex items-center gap-3">
+                                  <MapPin className="h-4 w-4 text-primary-700" />
                                   <span>{job.location}</span>
-                                  {job.isRemote && <Badge variant="outline" className="ml-2 py-0">Remote</Badge>}
+                                  {job.isRemote && (
+                                    <span className="ml-2 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-[8px]">Remote</span>
+                                  )}
                                 </div>
-                                <div className="flex items-center gap-1.5">
-                                  <Briefcase className="h-3.5 w-3.5 text-primary-500" />
+                                <div className="flex items-center gap-3">
+                                  <Briefcase className="h-4 w-4 text-primary-700" />
                                   <span className="capitalize">{job.type.replace('-', ' ')}</span>
                                 </div>
-                                <div className="flex items-center gap-1.5">
-                                  <Calendar className="h-3.5 w-3.5 text-primary-500" />
+                                <div className="flex items-center gap-3">
+                                  <Calendar className="h-4 w-4 text-primary-700" />
                                   <span>{getRelativeTime(job.postedDate)}</span>
                                 </div>
                               </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => toggleFavorite(job.id)}
-                                className={cn("rounded-full", favoriteJobs.includes(job.id) ? 'text-red-500 bg-red-500/10' : 'text-slate-500 hover:bg-white/5')}
-                              >
-                                <Heart className={`h-4 w-4 ${favoriteJobs.includes(job.id) ? 'fill-current' : ''}`} />
-                              </Button>
-                            </div>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => toggleFavorite(job.id)}
+                              className={cn("rounded-2xl w-14 h-14", favoriteJobs.includes(job.id) ? 'text-red-500 bg-red-50 shadow-inner' : 'text-gray-300 hover:bg-gray-50 hover:text-primary-950')}
+                            >
+                              <Heart className={`h-6 w-6 ${favoriteJobs.includes(job.id) ? 'fill-current' : ''}`} />
+                            </Button>
                           </div>
 
-                          <div className="flex items-center gap-2 mb-4">
-                            <Badge variant="outline" className="bg-primary-500/10 border-primary-500/20 text-primary-400">{job.category}</Badge>
-                            <Badge variant="outline" className="capitalize border-white/10 text-slate-400">{job.experienceLevel} Level</Badge>
+                          <div className="flex flex-wrap items-center gap-3 mb-8">
+                            <span className="px-4 py-1.5 rounded-full bg-primary-50 text-primary-700 text-[9px] font-black uppercase tracking-[0.2em]">
+                              {job.category}
+                            </span>
+                            <span className="px-4 py-1.5 rounded-full bg-gray-50 text-gray-500 text-[9px] font-black uppercase tracking-[0.2em]">
+                              {job.experienceLevel} Level
+                            </span>
                             {job.salary && (
-                              <Badge variant="outline" className="border-emerald-500/20 text-emerald-400">
-                                <DollarSign className="h-3 w-3 mr-1" />
+                              <span className="px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-[9px] font-black uppercase tracking-[0.2em]">
                                 {job.salary}
-                              </Badge>
+                              </span>
                             )}
                           </div>
 
-                          <p className="text-slate-400 mb-6 line-clamp-2 text-sm leading-relaxed">
+                          <p className="text-lg text-gray-500 font-serif italic mb-10 line-clamp-2 leading-relaxed max-w-4xl">
                             {job.description}
                           </p>
 
-                          <div className="flex items-center justify-between gap-4">
-                            <div className="flex flex-wrap gap-1.5">
+                          <div className="flex flex-col sm:flex-row items-center justify-between gap-8 pt-10 border-t border-gray-50">
+                            <div className="flex flex-wrap gap-3">
                               {job.requirements.slice(0, 3).map((req, index) => (
-                                <Badge key={index} variant="outline" size="sm" className="border-white/5 text-slate-500 text-[10px]">
+                                <span key={index} className="text-[9px] font-black text-gray-300 uppercase tracking-[0.2em] px-4 py-1 border border-gray-50 rounded-full">
                                   {req}
-                                </Badge>
+                                </span>
                               ))}
                               {job.requirements.length > 3 && (
-                                <Badge variant="outline" size="sm" className="border-white/5 text-slate-500 text-[10px]">
+                                <span className="text-[9px] font-black text-gray-300 uppercase tracking-[0.2em] px-4 py-1">
                                   +{job.requirements.length - 3} more
-                                </Badge>
+                                </span>
                               )}
                             </div>
                             <Button
-                              variant="primary"
-                              size="sm"
-                              className="rounded-xl shadow-lg shadow-primary-500/20 px-6 shrink-0"
+                              size="lg"
+                              className="bg-primary-950 hover:bg-black text-white px-10 h-16 rounded-[2rem] font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transform hover:-translate-y-1 transition-all shrink-0 w-full sm:w-auto"
                               asChild
                               href={job.applicationUrl}
                             >
                               <span className="flex items-center">
                                 Apply Now
-                                <ExternalLink className="h-3.5 w-3.5 ml-2" />
+                                <ExternalLink className="h-4 w-4 ml-3" />
                               </span>
                             </Button>
                           </div>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </motion.div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12">
-                <Briefcase className="h-16 w-16 text-slate-700 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  No jobs found
-                </h3>
-                <p className="text-slate-400 mb-6">
-                  Try adjusting your search terms or filters to find what you're looking for.
+              <div className="text-center py-32 bg-white rounded-[5rem] border border-gray-50 shadow-soft">
+                <Briefcase className="h-24 w-24 text-gray-100 mx-auto mb-10" />
+                <h3 className="text-4xl font-serif font-black text-primary-950 mb-6 italic tracking-tight">No Match Found</h3>
+                <p className="text-xl text-gray-400 font-serif italic mb-12 max-w-md mx-auto">
+                  Expand your search parameters to discover other professional avenues in Monroe.
                 </p>
                 <Button
                   variant="outline"
                   onClick={clearFilters}
-                  className="rounded-xl border-white/10 text-white"
+                  className="rounded-2xl border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[10px] h-16 px-12 shadow-soft"
                 >
-                  Clear all filters
+                  Reset Parameters
                 </Button>
               </div>
             )}
           </div>
         </div>
 
-        {/* Call to Action */}
-        <div className="mt-16 text-center">
-          <Card className="bg-gradient-to-br from-primary-600 to-accent-700 text-white rounded-[2.5rem] border-none shadow-2xl shadow-primary-500/20 overflow-hidden relative">
-            <div className="absolute inset-0 bg-mesh opacity-10" />
-            <CardContent className="p-12 md:p-16 relative z-10">
-              <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tight">
-                Don't see the perfect job?
+        {/* Global CTA Section */}
+        <div className="mt-32">
+          <div className="bg-primary-950 p-16 md:p-24 rounded-[5rem] text-white shadow-2xl shadow-primary-950/30 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(52,97,173,0.3),transparent)]" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 blur-3xl rounded-full" />
+
+            <div className="relative z-10 text-center">
+              <h2 className="text-4xl md:text-6xl font-serif font-black mb-8 tracking-tighter italic">
+                Strategic Career <span className="text-primary-400">Navigation.</span>
               </h2>
-              <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Use our AI-powered job application assistant to create compelling cover letters and prepare for interviews.
+              <p className="text-xl text-primary-100/60 font-serif italic mb-16 max-w-3xl mx-auto leading-relaxed">
+                Utilize our AI-powered professional suite to engineer compelling documentation and master the Monroe job market.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Button
                   href="/career/job-assistant"
                   variant="outline"
                   size="lg"
-                  className="bg-white/10 border-white/20 text-white hover:bg-white/20 rounded-full px-10"
+                  className="bg-white/5 border-white/10 text-white hover:bg-white/10 rounded-[2.5rem] px-12 h-20 font-black uppercase tracking-[0.2em] text-[10px]"
                   asChild
                 >
                   <span className="flex items-center">
-                    <Briefcase className="mr-2 h-5 w-5" />
+                    <Sparkles className="mr-3 h-5 w-5" />
                     Job Assistant
                   </span>
                 </Button>
@@ -540,19 +541,20 @@ export function JobBoard() {
                   href="/career/resume-builder"
                   variant="outline"
                   size="lg"
-                  className="bg-white text-primary-900 border-white hover:bg-slate-100 rounded-full px-10"
+                  className="bg-white text-primary-950 border-white hover:bg-gray-100 rounded-[2.5rem] px-12 h-20 font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-white/10"
                   asChild
                 >
                   <span className="flex items-center">
-                    <FileText className="mr-2 h-5 w-5" />
-                    Build Your Resume
+                    <FileText className="mr-3 h-5 w-5" />
+                    Builder Module
                   </span>
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+

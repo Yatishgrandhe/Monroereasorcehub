@@ -7,15 +7,15 @@ function ResumeBuilderContent() {
 
 export default function ResumeBuilderPage() {
   return (
-      <Suspense fallback={
-        <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-          <div className="text-center">
-            <div className="loading-spinner w-12 h-12 mx-auto mb-4"></div>
-            <p className="text-slate-400">Loading resume builder...</p>
-          </div>
+    <Suspense fallback={
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary-500/20 border-t-primary-500 rounded-full animate-spin mx-auto mb-6 shadow-lg shadow-primary-500/20" />
+          <p className="text-gray-400 font-serif italic text-lg">Initializing builder module...</p>
         </div>
-      }>
-        <ResumeBuilderContent />
-      </Suspense>
+      </div>
+    }>
+      <ResumeBuilderContent />
+    </Suspense>
   );
 }

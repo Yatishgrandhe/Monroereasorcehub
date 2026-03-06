@@ -1,6 +1,6 @@
 'use client';
 
-import { FileText, Briefcase, Calendar, ArrowRight, CheckCircle } from 'lucide-react';
+import { FileText, Briefcase, Calendar, ArrowRight, CheckCircle, Sparkles, FilePlus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
@@ -10,11 +10,18 @@ import { SPLINE_PAGES_URL } from '@/lib/spline';
 
 const services = [
   {
-    icon: FileText,
-    title: 'Free Resume Review',
-    description: 'Submit your resume and our team will get back to you with professional feedback within 48 hours. Built for humans, by humans.',
-    action: 'Submit Resume',
-    href: '/contact'
+    icon: Sparkles,
+    title: 'AI Job Assistant',
+    description: 'Advanced heuristic analysis for job listings. Generate cover letters and interview prep strategies in seconds.',
+    action: 'Open Assistant',
+    href: '/career/job-assistant'
+  },
+  {
+    icon: FilePlus,
+    title: 'Resume Builder',
+    description: 'Architect a world-class professional narrative with our premium AI-augmented resume construction suite.',
+    action: 'Build Resume',
+    href: '/career/resume-builder'
   },
   {
     icon: Briefcase,
@@ -22,13 +29,6 @@ const services = [
     description: 'Verified local listings from employers who care about Monroe. No expired ads or generic corporate spam.',
     action: 'Browse Jobs',
     href: '/career/jobs'
-  },
-  {
-    icon: Calendar,
-    title: 'Skills Workshops',
-    description: 'Upcoming dates for in-person training at the Hub or local Union County libraries. Learn Resume writing, Interview prep, and more.',
-    action: 'View Schedule',
-    href: '/resources?category=Education'
   }
 ];
 

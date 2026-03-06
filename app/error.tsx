@@ -16,24 +16,27 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-      <div className="max-w-md mx-auto text-center">
-        <div className="w-16 h-16 bg-error-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <AlertTriangle className="h-8 w-8 text-error-600" />
+    <div className="min-h-screen bg-white flex items-center justify-center relative overflow-hidden">
+      {/* Background patterns */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
+
+      <div className="max-w-md mx-auto text-center relative z-10 px-6">
+        <div className="w-24 h-24 bg-red-50 text-red-500 rounded-[2.5rem] flex items-center justify-center mx-auto mb-10 shadow-soft border border-red-100">
+          <AlertTriangle className="h-10 w-10" />
         </div>
-        <h1 className="text-2xl font-bold text-white mb-4">
-          Something went wrong
+        <h1 className="text-4xl md:text-5xl font-serif font-black text-primary-950 mb-6 italic tracking-tight">
+          System <span className="text-red-500">Anomaly.</span>
         </h1>
-        <p className="text-slate-400 mb-6">
-          We're sorry, but something unexpected happened. Please try again or contact support if the problem persists.
+        <p className="text-xl text-gray-500 font-serif italic mb-12 leading-relaxed">
+          An unexpected interruption has been detected in the operational flow. Our team has been notified.
         </p>
-        <div className="space-y-3">
-          <Button variant="primary" onClick={reset} className="w-full">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Try Again
+        <div className="flex flex-col gap-4">
+          <Button onClick={reset} className="w-full bg-primary-950 hover:bg-black text-white h-16 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-xl shadow-primary-950/20">
+            <RefreshCw className="h-4 w-4 mr-3" />
+            Resume Protocol
           </Button>
-          <Button variant="outline" asChild href="/" className="w-full">
-            Go Home
+          <Button variant="outline" asChild href="/" className="w-full border-gray-100 bg-white text-primary-950 h-16 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-soft">
+            Return to Command Center
           </Button>
         </div>
       </div>

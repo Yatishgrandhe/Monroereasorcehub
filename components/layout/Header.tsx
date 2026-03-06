@@ -18,6 +18,7 @@ const navigation = [
   { name: 'Resources', href: '/resources' },
   { name: 'Events', href: '/events' },
   { name: 'Career Center', href: '/career' },
+  { name: 'My Resumes', href: '/career/saved-resumes' },
   { name: 'Volunteer', href: '/volunteer' },
   { name: 'About Us', href: '/about' },
   { name: 'Information', href: '/info' },

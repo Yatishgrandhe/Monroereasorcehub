@@ -516,55 +516,55 @@ export function ResumeBuilder() {
         return (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Input label="First Name" value={resumeData.personalInfo.firstName} onChange={(e) => updatePersonalInfo('firstName', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" />
-              <Input label="Last Name" value={resumeData.personalInfo.lastName} onChange={(e) => updatePersonalInfo('lastName', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" />
+              <Input label="First Name" value={resumeData.personalInfo.firstName} onChange={(e) => updatePersonalInfo('firstName', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
+              <Input label="Last Name" value={resumeData.personalInfo.lastName} onChange={(e) => updatePersonalInfo('lastName', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Input label="Email Address" type="email" value={resumeData.personalInfo.email} onChange={(e) => updatePersonalInfo('email', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" />
-              <Input label="Phone Number" type="tel" value={resumeData.personalInfo.phone} onChange={(e) => updatePersonalInfo('phone', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" />
+              <Input label="Email Address" type="email" value={resumeData.personalInfo.email} onChange={(e) => updatePersonalInfo('email', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
+              <Input label="Phone Number" type="tel" value={resumeData.personalInfo.phone} onChange={(e) => updatePersonalInfo('phone', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
             </div>
 
-            <div className="pt-8 border-t border-white/5 space-y-6">
+            <div className="pt-8 border-t border-gray-100 space-y-6">
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-lg bg-primary-500/20 flex items-center justify-center border border-primary-500/30">
-                  <Sparkles className="w-4 h-4 text-primary-400" />
+                <div className="w-8 h-8 rounded-lg bg-primary-100 flex items-center justify-center border border-primary-200">
+                  <Sparkles className="w-4 h-4 text-primary-600" />
                 </div>
-                <h3 className="text-lg font-black text-white uppercase tracking-widest">AI Context Engine</h3>
+                <h3 className="text-lg font-serif font-black text-primary-950 uppercase tracking-tight italic">AI Context Engine</h3>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Target Job</label>
+                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2">Target Job</label>
                   <input
-                    className="w-full h-14 px-5 bg-white/5 border border-white/10 rounded-2xl text-white focus:border-primary-500 outline-none transition-all"
+                    className="w-full h-14 px-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all"
                     placeholder="e.g. Software Engineer"
                     value={targetJob}
                     onChange={(e) => setTargetJob(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Industry</label>
+                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2">Industry</label>
                   <select
-                    className="w-full h-14 px-5 bg-white/5 border border-white/10 rounded-2xl text-white focus:border-primary-500 outline-none transition-all appearance-none"
+                    className="w-full h-14 px-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
                     value={industry}
                     onChange={(e) => setIndustry(e.target.value)}
                   >
-                    <option value="" disabled className="bg-slate-900">Select Industry</option>
+                    <option value="" disabled className="bg-white">Select Industry</option>
                     {['Technology', 'Healthcare', 'Finance', 'Education', 'Construction', 'Creative', 'Government', 'Retail'].map(opt => (
-                      <option key={opt} value={opt} className="bg-slate-900">{opt}</option>
+                      <option key={opt} value={opt} className="bg-white">{opt}</option>
                     ))}
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Exp. Level</label>
+                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2">Exp. Level</label>
                   <select
-                    className="w-full h-14 px-5 bg-white/5 border border-white/10 rounded-2xl text-white focus:border-primary-500 outline-none transition-all appearance-none"
+                    className="w-full h-14 px-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
                     value={experienceLevel}
                     onChange={(e) => setExperienceLevel(e.target.value)}
                   >
-                    <option value="" disabled className="bg-slate-900">Select Level</option>
+                    <option value="" disabled className="bg-white">Select Level</option>
                     {['Entry Level', 'Junior', 'Mid-Level', 'Senior', 'Executive'].map(opt => (
-                      <option key={opt} value={opt} className="bg-slate-900">{opt}</option>
+                      <option key={opt} value={opt} className="bg-white">{opt}</option>
                     ))}
                   </select>
                 </div>
@@ -577,15 +577,15 @@ export function ResumeBuilder() {
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex items-center justify-between mb-4">
               <div className="space-y-1">
-                <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Professional Summary</h3>
-                <p className="text-sm text-slate-500 font-medium">Define your narrative in exactly 3 impactful sentences.</p>
+                <h3 className="text-2xl font-serif font-black text-primary-950 uppercase tracking-tight italic">Professional Summary</h3>
+                <p className="text-sm text-gray-500 font-medium">Define your narrative in exactly 3 impactful sentences.</p>
               </div>
               <Button
-                variant="gradient"
+                variant="primary"
                 size="sm"
                 onClick={generateSummary}
                 loading={aiLoading || aiStatus === 'loading'}
-                className="rounded-full px-6 shadow-lg shadow-primary-500/20"
+                className="rounded-xl px-6 shadow-lg bg-primary-950 text-white hover:bg-black"
               >
                 <Sparkles className="w-4 h-4 mr-2" />
                 Magic Generate
@@ -594,11 +594,11 @@ export function ResumeBuilder() {
 
             {aiStatus === 'loading' && (
               <div className="mb-6 space-y-3">
-                <div className="flex justify-between text-[10px] font-bold text-primary-400 uppercase tracking-widest">
+                <div className="flex justify-between text-[10px] font-bold text-primary-600 uppercase tracking-widest">
                   <span>{aiMessage}</span>
                   <span>{Math.round(aiProgress)}%</span>
                 </div>
-                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${aiProgress}%` }}
@@ -609,7 +609,7 @@ export function ResumeBuilder() {
             )}
 
             <textarea
-              className="w-full min-h-[250px] p-8 bg-white/5 border border-white/10 rounded-[2rem] text-white text-lg leading-relaxed focus:border-primary-500 outline-none transition-all glass-card"
+              className="w-full min-h-[250px] p-8 bg-gray-50 border border-gray-200 rounded-3xl text-gray-800 text-lg leading-relaxed focus:border-primary-500 outline-none transition-all shadow-soft"
               placeholder="Start typing your summary or use 'Magic Generate' to let local AI architect it for you based on your context..."
               value={resumeData.summary}
               onChange={(e) => setResumeData(prev => ({ ...prev, summary: e.target.value }))}
@@ -621,21 +621,21 @@ export function ResumeBuilder() {
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
-                <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Experience</h3>
-                <p className="text-sm text-slate-500 font-medium">Record your professional history and use AI to architect bullet points.</p>
+                <h3 className="text-2xl font-serif font-black text-primary-950 uppercase tracking-tight italic">Experience</h3>
+                <p className="text-sm text-gray-500 font-medium">Record your professional history and use AI to architect bullet points.</p>
               </div>
-              <Button variant="outline" size="sm" onClick={addExperience} className="rounded-xl border-white/10 text-white hover:bg-white/5 h-12 px-6">
+              <Button variant="outline" size="sm" onClick={addExperience} className="rounded-xl border-gray-200 text-gray-800 hover:bg-gray-50 h-12 px-6">
                 <Plus className="h-4 w-4 mr-2" /> Add Position
               </Button>
             </div>
 
             {aiStatus === 'loading' && (
-              <div className="mb-6 space-y-3 p-4 bg-primary-500/5 rounded-2xl border border-primary-500/10">
-                <div className="flex justify-between text-[10px] font-bold text-primary-400 uppercase tracking-widest">
+              <div className="mb-6 space-y-3 p-4 bg-primary-50/50 rounded-2xl border border-primary-100">
+                <div className="flex justify-between text-[10px] font-bold text-primary-600 uppercase tracking-widest">
                   <span>{aiMessage}</span>
                   <span>{Math.round(aiProgress)}%</span>
                 </div>
-                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${aiProgress}%` }}
@@ -646,37 +646,37 @@ export function ResumeBuilder() {
             )}
 
             {resumeData.experience.map((exp, idx) => (
-              <Card key={exp.id} className="glass-card border-white/10 relative overflow-visible p-2 rounded-[2rem]">
-                <Button variant="ghost" size="sm" onClick={() => removeExperience(exp.id)} className="absolute top-6 right-6 text-slate-500 hover:text-red-400 z-20">
+              <Card key={exp.id} className="shadow-soft border-gray-100 relative overflow-visible p-2 rounded-3xl">
+                <Button variant="ghost" size="sm" onClick={() => removeExperience(exp.id)} className="absolute top-6 right-6 text-gray-400 hover:text-red-500 z-20">
                   <Trash2 className="h-5 w-5" />
                 </Button>
-                <CardHeader className="pt-8 px-8"><CardTitle className="text-white text-xl font-black">Position {idx + 1}</CardTitle></CardHeader>
+                <CardHeader className="pt-8 px-8"><CardTitle className="text-primary-950 text-xl font-serif font-black italic">Position {idx + 1}</CardTitle></CardHeader>
                 <CardContent className="px-8 pb-8 space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Input label="Job Title" value={exp.position} onChange={(e) => updateExperience(exp.id, 'position', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" placeholder="e.g. Lead Developer" />
-                    <Input label="Corporation" value={exp.company} onChange={(e) => updateExperience(exp.id, 'company', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" placeholder="e.g. Stark Industries" />
+                    <Input label="Job Title" value={exp.position} onChange={(e) => updateExperience(exp.id, 'position', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" placeholder="e.g. Lead Developer" />
+                    <Input label="Corporation" value={exp.company} onChange={(e) => updateExperience(exp.id, 'company', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" placeholder="e.g. Stark Industries" />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <Input label="Start Date" type="month" value={exp.startDate} onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl [color-scheme:dark]" />
-                    <Input label="End Date" type="month" value={exp.endDate} onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)} disabled={exp.current} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl [color-scheme:dark]" />
+                    <Input label="Start Date" type="month" value={exp.startDate} onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
+                    <Input label="End Date" type="month" value={exp.endDate} onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)} disabled={exp.current} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
                     <div className="flex items-center gap-3 pt-8 pb-2">
                       <input
                         type="checkbox"
                         checked={exp.current}
                         onChange={(e) => updateExperience(exp.id, 'current', e.target.checked)}
-                        className="h-6 w-6 rounded-lg border-white/10 bg-white/5 text-primary-500 cursor-pointer"
+                        className="h-6 w-6 rounded-lg border-gray-200 bg-gray-50 text-primary-500 cursor-pointer focus:ring-primary-500"
                       />
-                      <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Active Position</span>
+                      <span className="text-sm font-bold text-gray-500 uppercase tracking-widest">Active Position</span>
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between mb-2">
-                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Key Achievements & Impact</label>
+                      <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Key Achievements & Impact</label>
                     </div>
                     {exp.achievements.map((ach, achIdx) => (
                       <div key={achIdx} className="group relative flex gap-3">
                         <textarea
-                          className="flex-1 px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white text-sm leading-relaxed focus:border-primary-500 outline-none transition-all min-h-[80px]"
+                          className="flex-1 px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 text-sm leading-relaxed focus:border-primary-500 outline-none transition-all min-h-[80px]"
                           placeholder="Briefly mention a success or responsibility..."
                           value={ach}
                           onChange={(e) => {
@@ -691,7 +691,7 @@ export function ResumeBuilder() {
                             size="sm"
                             onClick={() => enhanceBulletPoint(exp.id, achIdx)}
                             loading={aiLoading || aiStatus === 'loading'}
-                            className="bg-primary-500/10 text-primary-400 hover:bg-primary-500/20 rounded-xl h-10 w-10 p-0"
+                            className="bg-primary-50/50 text-primary-600 hover:bg-primary-100 rounded-xl h-10 w-10 p-0"
                             title="Enhance with Local AI"
                           >
                             <Sparkles className="h-4 w-4" />
@@ -703,14 +703,14 @@ export function ResumeBuilder() {
                               const updated = exp.achievements.filter((_, i) => i !== achIdx);
                               updateExperience(exp.id, 'achievements', updated);
                             }}
-                            className="text-slate-600 hover:text-red-400 rounded-xl h-10 w-10 p-0"
+                            className="text-gray-400 hover:text-red-500 rounded-xl h-10 w-10 p-0"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
                       </div>
                     ))}
-                    <Button variant="ghost" size="sm" onClick={() => updateExperience(exp.id, 'achievements', [...exp.achievements, ''])} className="text-primary-400 font-bold uppercase tracking-widest text-[10px] hover:bg-primary-500/5">
+                    <Button variant="ghost" size="sm" onClick={() => updateExperience(exp.id, 'achievements', [...exp.achievements, ''])} className="text-primary-600 font-bold uppercase tracking-widest text-[10px] hover:bg-primary-50/50">
                       <Plus className="h-4 w-4 mr-2" /> Add Achievement Line
                     </Button>
                   </div>
@@ -724,55 +724,55 @@ export function ResumeBuilder() {
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
-                <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Education</h3>
-                <p className="text-sm text-slate-500 font-medium">Add your academic background and certifications.</p>
+                <h3 className="text-2xl font-serif font-black text-primary-950 uppercase tracking-tight italic">Education</h3>
+                <p className="text-sm text-gray-500 font-medium">Add your academic background and certifications.</p>
               </div>
-              <Button variant="outline" size="sm" onClick={addEducation} className="rounded-xl border-white/10 text-white hover:bg-white/5 h-12 px-6">
+              <Button variant="outline" size="sm" onClick={addEducation} className="rounded-xl border-gray-200 text-gray-800 hover:bg-gray-50 h-12 px-6">
                 <Plus className="h-4 w-4 mr-2" /> Add Education
               </Button>
             </div>
 
             {resumeData.education.map((edu, idx) => (
-              <Card key={edu.id} className="glass-card border-white/10 relative overflow-visible p-2 rounded-[2rem]">
-                <Button variant="ghost" size="sm" onClick={() => removeEducation(edu.id)} className="absolute top-6 right-6 text-slate-500 hover:text-red-400 z-20">
+              <Card key={edu.id} className="shadow-soft border-gray-100 relative overflow-visible p-2 rounded-3xl">
+                <Button variant="ghost" size="sm" onClick={() => removeEducation(edu.id)} className="absolute top-6 right-6 text-gray-400 hover:text-red-500 z-20">
                   <Trash2 className="h-5 w-5" />
                 </Button>
-                <CardHeader className="pt-8 px-8"><CardTitle className="text-white text-xl font-black">Institution {idx + 1}</CardTitle></CardHeader>
+                <CardHeader className="pt-8 px-8"><CardTitle className="text-primary-950 text-xl font-serif font-black italic">Institution {idx + 1}</CardTitle></CardHeader>
                 <CardContent className="px-8 pb-8 space-y-8">
-                  <Input label="School / University" value={edu.institution} onChange={(e) => updateEducation(edu.id, 'institution', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl" placeholder="e.g. NC State University" />
+                  <Input label="School / University" value={edu.institution} onChange={(e) => updateEducation(edu.id, 'institution', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" placeholder="e.g. NC State University" />
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Degree Type</label>
+                      <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2">Degree Type</label>
                       <select
-                        className="w-full h-14 px-5 bg-white/5 border border-white/10 rounded-2xl text-white focus:border-primary-500 outline-none transition-all appearance-none"
+                        className="w-full h-14 px-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
                         value={edu.degree}
                         onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)}
                       >
-                        <option value="" disabled className="bg-slate-900">Select Degree</option>
+                        <option value="" disabled className="bg-white">Select Degree</option>
                         {['High School Diploma', "Associate's Degree", "Bachelor's Degree", "Master's Degree", 'PhD / Doctorate', 'Professional Certification', 'Other'].map(opt => (
-                          <option key={opt} value={opt} className="bg-slate-900">{opt}</option>
+                          <option key={opt} value={opt} className="bg-white">{opt}</option>
                         ))}
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Field of Study</label>
+                      <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2">Field of Study</label>
                       <select
-                        className="w-full h-14 px-5 bg-white/5 border border-white/10 rounded-2xl text-white focus:border-primary-500 outline-none transition-all appearance-none"
+                        className="w-full h-14 px-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
                         value={edu.field}
                         onChange={(e) => updateEducation(edu.id, 'field', e.target.value)}
                       >
-                        <option value="" disabled className="bg-slate-900">Select Field</option>
+                        <option value="" disabled className="bg-white">Select Field</option>
                         {['Computer Science', 'Business Administration', 'Nursing', 'Psychology', 'Mechanical Engineering', 'General Studies', 'Communications', 'Accounting', 'Criminal Justice', 'Other'].map(opt => (
-                          <option key={opt} value={opt} className="bg-slate-900">{opt}</option>
+                          <option key={opt} value={opt} className="bg-white">{opt}</option>
                         ))}
                       </select>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Input label="Start Date" type="month" value={edu.startDate} onChange={(e) => updateEducation(edu.id, 'startDate', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl [color-scheme:dark]" />
-                    <Input label="End Date (Expected)" type="month" value={edu.endDate} onChange={(e) => updateEducation(edu.id, 'endDate', e.target.value)} className="bg-white/5 border-white/10 text-white h-14 rounded-2xl [color-scheme:dark]" />
+                    <Input label="Start Date" type="month" value={edu.startDate} onChange={(e) => updateEducation(edu.id, 'startDate', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
+                    <Input label="End Date (Expected)" type="month" value={edu.endDate} onChange={(e) => updateEducation(edu.id, 'endDate', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
                   </div>
                 </CardContent>
               </Card>
@@ -784,15 +784,15 @@ export function ResumeBuilder() {
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex items-center justify-between mb-4">
               <div className="space-y-1">
-                <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Strategic Skills</h3>
-                <p className="text-sm text-slate-500 font-medium">Map your core competencies to the target role.</p>
+                <h3 className="text-2xl font-serif font-black text-primary-950 uppercase tracking-tight italic">Strategic Skills</h3>
+                <p className="text-sm text-gray-500 font-medium">Map your core competencies to the target role.</p>
               </div>
               <Button
-                variant="gradient"
+                variant="primary"
                 size="sm"
                 onClick={suggestSkills}
                 loading={aiLoading}
-                className="rounded-full px-6 shadow-lg shadow-primary-500/20"
+                className="rounded-xl px-6 shadow-lg bg-primary-950 text-white hover:bg-black"
               >
                 <Sparkles className="w-4 h-4 mr-2" />
                 Auto-Suggest
@@ -801,18 +801,18 @@ export function ResumeBuilder() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {resumeData.skills.map((skill, idx) => (
-                <div key={idx} className="group flex items-center gap-3 bg-white/5 border border-white/10 p-2 pl-4 rounded-2xl focus-within:border-primary-500/50 transition-all">
+                <div key={idx} className="group flex items-center gap-3 bg-gray-50 border border-gray-200 p-2 pl-4 rounded-xl focus-within:border-primary-500/50 transition-all">
                   <input
                     value={skill}
                     onChange={(e) => updateSkill(idx, e.target.value)}
-                    className="flex-1 bg-transparent border-none text-white text-sm font-bold uppercase tracking-wider focus:outline-none"
+                    className="flex-1 bg-transparent border-none text-gray-800 text-sm font-bold uppercase tracking-wider focus:outline-none"
                     placeholder="e.g. Project Architecture"
                   />
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => removeSkill(idx)}
-                    className="h-8 w-8 p-0 text-slate-600 hover:text-red-400 rounded-xl"
+                    className="h-8 w-8 p-0 text-gray-400 hover:text-red-500 rounded-lg"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -820,9 +820,9 @@ export function ResumeBuilder() {
               ))}
               <button
                 onClick={addSkill}
-                className="flex items-center justify-center gap-3 p-4 rounded-2xl border border-dashed border-white/10 text-slate-500 hover:border-primary-500/50 hover:text-primary-400 transition-all group h-14"
+                className="flex items-center justify-center gap-3 p-4 rounded-xl border border-dashed border-gray-200 text-gray-500 hover:border-primary-500/50 hover:text-primary-600 transition-all group h-14"
               >
-                <Plus className="h-4 w-4 transition-transform group-hover:rotate-90" />
+                <Plus className="h-4 w-4 mr-2 transition-transform group-hover:rotate-90" />
                 <span className="text-[10px] font-black uppercase tracking-widest">Append Manual Skill</span>
               </button>
             </div>
@@ -834,47 +834,47 @@ export function ResumeBuilder() {
             <div className="space-y-8">
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                  <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Certifications</h3>
-                  <p className="text-sm text-slate-500 font-medium">Add professional licenses and credentials.</p>
+                  <h3 className="text-2xl font-serif font-black text-primary-950 uppercase tracking-tight italic">Certifications</h3>
+                  <p className="text-sm text-gray-500 font-medium">Add professional licenses and credentials.</p>
                 </div>
-                <Button variant="outline" size="sm" onClick={addCertification} className="rounded-xl border-white/10 text-white hover:bg-white/5 h-12 px-6">
+                <Button variant="outline" size="sm" onClick={addCertification} className="rounded-xl border-gray-200 text-gray-800 hover:bg-gray-50 h-12 px-6">
                   <Plus className="h-4 w-4 mr-2" /> Add Credential
                 </Button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {resumeData.certifications.map((cert) => (
-                  <div key={cert.id} className="relative bg-white/5 border border-white/10 p-6 rounded-[2rem] group">
-                    <button onClick={() => removeCertification(cert.id)} className="absolute top-4 right-4 text-slate-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div key={cert.id} className="relative bg-gray-50 border border-gray-200 p-6 rounded-3xl group shadow-soft">
+                    <button onClick={() => removeCertification(cert.id)} className="absolute top-4 right-4 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Trash2 className="h-4 w-4" />
                     </button>
                     <div className="space-y-4">
-                      <Input label="Certification Name" value={cert.name} onChange={(e) => updateCertification(cert.id, 'name', e.target.value)} className="bg-white/5 border-white/10 text-white" />
-                      <Input label="Issuing Organization" value={cert.issuer} onChange={(e) => updateCertification(cert.id, 'issuer', e.target.value)} className="bg-white/5 border-white/10 text-white" />
+                      <Input label="Certification Name" value={cert.name} onChange={(e) => updateCertification(cert.id, 'name', e.target.value)} className="bg-white border-gray-200 text-gray-800" />
+                      <Input label="Issuing Organization" value={cert.issuer} onChange={(e) => updateCertification(cert.id, 'issuer', e.target.value)} className="bg-white border-gray-200 text-gray-800" />
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="space-y-8 pt-8 border-t border-white/5">
+            <div className="space-y-8 pt-8 border-t border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                  <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Languages</h3>
-                  <p className="text-sm text-slate-500 font-medium">Specify your linguistic proficiency.</p>
+                  <h3 className="text-2xl font-serif font-black text-primary-950 uppercase tracking-tight italic">Languages</h3>
+                  <p className="text-sm text-gray-500 font-medium">Specify your linguistic proficiency.</p>
                 </div>
-                <Button variant="outline" size="sm" onClick={addLanguage} className="rounded-xl border-white/10 text-white hover:bg-white/5 h-12 px-6">
+                <Button variant="outline" size="sm" onClick={addLanguage} className="rounded-xl border-gray-200 text-gray-800 hover:bg-gray-50 h-12 px-6">
                   <Plus className="h-4 w-4 mr-2" /> Add Language
                 </Button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {resumeData.languages.map((lang) => (
-                  <div key={lang.id} className="relative bg-white/5 border border-white/10 p-4 rounded-2xl group flex flex-col gap-3">
-                    <button onClick={() => removeLanguage(lang.id)} className="absolute top-2 right-2 text-slate-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div key={lang.id} className="relative bg-gray-50 border border-gray-200 p-4 rounded-xl group flex flex-col gap-3 shadow-soft">
+                    <button onClick={() => removeLanguage(lang.id)} className="absolute top-2 right-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Trash2 className="h-3 w-3" />
                     </button>
-                    <input className="bg-transparent border-none text-white font-bold placeholder:text-slate-600 focus:outline-none" placeholder="Language" value={lang.language} onChange={(e) => updateLanguage(lang.id, 'language', e.target.value)} />
-                    <select className="bg-white/5 border border-white/10 rounded-xl text-[10px] text-primary-400 font-black uppercase p-2 outline-none" value={lang.proficiency} onChange={(e) => updateLanguage(lang.id, 'proficiency', e.target.value)}>
-                      {['Native', 'Fluent', 'Professional', 'Intermediate', 'Basic'].map(p => <option key={p} value={p} className="bg-slate-900">{p}</option>)}
+                    <input className="bg-transparent border-none text-gray-800 font-bold placeholder:text-gray-400 focus:outline-none" placeholder="Language" value={lang.language} onChange={(e) => updateLanguage(lang.id, 'language', e.target.value)} />
+                    <select className="bg-white border border-gray-200 rounded-lg text-[10px] text-primary-600 font-black uppercase p-2 outline-none" value={lang.proficiency} onChange={(e) => updateLanguage(lang.id, 'proficiency', e.target.value)}>
+                      {['Native', 'Fluent', 'Professional', 'Intermediate', 'Basic'].map(p => <option key={p} value={p} className="bg-white">{p}</option>)}
                     </select>
                   </div>
                 ))}
@@ -886,14 +886,14 @@ export function ResumeBuilder() {
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-bold text-white uppercase tracking-tighter">Final Preview</h3>
+              <h3 className="text-2xl font-serif font-black text-primary-950 uppercase tracking-tight italic">Final Preview</h3>
               <div className="flex gap-3">
-                <Button variant="gradient" onClick={exportToPDF} loading={loading} className="rounded-full px-8">
+                <Button variant="primary" onClick={exportToPDF} loading={loading} className="rounded-xl px-8 bg-primary-950 text-white hover:bg-black">
                   <Download className="h-4 w-4 mr-2" /> PDF Export
                 </Button>
               </div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-[3rem] p-1 shadow-2xl overflow-hidden backdrop-blur-3xl">
+            <div className="bg-white border border-gray-100 rounded-[3rem] p-1 shadow-soft overflow-hidden">
               <ResumePreview resumeData={resumeData} template={selectedTemplate} />
             </div>
           </div>
@@ -906,80 +906,114 @@ export function ResumeBuilder() {
   const isViewingMode = !!searchParams?.get('view');
 
   return (
-    <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
-      <div className="container-custom section-padding">
-        <div className="mb-12 relative z-10">
-          <motion.div layout layoutId="header-content" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
-              <Sparkles className="w-3.5 h-3.5 mr-2" />
-              {isViewingMode ? 'Saved Asset' : 'AI Resume Platform'}
-            </Badge>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-6">
-              {isViewingMode ? <><span className="text-gradient-logo">Preview</span> Resume</> : <>AI <span className="text-gradient-logo">Resume</span> Builder</>}
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      {/* Background patterns */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
+
+      {/* Hero Section */}
+      <div className="pt-32 pb-16 bg-primary-50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(52,97,173,0.1),transparent)]" />
+        <div className="container-custom relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block">Professional Suite</span>
+            <h1 className="text-5xl md:text-7xl font-serif font-black text-primary-950 tracking-tighter leading-none italic mb-6">
+              Resume <span className="text-primary-700 not-italic">Builder.</span>
             </h1>
-            <p className="text-xl text-slate-400 max-w-2xl">Construct a world-class resume with intelligent AI assistance for summaries, content enhancement, and skill mapping.</p>
+            <p className="text-xl text-gray-400 font-serif italic max-w-2xl leading-relaxed">
+              Architect your professional identity with AI-augmented specificity and premium design aesthetics.
+            </p>
           </motion.div>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start relative z-10">
-          {!isViewingMode && (
-            <div className="lg:col-span-1 sticky top-24">
-              <Card className="glass-card border-white/10 p-2 rounded-3xl">
-                <CardHeader><CardTitle className="text-white text-lg">Builder Guide</CardTitle></CardHeader>
-                <CardContent className="p-2 space-y-1">
-                  {steps.map((step) => {
-                    const Icon = step.icon;
-                    const isActive = currentStep === step.id;
-                    return (
-                      <button key={step.id} onClick={() => setCurrentStep(step.id)} className={cn(
-                        "w-full flex items-center gap-3 p-4 rounded-2xl transition-all",
-                        isActive ? "bg-primary-500 text-white shadow-lg shadow-primary-500/25" : "text-slate-400 hover:bg-white/5"
+      <div className="container-custom py-24 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          {/* Navigation Sidebar */}
+          <div className="lg:col-span-3 lg:sticky lg:top-32">
+            <div className="bg-white rounded-[3rem] border border-gray-50 p-8 shadow-soft">
+              <div className="space-y-4">
+                {steps.map((step) => {
+                  const Icon = step.icon;
+                  return (
+                    <button
+                      key={step.id}
+                      onClick={() => setCurrentStep(step.id)}
+                      className={cn(
+                        "w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 group",
+                        currentStep === step.id
+                          ? "bg-primary-950 text-white shadow-xl shadow-primary-950/20"
+                          : "hover:bg-gray-50 text-gray-400 hover:text-primary-950"
+                      )}
+                    >
+                      <div className={cn(
+                        "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+                        currentStep === step.id ? "bg-white/10" : "bg-gray-100 group-hover:bg-gray-200"
                       )}>
-                        <Icon className="h-4 w-4" />
-                        <span className="font-bold text-sm uppercase tracking-wider">{step.name}</span>
-                        {currentStep > step.id && <CheckCircle className="h-3 w-3 ml-auto text-emerald-400" />}
-                      </button>
-                    );
-                  })}
-                  <div className="mt-4 pt-4 border-t border-white/5">
-                    <Button variant="gradient" className="w-full rounded-xl" onClick={saveResume} loading={saving}>Save Progress</Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          )}
-          <div className={cn(isViewingMode ? "lg:col-span-4" : "lg:col-span-3")}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentStep}
-                layout
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="min-h-[400px]"
-              >
-                {renderStepContent()}
-              </motion.div>
-            </AnimatePresence>
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="font-serif italic font-bold text-lg">{step.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
 
-            {!isViewingMode && (
-              <div className="mt-12 flex justify-between">
-                <Button variant="ghost" onClick={() => setCurrentStep(Math.max(1, currentStep - 1))} disabled={currentStep === 1} className="text-slate-400">Back</Button>
-                <Button variant="gradient"
-                  onClick={() => {
-                    if (currentStep === 7) {
-                      router.push('/career/saved-resumes');
-                    } else {
-                      setCurrentStep(currentStep + 1);
-                    }
-                  }}
-                  className="rounded-full px-8"
+              <div className="mt-12 pt-12 border-t border-gray-50 space-y-4">
+                <Button
+                  onClick={saveResume}
+                  loading={saving}
+                  className="w-full bg-primary-950 hover:bg-black text-white h-14 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px]"
                 >
-                  {currentStep === 7 ? 'Finalize' : 'Next Step'}
+                  <Save className="h-4 w-4 mr-3" />
+                  Preserve Stack
+                </Button>
+                <Button
+                  onClick={exportToPDF}
+                  className="w-full bg-primary-50 text-primary-950 hover:bg-primary-100 h-14 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px]"
+                >
+                  <Download className="h-4 w-4 mr-3" />
+                  Export PDF
                 </Button>
               </div>
-            )}
+            </div>
+          </div>
+
+          {/* Form Content Area */}
+          <div className="lg:col-span-9 space-y-12">
+            <div className="bg-white p-12 lg:p-16 rounded-[4rem] border border-gray-50 shadow-soft relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-primary-50 rounded-bl-[8rem] pointer-events-none opacity-30" />
+
+              <div className="relative z-10">
+                {renderStepContent()}
+
+                <div className="flex items-center justify-between mt-20 pt-12 border-t border-gray-50">
+                  <Button
+                    variant="ghost"
+                    onClick={() => setCurrentStep(prev => Math.max(1, prev - 1))}
+                    disabled={currentStep === 1}
+                    className="text-gray-400 hover:text-primary-950 font-black uppercase tracking-[0.2em] text-[10px]"
+                  >
+                    <ChevronLeft className="h-4 w-4 mr-3" />
+                    Previous Module
+                  </Button>
+
+                  {currentStep < 7 ? (
+                    <Button
+                      onClick={() => setCurrentStep(prev => Math.min(7, prev + 1))}
+                      className="bg-primary-950 hover:bg-black text-white px-10 h-16 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transform hover:-translate-y-1 transition-all"
+                    >
+                      Next Module
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={exportToPDF}
+                      className="bg-primary-950 hover:bg-black text-white px-10 h-16 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transform hover:-translate-y-1 transition-all"
+                    >
+                      Confirm & Export
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
