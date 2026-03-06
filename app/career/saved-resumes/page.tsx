@@ -3,32 +3,58 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { supabase } from '@/lib/supabase/client';
-import { FileText, Download, Trash2, Eye, Edit, Plus, Database, LogIn, Info } from 'lucide-react';
+import {
+  FileText,
+  Download,
+  Trash2,
+  Edit,
+  Copy,
+  Plus,
+  Database,
+  LogIn,
+  AlertCircle,
+} from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import { exportResumeToPDF } from '@/lib/utils/pdf-export';
+import {
+  getGuestResumes,
+  deleteGuestResume,
+  duplicateGuestResume,
+  type GuestResume,
+} from '@/lib/utils/guest-resumes';
 import type { User } from '@supabase/supabase-js';
 import { motion } from 'framer-motion';
-import { Badge } from '@/components/ui/Badge';
 
-interface SavedResume {
+const GUEST_EXPIRY_WARNING_KEY = 'guest_resumes_expiry_warning_shown';
+
+interface SavedResumeDb {
   id: string;
   title: string;
   created_at: string;
   updated_at: string;
-  resume_data: any;
+  resume_data: Record<string, unknown>;
 }
 
-const LOCAL_STORAGE_KEY = 'monroe_resume_builder_data';
-
 export default function SavedResumesPage() {
-  const [resumes, setResumes] = useState<SavedResume[]>([]);
+  const [resumes, setResumes] = useState<SavedResumeDb[]>([]);
+  const [guestResumes, setGuestResumes] = useState<GuestResume[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [exporting, setExporting] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [showExpiryWarning, setShowExpiryWarning] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -36,103 +62,92 @@ export default function SavedResumesPage() {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
     };
-
     checkUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
       setUser(session?.user ?? null);
     });
-
-    loadResumes();
-
     return () => subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
-    if (user !== null) {
-      loadResumes();
-    }
+    loadResumes();
   }, [user]);
 
-  const loadResumes = async () => {
+  function loadResumes() {
+    setLoading(true);
     try {
-      setLoading(true);
-
       if (user) {
-        // Load from database for logged-in users
-        const { data, error } = await supabase
-          .from('resumes')
-          .select('*')
-          .eq('user_id', user.id)
-          .order('updated_at', { ascending: false });
-
-        if (error) throw error;
-        setResumes(data || []);
+        loadFromDb();
       } else {
-        // Load from local storage for guest users
-        if (typeof window !== 'undefined') {
-          const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-          if (savedData) {
-            try {
-              const parsed = JSON.parse(savedData);
-              // Create a resume object from local storage data
-              const localResume: SavedResume = {
-                id: 'local-resume',
-                title: `${parsed.personalInfo?.firstName || 'My'} ${parsed.personalInfo?.lastName || 'Resume'}`,
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString(),
-                resume_data: parsed
-              };
-              setResumes([localResume]);
-            } catch (error) {
-              console.error('Error loading from local storage:', error);
-              setResumes([]);
-            }
-          } else {
-            setResumes([]);
-          }
+        setGuestResumes(getGuestResumes());
+        setResumes([]);
+        if (typeof window !== 'undefined' && !sessionStorage.getItem(GUEST_EXPIRY_WARNING_KEY)) {
+          setShowExpiryWarning(true);
+          sessionStorage.setItem(GUEST_EXPIRY_WARNING_KEY, '1');
         }
       }
     } catch (error) {
       console.error('Error loading resumes:', error);
-      setResumes([]);
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this resume?')) return;
+  async function loadFromDb() {
+    if (!user) return;
+    const { data, error } = await supabase
+      .from('resumes')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('updated_at', { ascending: false });
+    if (error) throw error;
+    setResumes((data as SavedResumeDb[]) || []);
+    setGuestResumes([]);
+  }
 
+  const handleDeleteDb = async (id: string) => {
     setDeleting(id);
     try {
-      if (user) {
-        // Delete from database for logged-in users
-        const { error } = await supabase
-          .from('resumes')
-          .delete()
-          .eq('id', id);
-
-        if (error) throw error;
-      } else {
-        // Delete from local storage for guest users
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem(LOCAL_STORAGE_KEY);
-        }
-      }
-      setResumes(resumes.filter(r => r.id !== id));
+      const { error } = await supabase.from('resumes').delete().eq('id', id);
+      if (error) throw error;
+      setResumes((prev) => prev.filter((r) => r.id !== id));
     } catch (error) {
       console.error('Error deleting resume:', error);
       alert('Failed to delete resume. Please try again.');
     } finally {
       setDeleting(null);
+      setDeleteConfirmId(null);
     }
   };
 
-  const handleExport = async (resumeData: any) => {
-    setExporting(resumeData.personalInfo?.firstName || 'export');
+  const handleDeleteGuest = (id: string) => {
+    deleteGuestResume(id);
+    setGuestResumes(getGuestResumes());
+    setDeleteConfirmId(null);
+    setDeleting(null);
+  };
+
+  const handleDelete = (id: string, isGuest: boolean) => {
+    if (isGuest) {
+      setDeleteConfirmId(id);
+      setDeleting(id);
+    } else {
+      if (!confirm('Are you sure you want to delete this resume?')) return;
+      handleDeleteDb(id);
+    }
+  };
+
+  const confirmDeleteGuest = () => {
+    if (deleteConfirmId) {
+      handleDeleteGuest(deleteConfirmId);
+    }
+  };
+
+  const handleExport = async (resumeData: Record<string, unknown>) => {
+    const key = (resumeData?.personalInfo as { firstName?: string })?.firstName ?? 'export';
+    setExporting(key);
     try {
-      await exportResumeToPDF(resumeData, 'modern');
+      await exportResumeToPDF(resumeData as unknown as Parameters<typeof exportResumeToPDF>[0], 'modern');
     } catch (error) {
       console.error('Error exporting resume:', error);
       alert('Failed to export resume. Please try again.');
@@ -141,16 +156,21 @@ export default function SavedResumesPage() {
     }
   };
 
-  const handleView = async (resumeData: any, resumeId: string) => {
-    try {
-      // Store resume data in sessionStorage for viewing
-      sessionStorage.setItem('viewingResume', JSON.stringify(resumeData));
-      router.push(`/career/resume-builder?view=${resumeId}`);
-    } catch (error) {
-      console.error('Error viewing resume:', error);
-      alert('Failed to view resume. Please try again.');
-    }
+  const handleDuplicateGuest = (id: string) => {
+    const copy = duplicateGuestResume(id);
+    if (copy) setGuestResumes(getGuestResumes());
+    else alert('Guest accounts are limited to 3 resumes. Sign up to save unlimited resumes.');
   };
+
+  const isGuest = !user;
+  const displayList = isGuest ? guestResumes : resumes;
+  const getResumeData = (item: GuestResume | SavedResumeDb): Record<string, unknown> =>
+    'data' in item ? item.data : (item as SavedResumeDb).resume_data;
+  const getTitle = (item: GuestResume | SavedResumeDb) =>
+    'title' in item ? item.title : (item as SavedResumeDb).title;
+  const getUpdatedAt = (item: GuestResume | SavedResumeDb) =>
+    'updatedAt' in item ? (item as GuestResume).updatedAt : (item as SavedResumeDb).updated_at;
+  const getItemId = (item: GuestResume | SavedResumeDb) => item.id;
 
   if (loading) {
     return (
@@ -162,9 +182,7 @@ export default function SavedResumesPage() {
             <h2 className="text-2xl font-black text-primary-950 mb-2 tracking-tighter uppercase font-serif italic">
               Monroe <span className="text-primary-700">Resource</span> Hub
             </h2>
-            <p className="text-slate-500 font-medium font-serif italic">
-              Accessing your career archives...
-            </p>
+            <p className="text-slate-500 font-medium font-serif italic">Loading your resumes...</p>
           </div>
         </div>
       </div>
@@ -173,26 +191,31 @@ export default function SavedResumesPage() {
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* Background patterns */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
 
-      {/* Hero Header */}
       <div className="pt-32 pb-16 bg-primary-50 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(52,97,173,0.1),transparent)]" />
         <div className="container-custom relative z-10">
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
             <div className="max-w-3xl">
-              <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block">Personal Archives</span>
+              <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block">
+                Personal Archives
+              </span>
               <h1 className="text-5xl md:text-7xl font-serif font-black text-primary-950 tracking-tighter leading-none italic mb-6">
                 My Resumes<span className="text-primary-700 not-italic">.</span>
               </h1>
               <p className="text-xl text-gray-400 font-serif italic max-w-2xl">
                 {user
                   ? 'Professional infrastructure for auditing and exporting your career documentation.'
-                  : 'Local browser cache containing your active resume development data.'}
+                  : 'Local browser storage. Sign up to save resumes to the cloud and access them anywhere.'}
               </p>
             </div>
-            <Button size="lg" asChild className="bg-primary-950 hover:bg-black text-white px-10 h-16 rounded-3xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transition-all transform hover:-translate-y-1 active:translate-y-0" href="/career/resume-builder">
+            <Button
+              size="lg"
+              asChild
+              className="bg-primary-950 hover:bg-black text-white px-10 h-16 rounded-3xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transition-all transform hover:-translate-y-1 active:translate-y-0"
+              href="/career/resume-builder"
+            >
               <Plus className="h-4 w-4 mr-3" />
               New Resume
             </Button>
@@ -201,136 +224,168 @@ export default function SavedResumesPage() {
       </div>
 
       <div className="container-custom py-24 relative z-10">
-        {/* Guest User Notice */}
-        {!user && (
-          <div className="mb-16">
-            <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-soft hover:shadow-[0_20px_40px_-15px_rgba(52,97,173,0.12)] hover:border-primary-100 transition-all duration-300 ease-out relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-bl-[4rem] pointer-events-none opacity-50" />
-              <div className="flex items-start gap-8">
-                <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-950 shrink-0">
-                  <Database className="h-7 w-7" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-serif font-black text-primary-950 mb-3 italic tracking-tight">Guest Protocol Active</h3>
-                  <p className="text-gray-500 font-serif italic leading-relaxed text-lg mb-8 max-w-3xl">
-                    Your documentation is currently stored within this browser&apos;s local cache. This data is device-specific and will not persist across different systems.
-                    <strong className="text-primary-700"> Sync your archives</strong> to the cloud for universal professional access.
-                  </p>
-                  <div className="flex flex-wrap gap-4">
-                    <Button variant="outline" size="sm" asChild className="rounded-2xl border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[9px] h-12 px-8 hover:bg-gray-50 shadow-soft" href="/auth/signup">
-                      <LogIn className="h-4 w-4 mr-3" />
-                      Create Account
-                    </Button>
-                    <Button variant="ghost" size="sm" asChild className="rounded-2xl text-gray-400 hover:text-primary-950 font-black uppercase tracking-[0.2em] text-[9px] h-12 px-8" href="/career">
-                      <Info className="h-4 w-4 mr-3" />
-                      Learn More
-                    </Button>
-                  </div>
-                </div>
+        {/* Guest banner */}
+        {isGuest && (
+          <div className="mb-10 rounded-2xl border border-primary-200 bg-primary-50/80 p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-[#2563EB]/10 flex items-center justify-center shrink-0">
+                <Database className="h-6 w-6 text-[#2563EB]" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-primary-950">
+                  You&apos;re viewing as a guest
+                </h3>
+                <p className="text-gray-600 text-sm mt-1">
+                  Sign up to save your resumes to the cloud and access them anywhere.
+                </p>
               </div>
             </div>
+            <Button asChild className="bg-[#2563EB] hover:bg-[#1d4ed8] text-white shrink-0 rounded-xl">
+              <Link href="/auth/signup">
+                <LogIn className="h-4 w-4 mr-2" />
+                Sign Up
+              </Link>
+            </Button>
           </div>
         )}
 
-        {resumes.length === 0 ? (
-          <div className="bg-white p-24 text-center rounded-[5rem] border border-gray-50 shadow-soft relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-10" />
-            <div className="relative z-10">
-              <div className="w-24 h-24 rounded-[2rem] bg-primary-50 flex items-center justify-center mx-auto mb-10 border border-primary-100 shadow-inner">
-                <FileText className="h-10 w-10 text-primary-400" />
-              </div>
-              <h3 className="text-4xl font-serif font-black text-primary-950 mb-6 italic tracking-tight">No Active Archives</h3>
-              <p className="text-xl text-gray-400 font-serif italic max-w-md mx-auto mb-12">
-                {user
-                  ? 'Start building your professional narrative to architect your career story and save it for easy access.'
-                  : "Your browser storage is currently empty. Start building your first resume to see it archived here."}
-              </p>
-              <Button size="lg" asChild className="bg-primary-950 hover:bg-black text-white px-12 h-20 rounded-[2.5rem] font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transition-all transform hover:-translate-y-1 active:translate-y-0" href="/career/resume-builder">
-                <Plus className="h-5 w-5 mr-3" />
-                New Resume
-              </Button>
+        {/* Expiry warning — once per session */}
+        {isGuest && showExpiryWarning && guestResumes.length > 0 && (
+          <div className="mb-8 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50/80 p-4">
+            <AlertCircle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+            <p className="text-sm text-amber-800">
+              Guest resumes are stored on this device only and may be lost if you clear your browser
+              data.
+            </p>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="shrink-0 text-amber-700 hover:bg-amber-100"
+              onClick={() => setShowExpiryWarning(false)}
+            >
+              Dismiss
+            </Button>
+          </div>
+        )}
+
+        {displayList.length === 0 ? (
+          <div className="bg-white p-24 text-center rounded-[3rem] border border-gray-100 shadow-sm">
+            <div className="w-24 h-24 rounded-2xl bg-primary-50 flex items-center justify-center mx-auto mb-10 border border-primary-100">
+              <FileText className="h-10 w-10 text-primary-400" />
             </div>
+            <h3 className="text-3xl font-serif font-black text-primary-950 mb-4 italic tracking-tight">
+              No resumes saved yet
+            </h3>
+            <p className="text-lg text-gray-500 font-serif italic max-w-md mx-auto mb-10">
+              Build your first resume and save it here to edit, download, or duplicate anytime.
+            </p>
+            <Button
+              size="lg"
+              asChild
+              className="bg-[#2563EB] hover:bg-[#1d4ed8] text-white px-12 h-14 rounded-2xl font-semibold"
+              href="/career/resume-builder"
+            >
+              <Plus className="h-5 w-5 mr-2" />
+              Build your first resume
+            </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
-            {resumes.map((resume) => (
-              <motion.div
-                key={resume.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7 }}
-              >
-                <div className="bg-white p-12 lg:p-14 h-full flex flex-col border border-gray-100 rounded-[4rem] shadow-soft hover:shadow-[0_25px_50px_-12px_rgba(52,97,173,0.18)] hover:-translate-y-2 hover:border-primary-200 transition-all duration-300 ease-out group relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-bl-[4rem] pointer-events-none opacity-50" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {displayList.map((item) => {
+              const data = getResumeData(item);
+              const title = getTitle(item);
+              const updatedAt = getUpdatedAt(item);
+              const id = getItemId(item);
+              const personalInfo = (data?.personalInfo || {}) as { firstName?: string; lastName?: string };
+              const displayTitle = title || `${personalInfo.firstName || ''} ${personalInfo.lastName || 'Resume'}`.trim() || 'Untitled Resume';
 
-                  <div className="flex items-start justify-between mb-10">
-                    <div className="flex-1 min-w-0 pr-4">
-                      <h3 className="text-2xl font-serif font-black text-primary-950 mb-2 italic tracking-tight truncate">
-                        {resume.resume_data?.personalInfo?.firstName} {resume.resume_data?.personalInfo?.lastName}
-                      </h3>
-                      <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary-50 text-primary-700 text-[9px] font-black uppercase tracking-[0.2em]">
-                        {resume.title.split(' - ')[1] || 'Professional Archive'}
-                      </span>
-                    </div>
-                    <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-950 group-hover:bg-primary-950 group-hover:text-white transition-all duration-300 ease-out shadow-sm">
-                      <FileText className="h-7 w-7" />
-                    </div>
-                  </div>
-
-                  <div className="flex-1 space-y-6 mb-12">
-                    <div className="flex items-center gap-4">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary-700" />
-                      <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.25em]">Updated {formatDate(resume.updated_at)}</span>
-                    </div>
-                    {resume.resume_data?.targetJob && (
-                      <div>
-                        <span className="text-[9px] font-black text-primary-700 uppercase tracking-[0.3em] block mb-2">Operational Goal</span>
-                        <p className="text-lg text-gray-500 font-serif italic line-clamp-2 leading-snug">
-                          {resume.resume_data.targetJob}
-                        </p>
+              return (
+                <motion.div
+                  key={id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+                >
+                  <Card className="border-0 shadow-none">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-xl font-semibold text-primary-950 truncate">
+                        {displayTitle}
+                      </CardTitle>
+                      <p className="text-xs text-gray-500">Last updated {formatDate(updatedAt)}</p>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <div className="flex flex-wrap gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          asChild
+                          className="rounded-lg"
+                        >
+                          <Link href={isGuest ? `/career/resume-builder?guestId=${id}` : `/career/resume-builder?view=${id}`}>
+                            <Edit className="h-3.5 w-3.5 mr-1.5" />
+                            Edit
+                          </Link>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="rounded-lg"
+                          onClick={() => handleExport(data)}
+                          disabled={!!exporting}
+                        >
+                          <Download className="h-3.5 w-3.5 mr-1.5" />
+                          Download PDF
+                        </Button>
+                        {isGuest && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="rounded-lg"
+                            onClick={() => handleDuplicateGuest(id)}
+                          >
+                            <Copy className="h-3.5 w-3.5 mr-1.5" />
+                            Duplicate
+                          </Button>
+                        )}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50"
+                          onClick={() => handleDelete(id, isGuest)}
+                          disabled={deleting === id}
+                        >
+                          <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+                          Delete
+                        </Button>
                       </div>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 pt-10 border-t border-gray-50">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleView(resume.resume_data, resume.id)}
-                      className="rounded-2xl border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[9px] h-14 hover:bg-primary-50 hover:border-primary-200 shadow-soft transition-all duration-200"
-                    >
-                      <Eye className="h-4 w-4 mr-3" />
-                      View
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleExport(resume.resume_data)}
-                      loading={exporting === (resume.resume_data?.personalInfo?.firstName || 'export')}
-                      className="rounded-2xl bg-primary-50 text-primary-950 hover:bg-primary-100 hover:text-primary-950 font-black uppercase tracking-[0.2em] text-[9px] h-14 shadow-sm transition-all duration-200"
-                    >
-                      <Download className="h-4 w-4 mr-3" />
-                      PDF
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="col-span-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl text-[8px] font-black uppercase tracking-[0.3em] transition-all h-10 mt-4"
-                      onClick={() => handleDelete(resume.id)}
-                      loading={deleting === resume.id}
-                    >
-                      <Trash2 className="h-3.5 w-3.5 mr-3" />
-                      Purge Archive
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
           </div>
         )}
       </div>
+
+      {/* Delete confirmation for guest resumes */}
+      <Dialog open={!!deleteConfirmId} onOpenChange={(open) => !open && setDeleteConfirmId(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Delete this resume?</DialogTitle>
+            <DialogDescription>
+              This will remove the resume from this device. This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => { setDeleteConfirmId(null); setDeleting(null); }}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={confirmDeleteGuest}>
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
-
-

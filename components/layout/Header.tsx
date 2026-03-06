@@ -4,7 +4,17 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Search, LogOut, UserCircle, ChevronRight, PlusCircle, ChevronDown } from 'lucide-react';
+import {
+  Menu,
+  X,
+  Search,
+  LogOut,
+  UserCircle,
+  ChevronRight,
+  ChevronDown,
+  FileText,
+  Lock,
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
@@ -12,22 +22,30 @@ import { supabase } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import { SearchModal } from '@/components/ui/SearchModal';
 
-const COMPACT_NAV_BREAKPOINT = 1100;
+const DESKTOP_NAV_BREAKPOINT = 1024;
+const SCROLL_THRESHOLD_PX = 60;
 
 const primaryNav = [
   { name: 'Home', href: '/' },
   { name: 'Resources', href: '/resources' },
   { name: 'Events', href: '/events' },
-  { name: 'Career Help', href: '/career' },
-];
-
-const secondaryNav = [
+  { name: 'Career', href: '/career' },
   { name: 'Volunteer', href: '/volunteer' },
-  { name: 'About Us', href: '/about' },
-  { name: 'Information Page', href: '/info' },
+  { name: 'About', href: '/about' },
 ];
 
-const allNavigation = [...primaryNav, ...secondaryNav];
+const mobileDrawerLinks = [
+  ...primaryNav,
+  { name: 'My Resumes', href: '/career/saved-resumes' },
+  { name: 'Information', href: '/info' },
+  { name: 'Submit a Resource', href: '/submit-resource' },
+];
+
+const profileMenuItems = [
+  { name: 'My Resumes', href: '/career/saved-resumes', icon: FileText },
+  { name: 'Career Hub', href: '/career', icon: UserCircle },
+  { name: 'Sign Out', action: 'signout' as const, icon: LogOut },
+];
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -35,55 +53,56 @@ export function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [scrolled, setScrolled] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
-  const [moreDropdownRect, setMoreDropdownRect] = useState<{ top: number; left: number; width: number } | null>(null);
-  const moreButtonRef = useRef<HTMLButtonElement>(null);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const profileButtonRef = useRef<HTMLButtonElement>(null);
+  const profileDropdownRef = useRef<HTMLDivElement>(null);
+  const [profileDropdownRect, setProfileDropdownRect] = useState<{
+    top: number;
+    left: number;
+    width: number;
+  } | null>(null);
   const [useCompactNav, setUseCompactNav] = useState(true);
   const showDesktopNav = !useCompactNav;
   const pathname = usePathname();
   const router = useRouter();
+  const drawerRef = useRef<HTMLDivElement>(null);
 
-  const updateMoreDropdownRect = useCallback(() => {
-    if (moreButtonRef.current) {
-      const rect = moreButtonRef.current.getBoundingClientRect();
-      setMoreDropdownRect({ top: rect.bottom + 8, left: rect.left, width: rect.width });
+  const updateProfileDropdownRect = useCallback(() => {
+    if (profileButtonRef.current) {
+      const rect = profileButtonRef.current.getBoundingClientRect();
+      setProfileDropdownRect({
+        top: rect.bottom + 8,
+        left: rect.right - 200,
+        width: 200,
+      });
     } else {
-      setMoreDropdownRect(null);
+      setProfileDropdownRect(null);
     }
   }, []);
 
   useEffect(() => {
-    if (!moreOpen) {
-      setMoreDropdownRect(null);
+    if (!profileOpen) {
+      setProfileDropdownRect(null);
       return;
     }
-    updateMoreDropdownRect();
-    window.addEventListener('scroll', updateMoreDropdownRect, true);
-    window.addEventListener('resize', updateMoreDropdownRect);
+    updateProfileDropdownRect();
+    window.addEventListener('scroll', updateProfileDropdownRect, true);
+    window.addEventListener('resize', updateProfileDropdownRect);
     return () => {
-      window.removeEventListener('scroll', updateMoreDropdownRect, true);
-      window.removeEventListener('resize', updateMoreDropdownRect);
+      window.removeEventListener('scroll', updateProfileDropdownRect, true);
+      window.removeEventListener('resize', updateProfileDropdownRect);
     };
-  }, [moreOpen, updateMoreDropdownRect]);
+  }, [profileOpen, updateProfileDropdownRect]);
 
   const checkViewport = useCallback(() => {
-    const vv = typeof window !== 'undefined' ? window.visualViewport : null;
-    const w = vv?.width ?? (typeof window !== 'undefined' ? window.innerWidth : 1024);
-    setUseCompactNav(w < COMPACT_NAV_BREAKPOINT);
+    const w = typeof window !== 'undefined' ? window.innerWidth : 1024;
+    setUseCompactNav(w < DESKTOP_NAV_BREAKPOINT);
   }, []);
 
   useEffect(() => {
     checkViewport();
-    const vv = typeof window !== 'undefined' ? window.visualViewport : null;
-    if (!vv) return;
-    vv.addEventListener('resize', checkViewport);
-    vv.addEventListener('scroll', checkViewport);
     window.addEventListener('resize', checkViewport);
-    return () => {
-      vv.removeEventListener('resize', checkViewport);
-      vv.removeEventListener('scroll', checkViewport);
-      window.removeEventListener('resize', checkViewport);
-    };
+    return () => window.removeEventListener('resize', checkViewport);
   }, [checkViewport]);
 
   useEffect(() => {
@@ -107,6 +126,10 @@ export function Header() {
         e.preventDefault();
         setSearchOpen(true);
       }
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+        setProfileOpen(false);
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
@@ -121,77 +144,149 @@ export function Header() {
   }, [showDesktopNav]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD_PX);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!profileOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (
+        profileButtonRef.current?.contains(target) ||
+        profileDropdownRef.current?.contains(target)
+      )
+        return;
+      setProfileOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [profileOpen]);
+
   const handleSignOut = async () => {
+    setProfileOpen(false);
     await supabase.auth.signOut();
     router.push('/');
   };
 
-  const moreDropdownContent =
+  // Focus trap in mobile drawer
+  useEffect(() => {
+    if (!mobileMenuOpen || !drawerRef.current) return;
+    const focusable = drawerRef.current.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled])'
+    );
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    first?.focus();
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+    document.addEventListener('keydown', handleTab);
+    return () => document.removeEventListener('keydown', handleTab);
+  }, [mobileMenuOpen]);
+
+  const isTransparent = !scrolled && pathname === '/';
+
+  const profileDropdownContent =
     typeof document !== 'undefined' &&
-    moreOpen &&
-    moreDropdownRect &&
+    profileOpen &&
+    user &&
+    profileDropdownRect &&
     createPortal(
       <AnimatePresence>
         <motion.div
-          initial={{ opacity: 0, y: -8, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -8, scale: 0.96 }}
-          onMouseLeave={() => setMoreOpen(false)}
+          ref={profileDropdownRef}
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
           style={{
             position: 'fixed',
-            top: moreDropdownRect.top,
-            left: moreDropdownRect.left,
-            width: '14rem',
+            top: profileDropdownRect.top,
+            left: profileDropdownRect.left,
+            width: profileDropdownRect.width,
           }}
-          className="z-[9999] bg-white dark:bg-[#1e293b] border border-[var(--color-border)] rounded-2xl shadow-2xl overflow-hidden py-2"
+          className="z-[9999] bg-white dark:bg-[#1e293b] border border-[var(--color-border)] rounded-xl shadow-xl overflow-hidden py-2"
+          role="menu"
+          aria-label="User menu"
         >
-          {secondaryNav.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              onClick={() => setMoreOpen(false)}
-              className={cn(
-                'block px-6 py-3 text-[1.25rem] font-bold transition-colors',
-                pathname === item.href
-                  ? 'text-[var(--color-primary)] bg-[var(--color-primary)]/5'
-                  : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
-              )}
-            >
-              {item.name}
-            </Link>
-          ))}
+          {profileMenuItems.map((item) =>
+            item.action === 'signout' ? (
+              <button
+                key={item.name}
+                type="button"
+                onClick={handleSignOut}
+                className="flex w-full items-center gap-3 px-4 py-3 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors text-sm font-semibold"
+                role="menuitem"
+              >
+                <item.icon className="h-4 w-4 shrink-0" />
+                {item.name}
+              </button>
+            ) : (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={() => setProfileOpen(false)}
+                className={cn(
+                  'flex w-full items-center gap-3 px-4 py-3 text-left transition-colors text-sm font-semibold',
+                  pathname === item.href
+                    ? 'text-[var(--color-primary)] bg-[var(--color-primary)]/10'
+                    : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                )}
+                role="menuitem"
+              >
+                <item.icon className="h-4 w-4 shrink-0" />
+                {item.name}
+              </Link>
+            )
+          )}
         </motion.div>
       </AnimatePresence>,
       document.body
     );
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 sm:pt-5 pl-6 pr-4 sm:pl-10 sm:pr-6 lg:pl-14 lg:pr-10 pointer-events-none">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 sm:pt-5 pl-4 pr-4 sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8 pointer-events-none">
       <div className="pointer-events-auto">
         <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       </div>
-      {moreDropdownContent}
+      {profileDropdownContent}
       <nav
         className={cn(
-          'navbar pointer-events-auto w-full min-w-0 max-w-full rounded-2xl transition-all duration-500 ease-in-out overflow-hidden',
-          scrolled
-            ? 'navbar-scrolled bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-2xl border border-[var(--color-border)] shadow-[0_8px_30px_rgba(0,0,0,0.12)] py-2'
-            : 'bg-white/90 dark:bg-[#0f172a]/90 backdrop-blur-xl border border-white/20 shadow-lg py-3'
+          'navbar pointer-events-auto w-full min-w-0 max-w-full rounded-2xl transition-all duration-300 ease-out overflow-hidden',
+          isTransparent
+            ? 'navbar-transparent bg-transparent border border-white/20 shadow-none py-2 lg:py-2.5'
+            : 'navbar-scrolled bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-xl border border-[var(--color-border)] shadow-[0_8px_30px_rgba(0,0,0,0.12)] py-2'
         )}
-        aria-label="Global"
+        aria-label="Global navigation"
       >
         <div className="flex items-center min-w-0 w-full h-12 sm:h-14 gap-2 sm:gap-4">
+          {/* Logo — left */}
           <Link
             href="/"
-            className="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0 overflow-hidden"
+            className={cn(
+              'flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0 overflow-hidden transition-colors',
+              isTransparent ? 'text-white' : 'text-[var(--color-text)]'
+            )}
           >
             <div
-              className="rounded-xl overflow-hidden shadow-sm border border-[var(--color-border)] shrink-0 w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 bg-white dark:bg-white/5 flex items-center justify-center p-1.5 group-hover:scale-105 transition-transform duration-200"
+              className={cn(
+                'rounded-xl overflow-hidden shadow-sm shrink-0 w-9 h-9 sm:w-10 sm:h-10 border flex items-center justify-center p-1.5 group-hover:scale-105 transition-all duration-200',
+                isTransparent
+                  ? 'border-white/30 bg-white/10'
+                  : 'border-[var(--color-border)] bg-white dark:bg-white/5'
+              )}
             >
               <img
                 src="/logo.png"
@@ -199,225 +294,265 @@ export function Header() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <div className="flex flex-col min-w-0 navbar-logo-text">
-              <span className={cn(
-                "tracking-tighter font-[var(--font-heading)] text-[var(--color-text)] dark:text-white truncate whitespace-nowrap leading-none",
-                showDesktopNav ? "inline" : "hidden"
-              )}>
-                Monroe Resource <span className="text-[var(--color-primary)] dark:text-emerald-400 italic">Hub.</span>
-              </span>
-              <span className={cn("font-black font-[var(--font-heading)] text-[var(--color-text)] dark:text-white shrink-0 sm:hidden whitespace-nowrap", showDesktopNav ? "hidden" : "inline")}>
-                MRH.
-              </span>
-            </div>
+            <span
+              className={cn(
+                'navbar-logo-text tracking-tighter font-[var(--font-heading)] truncate whitespace-nowrap leading-none font-bold',
+                showDesktopNav ? 'inline' : 'hidden',
+                isTransparent ? 'text-white' : 'text-[var(--color-text)] dark:text-white'
+              )}
+            >
+              Monroe Resource <span className="italic opacity-90">Hub.</span>
+            </span>
+            <span
+              className={cn(
+                'font-black font-[var(--font-heading)] shrink-0 sm:hidden whitespace-nowrap',
+                showDesktopNav ? 'hidden' : 'inline',
+                isTransparent ? 'text-white' : 'text-[var(--color-text)] dark:text-white'
+              )}
+            >
+              MRH.
+            </span>
           </Link>
 
-          <span className={cn(
-            "updated-badge hidden sm:inline-flex items-center gap-1.5 text-[var(--color-primary)] bg-[var(--color-primary)]/10 px-2.5 py-1 rounded-full text-[0.72rem] font-semibold tracking-wider shrink-0",
-            showDesktopNav ? "inline-flex" : "hidden"
-          )}>
-            <span className="live-dot w-[7px] h-[7px] rounded-full bg-accent-500" />
-            Updated today
-          </span>
-
-          {/* Desktop Navigation — Priority+ Hierarchy */}
-          <div className={cn(
-            "flex-1 min-w-0 flex items-center justify-center",
-            showDesktopNav ? "flex" : "hidden"
-          )}>
-            <div className="flex items-center gap-2 xl:gap-4 flex-nowrap px-4 lg:px-8">
+          {/* Desktop: Primary nav — center */}
+          <div
+            className={cn(
+              'flex-1 min-w-0 hidden lg:flex items-center justify-center',
+              showDesktopNav ? 'flex' : 'hidden'
+            )}
+          >
+            <div className="flex items-center gap-1 xl:gap-2 flex-nowrap">
               {primaryNav.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'nav-link-bar whitespace-nowrap px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[2rem]',
+                    'nav-link-bar whitespace-nowrap px-3 py-2 rounded-lg font-semibold text-sm transition-all duration-200',
                     pathname === item.href
-                      ? 'bg-[var(--color-primary)] text-white shadow-lg'
-                      : 'text-[var(--color-text)] dark:text-gray-300 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5'
+                      ? isTransparent
+                        ? 'bg-white/20 text-white'
+                        : 'bg-[var(--color-primary)] text-white'
+                      : isTransparent
+                        ? 'text-white/90 hover:bg-white/15 hover:text-white'
+                        : 'text-[var(--color-text)] dark:text-gray-300 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10'
                   )}
                 >
                   {item.name}
                 </Link>
               ))}
-
-              {/* "More" Dropdown for secondary links — rendered in portal so it's not clipped */}
-              <div className="relative">
-                <button
-                  ref={moreButtonRef}
-                  type="button"
-                  aria-expanded={moreOpen}
-                  aria-haspopup="true"
-                  aria-label="More menu"
-                  onClick={() => setMoreOpen(!moreOpen)}
-                  onMouseEnter={() => setMoreOpen(true)}
-                  className={cn(
-                    'flex items-center gap-1 px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[2rem]',
-                    secondaryNav.some(item => pathname === item.href)
-                      ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]'
-                      : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-[var(--color-primary)]/5'
-                  )}
-                >
-                  More
-                  <ChevronDown className={cn("h-4 w-4 transition-transform duration-200", moreOpen && "rotate-180")} />
-                </button>
-              </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap ml-4 sm:ml-6 lg:ml-8">
-            <Link
-              href="/submit-resource"
+          {/* Desktop: Utility — right: Search, Login, Sign Up OR Profile dropdown */}
+          <div className="flex items-center gap-2 shrink-0 ml-auto">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Search (⌘K)"
+              onClick={() => setSearchOpen(true)}
               className={cn(
-                'whitespace-nowrap flex items-center gap-2 h-10 sm:h-12 px-6 rounded-xl font-black bg-[var(--color-primary)] text-white hover:brightness-110 shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all duration-300 transform-gpu hover:-translate-y-0.5 active:translate-y-0 shrink-0 flex-nowrap navbar-cta-btn border-none',
-                pathname === '/submit-resource' && 'ring-4 ring-[var(--color-primary)]/30'
+                'h-9 w-9 sm:h-10 sm:w-10 p-0 rounded-lg shrink-0 transition-colors',
+                isTransparent
+                  ? 'text-white/90 hover:bg-white/15 hover:text-white border-white/20'
+                  : 'border-[var(--color-border)] text-[var(--color-text)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10'
               )}
             >
-              <PlusCircle className="h-5 w-5 shrink-0" />
-              <span className="hidden sm:inline uppercase tracking-widest text-[14px]">Add a Resource</span>
-            </Link>
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-10 w-10 sm:h-12 sm:w-12 p-0 rounded-xl border-2 border-[var(--color-border)] bg-white text-[var(--color-primary)] hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 hover:shadow-md transition-all duration-300 shrink-0 flex items-center justify-center whitespace-nowrap navbar-icon-btn"
-              onClick={() => setSearchOpen(true)}
-              title="Search (⌘K)"
-            >
-              <Search className="h-5 w-5 sm:h-6 w-6 stroke-[2.5]" />
+              <Search className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
 
             {user ? (
-              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap">
-                <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-border)]/30 border border-[var(--color-border)]">
-                  <UserCircle className="h-4 w-4 text-[var(--color-primary)] shrink-0" />
-                  <span className="text-[13px] sm:text-sm font-medium text-[var(--color-text)] dark:text-white truncate max-w-[100px] whitespace-nowrap" title={user.user_metadata?.full_name || user.email || ''}>
+              <div className="hidden sm:block">
+                <button
+                  ref={profileButtonRef}
+                  type="button"
+                  aria-expanded={profileOpen}
+                  aria-haspopup="true"
+                  aria-label="Open user menu"
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  className={cn(
+                    'flex items-center gap-2 h-9 sm:h-10 px-3 rounded-lg font-semibold text-sm transition-all',
+                    isTransparent
+                      ? 'text-white/90 hover:bg-white/15 border border-white/20'
+                      : 'text-[var(--color-text)] dark:text-white border border-[var(--color-border)] hover:bg-gray-50 dark:hover:bg-gray-800'
+                  )}
+                >
+                  <UserCircle className="h-5 w-5 shrink-0" />
+                  <span className="max-w-[100px] truncate hidden md:inline">
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
-                </div>
-                <button
-                  type="button"
-                  aria-label="Sign out"
-                  onClick={handleSignOut}
-                  className="group flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 rounded-lg text-[var(--color-text-muted)] hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 dark:hover:text-red-400 transition-all duration-200 ease-out hover:scale-105 active:scale-95 shrink-0 border border-transparent hover:border-red-200"
-                >
-                  <LogOut className="h-4 w-4 transition-transform duration-200 group-hover:-rotate-12" />
+                  <ChevronDown className={cn('h-4 w-4 transition-transform', profileOpen && 'rotate-180')} />
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap">
-                <Link href="/auth/signin" className="hidden sm:block shrink-0">
-                  <Button variant="ghost" className="h-10 sm:h-12 rounded-xl font-black uppercase tracking-widest text-[var(--color-text)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50 whitespace-nowrap transition-all navbar-icon-btn">
+              <div className="hidden sm:flex items-center gap-2">
+                <Link
+                  href="/career/saved-resumes"
+                  className={cn(
+                    'flex items-center gap-1.5 h-9 px-3 rounded-lg font-semibold text-sm transition-colors',
+                    isTransparent
+                      ? 'text-white/90 hover:bg-white/15 hover:text-white'
+                      : 'text-[var(--color-text)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10'
+                  )}
+                  title="Saved resumes (guest — sign up to sync to cloud)"
+                >
+                  <FileText className="h-4 w-4 shrink-0" />
+                  <span>My Resumes</span>
+                  <Lock className="h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden />
+                </Link>
+                <Link href="/auth/signin">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className={cn(
+                      'h-9 rounded-lg font-semibold text-sm',
+                      isTransparent
+                        ? 'text-white/90 hover:bg-white/15 hover:text-white'
+                        : 'text-[var(--color-text)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10'
+                    )}
+                  >
                     Login
                   </Button>
                 </Link>
-                <Link href="/auth/signup" className="shrink-0">
-                  <Button className="bg-[var(--color-secondary)] hover:brightness-110 text-white h-10 sm:h-12 rounded-xl font-black uppercase tracking-[0.2em] shadow-xl shadow-red-500/20 whitespace-nowrap transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 navbar-icon-btn">
-                    Join Hub
+                <Link href="/auth/signup">
+                  <Button
+                    size="sm"
+                    className="h-9 rounded-lg font-semibold text-sm bg-[#2563EB] hover:bg-[#1d4ed8] text-white border-0 shadow-md"
+                  >
+                    Sign Up
                   </Button>
                 </Link>
               </div>
             )}
 
-            {/* Mobile Toggle */}
-            <div className={cn("shrink-0", showDesktopNav ? "hidden" : "flex")}>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="h-12 w-12 p-0 rounded-2xl"
-              >
-                <AnimatePresence mode="wait">
-                  {mobileMenuOpen ? (
-                    <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
-                      <X className="h-5 w-5" />
-                    </motion.div>
-                  ) : (
-                    <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
-                      <Menu className="h-5 w-5" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </Button>
-            </div>
+            {/* Mobile: Hamburger */}
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={cn(
+                'lg:hidden h-10 w-10 p-0 rounded-lg shrink-0',
+                isTransparent ? 'text-white hover:bg-white/15' : 'text-[var(--color-text)] hover:bg-gray-100 dark:hover:bg-gray-800'
+              )}
+            >
+              <AnimatePresence mode="wait">
+                {mobileMenuOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                  >
+                    <X className="h-5 w-5" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                  >
+                    <Menu className="h-5 w-5" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Button>
           </div>
         </div>
 
+        {/* Mobile / Tablet drawer — slide from right, ~80% height */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <>
-              {/* Overlay */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setMobileMenuOpen(false)}
-                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 pointer-events-auto"
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 pointer-events-auto lg:hidden"
+                aria-hidden
               />
-
-              {/* Right-to-Left Drawer (75% width) */}
               <motion.div
+                ref={drawerRef}
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
-                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="fixed top-0 right-0 bottom-0 w-[75%] max-w-sm bg-white dark:bg-[#0f172a] shadow-2xl z-50 p-6 flex flex-col pointer-events-auto overflow-y-auto"
+                transition={{ type: 'spring', damping: 28, stiffness: 200 }}
+                className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm min-h-[80dvh] bg-white dark:bg-[#0f172a] shadow-2xl z-50 flex flex-col pointer-events-auto overflow-y-auto lg:hidden"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Mobile menu"
               >
-                <div className="flex items-center justify-between mb-10">
+                <div className="flex items-center justify-between p-4 border-b border-[var(--color-border)]">
                   <div className="flex items-center gap-2">
-                    <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
-                    <span className="font-black text-lg tracking-tighter">Monroe Hub.</span>
+                    <img src="/logo.png" alt="" className="w-8 h-8 object-contain" />
+                    <span className="font-bold text-lg text-[var(--color-text)] dark:text-white">
+                      Monroe Hub.
+                    </span>
                   </div>
-                  <Button variant="ghost" size="sm" onClick={() => setMobileMenuOpen(false)} className="h-10 w-10 p-0 rounded-full bg-gray-100 dark:bg-white/10">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Close menu"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="h-10 w-10 p-0 rounded-full"
+                  >
                     <X className="h-5 w-5" />
                   </Button>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  {allNavigation.map((item) => (
+                <div className="flex flex-col gap-1 p-4 flex-1">
+                  {mobileDrawerLinks.map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={cn(
-                        'flex items-center justify-between px-6 py-4 rounded-2xl text-[20px] font-bold transition-all min-h-[56px]',
-                        pathname === item.href
-                          ? 'bg-[var(--color-primary)] text-white shadow-lg'
-                          : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5'
-                      )}
                       onClick={() => setMobileMenuOpen(false)}
+                      className={cn(
+                        'flex items-center justify-between px-4 py-3.5 rounded-xl font-semibold text-base transition-colors',
+                        pathname === item.href
+                          ? 'bg-[var(--color-primary)] text-white'
+                          : 'text-[var(--color-text)] dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      )}
                     >
                       {item.name}
-                      <ChevronRight className="h-5 w-5 opacity-40" />
+                      <ChevronRight className="h-5 w-5 opacity-60" />
                     </Link>
                   ))}
                 </div>
 
-                <div className="mt-auto pt-10 flex flex-col gap-4">
-                  <Link href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
-                    <Button className="w-full h-14 rounded-2xl text-[18px] font-black bg-[var(--color-primary)] text-white shadow-xl shadow-blue-500/20">
-                      ADD A RESOURCE
-                    </Button>
-                  </Link>
-                  {!user ? (
-                    <div className="flex flex-col gap-3">
+                <div className="p-4 pt-2 border-t border-[var(--color-border)] space-y-2">
+                  {user ? (
+                    <>
+                      <Link href="/career/saved-resumes" onClick={() => setMobileMenuOpen(false)}>
+                        <Button variant="outline" className="w-full justify-center rounded-xl">
+                          My Resumes
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          handleSignOut();
+                        }}
+                        className="w-full justify-center rounded-xl text-red-600 dark:text-red-400"
+                      >
+                        Sign Out
+                      </Button>
+                    </>
+                  ) : (
+                    <>
                       <Link href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
-                        <Button variant="outline" className="w-full h-14 rounded-2xl text-[18px] font-bold border-2">
-                          LOGIN
+                        <Button variant="outline" className="w-full justify-center rounded-xl">
+                          Login
                         </Button>
                       </Link>
                       <Link href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
-                        <Button className="w-full h-14 rounded-2xl text-[18px] font-bold bg-[var(--color-secondary)] text-white">
-                          JOIN HUB
+                        <Button className="w-full justify-center rounded-xl bg-[#2563EB] text-white">
+                          Sign Up
                         </Button>
                       </Link>
-                    </div>
-                  ) : (
-                    <Button
-                      variant="ghost"
-                      onClick={() => { handleSignOut(); setMobileMenuOpen(false); }}
-                      className="w-full h-14 rounded-2xl text-[18px] font-bold text-red-500 hover:bg-red-50"
-                    >
-                      SIGN OUT
-                    </Button>
+                    </>
                   )}
                 </div>
               </motion.div>

@@ -3,11 +3,25 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Eye, EyeOff, LogIn, Database } from 'lucide-react';
+import { Eye, EyeOff, LogIn, Database, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { supabase } from '@/lib/supabase/client';
-import { migrateLocalDataToDatabase, hasLocalDataToMigrate } from '@/lib/utils/data-migration';
+import {
+  migrateLocalDataToDatabase,
+  hasLocalDataToMigrate,
+  hasGuestResumesToMigrate,
+  getGuestResumesMigrationCount,
+  migrateGuestResumesToDatabase,
+} from '@/lib/utils/data-migration';
 import { motion } from 'framer-motion';
 
 export default function SignInPage() {
@@ -17,6 +31,10 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [hasLocalData, setHasLocalData] = useState(false);
+  const [showGuestImportModal, setShowGuestImportModal] = useState(false);
+  const [guestResumesCount, setGuestResumesCount] = useState(0);
+  const [pendingUserId, setPendingUserId] = useState<string | null>(null);
+  const [importing, setImporting] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -24,6 +42,45 @@ export default function SignInPage() {
       setHasLocalData(hasLocalDataToMigrate());
     }
   }, []);
+
+  const finishSignIn = (userId: string) => {
+    if (hasGuestResumesToMigrate()) {
+      setGuestResumesCount(getGuestResumesMigrationCount());
+      setPendingUserId(userId);
+      setShowGuestImportModal(true);
+      return;
+    }
+    if (hasLocalDataToMigrate()) {
+      migrateLocalDataToDatabase(userId).catch(() => {});
+    }
+    router.push('/career/resume-builder');
+  };
+
+  const handleImportGuestResumes = async () => {
+    if (!pendingUserId) return;
+    setImporting(true);
+    try {
+      await migrateGuestResumesToDatabase(pendingUserId);
+      setShowGuestImportModal(false);
+      setPendingUserId(null);
+      router.push('/career/resume-builder');
+    } catch {
+      setShowGuestImportModal(false);
+      setPendingUserId(null);
+      router.push('/career/resume-builder');
+    } finally {
+      setImporting(false);
+    }
+  };
+
+  const handleSkipImport = () => {
+    if (pendingUserId && hasLocalDataToMigrate()) {
+      migrateLocalDataToDatabase(pendingUserId).catch(() => {});
+    }
+    setShowGuestImportModal(false);
+    setPendingUserId(null);
+    router.push('/career/resume-builder');
+  };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,14 +96,7 @@ export default function SignInPage() {
       if (error) {
         setError(error.message);
       } else if (data.user) {
-        if (hasLocalDataToMigrate()) {
-          try {
-            await migrateLocalDataToDatabase(data.user.id);
-          } catch {
-            // Don't block login if migration fails
-          }
-        }
-        router.push('/career/resume-builder');
+        finishSignIn(data.user.id);
       }
     } catch {
       setError('An unexpected error occurred');
@@ -107,7 +157,7 @@ export default function SignInPage() {
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 dark:bg-primary-950/30 rounded-bl-[2.5rem] pointer-events-none opacity-50" />
 
           <div className="p-8 relative z-10">
-            {hasLocalData && (
+            {(hasLocalData || (typeof window !== 'undefined' && hasGuestResumesToMigrate())) && (
               <div className="mb-6 p-4 bg-primary-50 dark:bg-primary-950/30 rounded-2xl border border-primary-100 dark:border-primary-900/50 text-left">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center shrink-0">
@@ -116,7 +166,9 @@ export default function SignInPage() {
                   <div>
                     <p className="text-sm font-bold text-primary-950 dark:text-white mb-1">Local data found</p>
                     <p className="text-xs text-[var(--color-text-muted)] leading-relaxed">
-                      Logging in will migrate your guest data to your account.
+                      {hasGuestResumesToMigrate()
+                        ? `You have ${getGuestResumesMigrationCount()} resume(s) saved on this device. After signing in, you can import them to your account.`
+                        : 'Logging in will migrate your guest data to your account.'}
                     </p>
                   </div>
                 </div>
@@ -217,6 +269,34 @@ export default function SignInPage() {
           </div>
         </div>
       </motion.div>
+
+      <Dialog open={showGuestImportModal} onOpenChange={(open) => !open && handleSkipImport()}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-12 h-12 rounded-xl bg-[#2563EB]/10 flex items-center justify-center">
+                <FileText className="h-6 w-6 text-[#2563EB]" />
+              </div>
+              <DialogTitle>Import your resumes?</DialogTitle>
+            </div>
+            <DialogDescription>
+              We found {guestResumesCount} resume{guestResumesCount !== 1 ? 's' : ''} saved on this device. Would you like to import them to your account so you can access them from anywhere?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" onClick={handleSkipImport}>
+              No thanks
+            </Button>
+            <Button
+              className="bg-[#2563EB] hover:bg-[#1d4ed8] text-white"
+              onClick={handleImportGuestResumes}
+              disabled={importing}
+            >
+              {importing ? 'Importing…' : 'Yes, import'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

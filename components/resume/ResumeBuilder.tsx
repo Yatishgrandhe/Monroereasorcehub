@@ -16,9 +16,11 @@ import { TemplateSelector } from './TemplateSelector';
 import { AIAssistant } from './AIAssistant';
 import { supabase } from '@/lib/supabase/client';
 import { generateSummaryAction, enhanceBulletPointAction, suggestSkillsAction } from '@/app/actions/ai';
-import { migrateLocalDataToDatabase, hasLocalDataToMigrate } from '@/lib/utils/data-migration';
+import { migrateLocalDataToDatabase, hasLocalDataToMigrate, hasGuestResumesToMigrate, getGuestResumesMigrationCount, migrateGuestResumesToDatabase } from '@/lib/utils/data-migration';
+import { getGuestResumeById, saveGuestResume, GUEST_RESUME_LIMIT } from '@/lib/utils/guest-resumes';
 import { generateId, cn } from '@/lib/utils';
 import { exportResumeToPDF } from '@/lib/utils/pdf-export';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import type { ResumeData } from '@/lib/ai/gemini';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -60,6 +62,10 @@ export function ResumeBuilder() {
   const [loadedFromStorage, setLoadedFromStorage] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [userLoading, setUserLoading] = useState(true);
+  const [editingGuestId, setEditingGuestId] = useState<string | null>(null);
+  const [showGuestLimitModal, setShowGuestLimitModal] = useState(false);
+  const [showGuestImportModal, setShowGuestImportModal] = useState(false);
+  const [importingGuestResumes, setImportingGuestResumes] = useState(false);
   const LOCAL_STORAGE_KEY = 'monroe_resume_builder_data';
 
   useEffect(() => {
@@ -106,8 +112,10 @@ export function ResumeBuilder() {
       const newUser = session?.user ?? null;
       setUser(newUser);
       if (newUser && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
-        setLoadedFromStorage(false); // Force re-fetch from DB on login
-        if (hasLocalDataToMigrate()) {
+        setLoadedFromStorage(false);
+        if (hasGuestResumesToMigrate()) {
+          setShowGuestImportModal(true);
+        } else if (hasLocalDataToMigrate()) {
           try {
             await migrateLocalDataToDatabase(newUser.id);
           } catch (error) {
@@ -126,6 +134,7 @@ export function ResumeBuilder() {
   useEffect(() => {
     if (loadedFromStorage || userLoading) return;
     const viewParam = searchParams?.get('view');
+    const guestIdParam = searchParams?.get('guestId');
     if (viewParam && typeof window !== 'undefined') {
       const savedData = sessionStorage.getItem('viewingResume');
       if (savedData) {
@@ -140,6 +149,18 @@ export function ResumeBuilder() {
         }
       } else if (user) {
         loadResumeFromDatabase(viewParam);
+      }
+    } else if (guestIdParam && !user && typeof window !== 'undefined') {
+      const guest = getGuestResumeById(guestIdParam);
+      if (guest && guest.data) {
+        const rData = guest.data as unknown as ResumeData & { targetJob?: string; industry?: string; experienceLevel?: string };
+        setResumeData(rData);
+        if (rData.targetJob) setTargetJob(rData.targetJob);
+        if (rData.industry) setIndustry(rData.industry);
+        if (rData.experienceLevel) setExperienceLevel(rData.experienceLevel);
+        setEditingGuestId(guestIdParam);
+        setCurrentStep(7);
+        setLoadedFromStorage(true);
       }
     } else if (!user && typeof window !== 'undefined') {
       const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -474,23 +495,33 @@ export function ResumeBuilder() {
   const saveResume = async () => {
     setSaving(true);
     try {
-      if (!user) {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(resumeData));
-          alert('Saved locally!');
-        }
-        return;
-      }
+      const title = `${resumeData.personalInfo.firstName} ${resumeData.personalInfo.lastName}`.trim() || 'My Resume';
       const bundle = {
         ...resumeData,
         targetJob,
         industry,
         experienceLevel
-      };
+      } as Record<string, unknown>;
+
+      if (!user) {
+        if (typeof window === 'undefined') return;
+        const result = saveGuestResume({
+          id: editingGuestId ?? undefined,
+          title,
+          data: bundle,
+        });
+        if (result.success) {
+          if (!editingGuestId) setEditingGuestId(result.resume.id);
+          alert('Saved locally!');
+        } else if (result.reason === 'limit') {
+          setShowGuestLimitModal(true);
+        }
+        return;
+      }
       await supabase.from('resumes').upsert({
         user_id: user.id,
         resume_data: bundle,
-        title: `${resumeData.personalInfo.firstName} ${resumeData.personalInfo.lastName} - Resume`,
+        title: `${title} - Resume`,
         updated_at: new Date().toISOString()
       });
       alert('Saved to cloud!');
@@ -882,6 +913,7 @@ export function ResumeBuilder() {
   const isViewingMode = !!searchParams?.get('view');
 
   return (
+    <>
     <div className="min-h-screen bg-white relative overflow-hidden">
       {/* Background patterns */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
@@ -994,5 +1026,57 @@ export function ResumeBuilder() {
         </div>
       </div>
     </div>
+
+    <Dialog open={showGuestLimitModal} onOpenChange={setShowGuestLimitModal}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Guest limit reached</DialogTitle>
+          <DialogDescription>
+            Guest accounts are limited to {GUEST_RESUME_LIMIT} resumes. Sign up for free to save unlimited resumes and access them from any device.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="gap-2 sm:gap-0">
+          <Button variant="outline" onClick={() => setShowGuestLimitModal(false)}>
+            Dismiss
+          </Button>
+          <Button asChild className="bg-[#2563EB] hover:bg-[#1d4ed8] text-white">
+            <Link href="/auth/signup">Sign Up</Link>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+
+    <Dialog open={showGuestImportModal} onOpenChange={(open) => !open && setShowGuestImportModal(false)}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Import your resumes?</DialogTitle>
+          <DialogDescription>
+            We found {getGuestResumesMigrationCount()} resume{getGuestResumesMigrationCount() !== 1 ? 's' : ''} saved on this device. Would you like to import them to your account?
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="gap-2 sm:gap-0">
+          <Button variant="outline" onClick={() => setShowGuestImportModal(false)}>
+            No thanks
+          </Button>
+          <Button
+            className="bg-[#2563EB] hover:bg-[#1d4ed8] text-white"
+            disabled={importingGuestResumes || !user}
+            onClick={async () => {
+              if (!user) return;
+              setImportingGuestResumes(true);
+              try {
+                await migrateGuestResumesToDatabase(user.id);
+                setShowGuestImportModal(false);
+              } finally {
+                setImportingGuestResumes(false);
+              }
+            }}
+          >
+            {importingGuestResumes ? 'Importing…' : 'Yes, import'}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  </>
   );
 }

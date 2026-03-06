@@ -4,6 +4,11 @@
  */
 
 import { supabase } from '@/lib/supabase/client';
+import {
+  getGuestResumes,
+  clearGuestResumes,
+  hasGuestResumes,
+} from '@/lib/utils/guest-resumes';
 
 const LOCAL_STORAGE_KEYS = {
   RESUME: 'monroe_resume_builder_data',
@@ -157,6 +162,53 @@ export function hasLocalDataToMigrate(): boolean {
     localStorage.getItem(LOCAL_STORAGE_KEYS.COVER_LETTERS) ||
     localStorage.getItem(LOCAL_STORAGE_KEYS.JOB_ANALYSIS)
   );
+}
+
+/**
+ * Check if user has guest resumes that can be imported to their account
+ */
+export function hasGuestResumesToMigrate(): boolean {
+  return hasGuestResumes();
+}
+
+/**
+ * Get count of guest resumes for migration prompt message
+ */
+export function getGuestResumesMigrationCount(): number {
+  if (typeof window === 'undefined') return 0;
+  return getGuestResumes().length;
+}
+
+/**
+ * Migrate guest resumes from localStorage to the user's account, then clear guest storage.
+ * Call this after user confirms import (e.g. "We found X resume(s). Import?").
+ */
+export async function migrateGuestResumesToDatabase(userId: string): Promise<{ success: boolean; count: number; errors: string[] }> {
+  const result = { success: true, count: 0, errors: [] as string[] };
+  if (typeof window === 'undefined') return result;
+
+  const list = getGuestResumes();
+  for (const guest of list) {
+    try {
+      const { error } = await supabase.from('resumes').insert({
+        user_id: userId,
+        resume_data: guest.data,
+        title: guest.title,
+      });
+      if (error) {
+        result.errors.push(error.message);
+      } else {
+        result.count += 1;
+      }
+    } catch (e) {
+      result.errors.push(e instanceof Error ? e.message : 'Unknown error');
+    }
+  }
+  if (result.count > 0 || result.errors.length > 0) {
+    clearGuestResumes();
+  }
+  result.success = result.errors.length === 0;
+  return result;
 }
 
 /**

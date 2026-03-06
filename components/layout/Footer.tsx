@@ -50,22 +50,39 @@ export function Footer() {
           <div className="md:col-span-3">
             <h3 className="text-accent-500 font-bold mb-8 text-[10px] uppercase tracking-[0.3em]">Link Directory</h3>
             <ul className="space-y-4">
-              {['Resources', 'Events', 'Career Center', 'Volunteer', 'About Us'].map((item) => (
-                <li key={item}>
-                  <Link
-                    href={`/${item.toLowerCase().replace(' ', '-')}`}
-                    className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
               <li>
-                <Link
-                  href="/info"
-                  className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest"
-                >
+                <Link href="/resources" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                  Resources
+                </Link>
+              </li>
+              <li>
+                <Link href="/events" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                  Events
+                </Link>
+              </li>
+              <li>
+                <Link href="/career" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                  Career Center
+                </Link>
+              </li>
+              <li>
+                <Link href="/volunteer" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                  Volunteer
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/info" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
                   Information
+                </Link>
+              </li>
+              <li>
+                <Link href="/submit-resource" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                  Submit a Resource
                 </Link>
               </li>
             </ul>
