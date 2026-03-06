@@ -14,6 +14,7 @@ import {
   ChevronDown,
   FileText,
   Lock,
+  PlusCircle,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
@@ -343,8 +344,20 @@ export function Header() {
             </div>
           </div>
 
-          {/* Desktop: Utility — right: Search, Login, Sign Up OR Profile dropdown */}
+          {/* Desktop: Utility — right: Share Resource, Search, Login, Sign Up OR Profile dropdown */}
           <div className="flex items-center gap-2 shrink-0 ml-auto">
+            <Link
+              href="/submit-resource"
+              className={cn(
+                'hidden sm:flex items-center gap-2 h-9 sm:h-10 px-4 rounded-lg font-semibold text-sm transition-colors shrink-0',
+                isTransparent
+                  ? 'bg-white/20 text-white hover:bg-white/30 border border-white/30'
+                  : 'bg-[#2563EB] text-white hover:bg-[#1d4ed8] border-0 shadow-sm'
+              )}
+            >
+              <PlusCircle className="h-4 w-4 shrink-0" />
+              <span>Share Resource</span>
+            </Link>
             <Button
               variant="ghost"
               size="icon"
