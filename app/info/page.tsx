@@ -238,7 +238,7 @@ export default function InfoPage() {
       </PageSplineBanner>
 
       {/* Required Documents */}
-      <section className="section-padding relative z-10">
+      <section className="section-padding relative z-20">
         <div className="container-custom">
           <div className="text-center mb-12">
             <span className="section-label block mb-3">Documents</span>
@@ -280,7 +280,7 @@ export default function InfoPage() {
       </section>
 
       {/* Framework Statement */}
-      <section className="section-padding bg-[var(--color-primary)] relative z-10 text-white">
+      <section className="section-padding bg-[var(--color-primary)] relative z-20 text-white">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto rounded-2xl border border-white/10 overflow-hidden bg-white/5 backdrop-blur-sm">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
@@ -305,7 +305,7 @@ export default function InfoPage() {
       </section>
 
       {/* References Grid */}
-      <section className="section-padding relative z-10">
+      <section className="section-padding relative z-20">
         <div className="container-custom">
           <div className="text-center mb-16">
             <span className="section-label block mb-3">Technology & references</span>
@@ -367,7 +367,7 @@ export default function InfoPage() {
       </section>
 
       {/* Licensing */}
-      <section className="section-padding relative z-10">
+      <section className="section-padding relative z-20">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto border border-[var(--color-border)] dark:border-white/10 bg-[var(--color-surface)] dark:bg-[#1e293b] p-8 md:p-12 rounded-2xl">
             <div className="flex items-center gap-4 mb-8">
@@ -400,7 +400,7 @@ export default function InfoPage() {
       </section>
 
       {/* Project meta */}
-      <section className="section-padding pb-24 relative z-10">
+      <section className="section-padding pb-24 relative z-20">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

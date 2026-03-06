@@ -228,7 +228,7 @@ export function EventCalendar() {
         {eventsHero}
       </PageSplineBanner>
 
-      <div className="container-custom py-12 md:py-16 relative z-10">
+      <div className="container-custom py-12 md:py-16 relative z-20">
         <div className="flex flex-col lg:flex-row gap-8 mb-16 items-center justify-between">
           <div className="w-full lg:max-w-xl">
             <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Search unified community missions..." />

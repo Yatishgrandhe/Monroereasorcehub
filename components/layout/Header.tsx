@@ -100,11 +100,13 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 sm:pt-5 px-4 sm:px-6 lg:px-10 pointer-events-none [&>*]:pointer-events-auto">
-      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 sm:pt-5 px-4 sm:px-6 lg:px-10 pointer-events-none">
+      <div className="pointer-events-auto">
+        <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+      </div>
       <nav
         className={cn(
-          'navbar w-full min-w-0 max-w-full rounded-2xl transition-all duration-500 ease-in-out',
+          'navbar pointer-events-auto w-full min-w-0 max-w-full rounded-2xl transition-all duration-500 ease-in-out',
           scrolled
             ? 'navbar-scrolled bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-2xl border border-[var(--color-border)] shadow-[0_8px_30px_rgba(0,0,0,0.12)] py-2'
             : 'bg-white/90 dark:bg-[#0f172a]/90 backdrop-blur-xl border border-white/20 shadow-lg py-3'
@@ -143,7 +145,7 @@ export function Header() {
             "flex-1 min-w-0 flex items-center justify-start sm:justify-center overflow-x-auto overflow-y-hidden scrollbar-hide",
             showDesktopNav ? "flex" : "hidden"
           )}>
-            <div className="flex items-center gap-0.5 xl:gap-1 flex-nowrap px-4">
+            <div className="flex items-center gap-0.5 xl:gap-1 flex-nowrap px-8">
               {navigation.map((item) => (
                 <Link
                   key={item.name}

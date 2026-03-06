@@ -37,21 +37,26 @@ export default function ResourcesPage() {
     <div className="min-h-screen bg-[var(--color-bg)] dark:bg-[#0f172a] relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(var(--color-border)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:32px_32px] opacity-40 pointer-events-none" />
 
-      <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="36vh">
+      <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="38vh">
         <div className="container-custom w-full">
           <Reveal width="100%">
-            <span className="section-label block mb-4 text-[var(--color-accent-soft)]">Community resources</span>
-            <h1 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight leading-tight mb-4">
-              Resources
-            </h1>
-            <p className="text-base md:text-lg text-gray-200 max-w-2xl">
-              Every listing is verified by our team. Search by name, zip code, or type of help.
-            </p>
+            <div className="flex flex-col items-start gap-4 text-left">
+              <span className="px-5 py-2 rounded-full bg-accent-500/10 border border-accent-400/20 text-accent-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-md">
+                Verified Registry
+              </span>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-4">
+                Resources<span className="text-secondary-500 not-italic">.</span>
+              </h1>
+              <div className="w-24 h-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full mb-6" />
+              <p className="text-xl md:text-2xl text-blue-50/70 max-w-3xl leading-relaxed italic font-medium">
+                Every listing is verified by our team. Search by name, zip code, or community need.
+              </p>
+            </div>
           </Reveal>
         </div>
       </PageSplineBanner>
 
-      <section className="relative z-10 pt-10 pb-16 md:pt-12 md:pb-24">
+      <section className="relative z-20 pt-10 pb-16 md:pt-12 md:pb-24">
         <div className="container-custom">
           <Reveal width="100%">
             <div className="bg-[var(--color-surface)] dark:bg-[#1e293b] rounded-2xl p-4 sm:p-6 shadow-sm border border-[var(--color-border)] dark:border-white/10 mb-10">
