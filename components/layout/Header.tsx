@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Search, LogOut, UserCircle, ChevronRight, PlusCircle } from 'lucide-react';
+import { Menu, X, Search, LogOut, UserCircle, ChevronRight, PlusCircle, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
@@ -13,16 +13,20 @@ import { SearchModal } from '@/components/ui/SearchModal';
 
 const COMPACT_NAV_BREAKPOINT = 1100;
 
-const navigation = [
+const primaryNav = [
   { name: 'Home', href: '/' },
   { name: 'Resources', href: '/resources' },
   { name: 'Events', href: '/events' },
-  { name: 'Career Center', href: '/career' },
-  { name: 'My Resumes', href: '/career/saved-resumes' },
+  { name: 'Career Help', href: '/career' },
+];
+
+const secondaryNav = [
   { name: 'Volunteer', href: '/volunteer' },
   { name: 'About Us', href: '/about' },
-  { name: 'Information', href: '/info' },
+  { name: 'Information Page', href: '/info' },
 ];
+
+const allNavigation = [...primaryNav, ...secondaryNav];
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -30,6 +34,7 @@ export function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [scrolled, setScrolled] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [useCompactNav, setUseCompactNav] = useState(true);
   const showDesktopNav = !useCompactNav;
   const pathname = usePathname();
@@ -115,10 +120,10 @@ export function Header() {
         aria-label="Global"
       >
         <div className="flex items-center min-w-0 w-full h-12 sm:h-14 gap-2 sm:gap-4">
-            <Link
-              href="/"
-              className="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0 overflow-hidden"
-            >
+          <Link
+            href="/"
+            className="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0 overflow-hidden"
+          >
             <div
               className="rounded-xl overflow-hidden shadow-sm border border-[var(--color-border)] shrink-0 w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 bg-white dark:bg-white/5 flex items-center justify-center p-1.5 group-hover:scale-105 transition-transform duration-200"
             >
@@ -149,27 +154,71 @@ export function Header() {
             Updated today
           </span>
 
-          {/* Desktop Navigation — scrollable so Information is never cut off */}
+          {/* Desktop Navigation — Priority+ Hierarchy */}
           <div className={cn(
-            "flex-1 min-w-0 flex items-center justify-start sm:justify-center overflow-x-auto overflow-y-hidden scrollbar-hide",
+            "flex-1 min-w-0 flex items-center justify-center",
             showDesktopNav ? "flex" : "hidden"
           )}>
-            <div className="flex items-center gap-0.5 xl:gap-1 flex-nowrap px-12">
-              {navigation.map((item, idx) => (
+            <div className="flex items-center gap-2 xl:gap-4 flex-nowrap px-4 lg:px-8">
+              {primaryNav.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'nav-link-bar whitespace-nowrap rounded-xl font-black uppercase tracking-[0.15em] transition-all duration-300 shrink-0',
-                    idx === 0 && "ml-4",
+                    'nav-link-bar whitespace-nowrap px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[18px]',
                     pathname === item.href
-                      ? 'bg-[var(--color-primary)] text-white shadow-xl shadow-blue-500/20'
+                      ? 'bg-[var(--color-primary)] text-white shadow-lg'
                       : 'text-[var(--color-text)] dark:text-gray-300 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5'
                   )}
                 >
                   {item.name}
                 </Link>
               ))}
+
+              {/* "More" Dropdown for secondary links */}
+              <div className="relative">
+                <button
+                  onClick={() => setMoreOpen(!moreOpen)}
+                  onMouseEnter={() => setMoreOpen(true)}
+                  className={cn(
+                    'flex items-center gap-1 px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[18px]',
+                    secondaryNav.some(item => pathname === item.href)
+                      ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]'
+                      : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-[var(--color-primary)]/5'
+                  )}
+                >
+                  More
+                  <ChevronDown className={cn("h-4 w-4 transition-transform duration-200", moreOpen && "rotate-180")} />
+                </button>
+
+                <AnimatePresence>
+                  {moreOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      onMouseLeave={() => setMoreOpen(false)}
+                      className="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-[#1e293b] border border-[var(--color-border)] rounded-2xl shadow-2xl overflow-hidden z-50 py-2"
+                    >
+                      {secondaryNav.map((item) => (
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          onClick={() => setMoreOpen(false)}
+                          className={cn(
+                            'block px-6 py-3 text-[18px] font-bold transition-colors',
+                            pathname === item.href
+                              ? 'text-[var(--color-primary)] bg-[var(--color-primary)]/5'
+                              : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                          )}
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </div>
 
@@ -177,12 +226,12 @@ export function Header() {
             <Link
               href="/submit-resource"
               className={cn(
-                'whitespace-nowrap flex items-center gap-2 h-10 sm:h-12 rounded-xl font-bold border-2 border-[var(--color-primary)] bg-[var(--color-primary)] text-white hover:brightness-110 shadow-lg shadow-blue-500/20 transition-all duration-300 transform-gpu hover:-translate-y-0.5 active:translate-y-0 shrink-0 flex-nowrap navbar-icon-btn',
-                pathname === '/submit-resource' && 'ring-4 ring-[var(--color-primary)]/10'
+                'whitespace-nowrap flex items-center gap-2 h-10 sm:h-12 px-6 rounded-xl font-black bg-[var(--color-primary)] text-white hover:brightness-110 shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all duration-300 transform-gpu hover:-translate-y-0.5 active:translate-y-0 shrink-0 flex-nowrap navbar-cta-btn border-none',
+                pathname === '/submit-resource' && 'ring-4 ring-[var(--color-primary)]/30'
               )}
             >
-              <PlusCircle className="h-4 w-4 shrink-0" />
-              <span className="hidden sm:inline uppercase tracking-widest">Share Resource</span>
+              <PlusCircle className="h-5 w-5 shrink-0" />
+              <span className="hidden sm:inline uppercase tracking-widest text-[14px]">Add a Resource</span>
             </Link>
             <Button
               variant="outline"
@@ -252,55 +301,84 @@ export function Header() {
 
         <AnimatePresence>
           {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="overflow-hidden"
-            >
-              <div className="px-4 sm:px-6 pb-10 pt-4 space-y-2 border-t border-gray-100 dark:border-white/10">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={cn(
-                      'flex items-center justify-between px-5 py-4 rounded-xl text-sm font-semibold transition-all whitespace-nowrap min-h-[48px]',
-                      pathname === item.href
-                        ? 'bg-[var(--color-primary)] text-white shadow-md'
-                        : 'text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50 active:bg-[var(--color-border)]/70'
-                    )}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                    <ChevronRight className="h-4 w-4 opacity-40 shrink-0" />
-                  </Link>
-                ))}
+            <>
+              {/* Overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setMobileMenuOpen(false)}
+                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 pointer-events-auto"
+              />
 
-                <div className="mt-4 pt-4 border-t border-[var(--color-border)] flex flex-col gap-3">
-                  <Link href="/submit-resource" className="w-full" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" className="w-full h-12 rounded-xl text-sm font-semibold border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 whitespace-nowrap">
-                      <PlusCircle className="h-4 w-4 mr-2 shrink-0" />
-                      Share Resource
+              {/* Right-to-Left Drawer (75% width) */}
+              <motion.div
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                className="fixed top-0 right-0 bottom-0 w-[75%] max-w-sm bg-white dark:bg-[#0f172a] shadow-2xl z-50 p-6 flex flex-col pointer-events-auto overflow-y-auto"
+              >
+                <div className="flex items-center justify-between mb-10">
+                  <div className="flex items-center gap-2">
+                    <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
+                    <span className="font-black text-lg tracking-tighter">Monroe Hub.</span>
+                  </div>
+                  <Button variant="ghost" size="sm" onClick={() => setMobileMenuOpen(false)} className="h-10 w-10 p-0 rounded-full bg-gray-100 dark:bg-white/10">
+                    <X className="h-5 w-5" />
+                  </Button>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  {allNavigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={cn(
+                        'flex items-center justify-between px-6 py-4 rounded-2xl text-[20px] font-bold transition-all min-h-[56px]',
+                        pathname === item.href
+                          ? 'bg-[var(--color-primary)] text-white shadow-lg'
+                          : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5'
+                      )}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                      <ChevronRight className="h-5 w-5 opacity-40" />
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="mt-auto pt-10 flex flex-col gap-4">
+                  <Link href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
+                    <Button className="w-full h-14 rounded-2xl text-[18px] font-black bg-[var(--color-primary)] text-white shadow-xl shadow-blue-500/20">
+                      ADD A RESOURCE
                     </Button>
                   </Link>
-                  {!user && (
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <Link href="/auth/signin" className="w-full" onClick={() => setMobileMenuOpen(false)}>
-                        <Button variant="outline" className="w-full h-12 rounded-xl text-sm font-semibold border-[var(--color-border)] text-[var(--color-text)] hover:bg-[var(--color-border)]/50 whitespace-nowrap">
-                          Login
+                  {!user ? (
+                    <div className="flex flex-col gap-3">
+                      <Link href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
+                        <Button variant="outline" className="w-full h-14 rounded-2xl text-[18px] font-bold border-2">
+                          LOGIN
                         </Button>
                       </Link>
-                      <Link href="/auth/signup" className="w-full" onClick={() => setMobileMenuOpen(false)}>
-                        <Button className="w-full h-12 rounded-xl text-sm font-semibold bg-[var(--color-secondary)] text-white hover:brightness-110 whitespace-nowrap">
-                          Join Hub
+                      <Link href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
+                        <Button className="w-full h-14 rounded-2xl text-[18px] font-bold bg-[var(--color-secondary)] text-white">
+                          JOIN HUB
                         </Button>
                       </Link>
                     </div>
+                  ) : (
+                    <Button
+                      variant="ghost"
+                      onClick={() => { handleSignOut(); setMobileMenuOpen(false); }}
+                      className="w-full h-14 rounded-2xl text-[18px] font-bold text-red-500 hover:bg-red-50"
+                    >
+                      SIGN OUT
+                    </Button>
                   )}
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </nav>
