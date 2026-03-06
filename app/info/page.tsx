@@ -196,14 +196,14 @@ const documents = [
     description: 'Complete documentation of all copyrighted materials used in this project',
     icon: FileText,
     color: 'bg-primary-500/20 text-primary-300',
-    href: '/documents/student-copyright-checklist'
+    href: '/documents/student-copyright-checklist.pdf'
   },
   {
     name: 'Work Log',
     description: 'Detailed log of all work completed during project development',
     icon: FileText,
     color: 'bg-accent-500/20 text-accent-300',
-    href: '/documents/work-log'
+    href: '/documents/work-log.pdf'
   }
 ];
 

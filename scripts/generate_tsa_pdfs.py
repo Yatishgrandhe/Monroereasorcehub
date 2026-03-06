@@ -480,6 +480,8 @@ def build_student_copyright_checklist():
     story.append(adv_table)
 
     def on_first(canvas, doc):
+        canvas.setTitle('Student Copyright Checklist')
+        canvas.setAuthor('Monroe Resource Hub | CATA TSA')
         first_page_cb(canvas, doc, 'STUDENT COPYRIGHT CHECKLIST', 'Monroe Resource Hub | Central Academy of Technology and Arts | TSA 2026')
 
     def on_later(canvas, doc):
@@ -656,6 +658,8 @@ def build_work_log():
     story.append(comp_table)
 
     def on_first(canvas, doc):
+        canvas.setTitle('Work Log')
+        canvas.setAuthor('Monroe Resource Hub | CATA TSA')
         first_page_cb(canvas, doc, 'WORK LOG', 'Monroe Resource Hub | Central Academy of Technology and Arts | TSA 2026')
 
     def on_later(canvas, doc):
