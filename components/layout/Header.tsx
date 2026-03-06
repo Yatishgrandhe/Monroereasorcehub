@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Search, LogOut, UserCircle, ChevronRight } from 'lucide-react';
+import { Menu, X, Search, LogOut, UserCircle, ChevronRight, PlusCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
@@ -100,24 +100,24 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-6 px-6 lg:px-12 pointer-events-none [&>*]:pointer-events-auto">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 sm:pt-5 px-4 sm:px-6 lg:px-10 pointer-events-none [&>*]:pointer-events-auto">
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       <nav
         className={cn(
-          'w-full min-w-0 max-w-full rounded-[2rem] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]',
+          'navbar w-full min-w-0 max-w-full rounded-2xl transition-all duration-300',
           scrolled
-            ? 'bg-white/95 backdrop-blur-xl border border-gray-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] py-2'
-            : 'bg-white/50 backdrop-blur-md border border-transparent py-3'
+            ? 'navbar-scrolled bg-white/90 dark:bg-[#0f172a]/90 backdrop-blur-xl border border-[var(--color-border)] shadow-[0_4px_20px_var(--color-shadow)] py-2'
+            : 'bg-[var(--color-bg)]/80 dark:bg-[#0f172a]/80 backdrop-blur-md border border-transparent py-2.5'
         )}
         aria-label="Global"
       >
-        <div className="flex items-center gap-4 lg:gap-8 px-6 lg:px-10 h-14 md:h-16 min-w-0">
+        <div className="flex items-center gap-2 sm:gap-4 lg:gap-5 px-4 sm:px-5 lg:px-8 h-12 sm:h-14 min-w-0">
           <Link
             href="/"
-            className="flex items-center gap-4 group shrink-0"
+            className="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0"
           >
             <div
-              className="rounded-2xl overflow-hidden shadow-sm border border-gray-100 shrink-0 w-10 h-10 lg:w-12 lg:h-12 bg-white flex items-center justify-center p-2 group-hover:scale-105 transition-transform"
+              className="rounded-xl overflow-hidden shadow-sm border border-[var(--color-border)] shrink-0 w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 bg-white dark:bg-white/5 flex items-center justify-center p-1.5 group-hover:scale-105 transition-transform duration-200"
             >
               <img
                 src="/logo.png"
@@ -127,30 +127,30 @@ export function Header() {
             </div>
             <div className="flex flex-col min-w-0 hidden sm:block">
               <span className={cn(
-                "text-xl lg:text-2xl font-bold tracking-tighter font-serif text-primary-950 truncate",
+                "text-base lg:text-lg font-bold tracking-tight font-[var(--font-heading)] text-[var(--color-text)] dark:text-white truncate whitespace-nowrap",
                 showDesktopNav ? "inline" : "hidden"
               )}>
-                Monroe Resource <span className="text-primary-700 italic">Hub.</span>
+                Monroe Resource <span className="text-[var(--color-primary)] dark:text-emerald-400 italic">Hub</span>
               </span>
             </div>
-            <span className={cn("text-lg font-bold font-serif text-primary-950 shrink-0 sm:hidden", showDesktopNav ? "hidden" : "inline")}>MRH</span>
+            <span className={cn("text-base font-bold font-[var(--font-heading)] text-[var(--color-text)] dark:text-white shrink-0 sm:hidden whitespace-nowrap", showDesktopNav ? "hidden" : "inline")}>MRH</span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation — all one line */}
           <div className={cn(
-            "flex-1 min-w-0 flex items-center justify-center",
+            "flex-1 min-w-0 flex items-center justify-center overflow-hidden",
             showDesktopNav ? "flex" : "hidden"
           )}>
-            <div className="flex items-center gap-2 xl:gap-4 flex-nowrap">
+            <div className="flex items-center gap-0.5 xl:gap-1 flex-nowrap max-w-full">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'whitespace-nowrap px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all shrink-0',
+                    'nav-link-bar whitespace-nowrap px-3 py-2 rounded-lg text-[13px] sm:text-sm font-semibold tracking-tight transition-all duration-200 shrink-0',
                     pathname === item.href
-                      ? 'bg-primary-950 text-white shadow-xl shadow-primary-950/20'
-                      : 'text-gray-400 hover:text-primary-950 hover:bg-gray-50'
+                      ? 'bg-[var(--color-primary)] text-white shadow-md'
+                      : 'text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50'
                   )}
                 >
                   {item.name}
@@ -159,43 +159,53 @@ export function Header() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap">
+            <Link
+              href="/submit-resource"
+              className={cn(
+                'whitespace-nowrap flex items-center gap-1.5 h-9 sm:h-10 px-3 sm:px-4 rounded-lg text-[13px] sm:text-sm font-semibold border-2 border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10 transition-all duration-200 shrink-0',
+                pathname === '/submit-resource' && 'bg-[var(--color-accent)]/15'
+              )}
+            >
+              <PlusCircle className="h-4 w-4 shrink-0" />
+              <span className="hidden lg:inline">Share Resource</span>
+            </Link>
             <Button
               variant="ghost"
               size="sm"
-              className="h-12 w-12 p-0 rounded-2xl text-gray-400 hover:text-primary-950 hover:bg-gray-50 shrink-0 flex items-center justify-center"
+              className="h-9 w-9 sm:h-10 sm:w-10 p-0 rounded-lg text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50 shrink-0 flex items-center justify-center whitespace-nowrap"
               onClick={() => setSearchOpen(true)}
               title="Search (⌘K)"
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
 
             {user ? (
-              <div className="flex items-center gap-3 shrink-0">
-                <div className="hidden lg:flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-gray-50 border border-gray-100">
-                  <UserCircle className="h-4 w-4 text-primary-700 shrink-0" />
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-primary-950 truncate max-w-[120px]" title={user.user_metadata?.full_name || user.email || ''}>
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap">
+                <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-border)]/30 border border-[var(--color-border)]">
+                  <UserCircle className="h-4 w-4 text-[var(--color-primary)] shrink-0" />
+                  <span className="text-[13px] sm:text-sm font-medium text-[var(--color-text)] dark:text-white truncate max-w-[100px] whitespace-nowrap" title={user.user_metadata?.full_name || user.email || ''}>
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-12 w-12 p-0 rounded-2xl hover:bg-red-50 hover:text-red-600 transition-colors"
+                <button
+                  type="button"
+                  aria-label="Sign out"
                   onClick={handleSignOut}
+                  className="group flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 rounded-lg text-[var(--color-text-muted)] hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 dark:hover:text-red-400 transition-all duration-200 ease-out hover:scale-105 active:scale-95 shrink-0 border border-transparent hover:border-red-200"
                 >
-                  <LogOut className="h-4 w-4" />
-                </Button>
+                  <LogOut className="h-4 w-4 transition-transform duration-200 group-hover:-rotate-12" />
+                </button>
               </div>
             ) : (
-              <div className="flex items-center gap-3 shrink-0">
-                <Link href="/auth/signin" className="hidden lg:block">
-                  <Button variant="ghost" className="h-12 px-6 rounded-2xl font-bold uppercase tracking-widest text-[10px] text-gray-400 hover:text-primary-950">
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap">
+                <Link href="/auth/signin" className="hidden lg:block shrink-0">
+                  <Button variant="ghost" className="h-9 sm:h-10 px-3 sm:px-4 rounded-lg text-[13px] sm:text-sm font-semibold text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50 whitespace-nowrap">
                     Login
                   </Button>
                 </Link>
-                <Link href="/auth/signup">
-                  <Button className="bg-primary-950 hover:bg-black text-white px-8 h-12 rounded-2xl uppercase tracking-widest text-[10px] font-bold shadow-xl shadow-primary-950/20">
+                <Link href="/auth/signup" className="shrink-0">
+                  <Button className="bg-[var(--color-primary)] hover:opacity-90 text-white px-4 sm:px-5 h-9 sm:h-10 rounded-lg text-[13px] sm:text-sm font-semibold shadow-[0_4px_14px_var(--color-shadow)] whitespace-nowrap transition-all duration-200 active:scale-95">
                     Join Hub
                   </Button>
                 </Link>
@@ -241,31 +251,32 @@ export function Header() {
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'flex items-center justify-between px-6 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all',
+                      'flex items-center justify-between px-5 py-3.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap',
                       pathname === item.href
-                        ? 'bg-primary-950 text-white shadow-xl shadow-primary-950/20'
-                        : 'text-gray-400 hover:text-primary-950 hover:bg-gray-50'
+                        ? 'bg-[var(--color-primary)] text-white shadow-md'
+                        : 'text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50'
                     )}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.name}
-                    <ChevronRight className="h-4 w-4 opacity-30" />
+                    <ChevronRight className="h-4 w-4 opacity-40 shrink-0" />
                   </Link>
                 ))}
 
-                <div className="mt-8 pt-8 border-t border-gray-50 flex flex-col gap-4">
+                <div className="mt-4 pt-4 border-t border-[var(--color-border)] flex flex-col gap-2">
+                  <Link href="/submit-resource" className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="outline" className="w-full h-11 rounded-xl text-sm font-semibold border-2 border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10 whitespace-nowrap">
+                      <PlusCircle className="h-4 w-4 mr-2 shrink-0" />
+                      Share Resource
+                    </Button>
+                  </Link>
                   {!user && (
                     <Link href="/auth/signin" className="w-full">
-                      <Button variant="outline" className="w-full h-14 rounded-2xl font-bold uppercase tracking-widest text-[10px] border-primary-100 text-primary-950">
+                      <Button variant="outline" className="w-full h-11 rounded-xl text-sm font-semibold border-[var(--color-border)] text-[var(--color-text)] hover:bg-[var(--color-border)]/50 whitespace-nowrap">
                         Sign In
                       </Button>
                     </Link>
                   )}
-                  <Link href="/submit-resource" className="w-full">
-                    <Button variant="outline" className="w-full h-14 rounded-2xl font-bold uppercase tracking-widest text-[10px] border-primary-100 text-primary-950">
-                      Submit Resource
-                    </Button>
-                  </Link>
                 </div>
               </div>
             </motion.div>

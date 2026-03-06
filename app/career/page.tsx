@@ -3,8 +3,10 @@
 import { FileText, Briefcase, Calendar, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
+import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { SPLINE_PAGES_URL } from '@/lib/spline';
 
 const services = [
   {
@@ -36,20 +38,20 @@ export default function CareerCenterPage() {
       {/* Background patterns */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
 
-      {/* Hero Header */}
-      <section className="relative pt-36 pb-16 md:pt-40 md:pb-20 z-10">
-        <div className="container-custom text-center">
+      {/* Hero with optional Spline background */}
+      <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="42vh">
+        <div className="container-custom text-center w-full">
           <Reveal width="100%">
-            <span className="text-primary-600 font-semibold uppercase tracking-widest text-xs mb-4 block">Work & training</span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-950 dark:text-white mt-2 mb-6 leading-tight">
+            <span className="section-label block mb-4 text-[var(--color-accent-soft)]">Work & training</span>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mt-2 mb-6 leading-tight">
               Career Center
             </h1>
-            <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base md:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
               Whether you&apos;re looking for your first job, re-entering the workforce, or building new skills — we have resources to help. Browse local job listings or use our free AI resume builder to create a professional resume.
             </p>
           </Reveal>
         </div>
-      </section>
+      </PageSplineBanner>
 
       {/* Services Grid */}
       <section className="py-32 relative z-10">

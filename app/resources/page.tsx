@@ -10,6 +10,8 @@ import { useResourceSearch } from '@/hooks/useResourceSearch';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
+import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
+import { SPLINE_PAGES_URL } from '@/lib/spline';
 
 const DEFAULT_CATEGORIES = ['Food Assistance', 'Healthcare', 'Education', 'Housing', 'Family Support', 'Career Support'];
 
@@ -35,18 +37,24 @@ export default function ResourcesPage() {
     <div className="min-h-screen bg-white dark:bg-[#000d1a] relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
 
-      <section className="pt-32 pb-16 md:pt-40 md:pb-24 relative z-10">
-        <div className="container-custom">
+      <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="38vh">
+        <div className="container-custom w-full">
           <Reveal width="100%">
-            <span className="text-primary-600 dark:text-primary-400 font-semibold uppercase tracking-widest text-xs mb-4 block">Community resources</span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-primary-950 dark:text-white tracking-tight leading-tight mb-6">
-              Find local help in Monroe
+            <span className="section-label block mb-4 text-[var(--color-accent-soft)]">Community resources</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white tracking-tight leading-tight mb-4">
+              Resources
             </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mb-10">
+            <p className="text-lg text-gray-200 max-w-2xl mb-6">
               Every listing is verified by our team. Search by name, zip code, or type of help.
             </p>
+          </Reveal>
+        </div>
+      </PageSplineBanner>
 
-            <div className="max-w-2xl">
+      <section className="pb-16 md:pb-24 relative z-10 -mt-4">
+        <div className="container-custom">
+          <Reveal width="100%">
+            <div className="max-w-2xl mb-10">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input

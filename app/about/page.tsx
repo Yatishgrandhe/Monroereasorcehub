@@ -3,7 +3,9 @@
 import { Shield, Users, Heart, GraduationCap, ArrowRight, Sparkles } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
+import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
 import Link from 'next/link';
+import { SPLINE_PAGES_URL } from '@/lib/spline';
 
 const team = [
   { name: 'Yatish Grandhe', role: 'Platform Architect' },
@@ -35,20 +37,20 @@ export default function AboutPage() {
       {/* Background patterns */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
 
-      {/* Hero Header */}
-      <section className="relative pt-36 pb-16 md:pt-40 md:pb-20 z-10">
-        <div className="container-custom text-center">
+      {/* Hero with optional Spline background */}
+      <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="42vh">
+        <div className="container-custom text-center w-full">
           <Reveal width="100%">
-            <span className="text-primary-600 font-semibold uppercase tracking-widest text-xs mb-4 block">Our story</span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-950 dark:text-white mt-2 mb-6 leading-tight">
-              Manually verified, locally managed
+            <span className="section-label block mb-4 text-[var(--color-accent-soft)]">Our story</span>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mt-2 mb-6 leading-tight">
+              About Us
             </h1>
-            <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base md:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
               Monroe Resource Hub is a student-led project dedicated to connecting Union County residents with the help they need. Every listing is checked by a human before it goes live.
             </p>
           </Reveal>
         </div>
-      </section>
+      </PageSplineBanner>
 
       {/* Origin Story Section */}
       <section className="py-12 px-6 lg:px-12 relative z-10">

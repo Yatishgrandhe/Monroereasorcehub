@@ -8,9 +8,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/Badge';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { FilterPanel, FilterGroup } from '@/components/ui/FilterPanel';
+import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
 import { createClient } from '@/lib/supabase/client';
 import { formatDate, formatTime, isToday, isTomorrow, getRelativeTime, cn } from '@/lib/utils';
 import { Database } from '@/types/database';
+import { SPLINE_PAGES_URL } from '@/lib/spline';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Dialog,
@@ -198,27 +200,32 @@ export function EventCalendar() {
     setCurrentDate(d);
   };
 
+  const eventsHero = (
+    <div className="container-custom w-full">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        <Badge variant="outline" className="mb-4 px-5 py-2 border-primary-200 text-[var(--color-accent-soft)] font-bold uppercase tracking-[0.2em] text-[10px] bg-primary-950/30 rounded-full">
+          <Sparkles className="w-3.5 h-3.5 mr-2" />
+          Community Calendar
+        </Badge>
+        <h1 className="text-4xl md:text-6xl font-serif font-bold text-white mb-4 tracking-tight leading-tight">
+          Events
+        </h1>
+        <p className="text-xl md:text-2xl text-gray-200 max-w-3xl leading-relaxed font-medium">
+          Discover workshops, social gatherings, and civic initiatives driving Monroe forward through verified community operations.
+        </p>
+      </motion.div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-white pt-20 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none" />
 
-      <div className="container-custom py-24 relative z-10">
-        <div className="mb-20">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Badge variant="outline" className="mb-8 px-5 py-2 border-primary-200 text-primary-700 font-bold uppercase tracking-[0.2em] text-[10px] bg-primary-50/50 rounded-full">
-              <Sparkles className="w-3.5 h-3.5 mr-2" />
-              Community Calendar
-            </Badge>
-            <h1 className="text-5xl md:text-8xl font-serif font-bold text-primary-950 mb-10 tracking-tighter leading-tight">
-              Community <br />
-              <span className="text-primary-700">Events.</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-400 max-w-3xl leading-relaxed font-medium">
-              Discover workshops, social gatherings, and civic initiatives driving Monroe forward through verified community operations.
-            </p>
-          </motion.div>
-        </div>
+      <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="38vh">
+        {eventsHero}
+      </PageSplineBanner>
 
+      <div className="container-custom py-12 md:py-16 relative z-10">
         <div className="flex flex-col lg:flex-row gap-8 mb-16 items-center justify-between">
           <div className="w-full lg:max-w-xl">
             <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Search unified community missions..." />

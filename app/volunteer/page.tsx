@@ -5,7 +5,9 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { ImageWithFallback } from '@/components/ui/ImageWithFallback';
 import { Reveal } from '@/components/ui/Reveal';
+import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
 import Link from 'next/link';
+import { SPLINE_PAGES_URL } from '@/lib/spline';
 
 const volunteerOpportunities = [
   {
@@ -93,14 +95,14 @@ export default function VolunteerPage() {
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
 
       {/* Hero Section */}
-      <section className="relative pt-48 pb-24 z-10">
-        <div className="container-custom text-center">
+      <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="45vh">
+        <div className="container-custom text-center w-full">
           <Reveal width="100%">
-            <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-8 block">Community Service Infrastructure</span>
-            <h1 className="text-6xl md:text-9xl font-serif font-black text-primary-950 mt-4 mb-12 tracking-tighter leading-[0.8] italic">
-              Civic <span className="text-primary-700 not-italic">Coordination.</span>
+            <span className="section-label block mb-4 text-[var(--color-accent-soft)]">Community Service</span>
+            <h1 className="text-4xl md:text-6xl font-serif font-bold text-white mt-4 mb-6 tracking-tight leading-tight">
+              Volunteer
             </h1>
-            <p className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto leading-relaxed font-serif italic mb-16">
+            <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed font-serif italic mb-8">
               Find meaningful ways to contribute to the local ecosystem. From vetted food banks to academic tutoring, we coordinate verified local opportunities in Monroe.
             </p>
             <div className="flex flex-col sm:flex-row gap-8 justify-center">
@@ -126,7 +128,7 @@ export default function VolunteerPage() {
             </div>
           </Reveal>
         </div>
-      </section>
+      </PageSplineBanner>
 
       {/* Benefits Section */}
       <section className="py-12 px-6 lg:px-12 relative z-10">
