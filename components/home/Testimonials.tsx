@@ -7,21 +7,21 @@ import { Reveal } from '@/components/ui/Reveal';
 
 const testimonials = [
   {
-    quote: "I didn't know the Community Care Clinic offered sliding-scale dental. I found it on here in under two minutes — saved me over $400.",
+    quote: "I didn't know the Community Care Clinic did sliding-scale dental. Found it here in two minutes — saved me over $400.",
     author: 'Darnell W.',
-    role: 'Monroe resident',
+    role: 'Monroe resident, father of three',
     rating: 5,
   },
   {
-    quote: "I was looking for a food pantry open after 5 PM. Found one here in two clicks. This site is a godsend for working families in Monroe.",
-    author: 'Maria S.',
-    role: 'Single mother of two, Monroe',
+    quote: "The resume builder actually got me an interview. I hadn't updated my resume in 8 years and didn't know where to start.",
+    author: 'Leticia M.',
+    role: 'Returning to workforce, Wingate area',
     rating: 5,
   },
   {
-    quote: "Used the career hub and job board to land a position at the county. Everything was in one place — resume help, listings, and real local contacts.",
-    author: 'James T.',
-    role: 'Monroe resident',
+    quote: "We list our food pantry hours here and get more visitors than from anywhere else. It's become our most reliable referral.",
+    author: 'Pastor Greg H.',
+    role: 'New Hope Community Church, Monroe',
     rating: 5,
   },
 ];

@@ -10,29 +10,33 @@ import Link from 'next/link';
 const FEATURED_ORGS = [
   {
     name: 'Union County Community Care Clinic',
-    description: 'Providing free primary care and dental services for low-income, uninsured residents of Union County.',
-    phone: '704-226-0531',
-    address: '410 E Franklin St, Monroe, NC',
+    description: 'Providing affordable primary and dental care to uninsured and underinsured Union County residents since 2007.',
+    tag: 'Healthcare',
+    phone: '(704) 292-1220',
+    address: 'Monroe, NC',
     link: 'https://unionclinic.org'
   },
   {
     name: 'Second Harvest Food Bank',
-    description: 'Leading the fight against hunger in the Monroe area through local food distribution networks.',
-    phone: '704-376-1785',
-    address: 'Serving all of Union County',
+    description: 'Distributing millions of meals annually across the Charlotte region, with multiple Union County partner sites.',
+    tag: 'Food Assistance',
+    phone: '(704) 376-1785',
+    address: 'Serving Monroe, NC',
     link: 'https://www.secondharvestmetrolina.org'
   },
   {
-    name: 'Communities In Schools',
-    description: 'Empowering Monroe students to stay in school and achieve in life through integrated support systems.',
-    phone: '704-282-1323',
-    address: '1600-A Skyway Dr, Monroe, NC',
+    name: 'Communities In Schools of Union County',
+    description: 'Keeping students in school and on a path to graduation through wraparound support services.',
+    tag: 'Education',
+    phone: '(704) 296-9430',
+    address: 'Monroe, NC',
     link: 'https://cisunion.org'
   },
   {
     name: 'Union County DSS',
     description: 'Connecting families with essential safety nets including SNAP, Medicaid, and emergency aid.',
-    phone: '704-296-4300',
+    tag: 'Government',
+    phone: '(704) 296-4300',
     address: '1212 W Roosevelt Blvd, Monroe, NC',
     link: 'https://www.unioncountync.gov'
   }
@@ -43,9 +47,12 @@ export function SpotlightBento() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
       {FEATURED_ORGS.map((org, i) => (
         <Reveal key={org.name} delay={i * 0.1} width="100%">
-          <div className="bg-white border border-gray-100 rounded-[2.5rem] p-4 shadow-soft hover:shadow-civic-hover transition-all duration-500 group">
+          <div className="bg-white dark:bg-white/5 border-l-4 border-l-primary-500 border border-gray-100 dark:border-white/10 rounded-[2.5rem] p-4 shadow-soft hover:shadow-civic-hover transition-all duration-500 group">
             <div className="p-8">
-              <h3 className="text-2xl font-serif font-black text-primary-950 mb-4 group-hover:text-primary-700 transition-colors leading-tight">
+              <span className="inline-block px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider text-primary-700 bg-primary-50 dark:bg-primary-950/30 mb-4">
+                {org.tag}
+              </span>
+              <h3 className="text-2xl font-serif font-black text-primary-950 dark:text-white mb-4 group-hover:text-primary-700 transition-colors leading-tight">
                 {org.name}
               </h3>
               <p className="text-gray-500 text-sm mb-10 flex-1 leading-relaxed italic font-medium opacity-80">

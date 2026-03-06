@@ -2,53 +2,17 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { Utensils, Stethoscope, GraduationCap, Home, Baby, ArrowUpRight, Briefcase } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
+import { cn } from '@/lib/utils';
 
 const categories = [
-    {
-        name: 'Food Assistance',
-        icon: Utensils,
-        description: 'Local food pantries, SNAP enrollment help, and free meal programs across Monroe and Wingate.',
-        href: '/resources?category=Food Assistance',
-        count: 23
-    },
-    {
-        name: 'Healthcare',
-        icon: Stethoscope,
-        description: 'Free clinics, mental health support, and sliding-scale healthcare services for Union County residents.',
-        href: '/resources?category=Healthcare',
-        count: 15
-    },
-    {
-        name: 'Education',
-        icon: GraduationCap,
-        description: 'Tutoring, adult literacy, GED programs, and after-school support for students of all ages.',
-        href: '/resources?category=Education',
-        count: 12
-    },
-    {
-        name: 'Housing',
-        icon: Home,
-        description: 'Emergency shelters, rental assistance programs, and low-income housing resources in Monroe.',
-        href: '/resources?category=Housing',
-        count: 18
-    },
-    {
-        name: 'Family Support',
-        icon: Baby,
-        description: 'Childcare subsidies, elder care, and family counseling services to support your loved ones.',
-        href: '/resources?category=Family Support',
-        count: 20
-    },
-    {
-        name: 'Career Support',
-        icon: Briefcase,
-        description: 'Job listings, resume assistance, workshops, and career training to help you find your next opportunity.',
-        href: '/career',
-        count: 14
-    },
+    { name: 'Food Assistance', icon: Utensils, description: 'Pantries, SNAP help & free meals', href: '/resources?category=Food Assistance', count: 18, accent: 'primary' },
+    { name: 'Healthcare', icon: Stethoscope, description: 'Clinics, dental & mental health', href: '/resources?category=Healthcare', count: 24, accent: 'accent' },
+    { name: 'Education', icon: GraduationCap, description: 'Schools, tutoring & GED programs', href: '/resources?category=Education', count: 15, accent: 'primary' },
+    { name: 'Housing', icon: Home, description: 'Shelters, rental aid & utilities', href: '/resources?category=Housing', count: 11, accent: 'secondary' },
+    { name: 'Family Support', icon: Baby, description: 'Childcare, parenting & counseling', href: '/resources?category=Family Support', count: 9, accent: 'accent' },
+    { name: 'Career Help', icon: Briefcase, description: 'Jobs, resumes & job training', href: '/career', count: 20, accent: 'primary' },
 ];
 
 export function CategoryGrid() {
@@ -75,24 +39,28 @@ export function CategoryGrid() {
                         <Reveal key={cat.name} delay={i * 0.05} width="100%">
                             <Link
                                 href={cat.href}
-                                className="group flex flex-col h-full p-10 bg-white border border-gray-100 rounded-[3rem] shadow-soft shadow-gray-200/50 hover:shadow-civic-hover hover:-translate-y-2 transition-all duration-500"
+                                className={cn(
+                                    "category-card group flex flex-col h-full p-7 bg-white dark:bg-white/5 border border-[var(--color-border)] rounded-2xl relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_48px_rgba(52,97,173,0.12)]",
+                                    cat.accent === 'primary' && "hover:border-primary-500 [&_.card-bar]:bg-primary-500 [&_.card-count]:text-primary-600",
+                                    cat.accent === 'accent' && "hover:border-accent-500 [&_.card-bar]:bg-accent-500 [&_.card-count]:text-accent-600",
+                                    cat.accent === 'secondary' && "hover:border-secondary-500 [&_.card-bar]:bg-secondary-500 [&_.card-count]:text-secondary-600"
+                                )}
                             >
-                                <div className="flex items-center justify-between mb-10">
-                                    <div className="w-16 h-16 rounded-[2rem] bg-primary-50 flex items-center justify-center text-primary-700 shadow-sm border border-primary-100 group-hover:scale-110 group-hover:bg-primary-950 group-hover:text-white transition-all duration-500">
-                                        <cat.icon className="h-7 w-7" />
-                                    </div>
-                                    <div className="px-5 py-2 rounded-full bg-gray-50 border border-gray-100 text-[9px] font-black text-gray-400 tracking-[0.2em] uppercase">
-                                        {cat.count} resources
-                                    </div>
+                                <div className="card-bar absolute top-0 left-0 right-0 h-1 bg-primary-500 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300" />
+                                <div className="card-count absolute top-4 right-4 text-[0.7rem] font-bold text-primary-600 bg-primary-50 dark:bg-primary-950/30 px-2 py-0.5 rounded-full tracking-wider">
+                                    {cat.count}
                                 </div>
-                                <h3 className="text-3xl font-serif font-black mb-6 text-primary-950 group-hover:text-primary-700 transition-colors">
+                                <div className="w-14 h-14 rounded-xl bg-primary-50 dark:bg-primary-950/30 flex items-center justify-center text-primary-700 dark:text-primary-400 mb-4 group-hover:scale-110 group-hover:rotate-[-4deg] transition-transform duration-200">
+                                    <cat.icon className="h-7 w-7" />
+                                </div>
+                                <h3 className="text-2xl font-serif font-black mb-4 text-primary-950 dark:text-white group-hover:text-primary-700 transition-colors">
                                     {cat.name}
                                 </h3>
-                                <p className="text-gray-500 text-lg leading-relaxed mb-12 flex-1 font-medium italic opacity-80">
+                                <p className="text-gray-500 dark:text-gray-400 text-base leading-relaxed mb-8 flex-1">
                                     {cat.description}
                                 </p>
-                                <div className="flex items-center text-[10px] font-bold uppercase tracking-[0.3em] text-primary-900 group-hover:text-primary-700 transition-colors border-t border-gray-50 pt-8">
-                                    Assess Operations
+                                <div className="flex items-center text-[10px] font-bold uppercase tracking-[0.2em] text-primary-900 group-hover:text-primary-700 transition-colors border-t border-gray-100 pt-6">
+                                    Browse resources
                                     <ArrowUpRight className="ml-3 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                 </div>
                             </Link>

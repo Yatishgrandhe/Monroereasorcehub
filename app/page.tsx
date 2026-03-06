@@ -13,6 +13,7 @@ import { Testimonials } from '@/components/home/Testimonials';
 import { ContactForm } from '@/components/home/ContactForm';
 
 import { LogoCloud } from '@/components/home/LogoCloud';
+import { FeaturePills } from '@/components/home/FeaturePills';
 
 export default function HomePage() {
   return (
@@ -20,7 +21,10 @@ export default function HomePage() {
       {/* 1. HERO — Civic Professionalism */}
       <CivicHero />
 
-      {/* 1.5 LOGOS — Trust Signals */}
+      {/* 1.5 FEATURE SPOTLIGHT — Resume, Jobs, Resources */}
+      <FeaturePills />
+
+      {/* 1.6 LOGOS — Trust Signals */}
       <LogoCloud />
 
       {/* 2. CATEGORY GRID — Key navigation */}
@@ -65,26 +69,27 @@ export default function HomePage() {
       {/* 7. CONTACT */}
       <ContactForm />
 
-      <section className="py-12 px-6 lg:px-12 pb-24 bg-white dark:bg-[#000d1a] relative">
-        <div className="container-custom mx-auto bg-primary-950 rounded-[4rem] relative overflow-hidden py-32 px-10 md:px-20 text-center shadow-[0_32px_128px_-16px_rgba(52,97,173,0.3)]">
+      <section className="cta-section py-12 px-6 lg:px-12 pb-24 bg-white dark:bg-[#000d1a] relative">
+        <div className="container-custom mx-auto bg-primary-950 rounded-[4rem] relative overflow-hidden py-32 px-10 md:px-20 text-center shadow-[0_32px_128px_-16px_rgba(52,97,173,0.3)] max-w-[860px]">
           <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.05)_1.5px,transparent_1.5px)] [background-size:48px_48px] opacity-40" />
           <div className="absolute top-0 right-0 w-1/3 h-full bg-accent-500/15 blur-[140px]" />
           <div className="absolute bottom-0 left-0 w-1/3 h-full bg-secondary-500/15 blur-[140px]" />
 
           <div className="relative z-10 max-w-4xl mx-auto">
             <Reveal width="100%">
-              <h2 className="text-5xl md:text-7xl font-serif font-black text-white mb-8 leading-tight tracking-tighter italic">
-                Empowering Monroe <span className="text-accent-400 not-italic">together.</span>
+              <span className="text-accent-400 font-semibold uppercase tracking-[0.2em] text-xs mb-4 block">GET STARTED</span>
+              <h2 className="text-4xl md:text-6xl font-serif font-black text-white mb-8 leading-tight tracking-tighter">
+                Find help in Monroe, today.
               </h2>
-              <p className="text-xl md:text-2xl mb-16 text-blue-50/70 leading-relaxed max-w-2xl mx-auto font-medium">
-                Whether you need help or want to help others, the Hub is your central place for community resources in Union County.
+              <p className="text-lg md:text-xl mb-16 text-blue-50/80 leading-relaxed max-w-[520px] mx-auto font-medium">
+                Whether you need food, housing, a job, or just don&apos;t know where to start — this is the place. Free, local, and always up to date.
               </p>
-              <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                <Button asChild href="/resources" className="bg-[var(--color-secondary)] hover:brightness-110 text-white !h-20 !px-16 text-[10px] font-black uppercase tracking-[0.3em] w-full sm:w-auto rounded-2xl shadow-2xl shadow-red-900/40 transform-gpu hover:-translate-y-1 transition-all">
-                  <span>Find Support Now</span>
+              <div className="cta-buttons flex flex-col sm:flex-row gap-4 justify-center items-center flex-wrap">
+                <Button asChild href="/resources" className="bg-[var(--color-secondary)] hover:brightness-110 text-white !h-16 !px-10 text-sm font-bold rounded-xl w-full sm:w-auto shadow-2xl shadow-red-900/40 transform-gpu hover:-translate-y-1 transition-all">
+                  <span>Browse All Resources</span>
                 </Button>
-                <Button asChild href="/about" className="bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-3xl !h-20 !px-14 text-[10px] font-black uppercase tracking-[0.2em] w-full sm:w-auto rounded-2xl transition-all">
-                  <span>Our Mission</span>
+                <Button asChild href="/career/resume-builder" className="bg-white/10 hover:bg-white/20 text-white border-2 border-white/30 backdrop-blur-3xl !h-16 !px-10 text-sm font-bold rounded-xl w-full sm:w-auto transition-all">
+                  <span>Build My Resume Free</span>
                 </Button>
               </div>
             </Reveal>

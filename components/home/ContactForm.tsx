@@ -38,8 +38,15 @@ export function ContactForm({ className }: { className?: string }) {
               <h2 className="text-primary-950 mt-6 mb-8 text-5xl md:text-7xl font-serif font-black tracking-tighter leading-tight">
                 Direct <span className="text-primary-700 italic">Civic Channel.</span>
               </h2>
-              <p className="text-xl text-gray-500 mb-12 leading-relaxed font-serif italic">
+              <p className="text-xl text-gray-500 mb-6 leading-relaxed font-serif italic">
                 We coordinate daily expansions of our community registry. If you represent an organization or have discovered a resource gap, utilize this secure channel.
+              </p>
+              <p className="text-base text-gray-500 mb-12 leading-relaxed">
+                Typically responds within <strong>1–2 business days</strong>. For urgent resource needs, call{' '}
+                <a href="tel:211" className="text-primary-600 hover:text-primary-700 font-semibold underline underline-offset-2">
+                  211
+                </a>
+                — Union County&apos;s free social services helpline.
               </p>
 
               <div className="space-y-10">
@@ -82,16 +89,16 @@ export function ContactForm({ className }: { className?: string }) {
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-bl-[4rem] pointer-events-none opacity-50" />
 
               {submitted ? (
-                <div className="text-center py-20">
-                  <div className="w-20 h-20 bg-primary-50 text-primary-700 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-sm">
-                    <CheckCircle className="h-10 w-10" />
+                <div className="form-success flex items-center gap-4 bg-accent-50 dark:bg-accent-950/20 border border-accent-200 dark:border-accent-800 rounded-2xl p-6 text-accent-800 dark:text-accent-200">
+                  <CheckCircle className="h-10 w-10 shrink-0" />
+                  <div>
+                    <h3 className="font-bold text-lg mb-1">Message received</h3>
+                    <p className="text-sm opacity-90">
+                      We&apos;ll get back to you within 1–2 business days.
+                    </p>
                   </div>
-                  <h3 className="text-3xl font-serif font-black text-primary-950 mb-4 tracking-tight">Transmission Received</h3>
-                  <p className="text-gray-500 italic font-medium mb-10 leading-relaxed px-4">
-                    Your inquiry has been logged into our operational queue. We will coordinate a response shortly.
-                  </p>
-                  <Button variant="outline" className="h-14 px-10 rounded-2xl font-bold uppercase tracking-widest text-[10px] border-primary-100 text-primary-950" onClick={() => setSubmitted(false)}>
-                    Send Another Transmission
+                  <Button variant="outline" className="ml-auto shrink-0 h-12 px-6 rounded-xl font-semibold border-accent-300 text-accent-800 hover:bg-accent-100" onClick={() => setSubmitted(false)}>
+                    Send another
                   </Button>
                 </div>
               ) : (
@@ -108,7 +115,7 @@ export function ContactForm({ className }: { className?: string }) {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full h-14 px-6 rounded-2xl border border-gray-100 bg-gray-50/50 text-base focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-950 font-medium transition-all"
+                        className="contact-input w-full h-14 px-6 rounded-2xl border-2 border-[var(--color-border)] bg-white text-base focus:outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-500/10 font-medium transition-all"
                         placeholder="Name..."
                       />
                     </div>
@@ -123,7 +130,7 @@ export function ContactForm({ className }: { className?: string }) {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full h-14 px-6 rounded-2xl border border-gray-100 bg-gray-50/50 text-base focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-950 font-medium transition-all"
+                        className="contact-input w-full h-14 px-6 rounded-2xl border-2 border-[var(--color-border)] bg-white text-base focus:outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-500/10 font-medium transition-all"
                         placeholder="Email..."
                       />
                     </div>
@@ -139,7 +146,7 @@ export function ContactForm({ className }: { className?: string }) {
                       rows={5}
                       value={formData.message}
                       onChange={handleChange}
-                      className="w-full p-6 rounded-[2rem] border border-gray-100 bg-gray-50/50 text-base focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-950 font-medium transition-all resize-none"
+                      className="contact-textarea w-full p-6 rounded-[2rem] border-2 border-[var(--color-border)] bg-white text-base focus:outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-500/10 font-medium transition-all resize-y"
                       placeholder="Details of your request or suggestion..."
                     />
                   </div>

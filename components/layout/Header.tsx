@@ -101,7 +101,7 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 sm:pt-5 px-4 sm:px-6 lg:px-10 pointer-events-none">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 sm:pt-5 pl-6 pr-4 sm:pl-10 sm:pr-6 lg:pl-14 lg:pr-10 pointer-events-none">
       <div className="pointer-events-auto">
         <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       </div>
@@ -140,6 +140,14 @@ export function Header() {
               </span>
             </div>
           </Link>
+
+          <span className={cn(
+            "updated-badge hidden sm:inline-flex items-center gap-1.5 text-[var(--color-primary)] bg-[var(--color-primary)]/10 px-2.5 py-1 rounded-full text-[0.72rem] font-semibold tracking-wider shrink-0",
+            showDesktopNav ? "inline-flex" : "hidden"
+          )}>
+            <span className="live-dot w-[7px] h-[7px] rounded-full bg-accent-500" />
+            Updated today
+          </span>
 
           {/* Desktop Navigation — scrollable so Information is never cut off */}
           <div className={cn(

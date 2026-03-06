@@ -252,7 +252,7 @@ export default function AboutPage() {
                   Transparency
                 </h2>
                 <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed mb-12 px-4">
-                  This platform was created by students passionate about civic tech and is maintained by community volunteers. Every resource is manually verified — we call each organization before adding them, and we remove outdated listings so you never show up somewhere that&apos;s closed.
+                  This platform was created as a CATA TSA Chapter project by students passionate about civic tech and is maintained by community volunteers. Every resource is manually verified — we call each organization before adding them, and we remove outdated listings so you never show up somewhere that&apos;s closed.
                 </p>
                 <Button asChild href="/contact" className="bg-white text-primary-950 hover:bg-gray-100 px-16 h-20 rounded-3xl uppercase tracking-[0.2em] text-[10px] font-black shadow-2xl transition-all group">
                   <span className="flex items-center">

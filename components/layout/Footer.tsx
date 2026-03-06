@@ -7,7 +7,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-primary-950 text-white border-t border-white/5 pt-24 pb-16 relative overflow-hidden">
+    <footer className="bg-primary-950 text-white border-t-4 border-t-accent-500 pt-24 pb-16 relative overflow-hidden">
       {/* Subtle Background Glow */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-accent-500/5 blur-[120px] pointer-events-none" />
 
@@ -28,8 +28,15 @@ export function Footer() {
                 </span>
               </div>
             </Link>
-            <p className="text-gray-400 text-base mb-8 max-w-sm leading-relaxed">
-              Monroe Resource Hub is a free, community-maintained directory of local services in Union County, NC. We connect residents with vital help and opportunity.
+            <p className="footer-mission text-gray-400 text-[0.85rem] mb-8 max-w-md leading-relaxed">
+              Monroe Resource Hub is a free, community-maintained directory of local services in Union County, NC. Built and maintained by volunteers.
+            </p>
+            <p className="footer-meta text-gray-500 text-[0.8rem] mb-6">
+              Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+              {' · '}
+              <Link href="/about" className="text-accent-400 hover:text-accent-300 transition-colors">
+                About this project
+              </Link>
             </p>
             <div className="flex gap-4">
               {['X', 'FB', 'IG'].map(social => (
@@ -58,7 +65,7 @@ export function Footer() {
                   href="/info"
                   className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest"
                 >
-                  Technical Transparency
+                  Information
                 </Link>
               </li>
             </ul>
@@ -92,9 +99,8 @@ export function Footer() {
         </div>
 
         <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-sm text-gray-500 text-center md:text-left space-y-1">
+          <div className="text-sm text-gray-500 text-center md:text-left">
             <p>© {currentYear} Monroe Resource Hub. Built for Union County, by Union County residents.</p>
-            <p className="text-xs text-gray-600">Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
           </div>
 
           <div className="flex gap-6 text-sm">

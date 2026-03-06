@@ -21,25 +21,25 @@ export function CivicHero() {
             <span className="text-accent-400 font-black uppercase tracking-[0.4em] text-[10px]">Monroe, North Carolina</span>
           </div>
           <h1 className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-black leading-[1.05] mb-8 tracking-tighter italic drop-shadow-2xl">
-            Empowering <span className="text-accent-500 not-italic">Monroe.</span><br />
-            Advancing <span className="text-secondary-500 not-italic">Help.</span>
+            Your community.<br />
+            <span className="text-accent-500 not-italic">All in one place.</span>
           </h1>
           <p className="text-xl md:text-2xl text-blue-50/80 mb-12 leading-relaxed max-w-2xl font-medium">
-            Manually verified resources for food, housing, and career training. Built for humans, by humans.
+            Free access to food, healthcare, housing, jobs, and more — built for every resident of Union County.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 flex-nowrap">
             <Link href="/resources" className="w-full sm:w-auto shrink-0">
               <Button className="bg-[var(--color-secondary)] hover:brightness-110 text-white !h-16 sm:!h-20 px-8 sm:px-14 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] w-full sm:w-auto shadow-2xl shadow-red-500/20 whitespace-nowrap group transition-all duration-300 transform-gpu hover:-translate-y-1 active:translate-y-0">
                 <span className="flex items-center justify-center gap-4">
-                  <span>Explore Directory</span>
+                  <span>Find Resources</span>
                   <ArrowRight className="h-5 w-5 shrink-0 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Button>
             </Link>
-            <Link href="/about" className="w-full sm:w-auto shrink-0">
+            <Link href="/submit-resource" className="w-full sm:w-auto shrink-0">
               <Button variant="outline" className="!h-16 sm:!h-20 px-8 sm:px-12 rounded-2xl border-white/20 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 w-full sm:w-auto font-black uppercase tracking-[0.2em] text-[10px] whitespace-nowrap transition-all duration-300">
-                Our Mission
+                Add an Organization
               </Button>
             </Link>
           </div>
@@ -51,6 +51,8 @@ export function CivicHero() {
   if (SPLINE_HERO_URL) {
     return (
       <section className="relative w-full min-h-[85vh] overflow-hidden">
+        <div className="hero-orb-before" aria-hidden="true" />
+        <div className="hero-orb-after" aria-hidden="true" />
         <SplineBackground
           sceneUrl={SPLINE_HERO_URL}
           height="85vh"
@@ -68,6 +70,8 @@ export function CivicHero() {
 
   return (
     <section className="relative w-full min-h-[85vh] flex items-center overflow-hidden bg-white dark:bg-[#000d1a]">
+      <div className="hero-orb-before" aria-hidden="true" />
+      <div className="hero-orb-after" aria-hidden="true" />
       <div className="absolute inset-0 z-0">
         <img
           src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=2000"
@@ -85,24 +89,24 @@ export function CivicHero() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
             <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-6 drop-shadow-lg">
-              Monroe&apos;s most complete guide to local help and opportunity.
+              Your community. All in one place.
             </h1>
             <p className="text-lg md:text-xl text-primary-100/90 mb-10 leading-relaxed max-w-2xl">
-              From food assistance to job training — find what you need, fast and free, right here in Union County.
+              Free access to food, healthcare, housing, jobs, and more — built for every resident of Union County.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 flex-nowrap">
               <Link href="/resources" className="w-full sm:w-auto shrink-0">
                 <Button className="bg-[var(--color-accent)] text-[var(--color-text)] hover:opacity-90 h-12 sm:h-14 px-6 sm:px-10 rounded-xl font-bold text-base w-full sm:w-auto shadow-[0_4px_14px_var(--color-shadow)] whitespace-nowrap group transition-all duration-200 active:scale-[0.98]">
                   <span className="flex items-center justify-center gap-2">
-                    <span>Find resources</span>
+                    <span>Find Resources</span>
                     <ArrowRight className="h-5 w-5 shrink-0 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
               </Link>
               <Link href="/submit-resource" className="w-full sm:w-auto shrink-0">
                 <Button variant="outline" className="h-12 sm:h-14 px-6 sm:px-10 rounded-xl border-2 border-white/50 text-white hover:bg-white/10 w-full sm:w-auto font-semibold whitespace-nowrap">
-                  List your organization
+                  Add an Organization
                 </Button>
               </Link>
             </div>
