@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X, Search, LogOut, UserCircle, ChevronRight, PlusCircle, ChevronDown } from 'lucide-react';
@@ -35,10 +36,35 @@ export function Header() {
   const [loading, setLoading] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [moreDropdownRect, setMoreDropdownRect] = useState<{ top: number; left: number; width: number } | null>(null);
+  const moreButtonRef = useRef<HTMLButtonElement>(null);
   const [useCompactNav, setUseCompactNav] = useState(true);
   const showDesktopNav = !useCompactNav;
   const pathname = usePathname();
   const router = useRouter();
+
+  const updateMoreDropdownRect = useCallback(() => {
+    if (moreButtonRef.current) {
+      const rect = moreButtonRef.current.getBoundingClientRect();
+      setMoreDropdownRect({ top: rect.bottom + 8, left: rect.left, width: rect.width });
+    } else {
+      setMoreDropdownRect(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!moreOpen) {
+      setMoreDropdownRect(null);
+      return;
+    }
+    updateMoreDropdownRect();
+    window.addEventListener('scroll', updateMoreDropdownRect, true);
+    window.addEventListener('resize', updateMoreDropdownRect);
+    return () => {
+      window.removeEventListener('scroll', updateMoreDropdownRect, true);
+      window.removeEventListener('resize', updateMoreDropdownRect);
+    };
+  }, [moreOpen, updateMoreDropdownRect]);
 
   const checkViewport = useCallback(() => {
     const vv = typeof window !== 'undefined' ? window.visualViewport : null;
@@ -105,11 +131,51 @@ export function Header() {
     router.push('/');
   };
 
+  const moreDropdownContent =
+    typeof document !== 'undefined' &&
+    moreOpen &&
+    moreDropdownRect &&
+    createPortal(
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, y: -8, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -8, scale: 0.96 }}
+          onMouseLeave={() => setMoreOpen(false)}
+          style={{
+            position: 'fixed',
+            top: moreDropdownRect.top,
+            left: moreDropdownRect.left,
+            width: '14rem',
+          }}
+          className="z-[9999] bg-white dark:bg-[#1e293b] border border-[var(--color-border)] rounded-2xl shadow-2xl overflow-hidden py-2"
+        >
+          {secondaryNav.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              onClick={() => setMoreOpen(false)}
+              className={cn(
+                'block px-6 py-3 text-[1.125rem] font-bold transition-colors',
+                pathname === item.href
+                  ? 'text-[var(--color-primary)] bg-[var(--color-primary)]/5'
+                  : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+              )}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </motion.div>
+      </AnimatePresence>,
+      document.body
+    );
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 sm:pt-5 pl-6 pr-4 sm:pl-10 sm:pr-6 lg:pl-14 lg:pr-10 pointer-events-none">
       <div className="pointer-events-auto">
         <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       </div>
+      {moreDropdownContent}
       <nav
         className={cn(
           'navbar pointer-events-auto w-full min-w-0 max-w-full rounded-2xl transition-all duration-500 ease-in-out overflow-hidden',
@@ -165,7 +231,7 @@ export function Header() {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'nav-link-bar whitespace-nowrap px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[18px]',
+                    'nav-link-bar whitespace-nowrap px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[1.125rem]',
                     pathname === item.href
                       ? 'bg-[var(--color-primary)] text-white shadow-lg'
                       : 'text-[var(--color-text)] dark:text-gray-300 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5'
@@ -175,13 +241,18 @@ export function Header() {
                 </Link>
               ))}
 
-              {/* "More" Dropdown for secondary links */}
+              {/* "More" Dropdown for secondary links — rendered in portal so it's not clipped */}
               <div className="relative">
                 <button
+                  ref={moreButtonRef}
+                  type="button"
+                  aria-expanded={moreOpen}
+                  aria-haspopup="true"
+                  aria-label="More menu"
                   onClick={() => setMoreOpen(!moreOpen)}
                   onMouseEnter={() => setMoreOpen(true)}
                   className={cn(
-                    'flex items-center gap-1 px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[18px]',
+                    'flex items-center gap-1 px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[1.125rem]',
                     secondaryNav.some(item => pathname === item.href)
                       ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]'
                       : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-[var(--color-primary)]/5'
@@ -190,34 +261,6 @@ export function Header() {
                   More
                   <ChevronDown className={cn("h-4 w-4 transition-transform duration-200", moreOpen && "rotate-180")} />
                 </button>
-
-                <AnimatePresence>
-                  {moreOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      onMouseLeave={() => setMoreOpen(false)}
-                      className="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-[#1e293b] border border-[var(--color-border)] rounded-2xl shadow-2xl overflow-hidden z-50 py-2"
-                    >
-                      {secondaryNav.map((item) => (
-                        <Link
-                          key={item.name}
-                          href={item.href}
-                          onClick={() => setMoreOpen(false)}
-                          className={cn(
-                            'block px-6 py-3 text-[18px] font-bold transition-colors',
-                            pathname === item.href
-                              ? 'text-[var(--color-primary)] bg-[var(--color-primary)]/5'
-                              : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
-                          )}
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
             </div>
           </div>

@@ -76,12 +76,14 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     max-width: 100dvw;
+    /* Respect user font size (browser/OS accessibility settings) */
+    font-size: 100%;
   }
 
   body {
     background-color: var(--color-bg);
     font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 1.0625rem; /* ~17px at 16px base; scales with user setting */
     line-height: 1.7;
     color: var(--color-text);
     -webkit-font-smoothing: antialiased;
