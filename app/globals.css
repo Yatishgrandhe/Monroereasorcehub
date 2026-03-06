@@ -115,66 +115,43 @@
     width: 60%;
   }
 
-  /* Nav link responsive sizing - readable on all screens */
+  /* Navbar base — fluid layout */
+  .navbar {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.25rem, 1vw, 1rem) !important;
+    padding: clamp(0.5rem, 1.5vw, 1rem) clamp(0.75rem, 3vw, 2rem) !important;
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Each nav link — fluid typography (no breakpoint hacks) */
   .navbar a,
   .navbar button {
-    font-size: clamp(0.65rem, 0.9vw, 0.75rem) !important;
+    font-size: clamp(0.65rem, 1vw, 0.95rem) !important;
     white-space: nowrap;
-    padding: clamp(0.35rem, 0.5vw, 0.5rem) clamp(0.5rem, 0.75vw, 0.85rem) !important;
+    padding: clamp(0.25rem, 0.5vw, 0.5rem) clamp(0.3rem, 0.75vw, 0.85rem) !important;
     transition: font-size 0.2s ease, all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  /* Logo text scales independently — always larger */
   .navbar-logo-text {
-    font-size: clamp(0.85rem, 1.2vw, 1.05rem) !important;
+    font-size: clamp(0.95rem, 1.5vw, 1.25rem) !important;
     font-weight: 700;
     white-space: nowrap;
   }
 
+  /* Nav icon buttons (Search, Share, Login, Join Hub) */
   .navbar-icon-btn {
-    font-size: clamp(0.65rem, 0.8vw, 0.7rem) !important;
-    padding: clamp(0.4rem, 0.5vw, 0.5rem) clamp(0.5rem, 0.75vw, 0.85rem) !important;
+    font-size: clamp(0.62rem, 0.9vw, 0.85rem) !important;
+    padding: clamp(0.2rem, 0.4vw, 0.45rem) clamp(0.4rem, 0.8vw, 1rem) !important;
   }
 
-  .navbar {
-    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    display: flex;
-    align-items: center;
-    gap: clamp(0.5rem, 1vw, 1rem) !important;
-    padding-left: clamp(0.75rem, 3vw, 2rem) !important;
-    padding-right: clamp(0.75rem, 3vw, 2rem) !important;
-  }
-
-  /* Mobile: ensure touch targets and readable sizing */
-  @media (max-width: 640px) {
-    .navbar {
-      padding-left: 0.875rem !important;
-      padding-right: 0.875rem !important;
-      gap: 0.5rem !important;
-    }
-
-    .navbar a,
-    .navbar button {
-      font-size: 0.7rem !important;
-      padding: 0.4rem 0.5rem !important;
-    }
-
-    .navbar-logo-text {
-      font-size: 0.9rem !important;
-    }
-
-    .navbar-icon-btn {
-      font-size: 0.7rem !important;
-      padding: 0.5rem 0.6rem !important;
-      min-height: 2.5rem;
-      min-width: 2.5rem;
-    }
-  }
-
+  /* Tighten gaps on medium screens (tablets) */
   @media (max-width: 1024px) {
     .navbar a,
     .navbar button {
-      padding-left: 0.5rem !important;
-      padding-right: 0.5rem !important;
+      padding-left: clamp(0.2rem, 0.5vw, 0.6rem) !important;
+      padding-right: clamp(0.2rem, 0.5vw, 0.6rem) !important;
     }
   }
 
