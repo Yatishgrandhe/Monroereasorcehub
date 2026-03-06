@@ -25,17 +25,17 @@ OUT_DIR = os.path.join(REPO_ROOT, 'public', 'documents')
 LOGO_PATH = os.path.join(REPO_ROOT, 'public', 'logo.png')
 
 # --- Colors ---
-BG_BLACK = HexColor('#000000')
-CARD_BG = HexColor('#0F172A')
-ROW_ALT = HexColor('#0A1020')
-BORDER = HexColor('#1E3A5F')
-BLUE_ACCENT = HexColor('#3B82F6')
-BLUE_HEADER = HexColor('#1D4ED8')
-TEAL_ACCENT = HexColor('#2DD4BF')
-GREEN = HexColor('#34D399')
-WHITE = HexColor('#E2E8F0')
-MUTED = HexColor('#94A3B8')
-FOOTER_TEXT = HexColor('#475569')
+# --- Colors (Monroe Civic Theme) ---
+BG_BLACK = HexColor('#000d1a')  # Deep dark accent from global css
+CARD_BG = HexColor('#002147')   # Primary Deep Navy
+ROW_ALT = HexColor('#001a3d')   # Slightly lighter navy for rows
+BORDER = HexColor('#102a43')    # Primary 900
+CIVIC_GOLD = HexColor('#FFBF00') # Accent Amber
+CIVIC_GREEN = HexColor('#1b4d3e') # Forest Green (Secondary)
+CIVIC_NAVY = HexColor('#002147')  # Primary
+WHITE = HexColor('#f0f4f8')     # Primary 50
+MUTED = HexColor('#829ab1')     # Primary 400
+FOOTER_TEXT = HexColor('#486581') # Primary 600
 
 # Header: logo + title + subtitle + gap + line; content starts below line
 HEADER_HEIGHT = 1.7 * inch  # space reserved so line never overlaps text
@@ -136,7 +136,7 @@ def draw_header(canvas, _doc, title_text, subtitle_text='Monroe Resource Hub | C
     canvas.drawString(title_x, subtitle_y, subtitle_text)
     # Blue accent line well below subtitle so it never touches text
     line_y = subtitle_y - 0.18 * inch
-    canvas.setStrokeColor(BLUE_ACCENT)
+    canvas.setStrokeColor(CIVIC_GOLD)
     canvas.setLineWidth(2)
     canvas.line(MARGIN, line_y, page_w - MARGIN, line_y)
     canvas.restoreState()
@@ -207,7 +207,7 @@ def build_styles():
         name='PhaseTitle',
         fontName='Helvetica-Bold',
         fontSize=10,
-        textColor=TEAL_ACCENT,
+        textColor=CIVIC_GOLD,
         leading=12,
         spaceAfter=0,
         spaceBefore=0,
@@ -238,28 +238,28 @@ def build_styles():
         name='Signature',
         fontName=SIGNATURE_FONT,
         fontSize=12,
-        textColor=BLUE_ACCENT,
+        textColor=CIVIC_GOLD,
         spaceAfter=0,
     ))
     styles.add(ParagraphStyle(
         name='SignatureTeal',
         fontName=SIGNATURE_FONT,
         fontSize=12,
-        textColor=TEAL_ACCENT,
+        textColor=CIVIC_GOLD,
         spaceAfter=0,
     ))
     styles.add(ParagraphStyle(
         name='GreenItalic',
         fontName='Helvetica-Oblique',
         fontSize=10,
-        textColor=GREEN,
+        textColor=CIVIC_GREEN,
         spaceAfter=6,
     ))
     styles.add(ParagraphStyle(
         name='SectionHeader',
         fontName='Helvetica-Bold',
         fontSize=12,
-        textColor=TEAL_ACCENT,
+        textColor=CIVIC_GOLD,
         spaceAfter=6,
         leftIndent=0,
     ))
@@ -324,7 +324,7 @@ def build_student_copyright_checklist():
     story.append(Spacer(1, 0.2 * inch))
 
     # Section 1 - Images (all cells as Paragraphs so text fits and wraps)
-    story.append(Paragraph('1. Images', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    story.append(Paragraph('1. Images', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=CIVIC_GOLD, spaceAfter=6)))
     sect1_data = [
         [cell_para('Image Description', styles, 'CellHeader'), cell_para('Source', styles, 'CellHeader'),
          cell_para('License/Permission', styles, 'CellHeader'), cell_para('Location Used', styles, 'CellHeader')],
@@ -338,13 +338,13 @@ def build_student_copyright_checklist():
     t1 = Table(sect1_data, colWidths=[1.5 * inch, 1.4 * inch, 1.9 * inch, 1.5 * inch])
     t1.setStyle(table_style_card())
     t1.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), BLUE_HEADER),
+        ('BACKGROUND', (0, 0), (-1, 0), CIVIC_NAVY),
     ]))
     story.append(t1)
     story.append(Spacer(1, 0.3 * inch))
 
     # Section 2 - Text Content
-    story.append(Paragraph('2. Text Content', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    story.append(Paragraph('2. Text Content', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=CIVIC_GOLD, spaceAfter=6)))
     sect2_data = [
         [cell_para('Image Description', styles, 'CellHeader'), cell_para('Source', styles, 'CellHeader'),
          cell_para('License/Permission', styles, 'CellHeader'), cell_para('Location Used', styles, 'CellHeader')],
@@ -356,13 +356,13 @@ def build_student_copyright_checklist():
     t2 = Table(sect2_data, colWidths=[1.6 * inch, 2.1 * inch, 1.6 * inch, 1.5 * inch])
     t2.setStyle(table_style_card())
     t2.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), BLUE_HEADER),
+        ('BACKGROUND', (0, 0), (-1, 0), CIVIC_NAVY),
     ]))
     story.append(t2)
     story.append(Spacer(1, 0.3 * inch))
 
     # Section 3 - Code and Libraries
-    story.append(Paragraph('3. Code and Libraries', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    story.append(Paragraph('3. Code and Libraries', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=CIVIC_GOLD, spaceAfter=6)))
     sect3_rows = [
         [cell_para('Library/Framework', styles, 'CellHeader'), cell_para('Version', styles, 'CellHeader'),
          cell_para('License', styles, 'CellHeader'), cell_para('Usage', styles, 'CellHeader')],
@@ -383,21 +383,21 @@ def build_student_copyright_checklist():
     t3 = Table(sect3_rows, colWidths=[1.9 * inch, 0.95 * inch, 1.55 * inch, 2.25 * inch])
     t3.setStyle(table_style_card())
     t3.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), BLUE_HEADER),
+        ('BACKGROUND', (0, 0), (-1, 0), CIVIC_NAVY),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [CARD_BG, ROW_ALT]),
     ]))
     story.append(t3)
     story.append(Spacer(1, 0.3 * inch))
 
     # Section 4 - Written Permissions (teal left bar, padding so text not covered)
-    story.append(Paragraph('4. Written Permissions', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    story.append(Paragraph('4. Written Permissions', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=CIVIC_GOLD, spaceAfter=6)))
     perm_text = """&bull; All materials used are original work, MIT/Apache/ISC licensed, Unsplash licensed, or public domain.<br/>
 &bull; No written permissions were required for the materials used in this project."""
     perm_para = Paragraph(perm_text, ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, leftIndent=12, spaceAfter=0,
         backColor=CARD_BG, leading=12, splitLongWords=False))
     perm_table = Table([['', perm_para]], colWidths=[0.1 * inch, 5.95 * inch])
     perm_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (0, -1), TEAL_ACCENT),
+        ('BACKGROUND', (0, 0), (0, -1), CIVIC_GOLD),
         ('BACKGROUND', (1, 0), (1, -1), CARD_BG),
         ('LEFTPADDING', (1, 0), (1, -1), 14),
         ('RIGHTPADDING', (1, 0), (1, -1), 14),
@@ -409,13 +409,13 @@ def build_student_copyright_checklist():
     story.append(Spacer(1, 0.25 * inch))
 
     # Section 5 - Framework Template Statement
-    story.append(Paragraph('5. Framework Template Statement', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    story.append(Paragraph('5. Framework Template Statement', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=CIVIC_GOLD, spaceAfter=6)))
     frame_text = 'All templates, themes, components, and designs were custom-built by the CATA TSA team. No pre-built templates or themes were used.'
     frame_para = Paragraph(_escape(frame_text), ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, leftIndent=12, spaceAfter=0,
         backColor=CARD_BG, leading=12, splitLongWords=False))
     frame_table = Table([['', frame_para]], colWidths=[0.1 * inch, 5.95 * inch])
     frame_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (0, -1), TEAL_ACCENT),
+        ('BACKGROUND', (0, 0), (0, -1), CIVIC_GOLD),
         ('BACKGROUND', (1, 0), (1, -1), CARD_BG),
         ('LEFTPADDING', (1, 0), (1, -1), 14),
         ('RIGHTPADDING', (1, 0), (1, -1), 14),
@@ -427,7 +427,7 @@ def build_student_copyright_checklist():
     story.append(Spacer(1, 0.3 * inch))
 
     # Section 6 - Student Signatures (cursive font for signature column)
-    story.append(Paragraph('6. Student Signatures', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    story.append(Paragraph('6. Student Signatures', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=CIVIC_GOLD, spaceAfter=6)))
     story.append(Paragraph('Students certify the accuracy of the information above.', ParagraphStyle('Muted', fontName='Helvetica', fontSize=9, textColor=MUTED, spaceAfter=12)))
 
     sig_date = '02/05/2026'
@@ -499,7 +499,7 @@ def build_work_log():
     # Meta grid (Paragraphs so text fits)
     meta_data = [
         [cell_para('PROJECT:', styles, 'CellMuted'), cell_para('Monroe Resource Hub', styles),
-         cell_para('DATE RANGE:', styles, 'CellMuted'), cell_para('January 2025 - January 2026', styles)],
+         cell_para('DATE RANGE:', styles, 'CellMuted'), cell_para('November 2025 - January 2026', styles)],
         [cell_para('SCHOOL:', styles, 'CellMuted'), cell_para('Central Academy of Technology and Arts', styles),
          cell_para('STUDENTS:', styles, 'CellMuted'), cell_para('Yatish Grandhe, Dhyan Kanna, Vihaan Kotagiri', styles)],
         [cell_para('ORGANIZATION:', styles, 'CellMuted'), cell_para('TSA', styles),
@@ -515,7 +515,7 @@ def build_work_log():
     summary_para = Paragraph(_escape(summary_text), ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, leftIndent=12, spaceAfter=0, backColor=CARD_BG, leading=12, splitLongWords=False))
     summary_table = Table([['', summary_para]], colWidths=[0.1 * inch, 5.95 * inch])
     summary_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (0, -1), TEAL_ACCENT),
+        ('BACKGROUND', (0, 0), (0, -1), CIVIC_GOLD),
         ('BACKGROUND', (1, 0), (1, -1), CARD_BG),
         ('LEFTPADDING', (1, 0), (1, -1), 14),
         ('RIGHTPADDING', (1, 0), (1, -1), 14),
@@ -523,7 +523,7 @@ def build_work_log():
         ('BOTTOMPADDING', (1, 0), (1, -1), 12),
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
     ]))
-    story.append(Paragraph('Project Summary', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    story.append(Paragraph('Project Summary', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=CIVIC_GOLD, spaceAfter=6)))
     story.append(summary_table)
     story.append(Spacer(1, 0.3 * inch))
 
@@ -531,28 +531,28 @@ def build_work_log():
     story.append(Paragraph('Work Log Entries', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=12, textColor=WHITE, spaceAfter=10)))
 
     phases = [
-        (1, 'Project Planning and Research', 'January 2025', '15 hours', 'All team members',
+        (1, 'Project Planning and Research', 'November 1-5, 2025', '15 hours', 'All team members',
          ['Community needs assessment', 'Researched existing platforms', 'Identified features', 'Created timeline and milestones', 'Selected tech stack (Next.js, Supabase, Tailwind CSS, TypeScript)'],
          'Established project scope and technical requirements'),
-        (2, 'UI/UX Design and Wireframing', 'February 2025', '20 hours', 'Design team',
+        (2, 'UI/UX Design and Wireframing', 'November 6-12, 2025', '20 hours', 'Design team',
          ['Wireframes for all pages', 'Color scheme and branding', 'Custom logo design', 'Responsive layouts', 'Design system and component library'],
          'Complete design system and visual mockups'),
-        (3, 'Database Setup and Backend Development', 'March - April 2025', '25 hours', 'Backend team',
+        (3, 'Database Setup and Backend Development', 'November 13-25, 2025', '25 hours', 'Backend team',
          ['Database schema for resources/events/users', 'Supabase project setup', 'Authentication system', 'API routes', 'Row Level Security (RLS) policies'],
          'Fully functional backend with secure authentication'),
-        (4, 'Frontend Development - Core Pages', 'May - June 2025', '30 hours', 'Frontend team',
+        (4, 'Frontend Development - Core Pages', 'November 26 - December 5, 2025', '30 hours', 'Frontend team',
          ['Homepage with hero and categories', 'Resource directory with search and filters', 'Resource detail pages', 'Events calendar with React Big Calendar', 'About page and contact forms', 'Responsive navigation and footer'],
          'Complete user-facing pages and navigation'),
-        (5, 'Career Center Development', 'July - September 2025', '35 hours', 'AI/Backend team',
+        (5, 'Career Center Development', 'December 6-20, 2025', '35 hours', 'AI/Backend team',
          ['Google Gemini AI integration', 'AI-powered resume builder with templates', 'Job application assistant', 'Local job board', 'PDF export with jspdf and html2canvas'],
          'Fully functional career center with AI-powered features'),
-        (6, 'Testing and Quality Assurance', 'November 2025', '18 hours', 'All team members',
+        (6, 'Testing and Quality Assurance', 'December 21-31, 2025', '18 hours', 'All team members',
          ['Cross-browser testing (Chrome, Firefox, Edge)', 'Responsive device testing', 'Security and vulnerability scans', 'Full user flow testing', 'Bug fixes and performance improvements', 'Accessibility validation'],
          'Stable, tested, and secure application'),
-        (7, 'Content Population and Data Entry', 'December 2025', '15 hours', 'Content team',
+        (7, 'Content Population and Data Entry', 'January 1-15, 2026', '15 hours', 'Content team',
          ['50+ community resources added', 'Organized by category', 'Event listings and calendar entries', 'Job listings', 'Wrote all page content'],
          'Fully populated database with real community data'),
-        (8, 'Documentation and Final Preparation', 'January 2026', '12 hours', 'All team members',
+        (8, 'Documentation and Final Preparation', 'January 16-31, 2026', '12 hours', 'All team members',
          ['Reference page with all sources', 'Student copyright checklist', 'Work log entries', 'Presentation materials', 'User documentation', 'Final review and quality check'],
          'Complete project documentation and competition-ready submission'),
     ]
@@ -564,7 +564,7 @@ def build_work_log():
         header_t = Table(header_data, colWidths=[4.5 * inch, 2.0 * inch])
         header_t.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, -1), CARD_BG),
-            ('TEXTCOLOR', (0, 0), (0, -1), TEAL_ACCENT),
+            ('TEXTCOLOR', (0, 0), (0, -1), CIVIC_GOLD),
             ('TEXTCOLOR', (1, 0), (1, -1), WHITE),
             ('ALIGN', (1, 0), (1, -1), 'RIGHT'),
             ('GRID', (0, 0), (-1, -1), 0.5, BORDER),
@@ -582,39 +582,39 @@ def build_work_log():
         tasks_para = '<br/>'.join(f'• {t}' for t in tasks_list)
         phase_story.append(Paragraph(tasks_para, ParagraphStyle('Tasks', fontName='Helvetica', fontSize=9, textColor=WHITE, leftIndent=12, spaceAfter=4)))
         # Green italic outcome
-        phase_story.append(Paragraph(f'<i>Outcome: {outcome}</i>', ParagraphStyle('Outcome', fontName='Helvetica-Oblique', fontSize=10, textColor=GREEN, spaceAfter=12)))
+        phase_story.append(Paragraph(f'<i>Outcome: {outcome}</i>', ParagraphStyle('Outcome', fontName='Helvetica-Oblique', fontSize=10, textColor=CIVIC_GREEN, spaceAfter=12)))
         story.append(KeepTogether(phase_story))
         story.append(Spacer(1, 0.1 * inch))
 
     # Total Time Summary table (Paragraphs so text fits)
     story.append(Spacer(1, 0.25 * inch))
-    story.append(Paragraph('Total Time Summary', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    story.append(Paragraph('Total Time Summary', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=CIVIC_GOLD, spaceAfter=6)))
     total_data = [
         [cell_para('Phase', styles, 'CellHeader'), cell_para('Date Range', styles, 'CellHeader'),
          cell_para('Hours', styles, 'CellHeader'), cell_para('Team Members', styles, 'CellHeader')],
-        [cell_para('1. Project Planning and Research', styles), cell_para('January 2025', styles), cell_para('15', styles), cell_para('All team members', styles)],
-        [cell_para('2. UI/UX Design and Wireframing', styles), cell_para('February 2025', styles), cell_para('20', styles), cell_para('Design team', styles)],
-        [cell_para('3. Database Setup and Backend', styles), cell_para('March - April 2025', styles), cell_para('25', styles), cell_para('Backend team', styles)],
-        [cell_para('4. Frontend - Core Pages', styles), cell_para('May - June 2025', styles), cell_para('30', styles), cell_para('Frontend team', styles)],
-        [cell_para('5. Career Center Development', styles), cell_para('July - September 2025', styles), cell_para('35', styles), cell_para('AI/Backend team', styles)],
-        [cell_para('6. Testing and QA', styles), cell_para('November 2025', styles), cell_para('18', styles), cell_para('All team members', styles)],
-        [cell_para('7. Content Population', styles), cell_para('December 2025', styles), cell_para('15', styles), cell_para('Content team', styles)],
-        [cell_para('8. Documentation and Final Prep', styles), cell_para('January 2026', styles), cell_para('12', styles), cell_para('All team members', styles)],
-        [cell_para('TOTAL', styles, 'CellHeader'), cell_para('Jan 2025 - Jan 2026', styles, 'CellHeader'), cell_para('170', styles, 'CellHeader'), cell_para('25+ students', styles, 'CellHeader')],
+        [cell_para('1. Project Planning and Research', styles), cell_para('Nov 1-5, 2025', styles), cell_para('15', styles), cell_para('All team members', styles)],
+        [cell_para('2. UI/UX Design and Wireframing', styles), cell_para('Nov 6-12, 2025', styles), cell_para('20', styles), cell_para('Design team', styles)],
+        [cell_para('3. Database Setup and Backend', styles), cell_para('Nov 13-25, 2025', styles), cell_para('25', styles), cell_para('Backend team', styles)],
+        [cell_para('4. Frontend - Core Pages', styles), cell_para('Nov 26 - Dec 5, 2025', styles), cell_para('30', styles), cell_para('Frontend team', styles)],
+        [cell_para('5. Career Center Development', styles), cell_para('Dec 6-20, 2025', styles), cell_para('35', styles), cell_para('AI/Backend team', styles)],
+        [cell_para('6. Testing and QA', styles), cell_para('Dec 21-31, 2025', styles), cell_para('18', styles), cell_para('All team members', styles)],
+        [cell_para('7. Content Population', styles), cell_para('Jan 1-15, 2026', styles), cell_para('15', styles), cell_para('Content team', styles)],
+        [cell_para('8. Documentation and Final Prep', styles), cell_para('Jan 16-31, 2026', styles), cell_para('12', styles), cell_para('All team members', styles)],
+        [cell_para('TOTAL', styles, 'CellHeader'), cell_para('Nov 2025 - Jan 2026', styles, 'CellHeader'), cell_para('170', styles, 'CellHeader'), cell_para('25+ students', styles, 'CellHeader')],
     ]
     total_table = Table(total_data, colWidths=[2.25 * inch, 1.65 * inch, 0.85 * inch, 1.45 * inch])
     total_table.setStyle(table_style_card())
     total_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), BLUE_HEADER),
+        ('BACKGROUND', (0, 0), (-1, 0), CIVIC_NAVY),
         ('ROWBACKGROUNDS', (0, 1), (-1, -2), [CARD_BG, ROW_ALT]),
-        ('BACKGROUND', (0, -1), (-1, -1), BLUE_HEADER),
-        ('LINEABOVE', (0, -1), (-1, -1), 2, TEAL_ACCENT),
+        ('BACKGROUND', (0, -1), (-1, -1), CIVIC_NAVY),
+        ('LINEABOVE', (0, -1), (-1, -1), 2, CIVIC_GOLD),
     ]))
     story.append(total_table)
     story.append(Spacer(1, 0.3 * inch))
 
     # Team Contributions
-    story.append(Paragraph('Team Contributions', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=BLUE_ACCENT, spaceAfter=6)))
+    story.append(Paragraph('Team Contributions', ParagraphStyle('Sect', fontName='Helvetica-Bold', fontSize=11, textColor=CIVIC_GOLD, spaceAfter=6)))
     contrib_text = 'Collaborative project by the CATA TSA Chapter. Student developers led development, design, and content.'
     story.append(Paragraph(_escape(contrib_text), ParagraphStyle('Body', fontName='Helvetica', fontSize=10, textColor=WHITE, spaceAfter=10, splitLongWords=False)))
     named_data = [
@@ -626,8 +626,8 @@ def build_work_log():
     named_table = Table(named_data, colWidths=[2.5 * inch, 2.0 * inch])
     named_table.setStyle(table_style_card())
     named_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), BLUE_HEADER),
-        ('LINEABOVE', (0, 0), (-1, 0), 2, BLUE_ACCENT),
+        ('BACKGROUND', (0, 0), (-1, 0), CIVIC_NAVY),
+        ('LINEABOVE', (0, 0), (-1, 0), 2, CIVIC_GOLD),
     ]))
     story.append(named_table)
     story.append(Spacer(1, 0.25 * inch))
