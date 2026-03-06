@@ -39,7 +39,7 @@ export function useResourceSearch() {
   const searchParams = useSearchParams();
 
   const [state, setState] = useState<SearchState>(() => {
-    const query = searchParams.get('q') || '';
+    const query = searchParams.get('q') || searchParams.get('search') || '';
     const category = searchParams.get('category')?.split(',').filter(Boolean) || [];
     const services = searchParams.get('services')?.split(',').filter(Boolean) || [];
     const population = searchParams.get('population')?.split(',').filter(Boolean) || [];

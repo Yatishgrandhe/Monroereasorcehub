@@ -29,7 +29,7 @@ export function SearchModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (query.trim()) {
-            router.push(`/resources?search=${encodeURIComponent(query)}`);
+            router.push(`/resources?q=${encodeURIComponent(query)}`);
             onClose();
         }
     };

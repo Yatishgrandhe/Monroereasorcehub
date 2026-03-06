@@ -42,7 +42,14 @@ const nextConfig = {
         ],
       },
       {
-        source: '/documents/:path*.pdf',
+        source: '/documents/student-copyright-checklist.pdf',
+        headers: [
+          { key: 'Content-Type', value: 'application/pdf' },
+          { key: 'Content-Disposition', value: 'inline' },
+        ],
+      },
+      {
+        source: '/documents/work-log.pdf',
         headers: [
           { key: 'Content-Type', value: 'application/pdf' },
           { key: 'Content-Disposition', value: 'inline' },
