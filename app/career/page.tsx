@@ -1,6 +1,6 @@
 'use client';
 
-import { FileText, Briefcase, Calendar, ArrowRight, CheckCircle, Sparkles, FilePlus } from 'lucide-react';
+import { Briefcase, ArrowRight, CheckCircle, FilePlus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
@@ -8,13 +8,6 @@ import { cn } from '@/lib/utils';
 import { SPLINE_PAGES_URL } from '@/lib/spline';
 
 const services = [
-  {
-    icon: Sparkles,
-    title: 'AI Job Assistant',
-    description: 'Advanced heuristic analysis for job listings. Generate cover letters and interview prep strategies in seconds.',
-    action: 'Open Assistant',
-    href: '/career/job-assistant'
-  },
   {
     icon: FilePlus,
     title: 'Resume Builder',
@@ -60,7 +53,7 @@ export default function CareerCenterPage() {
       {/* Services Grid */}
       <section className="py-32 relative z-10">
         <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
             {services.map((service, i) => (
               <Reveal key={service.title} delay={i * 0.1} width="100%">
                 <div className="bg-white p-12 lg:p-14 h-full flex flex-col border border-gray-50 rounded-[4rem] shadow-soft hover:shadow-civic-hover hover:-translate-y-2 transition-all duration-700 group relative overflow-hidden">
