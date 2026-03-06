@@ -3,78 +3,101 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Utensils, Stethoscope, GraduationCap, Home, Baby, ArrowUpRight } from 'lucide-react';
+import { Utensils, Stethoscope, GraduationCap, Home, Baby, ArrowUpRight, Briefcase } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
-import { Badge } from '@/components/ui/Badge';
 
 const categories = [
-    { name: 'Food Assistance', icon: Utensils, description: 'Local food banks and pantries', href: '/resources?category=Food Assistance', color: '#10B981' },
-    { name: 'Healthcare', icon: Stethoscope, description: 'Clinics and wellness programs', href: '/resources?category=Healthcare', color: '#4F46E5' },
-    { name: 'Education', icon: GraduationCap, description: 'Schools and tutoring aid', href: '/resources?category=Education', color: '#06B6D4' },
-    { name: 'Housing', icon: Home, description: 'Shelters and rent assistance', href: '/resources?category=Housing', color: '#F43F5E' },
-    { name: 'Family Support', icon: Baby, description: 'Childcare and parent support', href: '/resources?category=Family Support', color: '#F59E0B' },
+    {
+        name: 'Food Assistance',
+        icon: Utensils,
+        description: 'Local food pantries, SNAP enrollment help, and free meal programs across Monroe and Wingate.',
+        href: '/resources?category=Food Assistance',
+        count: 23
+    },
+    {
+        name: 'Healthcare',
+        icon: Stethoscope,
+        description: 'Free clinics, mental health support, and sliding-scale healthcare services for Union County residents.',
+        href: '/resources?category=Healthcare',
+        count: 15
+    },
+    {
+        name: 'Education',
+        icon: GraduationCap,
+        description: 'Tutoring, adult literacy, GED programs, and after-school support for students of all ages.',
+        href: '/resources?category=Education',
+        count: 12
+    },
+    {
+        name: 'Housing',
+        icon: Home,
+        description: 'Emergency shelters, rental assistance programs, and low-income housing resources in Monroe.',
+        href: '/resources?category=Housing',
+        count: 18
+    },
+    {
+        name: 'Family Support',
+        icon: Baby,
+        description: 'Childcare subsidies, elder care, and family counseling services to support your loved ones.',
+        href: '/resources?category=Family Support',
+        count: 20
+    },
+    {
+        name: 'Career Support',
+        icon: Briefcase,
+        description: 'Job listings, resume assistance, workshops, and career training to help you find your next opportunity.',
+        href: '/career',
+        count: 14
+    },
 ];
 
 export function CategoryGrid() {
     return (
-        <section className="py-16 md:py-24 bg-[#020617] relative overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.03),transparent_70%)] pointer-events-none" />
-
+        <section className="py-32 bg-white dark:bg-[#000d1a] relative">
             <div className="container-custom relative z-10">
                 <Reveal width="100%">
-                    <div className="mb-8 sm:mb-10 md:mb-12 text-center md:text-left">
-                        <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
-                            <div className="h-px w-10 bg-primary-500/50 hidden md:block" />
-                            <Badge variant="glass" className="bg-primary-500/10 text-primary-400 border-none font-black uppercase tracking-[0.25em] text-[10px] px-4 py-1.5">
-                                Explorer
-                            </Badge>
-                        </div>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 md:mb-6 tracking-tighter leading-none">
-                            Community <span className="text-gradient-logo">Pillars</span>
+                    <div className="mb-24 text-center">
+                        <span className="text-secondary-600 font-bold uppercase tracking-[0.4em] text-[10px]">Resource Directory</span>
+                        <h2 className="text-5xl md:text-7xl font-serif font-black text-primary-950 dark:text-white mt-6 mb-8 tracking-tight">
+                            Find <span className="text-secondary-600">Local Support</span>
                         </h2>
-                        <p className="text-base md:text-lg text-slate-400 max-w-2xl leading-relaxed font-medium">
-                            Direct access to essential services forming the foundation of our community.
+                        <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed font-medium">
+                            Every organization listed below is manually verified to ensure Monroe residents get the most up-to-date information.
                         </p>
                     </div>
                 </Reveal>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6 md:gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
                     {categories.map((cat, i) => (
-                        <div key={cat.name} className="min-h-0 h-full">
-                            <Reveal delay={i * 0.1} className="h-full" width="100%">
-                                <Link
-                                    href={cat.href}
-                                    className="group relative h-full min-h-[200px] sm:min-h-[220px] flex flex-col p-5 sm:p-6 md:p-6 rounded-2xl md:rounded-[1.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl
-                                      hover:-translate-y-2 hover:border-primary-500/40 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden shadow-premium hover:shadow-premium-hover"
-                                >
-                                <div className="relative z-10 flex flex-col items-center sm:items-start text-center sm:text-left h-full flex-1">
-                                    <div
-                                        className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl md:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-lg border border-white/10 relative overflow-hidden group/icon"
-                                        style={{ backgroundColor: `${cat.color}15`, color: cat.color }}
-                                    >
-                                        <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity" />
-                                        <cat.icon className="h-5 w-5 sm:h-6 sm:w-6 relative z-10" />
+                        <Reveal key={cat.name} delay={i * 0.05} width="100%">
+                            <Link
+                                href={cat.href}
+                                className="civic-card group flex flex-col h-full hover:shadow-2xl hover:border-secondary-500/20 transition-all duration-500 p-12 bg-gray-50/50 dark:bg-primary-900/10 border border-gray-100 dark:border-primary-900"
+                            >
+                                <div className="flex items-start justify-between mb-10">
+                                    <div className="w-16 h-16 rounded-3xl bg-secondary-500/10 flex items-center justify-center text-secondary-600 group-hover:bg-secondary-500 group-hover:text-white transition-all duration-300 shadow-sm">
+                                        <cat.icon className="h-8 w-8" />
                                     </div>
-
-                                    <h3 className="text-sm sm:text-base lg:text-lg font-black mb-1.5 sm:mb-2 text-white group-hover:text-primary-300 transition-colors uppercase tracking-tight leading-tight">
-                                        {cat.name}
-                                    </h3>
-
-                                    <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed mb-3 sm:mb-4 font-medium line-clamp-2 flex-1">
-                                        {cat.description}
-                                    </p>
-
-                                    <div className="mt-auto pt-2 sm:pt-3 flex items-center justify-center sm:justify-start text-[9px] sm:text-[10px] font-black uppercase tracking-[0.15em] text-slate-500 group-hover:text-white transition-colors">
-                                        Explore Hub
-                                        <ArrowUpRight className="ml-1.5 h-3 w-3 sm:h-3.5 sm:w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0" />
-                                    </div>
+                                    <span className="text-[10px] font-bold text-gray-400 tracking-[0.3em] uppercase">
+                                        {cat.count} listings
+                                    </span>
+                                </div>
+                                <h3 className="text-3xl font-serif font-black mb-6 text-primary-950 dark:text-white group-hover:text-secondary-600 transition-colors capitalize">
+                                    {cat.name}
+                                </h3>
+                                <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-12 flex-1 font-medium opacity-80">
+                                    {cat.description}
+                                </p>
+                                <div className="flex items-center text-[10px] font-bold uppercase tracking-[0.4em] text-primary-900 dark:text-primary-300 group-hover:text-secondary-600 transition-colors">
+                                    Explore Directory
+                                    <ArrowUpRight className="ml-4 h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                 </div>
                             </Link>
-                            </Reveal>
-                        </div>
+                        </Reveal>
                     ))}
                 </div>
             </div>
         </section>
     );
 }
+

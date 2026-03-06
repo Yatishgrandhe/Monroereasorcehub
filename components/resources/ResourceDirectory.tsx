@@ -157,7 +157,7 @@ export function ResourceDirectory() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
+            <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
               <Sparkles className="w-3.5 h-3.5 mr-2" />
               Resource Directory
             </Badge>

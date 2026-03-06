@@ -697,7 +697,7 @@ export function ResourceSubmissionForm() {
       <div className="container-custom section-padding">
         <div className="mb-12 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
+            <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
               <Sparkles className="w-3.5 h-3.5 mr-2" /> Community Growth
             </Badge>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">

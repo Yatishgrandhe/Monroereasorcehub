@@ -175,7 +175,7 @@ export function EventCalendar() {
               </div>
               <div className="p-8 flex-1">
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <Badge variant="glass" className="bg-primary-500/10 border-primary-500/20 text-primary-400">{event.category}</Badge>
+                  <Badge variant="outline" className="bg-primary-500/10 border-primary-500/20 text-primary-400">{event.category}</Badge>
                 </div>
                 <h3 className="text-2xl font-black text-white mb-2 group-hover:text-primary-400 transition-colors uppercase tracking-tight">{event.title}</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-2">{event.description}</p>
@@ -205,7 +205,7 @@ export function EventCalendar() {
       <div className="container-custom section-padding relative z-10">
         <div className="mb-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
+            <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
               <Sparkles className="w-3.5 h-3.5 mr-2" /> Events
             </Badge>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
@@ -263,7 +263,7 @@ export function EventCalendar() {
 
               <div className="p-8 pt-12 relative z-10">
                 <div className="flex justify-between items-start mb-6">
-                  <Badge variant="glass" className="bg-primary-500/10 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px] px-3 py-1">
+                  <Badge variant="outline" className="bg-primary-500/10 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px] px-3 py-1">
                     {selectedEvent.category}
                   </Badge>
                 </div>

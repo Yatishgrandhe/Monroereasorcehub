@@ -4,7 +4,7 @@ import { HTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
 export interface BadgeProps extends HTMLAttributes<HTMLDivElement> {
-  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'outline' | 'glass';
+  variant?: 'primary' | 'secondary' | 'accent' | 'success' | 'outline';
   size?: 'sm' | 'md' | 'lg';
 }
 
@@ -12,20 +12,18 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
   ({ className, variant = 'primary', size = 'md', children, ...props }, ref) => {
 
     const variantClasses = {
-      primary: 'bg-primary-500/10 text-primary-600 dark:text-primary-400 border-primary-500/20',
-      secondary: 'bg-secondary-500/10 text-secondary-600 dark:text-secondary-400 border-secondary-500/20',
-      success: 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20',
-      warning: 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20',
-      error: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20',
-      outline: 'bg-transparent text-secondary-600 dark:text-secondary-400 border-secondary-200 dark:border-secondary-800',
-      glass: 'glass border-white/20 dark:border-white/5 text-secondary-800 dark:text-white shadow-premium',
-    }[variant];
+      primary: 'bg-primary-50 text-primary-950 border-primary-200 dark:bg-primary-900/40 dark:text-primary-100 dark:border-primary-800',
+      secondary: 'bg-secondary-50 text-secondary-950 border-secondary-200 dark:bg-secondary-900/40 dark:text-secondary-100 dark:border-secondary-800',
+      accent: 'bg-accent-50 text-accent-700 border-accent-200 dark:bg-accent-950/40 dark:text-accent-400 dark:border-accent-900',
+      success: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900',
+      outline: 'bg-transparent text-gray-600 border-gray-200 dark:text-gray-400 dark:border-primary-900',
+    }[variant] || 'bg-primary-50 text-primary-950 border-primary-200';
 
     const sizeClasses = {
-      sm: 'px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase',
-      md: 'px-3 py-1 text-xs font-bold tracking-wider uppercase',
+      sm: 'px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase',
+      md: 'px-3 py-1 text-xs font-bold tracking-widest uppercase',
       lg: 'px-4 py-1.5 text-sm font-bold tracking-wide',
-    }[size];
+    }[size] || 'px-3 py-1 text-xs font-bold tracking-widest uppercase';
 
     return (
       <div

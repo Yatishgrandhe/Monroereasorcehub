@@ -77,7 +77,7 @@ export function AIAssistant({ resumeData, targetJob, jobDescription }: AIAssista
                   </div>
                   <div>
                     <h3 className="text-white font-bold leading-none mb-1">AI Assistant</h3>
-                    <Badge variant="glass" size="sm" className="bg-primary-500/10 border-primary-500/20 text-primary-400 text-[10px]">PREMIUM INSIGHTS</Badge>
+                    <Badge variant="outline" size="sm" className="bg-primary-500/10 border-primary-500/20 text-primary-400 text-[10px]">PREMIUM INSIGHTS</Badge>
                   </div>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white">
@@ -133,7 +133,7 @@ export function AIAssistant({ resumeData, targetJob, jobDescription }: AIAssista
                         </div>
                         <div className="flex flex-wrap gap-2">
                           {analysis.match.missingSkills.slice(0, 4).map((skill: string, idx: number) => (
-                            <Badge key={idx} variant="glass" className="bg-white/5 border-white/10 text-[10px]">{skill}</Badge>
+                            <Badge key={idx} variant="outline" className="bg-white/5 border-white/10 text-[10px]">{skill}</Badge>
                           ))}
                         </div>
                       </div>

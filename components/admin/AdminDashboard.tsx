@@ -230,7 +230,7 @@ export function AdminDashboard() {
       <div className="container-custom section-padding">
         <div className="mb-12 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
+            <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
               <Shield className="w-3.5 h-3.5 mr-2" /> System Control
             </Badge>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
@@ -306,7 +306,7 @@ export function AdminDashboard() {
           <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-black text-white tracking-tight uppercase px-1">Pending Resources</h2>
-              <Badge variant="glass" className="bg-warning-500/10 text-warning-400 border-warning-500/20">{pendingResources.length} PENDING</Badge>
+              <Badge variant="outline" className="bg-warning-500/10 text-warning-400 border-warning-500/20">{pendingResources.length} PENDING</Badge>
             </div>
 
             {pendingResources.length > 0 ? (
@@ -319,7 +319,7 @@ export function AdminDashboard() {
                           <h3 className="text-xl font-bold text-white mb-2">
                             {resource.name}
                           </h3>
-                          <Badge variant="glass" className="bg-primary-500/10 text-primary-400 border-primary-500/20 uppercase tracking-widest text-[10px] font-black">{resource.category?.name || 'Uncategorized'}</Badge>
+                          <Badge variant="outline" className="bg-primary-500/10 text-primary-400 border-primary-500/20 uppercase tracking-widest text-[10px] font-black">{resource.category?.name || 'Uncategorized'}</Badge>
                         </div>
 
                         <p className="text-slate-300 line-clamp-3">
@@ -432,7 +432,7 @@ export function AdminDashboard() {
                           <h3 className="text-xl font-bold text-white mb-2">
                             {event.title}
                           </h3>
-                          <Badge variant="glass" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 uppercase tracking-widest text-[10px] font-black">{event.category}</Badge>
+                          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 uppercase tracking-widest text-[10px] font-black">{event.category}</Badge>
                         </div>
 
                         <p className="text-slate-300 line-clamp-3">

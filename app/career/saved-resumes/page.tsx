@@ -258,7 +258,7 @@ export default function SavedResumesPage() {
                         <CardTitle className="text-xl font-black text-white mb-1 truncate tracking-tight">
                           {resume.resume_data?.personalInfo?.firstName} {resume.resume_data?.personalInfo?.lastName}
                         </CardTitle>
-                        <Badge variant="glass" className="bg-primary-500/10 text-primary-400 border-none text-[9px] font-black uppercase tracking-[0.15em] px-2 py-0.5">
+                        <Badge variant="outline" className="bg-primary-500/10 text-primary-400 border-none text-[9px] font-black uppercase tracking-[0.15em] px-2 py-0.5">
                           {resume.title.split(' - ')[1] || 'Professional Resume'}
                         </Badge>
                       </div>

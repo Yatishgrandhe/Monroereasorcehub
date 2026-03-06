@@ -1,134 +1,68 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Quote, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Reveal } from '@/components/ui/Reveal';
 
 const testimonials = [
   {
-    quote: 'Found food assistance within minutes. This hub is a lifesaver for our family.',
-    author: 'Maria S.',
-    role: 'Monroe resident',
+    quote: "I was looking for a food pantry that was open after 5 PM. Found it here in two clicks. This site is a godsend for working folks.",
+    author: 'Dwayne P.',
+    role: 'Union County Resident',
     rating: 5,
   },
   {
-    quote: 'The resume builder helped me land a job. So grateful for this resource.',
-    author: 'James T.',
-    role: 'Career seeker',
+    quote: "Managing my dad's healthcare was overwhelming until I found the respite care listings on the Hub. Thank you for making this site.",
+    author: 'Sarah T.',
+    role: 'Local Caregiver',
     rating: 5,
   },
   {
-    quote: 'As a volunteer, I love how easy it is to find and join local events.',
-    author: 'Sarah L.',
-    role: 'Community volunteer',
+    quote: "Used the resume tool and the local job board. I start my new position on Monday. Monroe really needed a central resource like this.",
+    author: 'Marcus L.',
+    role: 'Career Seeker',
     rating: 5,
   },
 ];
 
 export function Testimonials({ className }: { className?: string }) {
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setCurrent((c) => (c + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(t);
-  }, []);
-
   return (
-    <section className={cn('section-padding bg-secondary-900 dark:bg-slate-900 text-white', className)}>
+    <section className={cn('py-20 bg-white dark:bg-[#000d1a]', className)}>
       <div className="container-custom relative">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none" />
-        <div className="relative z-10">
-          <div className="text-center max-w-2xl mx-auto mb-8 md:mb-10">
-            <motion.span
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-primary-400 font-semibold uppercase tracking-wider text-sm"
-            >
-              Testimonials
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-white mt-4 mb-6"
-            >
-              What our community says
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-secondary-300"
-            >
-              Real stories from Monroe residents and partners.
-            </motion.p>
-          </div>
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <Reveal width="100%">
+            <span className="text-accent-600 font-bold uppercase tracking-[0.2em] text-xs">Community Voices</span>
+            <h2 className="text-primary-950 dark:text-white mt-4 mb-6 text-4xl font-serif font-black">
+              What our neighbors are saying
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 font-medium">
+              We're honored to serve the residents of Monroe and Union County.
+              Here is how the Hub has helped your neighbors.
+            </p>
+          </Reveal>
+        </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="relative max-w-3xl mx-auto"
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={current}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, ease: 'easeInOut' }}
-                className="rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-8 sm:p-10 hover:border-primary-500/30 transition-colors duration-300"
-              >
-                <Quote className="h-10 w-10 text-primary-500/60 mb-6" />
-                <div className="flex gap-1 mb-4">
-                  {Array.from({ length: testimonials[current].rating }).map((_, j) => (
-                    <Star key={j} className="h-4 w-4 fill-amber-400 text-amber-400" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {testimonials.map((item, i) => (
+            <Reveal key={item.author} delay={i * 0.1} width="100%">
+              <div className="flex flex-col p-8 bg-primary-50 dark:bg-primary-950/20 rounded-2xl border border-primary-100 dark:border-primary-900 h-full">
+                <div className="flex gap-1 mb-6">
+                  {[...Array(item.rating)].map((_, j) => (
+                    <Star key={j} className="h-4 w-4 fill-accent-500 text-accent-500" />
                   ))}
                 </div>
-                <p className="text-secondary-200 text-lg sm:text-xl leading-relaxed mb-8">
-                  &ldquo;{testimonials[current].quote}&rdquo;
+                <Quote className="h-8 w-8 text-primary-200 dark:text-primary-800 mb-4" />
+                <p className="text-primary-900 dark:text-gray-200 text-lg leading-relaxed mb-8 font-light italic">
+                  &ldquo;{item.quote}&rdquo;
                 </p>
-                <div>
-                  <p className="font-semibold text-white">{testimonials[current].author}</p>
-                  <p className="text-sm text-secondary-400">{testimonials[current].role}</p>
+                <div className="mt-auto">
+                  <p className="font-bold text-primary-950 dark:text-white font-serif">{item.author}</p>
+                  <p className="text-sm text-primary-700 dark:text-primary-400 font-medium">{item.role}</p>
                 </div>
-              </motion.div>
-            </AnimatePresence>
-
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <button
-                onClick={() => setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length)}
-                className="p-2 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300"
-                aria-label="Previous"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <div className="flex gap-2">
-                {testimonials.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrent(i)}
-                    className={cn(
-                      'h-2 rounded-full transition-all duration-300',
-                      i === current ? 'w-8 bg-primary-500' : 'w-2 bg-white/30 hover:bg-white/50'
-                    )}
-                    aria-label={`Go to testimonial ${i + 1}`}
-                  />
-                ))}
               </div>
-              <button
-                onClick={() => setCurrent((c) => (c + 1) % testimonials.length)}
-                className="p-2 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300"
-                aria-label="Next"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
-            </div>
-          </motion.div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

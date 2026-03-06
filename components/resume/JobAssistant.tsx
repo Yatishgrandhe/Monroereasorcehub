@@ -141,7 +141,7 @@ export function JobAssistant() {
       <div className="container-custom section-padding">
         <div className="mb-12 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
+            <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
               <Sparkles className="w-3.5 h-3.5 mr-2" />
               Career Acceleration
             </Badge>
@@ -174,7 +174,7 @@ export function JobAssistant() {
               <Card className="glass-card border-white/10 border-primary-500/30">
                 <CardHeader><CardTitle className="text-white">Analysis Results</CardTitle></CardHeader>
                 <CardContent className="space-y-4">
-                  <Badge variant="glass">{jobAnalysis.experienceLevel}</Badge>
+                  <Badge variant="outline">{jobAnalysis.experienceLevel}</Badge>
                   <div className="space-y-2">
                     {jobAnalysis.keyRequirements.slice(0, 5).map((req, i) => (
                       <div key={i} className="text-sm text-slate-400">• {req}</div>

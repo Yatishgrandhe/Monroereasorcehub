@@ -1,126 +1,59 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Search, Heart, Users, Zap, Shield, Sparkles } from 'lucide-react';
+import { Shield, Zap, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Reveal } from '@/components/ui/Reveal';
 
 const valueItems = [
   {
-    icon: Search,
-    title: 'Find What You Need',
-    description: 'A single, unified hub for food, housing, healthcare, and education. Search by category or specific need with ease.',
-    color: 'text-indigo-400',
-    className: 'md:col-span-2 md:row-span-2 bg-indigo-500/5',
+    icon: Shield,
+    title: 'Manually Verified',
+    description: 'Every listing is manually verified by our team — we call each organization before adding them to ensure the information is accurate.'
   },
   {
     icon: Zap,
-    title: 'Fast & Free',
-    description: 'Immediate access to local resources at zero cost to you.',
-    color: 'text-emerald-400',
-    className: 'md:col-span-1 md:row-span-1 bg-emerald-500/5',
-  },
-  {
-    icon: Shield,
-    title: 'Trusted & Verified',
-    description: 'Every organization is vetted by our team for reliability.',
-    color: 'text-blue-400',
-    className: 'md:col-span-1 md:row-span-1 bg-blue-500/5',
-  },
-  {
-    icon: Heart,
-    title: 'Community First',
-    description: 'Built by Monroe locals to strengthen our neighborhoods together.',
-    color: 'text-rose-400',
-    className: 'md:col-span-2 md:row-span-1 bg-rose-500/5',
+    title: 'Updated Weekly',
+    description: 'Updated weekly. We remove outdated listings so you never show up somewhere that is recently closed or no longer offering a service.'
   },
   {
     icon: Users,
-    title: 'Collective Impact',
-    description: 'Connect through local events and impactful volunteer opportunities.',
-    color: 'text-amber-400',
-    className: 'md:col-span-2 md:row-span-1 bg-amber-500/5',
-  },
-  {
-    icon: Sparkles,
-    title: 'Career Support',
-    description: 'Professional resume building and local job assistance tailored for you.',
-    color: 'text-purple-400',
-    className: 'md:col-span-2 md:row-span-1 bg-purple-500/5',
-  },
+    title: 'Built in Monroe',
+    description: "Built in Monroe, for Monroe. We're Union County residents who care about our neighbors, not an outside vendor or corporate entity."
+  }
 ];
 
 export function ValueProposition({ className }: { className?: string }) {
   return (
-    <section className={cn('section-padding bg-[#020617] relative overflow-hidden', className)}>
-      {/* Background Decorative Elements */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none" />
-
+    <section className={cn('py-32 bg-primary-50 dark:bg-primary-950/20', className)}>
       <div className="container-custom relative z-10">
-        <div className="text-left max-w-3xl mb-8 md:mb-10">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center gap-3 mb-4"
-          >
-            <div className="h-[1px] w-10 bg-primary-500/50" />
-            <span className="text-[10px] md:text-xs font-black text-primary-400 uppercase tracking-[0.25em]">
-              Why Monroe Resource Hub
-            </span>
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-4 text-white text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter"
-          >
-            Everything you need,<br />in one place
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-base md:text-lg text-slate-400 leading-relaxed font-medium"
-          >
-            We connect Monroe residents with essential resources, opportunities, and community support.
-          </motion.p>
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <Reveal width="100%">
+            <span className="text-accent-600 font-bold uppercase tracking-[0.2em] text-xs">Our Commitment</span>
+            <h2 className="mt-4 mb-6 text-primary-950 dark:text-white text-5xl font-serif font-black tracking-tight">
+              A Higher Standard of <span className="text-secondary-600">Trust</span>
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+              We started this hub because finding accurate local help shouldn't be difficult.
+              Our platform is built on human verification, not algorithms.
+            </p>
+          </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 auto-rows-fr">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           {valueItems.map((item, i) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ delay: i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className={cn(
-                "group relative p-6 md:p-7 rounded-2xl md:rounded-[1.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl overflow-hidden transition-all duration-500",
-                "hover:border-primary-500/40 hover:bg-white/[0.06] hover:shadow-premium-hover",
-                item.className
-              )}
-            >
-              {/* Uniform hover overlay — same as glass-card everywhere */}
-              <div className="absolute inset-0 bg-white/[0.06] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden />
-
-              <div className="relative z-10 h-full flex flex-col">
-                <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-5 md:mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-white/5 shadow-inner">
-                  <item.icon className={cn('h-6 w-6', item.color)} />
+            <Reveal key={item.title} delay={i * 0.1} width="100%">
+              <div className="flex flex-col items-center text-center p-10 bg-white dark:bg-[#000d1a] rounded-3xl border border-gray-100 dark:border-primary-900 shadow-xl hover:shadow-2xl transition-all duration-500">
+                <div className="w-20 h-20 rounded-2xl bg-secondary-500/10 flex items-center justify-center mb-8 text-secondary-600 rotate-3 group-hover:rotate-0 transition-transform">
+                  <item.icon className="h-10 w-10" />
                 </div>
-                <h3 className="text-xl md:text-2xl font-black mb-2 md:mb-3 text-white tracking-tighter group-hover:text-primary-400 transition-colors">
+                <h3 className="text-2xl font-serif font-bold mb-4 text-primary-950 dark:text-white">
                   {item.title}
                 </h3>
-                <p className="text-sm md:text-base text-slate-400 leading-relaxed font-medium group-hover:text-slate-300 transition-colors">
+                <p className="text-gray-600 dark:text-gray-400 leading-relaxed font-medium lg:px-4">
                   {item.description}
                 </p>
               </div>
-
-              {/* Subtle Corner Ornament */}
-              <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-20 transition-opacity duration-700">
-                <Sparkles className="w-8 h-8 text-white" />
-              </div>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>

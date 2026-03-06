@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   },
   description: 'Connecting Monroe, North Carolina residents with vital community resources, services, and opportunities. Find food assistance, healthcare, education, housing, and more.',
   keywords: 'Monroe NC, community resources, food assistance, healthcare, education, housing, family support, senior services',
-  authors: [{ name: 'Central Academy of Technology and Arts TSA Chapter' }],
-  creator: 'Central Academy of Technology and Arts TSA Chapter',
+  authors: [{ name: 'Monroe Resource Hub Team' }],
+  creator: 'Monroe Resource Hub Team',
   publisher: 'Monroe Resource Hub',
   icons: {
     icon: [
@@ -71,8 +71,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark scroll-smooth">
-      <body className="font-sans antialiased text-secondary-800 dark:text-secondary-200 bg-[#020617]">
+    <html lang="en" className="scroll-smooth">
+      <body className="font-sans antialiased text-gray-900 dark:text-gray-100 bg-white dark:bg-[#000d1a]">
         <div className="min-h-screen flex flex-col w-full min-w-0 max-w-full overflow-x-hidden">
           <Header />
           <main className="flex-1 w-full">

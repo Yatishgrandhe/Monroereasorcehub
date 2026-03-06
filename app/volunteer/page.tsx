@@ -207,7 +207,7 @@ export default function VolunteerPage() {
         <div className="relative container-custom section-padding">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex justify-center mb-10">
-              <Badge variant="glass" className="px-6 py-2.5 bg-white/[0.05] border-white/10 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-xl">
+              <Badge variant="outline" className="px-6 py-2.5 bg-white/[0.05] border-white/10 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-xl">
                 <Heart className="h-3.5 w-3.5 mr-2.5 animate-pulse" />
                 Volunteer
               </Badge>
@@ -396,7 +396,7 @@ export default function VolunteerPage() {
                       <span>Age: {opportunity.ageRequirement || '16+'}</span>
                     </div>
                     {opportunity.backgroundCheck && (
-                      <Badge variant="glass" className="bg-warning-500/10 text-warning-400 border-none font-black text-[10px] tracking-tighter">
+                      <Badge variant="outline" className="bg-warning-500/10 text-warning-400 border-none font-black text-[10px] tracking-tighter">
                         Vetting Required
                       </Badge>
                     )}
@@ -406,7 +406,7 @@ export default function VolunteerPage() {
                     <h4 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-4">Required Competencies</h4>
                     <div className="flex flex-wrap gap-2">
                       {opportunity.skills.map((skill, skillIndex) => (
-                        <Badge key={skillIndex} variant="glass" className="bg-white/5 border-white/5 text-slate-300 font-bold">
+                        <Badge key={skillIndex} variant="outline" className="bg-white/5 border-white/5 text-slate-300 font-bold">
                           {skill}
                         </Badge>
                       ))}

@@ -178,7 +178,7 @@ export function Hero3D() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1, delay: 0.1 }}
                     >
-                        <Badge variant="glass" className="mb-8 sm:mb-12 px-6 py-2.5 border-white/10 bg-white/[0.05] text-primary-400 font-black uppercase tracking-[0.4em] text-[10px] sm:text-[11px] backdrop-blur-xl">
+                        <Badge variant="outline" className="mb-8 sm:mb-12 px-6 py-2.5 border-white/10 bg-white/[0.05] text-primary-400 font-black uppercase tracking-[0.4em] text-[10px] sm:text-[11px] backdrop-blur-xl">
                             <Sparkles className="w-3.5 h-3.5 mr-2.5 animate-pulse" />
                             Empowering Community Growth
                         </Badge>

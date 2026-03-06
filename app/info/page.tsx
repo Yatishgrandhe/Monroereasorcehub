@@ -216,7 +216,7 @@ export default function InfoPage() {
       <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden z-10">
         <div className="container-custom section-padding relative z-10 text-center">
           <div className="flex justify-center mb-10">
-            <Badge variant="glass" className="px-6 py-2.5 border-primary-500/20 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px]">
+            <Badge variant="outline" className="px-6 py-2.5 border-primary-500/20 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px]">
               <FileText className="h-3.5 w-3.5 mr-2.5 animate-pulse" />
               Information
             </Badge>
@@ -231,7 +231,7 @@ export default function InfoPage() {
           <p className="text-xl md:text-2xl mb-12 text-slate-400 max-w-3xl mx-auto leading-relaxed">
             Full technical transparency on our architecture, data sources, and legal documentation.
           </p>
-          <Badge variant="glass" className="bg-white/5 backdrop-blur-sm text-primary-400 border-primary-500/20 shadow-lg font-black uppercase tracking-widest text-[10px] px-6 py-2">
+          <Badge variant="outline" className="bg-white/5 backdrop-blur-sm text-primary-400 border-primary-500/20 shadow-lg font-black uppercase tracking-widest text-[10px] px-6 py-2">
             Central Academy of Technology and Arts TSA 2026
           </Badge>
         </div>
@@ -298,9 +298,9 @@ export default function InfoPage() {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-4">
-                  <Badge variant="glass" className="bg-primary-500/10 border-primary-500/20 text-primary-400">Zero Templates</Badge>
-                  <Badge variant="glass" className="bg-accent-500/10 border-accent-500/20 text-accent-400">Pure TypeScript</Badge>
-                  <Badge variant="glass" className="bg-emerald-500/10 border-emerald-500/20 text-emerald-400">Custom Architecture</Badge>
+                  <Badge variant="outline" className="bg-primary-500/10 border-primary-500/20 text-primary-400">Zero Templates</Badge>
+                  <Badge variant="outline" className="bg-accent-500/10 border-accent-500/20 text-accent-400">Pure TypeScript</Badge>
+                  <Badge variant="outline" className="bg-emerald-500/10 border-emerald-500/20 text-emerald-400">Custom Architecture</Badge>
                 </div>
               </div>
             </div>
@@ -345,7 +345,7 @@ export default function InfoPage() {
                             </a>
                           )}
                         </div>
-                        <Badge variant="glass" className="mb-4 bg-white/5 border-white/10 text-[10px] uppercase font-bold tracking-widest">{item.type}</Badge>
+                        <Badge variant="outline" className="mb-4 bg-white/5 border-white/10 text-[10px] uppercase font-bold tracking-widest">{item.type}</Badge>
                         <p className="text-sm text-slate-500 leading-relaxed line-clamp-2 h-10">{item.description}</p>
                       </CardHeader>
                       <CardContent className="p-8 pt-6 space-y-4 border-t border-white/5 mt-6">

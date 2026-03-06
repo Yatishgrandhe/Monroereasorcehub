@@ -145,7 +145,7 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
                     {resource.categories.icon}
                   </div>
                   <div>
-                    <Badge variant="glass" className="mb-4 px-4 py-1.5 border-primary-500/20 text-primary-400 font-black uppercase tracking-[0.2em] text-[10px]">
+                    <Badge variant="outline" className="mb-4 px-4 py-1.5 border-primary-500/20 text-primary-400 font-black uppercase tracking-[0.2em] text-[10px]">
                       {resource.categories.name}
                     </Badge>
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-none tracking-tighter">
@@ -191,7 +191,7 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
                     </h3>
                     <div className="flex flex-wrap gap-2.5">
                       {resource.services_offered.map((service: string, index: number) => (
-                        <Badge key={index} variant="glass" className="bg-white/5 border-white/5 text-slate-300 font-bold px-4 py-1.5 rounded-lg">
+                        <Badge key={index} variant="outline" className="bg-white/5 border-white/5 text-slate-300 font-bold px-4 py-1.5 rounded-lg">
                           {service}
                         </Badge>
                       ))}
@@ -207,7 +207,7 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
                     </h3>
                     <div className="flex flex-wrap gap-2.5">
                       {resource.population_served.map((population: string, index: number) => (
-                        <Badge key={index} variant="glass" className="bg-white/5 border-white/5 text-slate-300 font-bold px-4 py-1.5 rounded-lg">
+                        <Badge key={index} variant="outline" className="bg-white/5 border-white/5 text-slate-300 font-bold px-4 py-1.5 rounded-lg">
                           {population}
                         </Badge>
                       ))}

@@ -30,7 +30,6 @@ export function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [scrolled, setScrolled] = useState(false);
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [useCompactNav, setUseCompactNav] = useState(true);
   const showDesktopNav = !useCompactNav;
   const pathname = usePathname();
@@ -66,14 +65,9 @@ export function Header() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
       setUser(session?.user ?? null);
       setLoading(false);
-      router.refresh(); // Refresh data throughout the app
+      router.refresh();
     });
     return () => subscription.unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
-    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -109,24 +103,24 @@ export function Header() {
   const filteredNavigation = navigation;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 px-4 sm:pt-5 sm:px-6 lg:pt-5 lg:px-8 overflow-x-hidden pointer-events-none [&>*]:pointer-events-auto">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 px-4 sm:pt-4 sm:px-6 lg:px-8 pointer-events-none [&>*]:pointer-events-auto">
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       <nav
         className={cn(
-          'w-full min-w-0 max-w-full rounded-2xl transition-all duration-300 ease-in-out',
+          'w-full min-w-0 max-w-full rounded-xl transition-all duration-300 ease-in-out',
           scrolled
-            ? 'bg-[#020617]/80 backdrop-blur-2xl border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.3)] py-2'
-            : 'bg-white/[0.03] backdrop-blur-xl border border-white/[0.05] py-2'
+            ? 'bg-white/95 dark:bg-primary-950/95 backdrop-blur-md border border-gray-200 dark:border-primary-900 shadow-lg py-1'
+            : 'bg-white/90 dark:bg-primary-950/90 backdrop-blur-sm border border-transparent py-2'
         )}
         aria-label="Global"
       >
-        <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2 lg:gap-4 px-3 sm:px-4 lg:px-6 transition-all duration-300 ease-in-out h-14 sm:h-[52px] lg:h-[56px] min-w-0">
+        <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2 lg:gap-4 px-3 sm:px-4 lg:px-6 h-12 sm:h-[48px] lg:h-[52px] min-w-0">
           <Link
             href="/"
-            className="flex items-center gap-2 sm:gap-2.5 group min-w-0 shrink-0"
+            className="flex items-center gap-3 group shrink-0"
           >
             <div
-              className="rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 group-hover:ring-primary-500/50 transition-all duration-300 shrink-0 w-8 h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10"
+              className="rounded-lg overflow-hidden shadow-sm ring-1 ring-gray-200 dark:ring-primary-900 shrink-0 w-8 h-8 lg:w-9 lg:h-9"
             >
               <img
                 src="/logo.png"
@@ -136,101 +130,78 @@ export function Header() {
             </div>
             <div className="flex flex-col min-w-0">
               <span className={cn(
-                "text-[clamp(12px,1.2vw,16px)] font-black logo-title tracking-tighter uppercase truncate font-display",
+                "text-lg lg:text-xl font-bold tracking-tight font-serif text-primary-950 dark:text-white truncate",
                 showDesktopNav ? "inline" : "hidden"
               )}>
                 Monroe Resource Hub
               </span>
-              <div className={cn("items-center gap-2 mt-0.5", showDesktopNav ? "flex" : "hidden")}>
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[clamp(8px,0.8vw,10px)] font-bold text-slate-500 uppercase tracking-widest">
-                  Live: {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </span>
-              </div>
             </div>
-            <span className={cn("text-xs font-bold logo-title whitespace-nowrap shrink-0", showDesktopNav ? "hidden" : "inline")}>MRH</span>
+            <span className={cn("text-sm font-bold font-serif text-primary-950 dark:text-white shrink-0", showDesktopNav ? "hidden" : "inline")}>MRH</span>
           </Link>
 
           <div className={cn(
-            "items-center gap-0.5 xl:gap-1 justify-center min-w-0 flex-nowrap overflow-x-auto overflow-y-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+            "items-center gap-1 xl:gap-2 justify-center min-w-0 flex-nowrap overflow-x-auto",
             showDesktopNav ? "flex" : "hidden"
           )}>
             {filteredNavigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={cn('nav-link whitespace-nowrap', pathname === item.href && 'active')}
+                className={cn(
+                  'nav-link whitespace-nowrap px-3 py-1.5 rounded-md text-sm transition-colors',
+                  pathname === item.href ? 'nav-link-active' : ''
+                )}
               >
                 {item.name}
               </Link>
             ))}
-            <Link
-              href="/career/saved-resumes"
-              className={cn('nav-link whitespace-nowrap', pathname === '/career/saved-resumes' && 'active')}
-            >
-              My Resumes
-            </Link>
           </div>
 
           <div className={cn(
-            "items-center gap-1.5 xl:gap-2 shrink-0 flex-nowrap min-w-0",
+            "items-center gap-2 shrink-0 flex-nowrap min-w-0",
             showDesktopNav ? "flex" : "hidden"
           )}>
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 lg:h-9 px-2 xl:px-2.5 2xl:px-3 rounded-lg hover:bg-white/5 whitespace-nowrap shrink-0 text-[clamp(10px,1vw,13px)] text-slate-400 hover:text-white"
-              asChild
-              href="/resources"
+              className="h-9 px-3 text-sm text-gray-600 dark:text-gray-300 hover:text-primary-950"
+              onClick={() => setSearchOpen(true)}
             >
-              <Search className="h-3.5 w-3.5 lg:h-4 lg:w-4 shrink-0" />
-              <span className="hidden xl:inline ml-1">Search</span>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 lg:h-9 px-2 xl:px-3 2xl:px-4 rounded-lg border-white/20 whitespace-nowrap shrink-0 text-[clamp(10px,1vw,13px)] text-slate-200 hover:bg-white/5"
-              asChild
-              href="/submit-resource"
-            >
-              <span className="hidden xl:inline">Share Resource</span>
-              <span className="xl:hidden">Share</span>
+              <Search className="h-4 w-4 shrink-0 mr-2" />
+              <span>Search</span>
             </Button>
 
             {user ? (
-              <div className="flex items-center gap-1.5 shrink-0 flex-nowrap">
-                <div className="flex items-center gap-1.5 xl:gap-2 px-2 xl:px-3 py-1 xl:py-1.5 rounded-lg bg-primary-500/10 border border-primary-500/20">
-                  <UserCircle className="h-3.5 w-3.5 xl:h-4 xl:w-4 text-primary-600 shrink-0" />
-                  <span className="text-[11px] lg:text-xs xl:text-sm font-medium text-slate-200 max-w-[70px] xl:max-w-[90px] truncate">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary-50 dark:bg-primary-900/40 border border-primary-100 dark:border-primary-800">
+                  <UserCircle className="h-4 w-4 text-primary-700 dark:text-primary-400" />
+                  <span className="text-xs font-semibold text-primary-950 dark:text-white">
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 w-8 xl:h-9 xl:w-9 p-0 rounded-lg"
+                  className="h-9 w-9 p-0 hover:bg-red-50 hover:text-red-600"
                   onClick={handleSignOut}
-                  title="Sign Out"
-                  aria-label="Sign Out"
                 >
-                  <LogOut className="h-4 w-4 text-slate-500 hover:text-red-400 transition-colors" />
+                  <LogOut className="h-4 w-4" />
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center gap-1.5 xl:gap-2 shrink-0 flex-nowrap">
-                <Magnetic strength={0.2}>
-                  <Button variant="outline" size="sm" className="h-9 px-4 rounded-full whitespace-nowrap text-[11px] lg:text-xs xl:text-[13px] border-white/10" asChild href="/auth/signin">
-                    Login
+              <div className="flex items-center gap-2">
+                <Link href="/auth/signin">
+                  <span className="text-sm font-semibold text-gray-600 hover:text-primary-950 px-3 transition-colors cursor-pointer">Login</span>
+                </Link>
+                <Link href="/auth/signup">
+                  <Button className="btn-civic-accent !px-5 !py-2 h-9 text-sm shadow-sm group">
+                    Join Hub
                   </Button>
-                </Magnetic>
-                <Magnetic strength={0.3}>
-                  <Button variant="gradient" size="sm" className="h-9 px-5 rounded-full font-bold whitespace-nowrap shadow-lg shadow-primary-500/25 text-[11px] lg:text-xs xl:text-[13px] active:scale-95 transition-all" asChild href="/auth/signup">
-                    Sign Up
-                  </Button>
-                </Magnetic>
+                </Link>
               </div>
             )}
           </div>
+
 
           <div className={cn("shrink-0 col-start-3 row-start-1 justify-self-end", showDesktopNav ? "hidden" : "flex")}>
             <Button

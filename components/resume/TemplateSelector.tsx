@@ -56,7 +56,7 @@ export function TemplateSelector({ selectedTemplate, onTemplateChange }: Templat
                 <div className="flex items-center gap-3 mb-3">
                   <h3 className="font-black text-white uppercase tracking-tighter text-lg">{template.name}</h3>
                   {selectedTemplate === template.id && (
-                    <Badge variant="glass" className="bg-primary-500 text-white border-none font-black text-[10px] tracking-widest uppercase">Active</Badge>
+                    <Badge variant="outline" className="bg-primary-500 text-white border-none font-black text-[10px] tracking-widest uppercase">Active</Badge>
                   )}
                 </div>
                 <p className="text-sm text-slate-400 mb-2 leading-relaxed">{template.description}</p>

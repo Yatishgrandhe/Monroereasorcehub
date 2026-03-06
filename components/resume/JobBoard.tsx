@@ -321,7 +321,7 @@ export function JobBoard() {
       <div className="container-custom section-padding">
         <div className="mb-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Badge variant="glass" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
+            <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
               <Briefcase className="w-3.5 h-3.5 mr-2" /> Opportunity Network
             </Badge>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
@@ -420,7 +420,7 @@ export function JobBoard() {
                                 <div className="flex items-center gap-1.5">
                                   <MapPin className="h-3.5 w-3.5 text-primary-500" />
                                   <span>{job.location}</span>
-                                  {job.isRemote && <Badge variant="glass" className="ml-2 py-0">Remote</Badge>}
+                                  {job.isRemote && <Badge variant="outline" className="ml-2 py-0">Remote</Badge>}
                                 </div>
                                 <div className="flex items-center gap-1.5">
                                   <Briefcase className="h-3.5 w-3.5 text-primary-500" />
@@ -445,7 +445,7 @@ export function JobBoard() {
                           </div>
 
                           <div className="flex items-center gap-2 mb-4">
-                            <Badge variant="glass" className="bg-primary-500/10 border-primary-500/20 text-primary-400">{job.category}</Badge>
+                            <Badge variant="outline" className="bg-primary-500/10 border-primary-500/20 text-primary-400">{job.category}</Badge>
                             <Badge variant="outline" className="capitalize border-white/10 text-slate-400">{job.experienceLevel} Level</Badge>
                             {job.salary && (
                               <Badge variant="outline" className="border-emerald-500/20 text-emerald-400">
