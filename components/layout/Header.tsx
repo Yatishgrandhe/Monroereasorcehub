@@ -145,13 +145,14 @@ export function Header() {
             "flex-1 min-w-0 flex items-center justify-start sm:justify-center overflow-x-auto overflow-y-hidden scrollbar-hide",
             showDesktopNav ? "flex" : "hidden"
           )}>
-            <div className="flex items-center gap-0.5 xl:gap-1 flex-nowrap px-8">
-              {navigation.map((item) => (
+            <div className="flex items-center gap-0.5 xl:gap-1 flex-nowrap px-12">
+              {navigation.map((item, idx) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'nav-link-bar whitespace-nowrap px-4 py-2.5 rounded-xl text-xs sm:text-[13px] font-black uppercase tracking-widest transition-all duration-300 shrink-0',
+                    'nav-link-bar whitespace-nowrap px-5 py-2.5 rounded-xl text-[10px] sm:text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 shrink-0',
+                    idx === 0 && "ml-4",
                     pathname === item.href
                       ? 'bg-[var(--color-primary)] text-white shadow-xl shadow-blue-500/20'
                       : 'text-[var(--color-text)] dark:text-gray-300 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5'
