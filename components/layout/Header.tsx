@@ -130,16 +130,10 @@ export function Header() {
                 "text-base lg:text-xl font-black tracking-tighter font-[var(--font-heading)] text-[var(--color-text)] dark:text-white truncate whitespace-nowrap leading-none",
                 showDesktopNav ? "inline" : "hidden"
               )}>
-                {pathname === '/' ? (
-                  <>Monroe Resource <span className="text-[var(--color-primary)] dark:text-emerald-400 italic">Hub.</span></>
-                ) : (
-                  <span className="text-[var(--color-primary)] dark:text-emerald-400 uppercase tracking-tight">
-                    {navigation.find(n => n.href === pathname)?.name || 'Hub'}
-                  </span>
-                )}
+                Monroe Resource <span className="text-[var(--color-primary)] dark:text-emerald-400 italic">Hub.</span>
               </span>
               <span className={cn("text-base font-black font-[var(--font-heading)] text-[var(--color-text)] dark:text-white shrink-0 sm:hidden whitespace-nowrap", showDesktopNav ? "hidden" : "inline")}>
-                {pathname === '/' ? 'MRH' : (navigation.find(n => n.href === pathname)?.name || 'MRH')}
+                MRH.
               </span>
             </div>
           </Link>
