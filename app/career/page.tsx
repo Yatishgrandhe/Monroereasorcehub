@@ -47,11 +47,11 @@ export default function CareerCenterPage() {
                 Operational Schedule
               </span>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-4">
-                Events Hub<span className="text-secondary-500 not-italic">.</span>
+                Career Center<span className="text-secondary-500 not-italic">.</span>
               </h1>
               <div className="w-24 h-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full mb-6" />
               <p className="text-xl md:text-2xl text-blue-50/70 max-w-3xl leading-relaxed italic font-medium">
-                Discover workshops, social gatherings, and civic initiatives driving Monroe forward through verified community operations.
+                Verified professional infrastructure connecting Union County talent with sustainable local opportunity.
               </p>
             </div>
           </Reveal>

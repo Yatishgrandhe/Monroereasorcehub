@@ -34,9 +34,10 @@ export function PageSplineBanner({
           mobileBreakpoint={1024}
           className="absolute inset-0"
         >
-          <div className={`absolute inset-0 pointer-events-none ${overlayClassName}`} />
-          <div className="absolute inset-0 bg-primary-950/20 backdrop-blur-[2px] pointer-events-none" />
-          <div className="relative z-10 flex items-center h-full min-h-[inherit] pt-32 pb-16">
+          <div className={`absolute inset-0 pointer-events-none z-0 ${overlayClassName}`} />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary-950/80 via-transparent to-transparent z-0 pointer-events-none" />
+          <div className="absolute inset-0 bg-primary-950/20 backdrop-blur-[1px] pointer-events-none z-0" />
+          <div className="relative z-10 flex items-center h-full min-h-[inherit] pt-40 pb-20">
             {children}
           </div>
         </SplineBackground>
@@ -50,8 +51,9 @@ export function PageSplineBanner({
       style={{ minHeight: height }}
     >
       <div className={`absolute inset-0 pointer-events-none ${overlayClassName}`} />
+      <div className="absolute inset-0 bg-gradient-to-b from-primary-950/80 via-transparent to-transparent z-0 pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(52,97,173,0.15),transparent_50%)]" />
-      <div className="relative z-10 flex items-center h-full min-h-[inherit] pt-32 pb-16">
+      <div className="relative z-10 flex items-center h-full min-h-[inherit] pt-40 pb-20">
         {children}
       </div>
     </section>

@@ -104,10 +104,10 @@ export function Header() {
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       <nav
         className={cn(
-          'navbar w-full min-w-0 max-w-full rounded-2xl transition-all duration-300',
+          'navbar w-full min-w-0 max-w-full rounded-2xl transition-all duration-500 ease-in-out',
           scrolled
-            ? 'navbar-scrolled bg-white/90 dark:bg-[#0f172a]/90 backdrop-blur-xl border border-[var(--color-border)] shadow-[0_4px_20px_var(--color-shadow)] py-2'
-            : 'bg-[var(--color-bg)]/80 dark:bg-[#0f172a]/80 backdrop-blur-md border border-transparent py-2.5'
+            ? 'navbar-scrolled bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-2xl border border-[var(--color-border)] shadow-[0_8px_30px_rgba(0,0,0,0.12)] py-2'
+            : 'bg-white/90 dark:bg-[#0f172a]/90 backdrop-blur-xl border border-white/20 shadow-lg py-3'
         )}
         aria-label="Global"
       >
@@ -127,18 +127,18 @@ export function Header() {
             </div>
             <div className="flex flex-col min-w-0">
               <span className={cn(
-                "text-base lg:text-lg font-bold tracking-tight font-[var(--font-heading)] text-[var(--color-text)] dark:text-white truncate whitespace-nowrap",
+                "text-base lg:text-xl font-black tracking-tighter font-[var(--font-heading)] text-[var(--color-text)] dark:text-white truncate whitespace-nowrap leading-none",
                 showDesktopNav ? "inline" : "hidden"
               )}>
                 {pathname === '/' ? (
-                  <>Monroe Resource <span className="text-[var(--color-primary)] dark:text-emerald-400 italic">Hub</span></>
+                  <>Monroe Resource <span className="text-[var(--color-primary)] dark:text-emerald-400 italic">Hub.</span></>
                 ) : (
-                  <span className="text-[var(--color-primary)] dark:text-emerald-400">
-                    {navigation.find(n => n.href === pathname)?.name || 'Resource Hub'}
+                  <span className="text-[var(--color-primary)] dark:text-emerald-400 uppercase tracking-tight">
+                    {navigation.find(n => n.href === pathname)?.name || 'Hub'}
                   </span>
                 )}
               </span>
-              <span className={cn("text-base font-bold font-[var(--font-heading)] text-[var(--color-text)] dark:text-white shrink-0 sm:hidden whitespace-nowrap", showDesktopNav ? "hidden" : "inline")}>
+              <span className={cn("text-base font-black font-[var(--font-heading)] text-[var(--color-text)] dark:text-white shrink-0 sm:hidden whitespace-nowrap", showDesktopNav ? "hidden" : "inline")}>
                 {pathname === '/' ? 'MRH' : (navigation.find(n => n.href === pathname)?.name || 'MRH')}
               </span>
             </div>
@@ -155,10 +155,10 @@ export function Header() {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'nav-link-bar whitespace-nowrap px-3 py-2 rounded-lg text-[13px] sm:text-sm font-semibold tracking-tight transition-all duration-200 shrink-0',
+                    'nav-link-bar whitespace-nowrap px-4 py-2.5 rounded-xl text-xs sm:text-[13px] font-black uppercase tracking-widest transition-all duration-300 shrink-0',
                     pathname === item.href
-                      ? 'bg-[var(--color-primary)] text-white shadow-md'
-                      : 'text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50'
+                      ? 'bg-[var(--color-primary)] text-white shadow-xl shadow-blue-500/20'
+                      : 'text-[var(--color-text)] dark:text-gray-300 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5'
                   )}
                 >
                   {item.name}
