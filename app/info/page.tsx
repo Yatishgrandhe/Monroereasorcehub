@@ -209,43 +209,46 @@ const documents = [
 
 export default function InfoPage() {
   return (
-    <div className="min-h-screen bg-[#020617] pt-20 relative overflow-hidden">
-      <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+    <div className="min-h-screen bg-white pt-20 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none" />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden z-10">
+      <section className="relative z-10 overflow-hidden bg-primary-50/20">
         <div className="container-custom section-padding relative z-10 text-center">
-          <div className="flex justify-center mb-10">
-            <Badge variant="outline" className="px-6 py-2.5 border-primary-500/20 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px]">
-              <FileText className="h-3.5 w-3.5 mr-2.5 animate-pulse" />
-              Information
+          <div className="flex justify-center mb-8">
+            <Badge variant="outline" className="px-4 py-1.5 border-primary-200 text-primary-700 bg-white/50 backdrop-blur-sm font-bold uppercase tracking-widest text-[10px]">
+              <FileText className="h-3.5 w-3.5 mr-2.5" />
+              Project Transparency
             </Badge>
           </div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl sm:text-7xl lg:text-9xl font-black text-white mb-8 tracking-tighter leading-none"
+            className="text-4xl md:text-7xl lg:text-9xl font-bold text-primary-950 mb-8 tracking-tighter leading-tight font-serif"
           >
-            <span className="text-gradient-logo">Information</span>
+            Technical <span className="text-primary-700">Transparency</span>
           </motion.h1>
-          <p className="text-xl md:text-2xl mb-12 text-slate-400 max-w-3xl mx-auto leading-relaxed">
-            Full technical transparency on our architecture, data sources, and legal documentation.
+          <p className="text-lg md:text-xl mb-12 text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            A comprehensive overview of the Monroe Resource Hub architecture, human-led data sources, and legal fulfillment documents.
           </p>
-          <Badge variant="outline" className="bg-white/5 backdrop-blur-sm text-primary-400 border-primary-500/20 shadow-lg font-black uppercase tracking-widest text-[10px] px-6 py-2">
-            Central Academy of Technology and Arts TSA 2026
-          </Badge>
+          <div className="inline-flex items-center gap-3 px-6 py-2.5 bg-white border border-gray-100 rounded-full shadow-soft">
+            <Shield className="h-4 w-4 text-emerald-600" />
+            <span className="text-[10px] font-bold text-primary-900 uppercase tracking-widest">
+              Central Academy of Technology and Arts • TSA 2026 Submission
+            </span>
+          </div>
         </div>
       </section>
 
       {/* Required Documents */}
-      <section className="section-padding bg-slate-900/40 relative z-10">
+      <section className="section-padding bg-white relative z-10">
         <div className="container-custom">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 uppercase tracking-tight">
-              Project <span className="text-primary-500">Artifacts</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-primary-950 mb-6 tracking-tight font-serif">
+              Project <span className="text-primary-700">Artifacts</span>
             </h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-              Mandatory competition records and development work logs.
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Mandatory TSA competition records and exhaustive development work logs.
             </p>
           </div>
 
@@ -253,26 +256,27 @@ export default function InfoPage() {
             {documents.map((doc, index) => {
               const IconComponent = doc.icon;
               return (
-                <Card key={index} className="glass-card border-white/10 group p-2">
-                  <CardHeader className="p-8">
-                    <div className="flex items-center gap-5 mb-4 font-black">
-                      <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", doc.color)}>
+                <div key={index} className="bg-white border border-gray-100 rounded-[2.5rem] p-4 shadow-soft hover:shadow-civic-hover transition-all duration-500 group">
+                  <div className="p-8">
+                    <div className="flex items-center gap-6 mb-6">
+                      <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform",
+                        index === 0 ? "bg-primary-50 text-primary-700" : "bg-emerald-50 text-emerald-700")}>
                         <IconComponent className="h-8 w-8" />
                       </div>
                       <div>
-                        <CardTitle className="text-2xl text-white font-black tracking-tight">{doc.name}</CardTitle>
-                        <CardDescription className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mt-1">Status: Verified</CardDescription>
+                        <h3 className="text-2xl text-primary-950 font-bold font-serif tracking-tight">{doc.name}</h3>
+                        <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px] mt-1">Status: Operational</p>
                       </div>
                     </div>
-                    <p className="text-slate-400 leading-relaxed mb-8">{doc.description}</p>
-                    <Button variant="gradient" className="w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs" asChild href={doc.href} target="_blank" rel="noopener noreferrer">
+                    <p className="text-gray-600 leading-relaxed mb-10 text-sm">{doc.description}</p>
+                    <Button variant="outline" className="w-full h-14 rounded-2xl font-bold uppercase tracking-widest text-xs border-primary-100 text-primary-700 hover:bg-primary-50 transition-all" asChild href={doc.href} target="_blank" rel="noopener noreferrer">
                       <span className="flex items-center gap-2">
-                        <Globe className="h-4 w-4" />
-                        Open
+                        <Download className="h-4 w-4" />
+                        Download Asset
                       </span>
                     </Button>
-                  </CardHeader>
-                </Card>
+                  </div>
+                </div>
               );
             })}
           </div>
@@ -280,84 +284,85 @@ export default function InfoPage() {
       </section>
 
       {/* Framework Statement */}
-      <section className="section-padding bg-[#020617] relative z-10">
+      <section className="section-padding bg-primary-950 relative z-10 text-white">
         <div className="container-custom">
-          <Card className="max-w-5xl mx-auto glass-card border-white/5 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-transparent pointer-events-none" />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-              <div className="p-12 md:col-span-1 bg-white/[0.02] border-r border-white/5 flex flex-col justify-center items-center text-center">
-                <Code className="h-16 w-16 text-primary-500 mb-6 group-hover:rotate-12 transition-transform duration-500" />
-                <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2">Source Control</h3>
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">100% Original Craft</p>
+          <div className="max-w-5xl mx-auto relative overflow-hidden group">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,191,0,0.1),transparent)]" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/10 rounded-[3rem] overflow-hidden backdrop-blur-sm">
+              <div className="p-12 md:col-span-1 bg-white/5 border-r border-white/10 flex flex-col justify-center items-center text-center">
+                <Code className="h-16 w-16 text-primary-300 mb-6 group-hover:rotate-12 transition-transform duration-500" />
+                <h3 className="text-2xl font-bold text-white uppercase tracking-tighter mb-2 font-serif">Original Assembly</h3>
+                <p className="text-[10px] text-primary-300 font-bold uppercase tracking-widest">Handcrafted Logic</p>
               </div>
-              <div className="p-12 md:col-span-2 space-y-8">
+              <div className="p-12 md:col-span-2 space-y-8 bg-black/20">
                 <div>
-                  <h4 className="text-white font-black uppercase tracking-widest text-sm mb-4">Originality Protocol</h4>
-                  <p className="text-slate-400 leading-relaxed italic text-lg pr-4">
-                    "This platform contains zero pre-made templates or third-party visual builders. Every animation, design token, and logic branch was handcrafted by our student team."
+                  <h4 className="text-primary-300 font-bold uppercase tracking-widest text-sm mb-4">Development Protocol</h4>
+                  <p className="text-white leading-relaxed italic text-lg pr-4 font-serif">
+                    "This platform contains zero pre-made templates or third-party visual builders. Every animation sequence, design token, and logic branch was handcrafted by our student development team to ensure a premium, human-centric experience."
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-4">
-                  <Badge variant="outline" className="bg-primary-500/10 border-primary-500/20 text-primary-400">Zero Templates</Badge>
-                  <Badge variant="outline" className="bg-accent-500/10 border-accent-500/20 text-accent-400">Pure TypeScript</Badge>
-                  <Badge variant="outline" className="bg-emerald-500/10 border-emerald-500/20 text-emerald-400">Custom Architecture</Badge>
+                  <Badge variant="outline" className="bg-white/10 border-white/20 text-white">Zero Templates</Badge>
+                  <Badge variant="outline" className="bg-white/10 border-white/20 text-white">Custom Architecture</Badge>
+                  <Badge variant="outline" className="bg-white/10 border-white/20 text-white">Pure Scripting</Badge>
                 </div>
               </div>
             </div>
-          </Card>
+          </div>
         </div>
       </section>
 
       {/* References Grid */}
-      <section className="section-padding bg-slate-900/20 relative z-10">
+      <section className="section-padding bg-gray-50 relative z-10">
         <div className="container-custom">
           <div className="text-center mb-24">
-            <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tight">Integrated <span className="text-gradient-logo">Systems</span></h2>
-            <p className="text-xl text-slate-400 mt-4 font-medium">The technological ecosystem powering the hub.</p>
+            <h2 className="text-3xl md:text-6xl font-bold text-primary-950 mb-6 font-serif">Technological <span className="text-primary-700">Ecosystem</span></h2>
+            <p className="text-lg text-gray-600 mt-4 max-w-2xl mx-auto">The industry-standard stack powering the Monroe Resource Hub.</p>
           </div>
 
           <div className="space-y-32">
             {references.map((section, sectionIndex) => (
               <div key={sectionIndex}>
-                <div className="flex items-center gap-6 mb-12">
-                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
-                  <h3 className="text-2xl font-black text-white uppercase tracking-widest flex items-center gap-4">
-                    {sectionIndex === 0 && <Code className="h-6 w-6 text-primary-400" />}
-                    {sectionIndex === 1 && <Image className="h-6 w-6 text-primary-400" />}
-                    {sectionIndex === 2 && <Globe className="h-6 w-6 text-primary-400" />}
-                    {sectionIndex === 3 && <Book className="h-6 w-6 text-primary-400" />}
+                <div className="flex items-center gap-8 mb-12">
+                  <h3 className="text-2xl font-bold text-primary-950 uppercase tracking-widest flex items-center gap-4 font-serif">
+                    {sectionIndex === 0 && <Code className="h-7 w-7 text-primary-600" />}
+                    {sectionIndex === 1 && <Image className="h-7 w-7 text-primary-600" />}
+                    {sectionIndex === 2 && <Globe className="h-7 w-7 text-primary-600" />}
+                    {sectionIndex === 3 && <Book className="h-7 w-7 text-primary-600" />}
                     {section.category}
                   </h3>
-                  <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/10" />
+                  <div className="h-px flex-1 bg-gray-200" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {section.items.map((item, itemIndex) => (
-                    <Card key={itemIndex} className="glass-card border-white/5 group transition-all duration-300">
-                      <CardHeader className="p-8 pb-0">
+                    <div key={itemIndex} className="bg-white border border-gray-100 rounded-[2rem] shadow-soft hover:shadow-civic-hover transition-all duration-300 flex flex-col h-full group">
+                      <div className="p-8 flex-grow">
                         <div className="flex items-start justify-between gap-4 mb-4">
-                          <CardTitle className="text-xl text-white font-black tracking-tight group-hover:text-primary-400 transition-colors">
+                          <h4 className="text-xl text-primary-950 font-bold font-serif tracking-tight group-hover:text-primary-700 transition-colors">
                             {item.name}
-                          </CardTitle>
+                          </h4>
                           {item.url && (
-                            <a href={item.url} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-white/5 text-slate-500 hover:text-white hover:bg-primary-500 transition-all">
+                            <a href={item.url} target="_blank" rel="noopener noreferrer" className="p-2 rounded-xl bg-gray-50 text-gray-400 hover:text-primary-700 hover:bg-white border border-transparent hover:border-gray-100 transition-all shadow-sm">
                               <LinkIcon className="h-4 w-4" />
                             </a>
                           )}
                         </div>
-                        <Badge variant="outline" className="mb-4 bg-white/5 border-white/10 text-[10px] uppercase font-bold tracking-widest">{item.type}</Badge>
-                        <p className="text-sm text-slate-500 leading-relaxed line-clamp-2 h-10">{item.description}</p>
-                      </CardHeader>
-                      <CardContent className="p-8 pt-6 space-y-4 border-t border-white/5 mt-6">
-                        <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
-                          <span className="text-slate-600">License:</span>
-                          <span className="text-slate-300">{item.license}</span>
+                        <Badge variant="outline" className="mb-6 bg-primary-50/50 border-primary-100 text-primary-700 text-[10px] uppercase font-bold tracking-widest">{item.type}</Badge>
+                        <p className="text-sm text-gray-500 leading-relaxed mb-8">{item.description}</p>
+                      </div>
+                      <div className="p-8 pt-0 mt-auto">
+                        <div className="pt-6 border-t border-gray-50 space-y-4">
+                          <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
+                            <span className="text-gray-400">Governance:</span>
+                            <span className="text-primary-900">{item.license}</span>
+                          </div>
+                          <div className="text-[11px] text-gray-500 leading-relaxed italic bg-primary-50/30 p-3 rounded-xl border border-primary-50/50">
+                            {item.usage}
+                          </div>
                         </div>
-                        <div className="text-xs text-slate-400 leading-relaxed italic">
-                          {item.usage}
-                        </div>
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -367,30 +372,30 @@ export default function InfoPage() {
       </section>
 
       {/* Licensing Card */}
-      <section className="section-padding bg-[#020617] relative z-10">
+      <section className="section-padding bg-white relative z-10">
         <div className="container-custom">
-          <Card className="max-w-5xl mx-auto border border-emerald-500/30 bg-emerald-500/5 backdrop-blur-3xl p-4 rounded-[3rem] overflow-hidden">
-            <CardContent className="p-12 md:p-20 text-center">
-              <Shield className="h-20 w-20 text-emerald-400 mx-auto mb-10 animate-pulse" />
-              <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-8">
-                Strict Compliance <span className="text-emerald-400">Protocol</span>
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-left max-w-4xl mx-auto">
-                <div className="space-y-4">
-                  <h4 className="text-white font-black uppercase tracking-widest text-xs">Media Licensing</h4>
-                  <p className="text-slate-400 leading-relaxed text-sm">
-                    All visual assets are sourced from Unsplash under their standard license. No restricted royalty-managed content is utilized in this production.
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <h4 className="text-white font-black uppercase tracking-widest text-xs">Intellectual Integrity</h4>
-                  <p className="text-slate-400 leading-relaxed text-sm">
-                    Logic systems, custom shader-like mesh patterns, and responsive architecture are proprietary implementations by the CATA development chapter.
-                  </p>
-                </div>
+          <div className="max-w-5xl mx-auto border border-emerald-100 bg-emerald-50/30 p-12 md:p-20 rounded-[4rem] text-center shadow-soft">
+            <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto mb-10 shadow-sm border border-emerald-100">
+              <Shield className="h-10 w-10 text-emerald-600" />
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-primary-950 uppercase tracking-tighter mb-10 font-serif">
+              Compliance & <span className="text-emerald-700">Integrity</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-left max-w-4xl mx-auto">
+              <div className="space-y-4">
+                <h4 className="text-primary-900 font-bold uppercase tracking-widest text-xs">Media Protocol</h4>
+                <p className="text-gray-600 leading-relaxed text-sm">
+                  All photographic assets are sourced from verified Unsplash contributors under their standard license. No restricted royalty-managed content is utilized in this production.
+                </p>
               </div>
-            </CardContent>
-          </Card>
+              <div className="space-y-4">
+                <h4 className="text-primary-900 font-bold uppercase tracking-widest text-xs">Intellectual Governance</h4>
+                <p className="text-gray-600 leading-relaxed text-sm">
+                  The logic backend, typography hierarchies, and responsive chapter architectures are original implementations by the CATA student development team.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -400,14 +405,14 @@ export default function InfoPage() {
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
-                { label: 'Project Name', val: 'Monroe Resource Hub' },
-                { label: 'Organization', val: 'CATA TSA' },
-                { label: 'Locale', val: 'North Carolina' },
-                { label: 'Build Version', val: '2026.1.0' }
+                { label: 'Platform Name', val: 'Monroe Resource Hub' },
+                { label: 'Organization', val: 'CATA Chapter' },
+                { label: 'Locale', val: 'Union County, NC' },
+                { label: 'Release Level', val: 'Public Beta 2026' }
               ].map((meta, i) => (
-                <div key={i} className="text-center group">
-                  <p className="text-[10px] uppercase font-black tracking-[0.3em] text-slate-600 mb-2 group-hover:text-primary-500 transition-colors">{meta.label}</p>
-                  <p className="text-white font-bold tracking-tight text-lg group-hover:scale-105 transition-transform">{meta.val}</p>
+                <div key={i} className="text-center group p-6 rounded-2xl hover:bg-gray-50 transition-colors duration-300">
+                  <p className="text-[10px] uppercase font-bold tracking-[0.2em] text-gray-400 mb-3 group-hover:text-primary-600 transition-colors">{meta.label}</p>
+                  <p className="text-primary-950 font-bold tracking-tight text-lg group-hover:scale-105 transition-transform font-serif">{meta.val}</p>
                 </div>
               ))}
             </div>

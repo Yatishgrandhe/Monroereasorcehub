@@ -53,44 +53,47 @@ const categories = [
 
 export function CategoryGrid() {
     return (
-        <section className="py-32 bg-white dark:bg-[#000d1a] relative">
+        <section className="py-32 bg-white relative">
+            {/* Background Texture */}
+            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
+
             <div className="container-custom relative z-10">
                 <Reveal width="100%">
                     <div className="mb-24 text-center">
-                        <span className="text-secondary-600 font-bold uppercase tracking-[0.4em] text-[10px]">Resource Directory</span>
-                        <h2 className="text-5xl md:text-7xl font-serif font-black text-primary-950 dark:text-white mt-6 mb-8 tracking-tight">
-                            Find <span className="text-secondary-600">Local Support</span>
+                        <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px]">Resource Infrastructure</span>
+                        <h2 className="text-5xl md:text-7xl font-serif font-black text-primary-950 mt-6 mb-8 tracking-tighter">
+                            Community <span className="text-primary-700 italic">Pillars.</span>
                         </h2>
-                        <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed font-medium">
-                            Every organization listed below is manually verified to ensure Monroe residents get the most up-to-date information.
+                        <p className="text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto leading-relaxed font-serif italic">
+                            Every organization within these sectors is manually vetted to ensure operational reliability for Union County residents.
                         </p>
                     </div>
                 </Reveal>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {categories.map((cat, i) => (
                         <Reveal key={cat.name} delay={i * 0.05} width="100%">
                             <Link
                                 href={cat.href}
-                                className="civic-card group flex flex-col h-full hover:shadow-2xl hover:border-secondary-500/20 transition-all duration-500 p-12 bg-gray-50/50 dark:bg-primary-900/10 border border-gray-100 dark:border-primary-900"
+                                className="group flex flex-col h-full p-10 bg-white border border-gray-100 rounded-[3rem] shadow-soft shadow-gray-200/50 hover:shadow-civic-hover hover:-translate-y-2 transition-all duration-500"
                             >
-                                <div className="flex items-start justify-between mb-10">
-                                    <div className="w-16 h-16 rounded-3xl bg-secondary-500/10 flex items-center justify-center text-secondary-600 group-hover:bg-secondary-500 group-hover:text-white transition-all duration-300 shadow-sm">
-                                        <cat.icon className="h-8 w-8" />
+                                <div className="flex items-center justify-between mb-10">
+                                    <div className="w-16 h-16 rounded-[2rem] bg-primary-50 flex items-center justify-center text-primary-700 shadow-sm border border-primary-100 group-hover:scale-110 group-hover:bg-primary-950 group-hover:text-white transition-all duration-500">
+                                        <cat.icon className="h-7 w-7" />
                                     </div>
-                                    <span className="text-[10px] font-bold text-gray-400 tracking-[0.3em] uppercase">
-                                        {cat.count} listings
-                                    </span>
+                                    <div className="px-5 py-2 rounded-full bg-gray-50 border border-gray-100 text-[9px] font-black text-gray-400 tracking-[0.2em] uppercase">
+                                        {cat.count} Operations
+                                    </div>
                                 </div>
-                                <h3 className="text-3xl font-serif font-black mb-6 text-primary-950 dark:text-white group-hover:text-secondary-600 transition-colors capitalize">
+                                <h3 className="text-3xl font-serif font-black mb-6 text-primary-950 group-hover:text-primary-700 transition-colors">
                                     {cat.name}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-12 flex-1 font-medium opacity-80">
+                                <p className="text-gray-500 text-lg leading-relaxed mb-12 flex-1 font-medium italic opacity-80">
                                     {cat.description}
                                 </p>
-                                <div className="flex items-center text-[10px] font-bold uppercase tracking-[0.4em] text-primary-900 dark:text-primary-300 group-hover:text-secondary-600 transition-colors">
-                                    Explore Directory
-                                    <ArrowUpRight className="ml-4 h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                                <div className="flex items-center text-[10px] font-bold uppercase tracking-[0.3em] text-primary-900 group-hover:text-primary-700 transition-colors border-t border-gray-50 pt-8">
+                                    Assess Operations
+                                    <ArrowUpRight className="ml-3 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                 </div>
                             </Link>
                         </Reveal>

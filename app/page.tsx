@@ -12,11 +12,16 @@ import { SpotlightBento } from '@/components/home/SpotlightBento';
 import { Testimonials } from '@/components/home/Testimonials';
 import { ContactForm } from '@/components/home/ContactForm';
 
+import { LogoCloud } from '@/components/home/LogoCloud';
+
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#000d1a]">
+    <div className="min-h-screen bg-white">
       {/* 1. HERO — Civic Professionalism */}
       <CivicHero />
+
+      {/* 1.5 LOGOS — Trust Signals */}
+      <LogoCloud />
 
       {/* 2. CATEGORY GRID — Key navigation */}
       <CategoryGrid />
@@ -28,22 +33,22 @@ export default function HomePage() {
       <ResourceMap />
 
       {/* 5. SPOTLIGHT — Featured partners */}
-      <section className="py-32 bg-white dark:bg-[#000d1a] relative">
+      <section className="py-32 bg-white relative">
         <div className="container-custom relative z-10">
           <Reveal width="100%">
-            <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-8 text-center md:text-left">
+            <div className="flex flex-col lg:flex-row justify-between items-center lg:items-end mb-20 gap-12 text-center lg:text-left">
               <div className="max-w-2xl">
-                <span className="text-accent-600 font-bold uppercase tracking-[0.2em] text-xs">Direct Support</span>
-                <h2 className="text-5xl md:text-6xl font-serif font-black text-primary-950 dark:text-white mt-4 mb-6 leading-tight">
-                  Featured Community <span className="text-secondary-600">Partners</span>
+                <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px]">Verified Operations</span>
+                <h2 className="text-5xl md:text-7xl font-serif font-black text-primary-950 mt-6 mb-8 tracking-tighter leading-tight italic">
+                  Featured Community <span className="text-primary-700 not-italic">Partners.</span>
                 </h2>
-                <p className="text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
-                  We verify every organization to ensure Monroe residents receive the most reliable local support.
+                <p className="text-xl text-gray-500 font-serif italic leading-relaxed">
+                  Every organization listed below is an integral pillar of our local infrastructure. We coordinate with them directly to ensure operational transparency.
                 </p>
               </div>
-              <Button className="btn-civic-primary shrink-0 !px-10 h-14 uppercase tracking-widest font-bold text-xs" asChild>
+              <Button className="bg-primary-950 hover:bg-black text-white px-10 h-16 rounded-2xl uppercase tracking-widest text-[10px] font-bold shadow-xl shadow-primary-950/20 shrink-0" asChild>
                 <Link href="/resources">
-                  All Resources <ArrowRight className="ml-2 h-4 w-4" />
+                  All Resources <ArrowRight className="ml-3 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -61,35 +66,35 @@ export default function HomePage() {
       <ContactForm />
 
       {/* 8. CTA — Final conversion */}
-      <section className="py-32 relative overflow-hidden bg-primary-950 text-white border-t border-white/5">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-accent-500/10 blur-[150px]" />
-          <div className="absolute bottom-0 left-0 w-1/2 h-full bg-secondary-500/10 blur-[150px]" />
-        </div>
+      <section className="py-12 px-6 lg:px-12 pb-24 bg-white relative">
+        <div className="max-w-[1400px] mx-auto bg-primary-950 rounded-[4rem] relative overflow-hidden py-32 px-10 text-center">
+          {/* Subtle civic texture */}
+          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:40px_40px] opacity-30" />
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-accent-500/10 blur-[120px]" />
+          <div className="absolute bottom-0 left-0 w-1/3 h-full bg-primary-700/10 blur-[120px]" />
 
-        <div className="container-custom relative z-10 text-center">
-          <Reveal width="100%">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-5xl md:text-7xl font-serif font-black mb-10 leading-tight">
-                Empowering Monroe <br /><span className="text-accent-500 italic">together.</span>
+          <div className="relative z-10 max-w-4xl mx-auto">
+            <Reveal width="100%">
+              <h2 className="text-5xl md:text-8xl font-serif font-black text-white mb-10 tracking-tighter leading-[0.9]">
+                Empowering Monroe <br /><span className="text-accent-500 italic">Together.</span>
               </h2>
-              <p className="text-xl md:text-2xl mb-14 text-gray-300 max-w-2xl mx-auto font-light leading-relaxed">
-                Whether you're looking for help or looking to help others, our hub is the central point for community growth in Union County.
+              <p className="text-xl md:text-2xl mb-16 text-gray-400 font-serif italic leading-relaxed max-w-2xl mx-auto">
+                Whether you're seeking essential support or looking to contribute to our unified civic infrastructure, the Hub is your central coordination point.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                 <Link href="/resources" className="w-full sm:w-auto">
-                  <Button className="btn-civic-accent !h-16 !px-12 text-sm font-bold uppercase tracking-[0.2em] w-full">
+                  <Button className="bg-accent-500 hover:bg-accent-400 text-primary-950 !h-16 !px-12 text-[10px] font-black uppercase tracking-[0.2em] w-full rounded-2xl shadow-xl shadow-accent-500/20">
                     Find Support Now
                   </Button>
                 </Link>
                 <Link href="/career" className="w-full sm:w-auto">
-                  <Button className="bg-white/5 hover:bg-white/10 text-white border border-white/20 backdrop-blur-xl !h-16 !px-12 text-sm font-bold uppercase tracking-[0.2em] w-full transition-all">
-                    Career Center
+                  <Button className="bg-white/10 hover:bg-white/20 text-white border border-white/10 backdrop-blur-md !h-16 !px-12 text-[10px] font-black uppercase tracking-[0.2em] w-full rounded-2xl transition-all">
+                    Career Operations
                   </Button>
                 </Link>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </div>
       </section>
     </div>

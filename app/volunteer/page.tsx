@@ -1,19 +1,11 @@
-import { Heart, Users, Clock, MapPin, Phone, Mail, Calendar, Award, HandHeart } from 'lucide-react';
+'use client';
+
+import { Heart, Users, Clock, MapPin, Phone, Calendar, ExternalLink, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { ImageWithFallback } from '@/components/ui/ImageWithFallback';
-
-// Helper function to format time in 12-hour AM/PM EST
-const formatTime12Hour = (time24: string): string => {
-  if (!time24) return '';
-  const [hours, minutes] = time24.split(':').map(Number);
-  if (isNaN(hours) || isNaN(minutes)) return time24;
-  const period = hours >= 12 ? 'PM' : 'AM';
-  const hours12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
-  const minutesStr = minutes.toString().padStart(2, '0');
-  return `${hours12}:${minutesStr} ${period} EST`;
-};
+import { Reveal } from '@/components/ui/Reveal';
+import Link from 'next/link';
 
 const volunteerOpportunities = [
   {
@@ -23,17 +15,7 @@ const volunteerOpportunities = [
     location: '500-B Spratt Street, Charlotte, NC 28206',
     address: '500-B Spratt Street, Charlotte, NC 28206',
     timeCommitment: '3-6 hours per week',
-    volunteerHours: {
-      monday: { open: '08:00', close: '12:00' },
-      tuesday: { open: '08:00', close: '12:00' },
-      wednesday: { open: '08:00', close: '12:00' },
-      thursday: { open: '08:00', close: '12:00' },
-      friday: { open: '08:00', close: '12:00' },
-      saturday: { open: '09:00', close: '11:00' },
-      sunday: { closed: true }
-    },
     skills: ['Organization', 'Customer service', 'Physical activity', 'Teamwork'],
-    contact: null, // Email not verified
     phone: '(704) 376-1785',
     website: 'https://www.secondharvestmetrolina.org',
     image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
@@ -47,17 +29,7 @@ const volunteerOpportunities = [
     location: 'Various school locations in Monroe',
     address: '400 N. Church Street, Monroe, NC 28112',
     timeCommitment: '1-3 hours per week',
-    volunteerHours: {
-      monday: { open: '14:30', close: '16:30' },
-      tuesday: { open: '14:30', close: '16:30' },
-      wednesday: { open: '14:30', close: '16:30' },
-      thursday: { open: '14:30', close: '16:30' },
-      friday: { open: '14:30', close: '16:30' },
-      saturday: { closed: true },
-      sunday: { closed: true }
-    },
     skills: ['Teaching', 'Patience', 'Communication', 'Subject expertise'],
-    contact: null, // Email not verified
     phone: '(704) 283-4000',
     website: 'https://www.ucpsnc.org',
     image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
@@ -71,94 +43,12 @@ const volunteerOpportunities = [
     location: '316 E. Windsor Street, Monroe, NC 28112',
     address: '316 E. Windsor Street, Monroe, NC 28112',
     timeCommitment: '2-4 hours per week',
-    volunteerHours: {
-      monday: { open: '10:00', close: '18:00' },
-      tuesday: { open: '10:00', close: '18:00' },
-      wednesday: { open: '10:00', close: '18:00' },
-      thursday: { open: '10:00', close: '18:00' },
-      friday: { open: '10:00', close: '17:00' },
-      saturday: { open: '10:00', close: '15:00' },
-      sunday: { closed: true }
-    },
     skills: ['Organization', 'Customer service', 'Reading', 'Patience'],
-    contact: null, // Email not verified
     phone: '(704) 283-8184',
     website: 'https://www.unioncountync.gov/departments/library',
     image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     ageRequirement: '16+',
     backgroundCheck: true
-  },
-  {
-    title: 'Hospital Volunteer',
-    organization: 'Atrium Health Union',
-    description: 'Provide support to patients and families, assist with wayfinding, help with administrative tasks, and support hospital events. Volunteers play a crucial role in patient care and comfort.',
-    location: '600 Hospital Drive, Monroe, NC 28112',
-    address: '600 Hospital Drive, Monroe, NC 28112',
-    timeCommitment: '4-8 hours per week',
-    volunteerHours: {
-      monday: { open: '08:00', close: '20:00' },
-      tuesday: { open: '08:00', close: '20:00' },
-      wednesday: { open: '08:00', close: '20:00' },
-      thursday: { open: '08:00', close: '20:00' },
-      friday: { open: '08:00', close: '20:00' },
-      saturday: { open: '09:00', close: '17:00' },
-      sunday: { open: '09:00', close: '17:00' }
-    },
-    skills: ['Compassion', 'Communication', 'Reliability', 'Medical awareness'],
-    contact: null, // Email not verified
-    phone: '980-993-3100',
-    website: 'https://atriumhealth.org/locations/detail/atrium-health-union',
-    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=90',
-    ageRequirement: '18+',
-    backgroundCheck: true
-  },
-  {
-    title: 'Social Services Volunteer',
-    organization: 'Union County Department of Social Services',
-    description: 'Assist with office tasks, help clients navigate services, support community outreach programs, and help with special events. Volunteers help make social services more accessible to the community.',
-    location: '2330 Concord Avenue, Monroe, NC 28110',
-    address: '2330 Concord Avenue, Monroe, NC 28110',
-    timeCommitment: '2-5 hours per week',
-    volunteerHours: {
-      monday: { open: '09:00', close: '16:00' },
-      tuesday: { open: '09:00', close: '16:00' },
-      wednesday: { open: '09:00', close: '16:00' },
-      thursday: { open: '09:00', close: '16:00' },
-      friday: { open: '09:00', close: '16:00' },
-      saturday: { closed: true },
-      sunday: { closed: true }
-    },
-    skills: ['Organization', 'Communication', 'Empathy', 'Confidentiality'],
-    contact: null, // Email not verified
-    phone: '(704) 296-4300',
-    website: 'https://www.unioncountync.gov/departments/social-services',
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    ageRequirement: '18+',
-    backgroundCheck: true
-  },
-  {
-    title: 'Community Event Volunteer',
-    organization: 'City of Monroe',
-    description: 'Help organize and run community events, festivals, and city programs. Assist with setup, coordination, registration, and cleanup. Great for those who enjoy working with the public and supporting community spirit.',
-    location: 'Various locations in Monroe',
-    address: '700 N. Hayne Street, Monroe, NC 28112',
-    timeCommitment: 'Variable (event-based)',
-    volunteerHours: {
-      monday: { open: '08:00', close: '17:00' },
-      tuesday: { open: '08:00', close: '17:00' },
-      wednesday: { open: '08:00', close: '17:00' },
-      thursday: { open: '08:00', close: '17:00' },
-      friday: { open: '08:00', close: '17:00' },
-      saturday: { open: '09:00', close: '15:00' },
-      sunday: { closed: true }
-    },
-    skills: ['Organization', 'Event planning', 'Communication', 'Flexibility'],
-    contact: null, // Email not verified
-    phone: '(704) 282-4700',
-    website: 'https://www.monroenc.org',
-    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    ageRequirement: '16+',
-    backgroundCheck: false
   }
 ];
 
@@ -194,404 +84,321 @@ const requirements = [
   'Keep things private when they ask you to'
 ];
 
+import { Award, HandHeart } from 'lucide-react';
+
 export default function VolunteerPage() {
   return (
-    <div className="min-h-screen bg-[#020617] pt-20">
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      {/* Background patterns */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
+
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[#020617] z-0">
-          <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
-          <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[70%] bg-primary-900/20 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-accent-950/20 rounded-full blur-[100px]" />
-        </div>
-        <div className="relative container-custom section-padding">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="flex justify-center mb-10">
-              <Badge variant="outline" className="px-6 py-2.5 bg-white/[0.05] border-white/10 text-primary-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-xl">
-                <Heart className="h-3.5 w-3.5 mr-2.5 animate-pulse" />
-                Volunteer
-              </Badge>
-            </div>
-            <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
-              <span className="text-gradient-logo">Volunteer</span>
+      <section className="relative pt-48 pb-24 z-10">
+        <div className="container-custom text-center">
+          <Reveal width="100%">
+            <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-8 block">Community Service Infrastructure</span>
+            <h1 className="text-6xl md:text-9xl font-serif font-black text-primary-950 mt-4 mb-12 tracking-tighter leading-[0.8] italic">
+              Civic <span className="text-primary-700 not-italic">Coordination.</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-12 text-slate-400 max-w-3xl mx-auto leading-relaxed">
-              Want to help make Monroe a better place? There are lots of ways to pitch in, and we can help you find something
-              that actually fits with your schedule and what you're interested in.
+            <p className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto leading-relaxed font-serif italic mb-16">
+              Find meaningful ways to contribute to the local ecosystem. From vetted food banks to academic tutoring, we coordinate verified local opportunities in Monroe.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-8 justify-center">
               <Button
-                size="lg"
-                variant="gradient"
-                className="h-14 px-12 text-lg rounded-full shadow-lg shadow-primary-500/20"
                 asChild
-                href="#opportunities"
+                className="bg-primary-950 hover:bg-black text-white px-12 h-20 rounded-3xl uppercase tracking-[0.2em] text-[10px] font-black shadow-2xl shadow-primary-950/30 transition-all group"
               >
-                <>
-                  <Users className="mr-2 h-5 w-5" />
-                  See What's Needed
-                </>
+                <Link href="#opportunities">
+                  <Users className="mr-4 h-5 w-5" />
+                  Browse Operations
+                </Link>
               </Button>
               <Button
-                size="lg"
                 variant="outline"
-                className="h-14 px-12 text-lg rounded-full border-white/10 text-white hover:bg-white/10"
+                className="px-12 h-20 border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[10px] rounded-3xl hover:bg-gray-50 transition-all shadow-soft group"
                 asChild
-                href="/events"
               >
-                <>
-                  <Calendar className="mr-2 h-5 w-5" />
-                  Upcoming Events
-                </>
+                <Link href="/resources">
+                  <Calendar className="mr-4 h-5 w-5 opacity-40" />
+                  Explore Registry
+                </Link>
               </Button>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="section-padding bg-slate-900/50 relative z-10">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
-              Impact of Service
-            </h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
-              Volunteering is the cornerstone of our community. Here's why joining the movement matters.
-            </p>
-          </div>
+      <section className="py-12 px-6 lg:px-12 relative z-10">
+        <div className="max-w-[1400px] mx-auto bg-primary-50 rounded-[5rem] py-32 px-10 md:px-20 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-white/40 pointer-events-none" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map((benefit, index) => {
-              const IconComponent = benefit.icon;
-              return (
-                <Card key={index} className="glass-card border-white/10 text-center group">
-                  <CardContent className="p-10">
-                    <div className="w-16 h-16 bg-primary-500/10 text-primary-400 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-primary-500/20 transition-all">
-                      <IconComponent className="h-8 w-8" />
+          <div className="relative z-10">
+            <div className="mb-24 text-center">
+              <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-6 block">The Value Baseline</span>
+              <h2 className="text-5xl md:text-7xl font-serif font-black text-primary-950 mb-8 tracking-tighter italic leading-[0.9]">
+                Why Service <span className="text-primary-700 not-italic">Matters.</span>
+              </h2>
+              <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed font-serif italic">
+                Civic engagement strengthens the bond of our community and the reliability of our local professional network.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+              {benefits.map((benefit, index) => {
+                const IconComponent = benefit.icon;
+                return (
+                  <Reveal key={index} delay={index * 0.1}>
+                    <div className="bg-white p-12 rounded-[3.5rem] border border-gray-100 shadow-soft hover:shadow-civic-hover hover:-translate-y-2 transition-all duration-700 group h-full flex flex-col items-center text-center">
+                      <div className="w-20 h-20 bg-primary-50 text-primary-950 rounded-2xl flex items-center justify-center mb-10 shadow-sm group-hover:bg-primary-950 group-hover:text-white transition-all duration-500">
+                        <IconComponent className="h-8 w-8" />
+                      </div>
+                      <h3 className="text-2xl font-serif font-black text-primary-950 mb-4 tracking-tight leading-tight italic">
+                        {benefit.title}
+                      </h3>
+                      <p className="text-gray-500 font-serif italic leading-relaxed">
+                        {benefit.description}
+                      </p>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-primary-300 transition-colors">
-                      {benefit.title}
-                    </h3>
-                    <p className="text-slate-400 text-sm leading-relaxed">
-                      {benefit.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                  </Reveal>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Community Spotlight */}
-      <section className="section-padding bg-gradient-to-br from-primary-900 via-slate-900 to-accent-900 text-white relative z-10">
+      <section className="py-40 relative z-10 bg-white">
         <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">
-              Community <span className="text-primary-400">Spotlight</span>
+          <div className="text-center mb-24">
+            <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-6 block">Featured Partners</span>
+            <h2 className="text-5xl md:text-7xl font-serif font-black text-primary-950 mb-8 tracking-tighter italic leading-[0.9]">
+              Community <span className="text-primary-700 not-italic">Spotlight.</span>
             </h2>
-            <p className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
-              Meet some of the dedicated organizations driving positive change in Monroe right now.
+            <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed font-serif italic">
+              Meet the organizations maintaining the safety net in Union County and Monroe.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {volunteerOpportunities.slice(0, 3).map((volunteer, index) => (
-              <div key={index} className="bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/10 hover:border-primary-500/30 group transition-all duration-500">
-                <div className="relative h-64 w-full mb-8 rounded-3xl overflow-hidden shadow-2xl">
-                  <ImageWithFallback
-                    src={volunteer.image}
-                    alt={volunteer.title}
-                    title={volunteer.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <h3 className="text-2xl font-black text-white mb-1 leading-tight">{volunteer.title}</h3>
-                    <p className="text-primary-400 font-bold text-sm tracking-widest uppercase">{volunteer.organization}</p>
-                  </div>
-                </div>
-                <div className="space-y-6">
-                  <p className="text-slate-300 text-sm leading-relaxed">
-                    {volunteer.description}
-                  </p>
-                  <div className="flex flex-col gap-3">
-                    <div className="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-widest">
-                      <Clock className="h-4 w-4 text-primary-500" />
-                      <span>{volunteer.timeCommitment}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-widest">
-                      <MapPin className="h-4 w-4 text-primary-500" />
-                      <span className="truncate">{volunteer.address || volunteer.location}</span>
-                    </div>
-                  </div>
-                  {volunteer.phone && (
-                    <Button
-                      variant="gradient"
-                      size="sm"
-                      className="w-full mt-4 h-12 rounded-2xl shadow-lg shadow-primary-500/20"
-                      asChild
-                      href={`tel:${volunteer.phone.replace(/\D/g, '')}`}
-                    >
-                      <span className="flex items-center font-bold">
-                        <Phone className="h-4 w-4 mr-2" />
-                        Connect: {volunteer.phone}
-                      </span>
-                    </Button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {volunteerOpportunities.map((volunteer, index) => (
+              <Reveal key={index} delay={index * 0.1}>
+                <div className="bg-white rounded-[4rem] p-10 border border-gray-50 shadow-soft group hover:shadow-civic-hover hover:-translate-y-2 transition-all duration-700 flex flex-col h-full overflow-hidden relative">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-bl-[4rem] pointer-events-none opacity-50" />
 
-      {/* Volunteer Opportunities */}
-      <section id="opportunities" className="section-padding bg-slate-900/50 relative z-10">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-white mb-6">
-              Active Missions
-            </h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
-              Find the perfect opportunity that matches your interests and availability.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {volunteerOpportunities.map((opportunity, index) => (
-              <Card key={index} className="glass-card border-white/10 overflow-hidden group transition-all duration-300">
-                <div className="relative h-64 w-full">
-                  <ImageWithFallback
-                    src={opportunity.image}
-                    alt={opportunity.title}
-                    title={opportunity.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <CardTitle className="text-3xl font-black text-white mb-2 tracking-tight group-hover:text-primary-300 transition-colors">{opportunity.title}</CardTitle>
-                    <CardDescription className="text-primary-400 font-bold uppercase tracking-widest text-xs">
-                      {opportunity.organization}
-                    </CardDescription>
-                  </div>
-                </div>
-                <CardContent className="p-8">
-                  <p className="text-slate-400 mb-8 leading-relaxed">
-                    {opportunity.description}
-                  </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                    <div className="flex items-start gap-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
-                      <MapPin className="h-4 w-4 text-primary-500 flex-shrink-0" />
-                      <span className="leading-5">{opportunity.address || opportunity.location}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
-                      <Clock className="h-4 w-4 text-primary-500" />
-                      <span>{opportunity.timeCommitment}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
-                      <Users className="h-4 w-4 text-primary-500" />
-                      <span>Age: {opportunity.ageRequirement || '16+'}</span>
-                    </div>
-                    {opportunity.backgroundCheck && (
-                      <Badge variant="outline" className="bg-warning-500/10 text-warning-400 border-none font-black text-[10px] tracking-tighter">
-                        Vetting Required
+                  <div className="relative h-72 w-full mb-10 rounded-[3rem] overflow-hidden shadow-soft">
+                    <ImageWithFallback
+                      src={volunteer.image}
+                      alt={volunteer.title}
+                      title={volunteer.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                    />
+                    <div className="absolute top-8 right-8">
+                      <Badge className="bg-white/95 backdrop-blur-md text-primary-950 border-none shadow-xl px-5 py-2 font-black text-[9px] tracking-[0.2em] rounded-full uppercase">
+                        {volunteer.ageRequirement}
                       </Badge>
-                    )}
-                  </div>
-
-                  <div className="mb-8">
-                    <h4 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-4">Required Competencies</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {opportunity.skills.map((skill, skillIndex) => (
-                        <Badge key={skillIndex} variant="outline" className="bg-white/5 border-white/5 text-slate-300 font-bold">
-                          {skill}
-                        </Badge>
-                      ))}
                     </div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    {opportunity.phone && (
-                      <Button
-                        variant="gradient"
-                        className="flex-1 h-12 rounded-2xl font-bold"
-                        asChild
-                        href={`tel:${opportunity.phone.replace(/\D/g, '')}`}
-                      >
-                        <span className="flex items-center justify-center">
-                          <Phone className="h-4 w-4 mr-2" />
-                          Call Office
-                        </span>
-                      </Button>
-                    )}
-                    {opportunity.website && (
+                  <div className="flex-1 flex flex-col">
+                    <h3 className="text-3xl font-serif font-black text-primary-950 mb-2 leading-tight italic tracking-tighter group-hover:text-primary-700 transition-colors">{volunteer.title}</h3>
+                    <p className="text-primary-700 font-black text-[10px] tracking-[0.3em] uppercase mb-8">{volunteer.organization}</p>
+                    <p className="text-gray-500 font-serif italic leading-relaxed mb-10 line-clamp-3 text-lg">
+                      {volunteer.description}
+                    </p>
+
+                    <div className="space-y-5 pt-8 border-t border-gray-50 mt-auto">
+                      <div className="flex items-center gap-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                        <Clock className="h-4 w-4 text-primary-950 opacity-20" />
+                        <span>{volunteer.timeCommitment}</span>
+                      </div>
+                      <div className="flex items-center gap-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                        <MapPin className="h-4 w-4 text-primary-950 opacity-20" />
+                        <span className="truncate">{volunteer.address || volunteer.location}</span>
+                      </div>
+                    </div>
+
+                    {volunteer.phone && (
                       <Button
                         variant="outline"
-                        className="flex-1 h-12 rounded-2xl border-white/10 text-white hover:bg-white/5 font-bold"
+                        className="w-full mt-10 h-16 rounded-2xl border-gray-100 bg-white text-primary-950 hover:bg-gray-50 font-black uppercase tracking-[0.2em] text-[10px] shadow-soft group"
                         asChild
-                        href={opportunity.website}
                       >
-                        <span className="flex items-center justify-center">
-                          <Mail className="h-4 w-4 mr-2" />
-                          Portal
-                        </span>
+                        <Link href={`tel:${volunteer.phone.replace(/\D/g, '')}`} className="flex items-center justify-center">
+                          <Phone className="h-4 w-4 mr-4 opacity-40 group-hover:opacity-100 transition-opacity" />
+                          Connect: {volunteer.phone}
+                        </Link>
                       </Button>
                     )}
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Requirements */}
-      <section className="section-padding bg-slate-900/50">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="title-section mb-4">
-                Good to Know
+      {/* Volunteer Opportunities Overview */}
+      <section id="opportunities" className="py-24 px-6 lg:px-12 relative z-10">
+        <div className="max-w-[1400px] mx-auto bg-primary-950 rounded-[5rem] py-32 px-10 md:px-20 relative overflow-hidden shadow-2xl">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.05),transparent)]" />
+
+          <div className="relative z-10">
+            <div className="text-center mb-24">
+              <span className="text-primary-300 font-bold uppercase tracking-[0.4em] text-[10px] mb-6 block">Active Registry</span>
+              <h2 className="text-5xl md:text-8xl font-serif font-black text-white mb-8 tracking-tighter italic leading-[0.9]">
+                Verified <span className="text-primary-300 not-italic">Operations.</span>
               </h2>
-              <p className="text-xl text-slate-400">
-                A few things to keep in mind before you start.
+              <p className="text-xl text-primary-100/60 max-w-2xl mx-auto leading-relaxed font-serif italic">
+                Select a mission vertical that aligns with your specific capacity for community resilience.
               </p>
             </div>
 
-            <Card>
-              <CardContent className="p-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {requirements.map((requirement, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-primary-500/20 text-primary-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <div className="w-2 h-2 bg-primary-600 rounded-full"></div>
-                      </div>
-                      <p className="text-slate-300">{requirement}</p>
+            <div className="grid grid-cols-1 gap-12">
+              {volunteerOpportunities.map((opportunity, index) => (
+                <Reveal key={index} delay={index * 0.1} width="100%">
+                  <div className="bg-white rounded-[4rem] overflow-hidden flex flex-col lg:flex-row hover:shadow-2xl transition-all duration-700 group">
+                    <div className="lg:w-2/5 relative min-h-[400px]">
+                      <ImageWithFallback
+                        src={opportunity.image}
+                        alt={opportunity.title}
+                        title={opportunity.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                      />
+                      <div className="absolute inset-0 bg-primary-950/10" />
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+                    <div className="lg:w-3/5 p-12 lg:p-20 flex flex-col relative">
+                      <div className="absolute top-0 right-0 w-40 h-40 bg-primary-50 rounded-bl-[4rem] pointer-events-none opacity-50" />
 
-      {/* Getting Started */}
-      <section className="section-padding bg-slate-800/50">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="title-section mb-6">
-              How to Join In
-            </h2>
-            <p className="text-xl text-slate-400 mb-8">
-              It\'s easy to get started. Here\'s how:
-            </p>
+                      <div className="flex flex-wrap items-center gap-4 mb-8">
+                        <Badge className="bg-primary-950 text-white font-black text-[9px] tracking-[0.2em] uppercase px-5 py-2 rounded-full border-none">
+                          {opportunity.organization}
+                        </Badge>
+                        {opportunity.backgroundCheck && (
+                          <Badge variant="outline" className="font-black text-[9px] border-emerald-100 text-emerald-700 bg-emerald-50/50 uppercase tracking-[0.2em] px-5 py-2 rounded-full">
+                            Vetting Required
+                          </Badge>
+                        )}
+                      </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary-500/20 text-primary-400 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold">1</span>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  Choose an Opportunity
-                </h3>
-                <p className="text-slate-400">
-                  Browse our list and find something that sparks your interest.
-                </p>
-              </div>
+                      <h3 className="text-4xl md:text-5xl font-serif font-black text-primary-950 mb-8 leading-[0.9] italic tracking-tight">{opportunity.title}</h3>
+                      <p className="text-gray-500 font-serif italic leading-relaxed mb-12 flex-grow text-xl">
+                        {opportunity.description}
+                      </p>
 
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary-500/20 text-primary-400 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold">2</span>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  Reach Out
-                </h3>
-                <p className="text-slate-400">
-                  Contact the organization to say you\'d like to help.
-                </p>
-              </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16 pt-10 border-t border-gray-100">
+                        <div className="flex items-center gap-4 text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                          <Clock className="h-5 w-5 text-primary-950 opacity-20" />
+                          <span>{opportunity.timeCommitment}</span>
+                        </div>
+                        <div className="flex items-center gap-4 text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                          <Users className="h-5 w-5 text-primary-950 opacity-20" />
+                          <span>Maturity Req: {opportunity.ageRequirement}</span>
+                        </div>
+                      </div>
 
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary-500/20 text-primary-400 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold">3</span>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  Start Helping
-                </h3>
-                <p className="text-slate-400">
-                  Show up, lend a hand, and make a difference!
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                variant="primary"
-                size="lg"
-                asChild
-                href="#opportunities"
-              >
-                <>
-                  <Users className="mr-2 h-5 w-5" />
-                  Browse Opportunities
-                </>
-              </Button>
-              <a
-                href="mailto:info@monroeresourcehub.org"
-                className="btn btn-outline btn-lg inline-flex items-center justify-center"
-              >
-                <Mail className="mr-2 h-5 w-5" />
-                Contact Us
-              </a>
+                      <div className="flex flex-col sm:flex-row gap-6">
+                        {opportunity.phone && (
+                          <Button
+                            className="bg-primary-950 hover:bg-black text-white h-18 !h-20 px-10 text-[10px] flex-1 uppercase tracking-[0.2em] font-black rounded-3xl shadow-xl shadow-primary-950/20 group/btn"
+                            asChild
+                          >
+                            <Link href={`tel:${opportunity.phone.replace(/\D/g, '')}`} className="flex items-center justify-center">
+                              <Phone className="h-5 w-5 mr-4 group-hover/btn:scale-110 transition-transform" />
+                              Initiate Contact
+                            </Link>
+                          </Button>
+                        )}
+                        {opportunity.website && (
+                          <Button
+                            variant="outline"
+                            className="h-18 !h-20 px-10 text-[10px] flex-1 border-gray-100 bg-white text-primary-950 hover:bg-gray-50 font-black uppercase tracking-[0.2em] rounded-3xl shadow-soft"
+                            asChild
+                          >
+                            <Link href={opportunity.website} target="_blank" className="flex items-center justify-center">
+                              <ExternalLink className="h-5 w-5 mr-4 opacity-40" />
+                              Organization Hub
+                            </Link>
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="section-padding pb-32 relative z-10">
+      {/* Requirements Ledger */}
+      <section className="py-40 bg-white relative z-10">
         <div className="container-custom">
-          <Card className="bg-gradient-to-br from-primary-600 to-accent-700 text-white rounded-[2.5rem] border-none shadow-2xl shadow-primary-500/20 overflow-hidden relative">
-            <div className="absolute inset-0 bg-mesh opacity-10" />
-            <CardContent className="p-12 md:p-20 text-center relative z-10">
-              <h2 className="text-4xl md:text-6xl font-black mb-8 tracking-tighter">
-                Orchestrate <span className="text-white/80">Positive Change</span>
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-24">
+              <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-6 block">Standard Protocols</span>
+              <h2 className="text-5xl md:text-7xl font-serif font-black text-primary-950 mb-8 italic leading-[0.9] tracking-tighter">
+                Operational <span className="text-primary-700 not-italic">Standards.</span>
               </h2>
-              <p className="text-xl mb-12 text-white/80 max-w-3xl mx-auto leading-relaxed font-medium">
-                Every hour you invest ripples through our community. Join the collective efforts making Monroe a model for service.
+              <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed font-serif italic">
+                Core guidelines to ensure safety and civic effectiveness across all community initiatives.
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            </div>
+
+            <div className="bg-primary-50 p-16 lg:p-24 rounded-[5rem] border border-primary-100 shadow-soft relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-white/40 rounded-bl-[5rem] pointer-events-none" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
+                {requirements.map((requirement, index) => (
+                  <Reveal key={index} delay={index * 0.1}>
+                    <div className="flex items-start gap-8 group">
+                      <div className="w-12 h-12 bg-white text-primary-950 rounded-2xl flex items-center justify-center flex-shrink-0 mt-1 shadow-soft group-hover:bg-primary-950 group-hover:text-white transition-all duration-500">
+                        <CheckCircle className="h-6 w-6" />
+                      </div>
+                      <p className="text-xl text-gray-500 font-serif italic leading-relaxed">{requirement}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-40 relative z-10">
+        <div className="container-custom text-center">
+          <Reveal width="100%">
+            <div className="max-w-4xl mx-auto space-y-12">
+              <h2 className="text-5xl md:text-8xl font-serif font-black text-primary-950 italic tracking-tighter leading-tight">
+                Architect <span className="text-primary-700 not-italic">Resilience.</span>
+              </h2>
+              <p className="text-xl md:text-2xl text-gray-500 font-serif italic max-w-2xl mx-auto leading-relaxed">
+                Every hour invested ripples through the local network, strengthening the community baseline of Monroe.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-8 justify-center pt-8">
                 <Button
-                  size="lg"
-                  variant="outline"
-                  className="h-16 px-12 text-lg rounded-full bg-white text-primary-900 border-white hover:bg-slate-100 shadow-xl"
                   asChild
-                  href="#opportunities"
+                  className="bg-primary-950 hover:bg-black text-white px-12 h-20 rounded-3xl uppercase tracking-[0.2em] text-[10px] font-black shadow-2xl shadow-primary-950/30 transition-all group"
                 >
-                  <span className="flex items-center font-bold">
-                    <Heart className="mr-3 h-5 w-5" />
-                    Start Your Mission
-                  </span>
+                  <Link href="#opportunities" className="flex items-center">
+                    <Heart className="mr-4 h-5 w-5 group-hover:scale-110 transition-transform" />
+                    Start Serving
+                  </Link>
                 </Button>
                 <Button
-                  size="lg"
                   variant="outline"
-                  className="h-16 px-12 text-lg rounded-full bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-md"
+                  className="px-12 h-20 border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[10px] rounded-3xl hover:bg-gray-50 transition-all shadow-soft group"
                   asChild
-                  href="/events"
                 >
-                  <span className="flex items-center font-bold">
-                    <Calendar className="mr-3 h-5 w-5" />
-                    Operational Events
-                  </span>
+                  <Link href="/contact" className="flex items-center">
+                    Coordinate Partnering
+                    <ArrowRight className="ml-4 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </Reveal>
         </div>
       </section>
     </div>

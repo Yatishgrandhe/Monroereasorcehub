@@ -28,62 +28,67 @@ export function ResourceCard({ resource, showCategory = true }: ResourceCardProp
       viewport={{ once: true }}
       className="h-full"
     >
-      <div className="civic-card bg-white dark:bg-primary-950/40 h-full flex flex-col hover:-translate-y-1 transition-all">
-        <div className="p-6 sm:p-8 flex-1 flex flex-col">
-          <div className="flex items-center justify-between mb-6">
-            <div className="text-2xl">
+      <div className="bg-white border border-gray-50 rounded-[2.5rem] h-full flex flex-col shadow-soft hover:shadow-civic-hover hover:-translate-y-1 transition-all duration-500 group overflow-hidden">
+        <div className="p-10 flex-1 flex flex-col">
+          <div className="flex items-center justify-between mb-10">
+            <div className="w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-primary-100 group-hover:scale-110 transition-transform duration-500">
               {resource.categories?.icon || '📍'}
             </div>
             {showCategory && resource.categories?.name && (
-              <Badge variant="outline" className="border-accent-500/20 text-accent-600 font-bold uppercase tracking-widest text-[10px]">
+              <Badge variant="outline" className="border-gray-100 bg-white text-primary-700 font-black uppercase tracking-[0.2em] text-[9px] py-1.5 px-5">
                 {resource.categories.name}
               </Badge>
             )}
           </div>
 
-          <h3 className="text-2xl font-serif font-black text-primary-950 dark:text-white mb-3 tracking-tight group-hover:text-accent-600 transition-colors">
+          <h3 className="text-2xl font-serif font-black text-primary-950 mb-4 tracking-tight group-hover:text-primary-700 transition-colors leading-tight italic">
             {resource.name}
           </h3>
 
-          <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-8 flex-1">
-            {truncateText(resource.description || '', 120)}
+          <p className="text-gray-500 text-[15px] leading-relaxed mb-10 flex-1 font-serif italic">
+            {truncateText(resource.description || '', 130)}
           </p>
 
-          <div className="space-y-4 mb-8">
+          <div className="space-y-5 mb-12">
             {resource.address && (
-              <div className="flex items-start gap-3 text-sm text-gray-500 dark:text-gray-400">
-                <MapPin className="h-4 w-4 mt-0.5 text-accent-500 shrink-0" />
+              <div className="flex items-start gap-4 text-[10px] text-gray-400 font-bold uppercase tracking-[0.15em]">
+                <MapPin className="h-4 w-4 text-primary-950 shrink-0 opacity-20" />
                 <span className="line-clamp-1">{resource.address}</span>
               </div>
             )}
             {resource.contact_info?.phone && (
-              <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-                <Phone className="h-4 w-4 text-accent-500 shrink-0" />
-                <span className="font-bold">{formatPhoneNumber(resource.contact_info.phone)}</span>
+              <div className="flex items-center gap-4 text-[10px] text-gray-400 font-bold uppercase tracking-[0.15em]">
+                <Phone className="h-4 w-4 text-primary-950 shrink-0 opacity-20" />
+                <span>{formatPhoneNumber(resource.contact_info.phone)}</span>
               </div>
             )}
             {resource.hours_of_operation && (
-              <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-                <Clock className="h-4 w-4 text-accent-500 shrink-0" />
+              <div className="flex items-center gap-4 text-[10px] text-gray-400 font-bold uppercase tracking-[0.15em]">
+                <Clock className="h-4 w-4 text-primary-950 shrink-0 opacity-20" />
                 <span>{formatHours(resource.hours_of_operation)}</span>
               </div>
             )}
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-100 dark:border-primary-900">
-            <Button asChild className="btn-civic-primary flex-1 !h-12 font-bold uppercase tracking-widest text-xs">
+          <div className="flex flex-col sm:flex-row gap-4 pt-10 border-t border-gray-50 mt-auto">
+            <Button asChild className="bg-primary-950 hover:bg-black text-white flex-1 h-14 rounded-2xl font-black uppercase tracking-[0.2em] text-[9px] shadow-xl shadow-primary-950/20 translate-z-0">
               <Link href={`/resources/${resource.id}`}>
-                View Details
-                <ArrowRight className="ml-2 h-4 w-4" />
+                Access Profile
+                <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
             {resource.website && (
-              <Button asChild variant="outline" className="px-5 !h-12 border-gray-200 dark:border-primary-800 text-primary-950 dark:text-primary-400 hover:bg-gray-50">
+              <Button asChild variant="outline" className="px-6 h-14 rounded-2xl border-gray-100 text-primary-950 hover:bg-gray-50 shadow-soft">
                 <a href={resource.website} target="_blank" rel="noopener noreferrer">
-                  <Globe className="h-4 w-4" />
+                  <Globe className="h-4 w-4 opacity-40" />
                 </a>
               </Button>
             )}
+          </div>
+
+          <div className="mt-8 flex items-center justify-center gap-2 text-[8px] font-black text-gray-300 uppercase tracking-[0.4em] pt-4 border-t border-gray-50/50">
+            <div className="w-1 h-1 rounded-full bg-emerald-500" />
+            Verified Registry Entry
           </div>
         </div>
       </div>

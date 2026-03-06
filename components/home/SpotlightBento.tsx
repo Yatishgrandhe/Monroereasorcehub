@@ -40,42 +40,54 @@ const FEATURED_ORGS = [
 
 export function SpotlightBento() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
       {FEATURED_ORGS.map((org, i) => (
         <Reveal key={org.name} delay={i * 0.1} width="100%">
-          <div className="bg-white dark:bg-primary-950/40 border border-gray-200 dark:border-primary-900 rounded-2xl p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-all group">
-            <h3 className="text-xl font-serif font-bold text-primary-950 dark:text-white mb-3 group-hover:text-accent-600 transition-colors">
-              {org.name}
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-1 leading-relaxed">
-              {org.description}
-            </p>
+          <div className="bg-white border border-gray-100 rounded-[2.5rem] p-4 shadow-soft hover:shadow-civic-hover transition-all duration-500 group">
+            <div className="p-8">
+              <h3 className="text-2xl font-serif font-black text-primary-950 mb-4 group-hover:text-primary-700 transition-colors leading-tight">
+                {org.name}
+              </h3>
+              <p className="text-gray-500 text-sm mb-10 flex-1 leading-relaxed italic font-medium opacity-80">
+                {org.description}
+              </p>
 
-            <div className="space-y-3 mb-6">
-              <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                <Phone className="h-4 w-4 mr-3 text-accent-500" />
-                <span>{org.phone}</span>
+              <div className="space-y-6 mb-10">
+                <div className="flex items-center text-sm text-gray-600">
+                  <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center mr-4 text-primary-700 shrink-0">
+                    <Phone className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-primary-950 block mb-0.5">Direct Line</span>
+                    <span className="font-bold">{org.phone}</span>
+                  </div>
+                </div>
+                <div className="flex items-center text-sm text-gray-600">
+                  <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center mr-4 text-primary-700 shrink-0">
+                    <MapPin className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-primary-950 block mb-0.5">Primary Site</span>
+                    <span className="font-bold">{org.address}</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                <MapPin className="h-4 w-4 mr-3 text-accent-500" />
-                <span>{org.address}</span>
-              </div>
-            </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-primary-900">
-              <a
-                href={org.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs font-bold uppercase tracking-widest text-primary-950 dark:text-primary-400 flex items-center hover:text-accent-600 transition-colors"
-              >
-                View Website <ExternalLink className="ml-2 h-3.5 w-3.5" />
-              </a>
-              <Button asChild variant="ghost" className="h-8 px-4 text-xs font-bold uppercase tracking-widest rounded-full hover:bg-primary-50">
-                <Link href={`/resources?search=${encodeURIComponent(org.name)}`}>
-                  Details <ArrowRight className="ml-2 h-3.5 w-3.5" />
-                </Link>
-              </Button>
+              <div className="flex items-center justify-between pt-8 border-t border-gray-50">
+                <a
+                  href={org.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-950 flex items-center hover:text-primary-700 transition-colors"
+                >
+                  Verify Operations <ExternalLink className="ml-3 h-3.5 w-3.5 opacity-50" />
+                </a>
+                <Button asChild variant="ghost" className="h-10 px-6 text-[10px] font-bold uppercase tracking-widest rounded-xl hover:bg-gray-50 text-gray-400 hover:text-primary-950">
+                  <Link href={`/resources?search=${encodeURIComponent(org.name)}`}>
+                    Full Specs <ArrowRight className="ml-2 h-3 w-3" />
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </Reveal>

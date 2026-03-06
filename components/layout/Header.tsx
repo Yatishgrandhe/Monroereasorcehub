@@ -10,7 +10,6 @@ import { cn } from '@/lib/utils';
 import { supabase } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import { SearchModal } from '@/components/ui/SearchModal';
-import { Magnetic } from '@/components/ui/Magnetic';
 
 const COMPACT_NAV_BREAKPOINT = 960;
 
@@ -68,7 +67,7 @@ export function Header() {
       router.refresh();
     });
     return () => subscription.unsubscribe();
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -100,27 +99,25 @@ export function Header() {
     router.push('/');
   };
 
-  const filteredNavigation = navigation;
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-4 px-5 sm:pt-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 pointer-events-none [&>*]:pointer-events-auto">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full max-w-[100dvw] pt-6 px-6 lg:px-12 pointer-events-none [&>*]:pointer-events-auto">
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       <nav
         className={cn(
-          'w-full min-w-0 max-w-full rounded-xl transition-all duration-300 ease-in-out',
+          'w-full min-w-0 max-w-full rounded-[2rem] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]',
           scrolled
-            ? 'bg-white/95 dark:bg-primary-950/95 backdrop-blur-md border border-gray-200 dark:border-primary-900 shadow-lg py-1'
-            : 'bg-white/90 dark:bg-primary-950/90 backdrop-blur-sm border border-transparent py-2'
+            ? 'bg-white/95 backdrop-blur-xl border border-gray-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] py-2'
+            : 'bg-white/50 backdrop-blur-md border border-transparent py-3'
         )}
         aria-label="Global"
       >
-        <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2 lg:gap-4 px-3 sm:px-4 lg:px-6 h-12 sm:h-[48px] lg:h-[52px] min-w-0">
+        <div className="flex items-center gap-4 lg:gap-8 px-6 lg:px-10 h-14 md:h-16 min-w-0">
           <Link
             href="/"
-            className="flex items-center gap-3 group shrink-0"
+            className="flex items-center gap-4 group shrink-0"
           >
             <div
-              className="rounded-lg overflow-hidden shadow-sm ring-1 ring-gray-200 dark:ring-primary-900 shrink-0 w-8 h-8 lg:w-9 lg:h-9"
+              className="rounded-2xl overflow-hidden shadow-sm border border-gray-100 shrink-0 w-10 h-10 lg:w-12 lg:h-12 bg-white flex items-center justify-center p-2 group-hover:scale-105 transition-transform"
             >
               <img
                 src="/logo.png"
@@ -128,101 +125,104 @@ export function Header() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <div className="flex flex-col min-w-0">
+            <div className="flex flex-col min-w-0 hidden sm:block">
               <span className={cn(
-                "text-lg lg:text-xl font-bold tracking-tight font-serif text-primary-950 dark:text-white truncate",
+                "text-xl lg:text-2xl font-bold tracking-tighter font-serif text-primary-950 truncate",
                 showDesktopNav ? "inline" : "hidden"
               )}>
-                Monroe Resource Hub
+                Monroe Resource <span className="text-primary-700 italic">Hub.</span>
               </span>
             </div>
-            <span className={cn("text-sm font-bold font-serif text-primary-950 dark:text-white shrink-0", showDesktopNav ? "hidden" : "inline")}>MRH</span>
+            <span className={cn("text-lg font-bold font-serif text-primary-950 shrink-0 sm:hidden", showDesktopNav ? "hidden" : "inline")}>MRH</span>
           </Link>
 
+          {/* Desktop Navigation */}
           <div className={cn(
-            "items-center gap-1 xl:gap-2 justify-center min-w-0 flex-nowrap overflow-x-auto",
+            "flex-1 min-w-0 flex items-center justify-center",
             showDesktopNav ? "flex" : "hidden"
           )}>
-            {filteredNavigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  'nav-link whitespace-nowrap px-3 py-1.5 rounded-md text-sm transition-colors',
-                  pathname === item.href ? 'nav-link-active' : ''
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
+            <div className="flex items-center gap-2 xl:gap-4 flex-nowrap">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    'whitespace-nowrap px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all shrink-0',
+                    pathname === item.href
+                      ? 'bg-primary-950 text-white shadow-xl shadow-primary-950/20'
+                      : 'text-gray-400 hover:text-primary-950 hover:bg-gray-50'
+                  )}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
           </div>
 
-          <div className={cn(
-            "items-center gap-2 shrink-0 flex-nowrap min-w-0",
-            showDesktopNav ? "flex" : "hidden"
-          )}>
+          <div className="flex items-center gap-3 shrink-0">
             <Button
               variant="ghost"
               size="sm"
-              className="h-9 px-3 text-sm text-gray-600 dark:text-gray-300 hover:text-primary-950"
+              className="h-12 w-12 p-0 rounded-2xl text-gray-400 hover:text-primary-950 hover:bg-gray-50 shrink-0 flex items-center justify-center"
               onClick={() => setSearchOpen(true)}
+              title="Search (⌘K)"
             >
-              <Search className="h-4 w-4 shrink-0 mr-2" />
-              <span>Search</span>
+              <Search className="h-5 w-5" />
             </Button>
 
             {user ? (
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary-50 dark:bg-primary-900/40 border border-primary-100 dark:border-primary-800">
-                  <UserCircle className="h-4 w-4 text-primary-700 dark:text-primary-400" />
-                  <span className="text-xs font-semibold text-primary-950 dark:text-white">
+              <div className="flex items-center gap-3 shrink-0">
+                <div className="hidden lg:flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-gray-50 border border-gray-100">
+                  <UserCircle className="h-4 w-4 text-primary-700 shrink-0" />
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-primary-950 truncate max-w-[120px]" title={user.user_metadata?.full_name || user.email || ''}>
                     {user.user_metadata?.full_name || user.email?.split('@')[0]}
                   </span>
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-9 w-9 p-0 hover:bg-red-50 hover:text-red-600"
+                  className="h-12 w-12 p-0 rounded-2xl hover:bg-red-50 hover:text-red-600 transition-colors"
                   onClick={handleSignOut}
                 >
                   <LogOut className="h-4 w-4" />
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center gap-2">
-                <Link href="/auth/signin">
-                  <span className="text-sm font-semibold text-gray-600 hover:text-primary-950 px-3 transition-colors cursor-pointer">Login</span>
+              <div className="flex items-center gap-3 shrink-0">
+                <Link href="/auth/signin" className="hidden lg:block">
+                  <Button variant="ghost" className="h-12 px-6 rounded-2xl font-bold uppercase tracking-widest text-[10px] text-gray-400 hover:text-primary-950">
+                    Login
+                  </Button>
                 </Link>
                 <Link href="/auth/signup">
-                  <Button className="btn-civic-accent !px-5 !py-2 h-9 text-sm shadow-sm group">
+                  <Button className="bg-primary-950 hover:bg-black text-white px-8 h-12 rounded-2xl uppercase tracking-widest text-[10px] font-bold shadow-xl shadow-primary-950/20">
                     Join Hub
                   </Button>
                 </Link>
               </div>
             )}
-          </div>
 
-
-          <div className={cn("shrink-0 col-start-3 row-start-1 justify-self-end", showDesktopNav ? "hidden" : "flex")}>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="h-10 w-10 p-0 rounded-lg"
-              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            >
-              <AnimatePresence mode="wait">
-                {mobileMenuOpen ? (
-                  <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
-                    <X className="h-5 w-5" />
-                  </motion.div>
-                ) : (
-                  <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
-                    <Menu className="h-5 w-5" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </Button>
+            {/* Mobile Toggle */}
+            <div className={cn("shrink-0", showDesktopNav ? "hidden" : "flex")}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="h-12 w-12 p-0 rounded-2xl"
+              >
+                <AnimatePresence mode="wait">
+                  {mobileMenuOpen ? (
+                    <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
+                      <X className="h-5 w-5" />
+                    </motion.div>
+                  ) : (
+                    <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
+                      <Menu className="h-5 w-5" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -232,63 +232,40 @@ export function Header() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="xl:hidden overflow-hidden"
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="overflow-hidden"
             >
-              <div className="py-4 border-t border-white/[0.06] bg-white/[0.04] backdrop-blur-xl space-y-1">
-                {filteredNavigation.map((item) => (
+              <div className="px-6 pb-10 pt-4 space-y-2 border-t border-gray-50">
+                {navigation.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'flex items-center justify-between px-4 py-3 rounded-lg text-[15px] font-medium transition-colors',
+                      'flex items-center justify-between px-6 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all',
                       pathname === item.href
-                        ? 'bg-primary-500/20 text-primary-300'
-                        : 'text-slate-400 hover:bg-white/5'
+                        ? 'bg-primary-950 text-white shadow-xl shadow-primary-950/20'
+                        : 'text-gray-400 hover:text-primary-950 hover:bg-gray-50'
                     )}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.name}
-                    <ChevronRight className="h-4 w-4 opacity-50" />
+                    <ChevronRight className="h-4 w-4 opacity-30" />
                   </Link>
                 ))}
-                <Link
-                  href="/career/saved-resumes"
-                  className={cn(
-                    'flex items-center justify-between px-4 py-3 rounded-lg text-[15px] font-medium transition-colors',
-                    pathname === '/career/saved-resumes'
-                      ? 'bg-primary-500/20 text-primary-300'
-                      : 'text-slate-400 hover:bg-white/5'
+
+                <div className="mt-8 pt-8 border-t border-gray-50 flex flex-col gap-4">
+                  {!user && (
+                    <Link href="/auth/signin" className="w-full">
+                      <Button variant="outline" className="w-full h-14 rounded-2xl font-bold uppercase tracking-widest text-[10px] border-primary-100 text-primary-950">
+                        Sign In
+                      </Button>
+                    </Link>
                   )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  My Resumes
-                  <ChevronRight className="h-4 w-4 opacity-50" />
-                </Link>
-                <div className="pt-3 mt-3 border-t border-secondary-100 dark:border-secondary-800 flex flex-col gap-2">
-                  <Button variant="outline" size="sm" className="w-full justify-center h-10 rounded-lg" asChild href="/submit-resource" onClick={() => setMobileMenuOpen(false)}>
-                    Share Resource
-                  </Button>
-                  {user ? (
-                    <div className="flex items-center justify-between px-4 py-3 rounded-lg bg-primary-50/50 dark:bg-primary-950/30">
-                      <div className="flex items-center gap-2">
-                        <UserCircle className="h-4 w-4 text-primary-400" />
-                        <span className="text-sm font-medium">{user.user_metadata?.full_name || user.email?.split('@')[0]}</span>
-                      </div>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={handleSignOut} aria-label="Sign Out">
-                        <LogOut className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ) : (
-                    <>
-                      <Button variant="outline" size="sm" className="w-full justify-center h-10 rounded-lg" asChild href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
-                        Login
-                      </Button>
-                      <Button variant="gradient" size="sm" className="w-full justify-center h-10 rounded-full font-semibold bg-gradient-spline border-none shadow-primary-500/25" asChild href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
-                        Sign Up
-                      </Button>
-                    </>
-                  )}
+                  <Link href="/submit-resource" className="w-full">
+                    <Button variant="outline" className="w-full h-14 rounded-2xl font-bold uppercase tracking-widest text-[10px] border-primary-100 text-primary-950">
+                      Submit Resource
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </motion.div>

@@ -121,42 +121,42 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
   const hours = formatHours(resource.hours_of_operation);
 
   return (
-    <div className="min-h-screen bg-[#020617] pt-20 relative overflow-hidden">
-      <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+    <div className="min-h-screen bg-white pt-20 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none" />
       <div className="container-custom section-padding relative z-10">
         {/* Back Button */}
-        <div className="mb-10">
-          <Button variant="outline" size="sm" asChild href="/resources" className="rounded-xl px-6 py-2.5 font-semibold text-white border-white/10 hover:bg-white/10 hover:border-white/20">
+        <div className="mb-12">
+          <Button variant="outline" size="sm" asChild href="/resources" className="rounded-2xl px-8 h-12 font-bold uppercase tracking-widest text-[10px] border-gray-100 text-gray-500 hover:bg-gray-50 bg-white">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Directory
+            Directory
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-10">
+          <div className="lg:col-span-2 space-y-12">
             {/* Header Section */}
-            <div className="glass-card p-10 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/5 blur-[100px] rounded-full -mr-32 -mt-32 pointer-events-none transition-all duration-700 group-hover:bg-primary-500/10" />
+            <div className="bg-white border border-gray-100 rounded-[3rem] p-12 shadow-soft relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-primary-50 blur-[120px] rounded-full -mr-48 -mt-48 pointer-events-none" />
 
-              <div className="flex flex-col md:flex-row items-start justify-between gap-8 mb-10">
-                <div className="flex items-start gap-6">
-                  <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-3xl shadow-2xl group-hover:scale-110 transition-transform duration-500">
+              <div className="flex flex-col md:flex-row items-start justify-between gap-10 mb-12">
+                <div className="flex items-start gap-8">
+                  <div className="w-20 h-20 bg-primary-50 border border-primary-100 rounded-3xl flex items-center justify-center text-4xl shadow-sm transition-transform duration-500 group-hover:scale-110">
                     {resource.categories.icon}
                   </div>
                   <div>
-                    <Badge variant="outline" className="mb-4 px-4 py-1.5 border-primary-500/20 text-primary-400 font-black uppercase tracking-[0.2em] text-[10px]">
+                    <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-200 text-primary-700 font-bold uppercase tracking-widest text-[10px] bg-primary-50/50">
                       {resource.categories.name}
                     </Badge>
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-none tracking-tighter">
+                    <h1 className="text-4xl md:text-6xl font-serif font-bold text-primary-950 leading-tight tracking-tight">
                       {resource.name}
                     </h1>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 w-full md:w-auto">
-                  <Button variant="outline" size="lg" className="flex-1 md:flex-none h-14 rounded-2xl font-semibold text-white border-white/10 hover:bg-white/10 hover:border-white/20 hover:text-white">
-                    <Share2 className="h-5 w-5 mr-2" />
+                <div className="flex items-center gap-4 w-full md:w-auto">
+                  <Button variant="outline" size="lg" className="flex-1 md:flex-none h-14 rounded-2xl font-bold uppercase tracking-widest text-[10px] border-gray-100 text-gray-500 hover:bg-gray-50 bg-white">
+                    <Share2 className="h-4 w-4 mr-2" />
                     Share
                   </Button>
                   {resource.website && (
@@ -164,17 +164,17 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
                       href={resource.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn btn-primary flex-1 md:flex-none h-14 rounded-2xl font-semibold text-white shadow-xl shadow-primary-500/20 hover:text-white inline-flex items-center justify-center px-8 no-underline"
+                      className="flex-1 md:flex-none h-14 rounded-2xl font-bold uppercase tracking-widest text-[10px] bg-primary-950 hover:bg-black text-white shadow-lg shadow-primary-950/10 inline-flex items-center justify-center px-10 no-underline transition-all"
                     >
-                      <ExternalLink className="h-5 w-5 mr-2" />
-                      Website
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      Visit Website
                     </a>
                   )}
                 </div>
               </div>
 
               {resource.description && (
-                <p className="text-xl text-slate-400 leading-relaxed font-medium">
+                <p className="text-xl text-gray-600 leading-relaxed font-medium max-w-3xl">
                   {resource.description}
                 </p>
               )}
@@ -182,16 +182,16 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
 
             {/* Services & Population Grid */}
             {(resource.services_offered?.length > 0 || resource.population_served?.length > 0) && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 {resource.services_offered && resource.services_offered.length > 0 && (
-                  <div className="glass-card p-8 group">
-                    <h3 className="text-xl font-black text-white mb-6 flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-primary-500" />
-                      Services Offered
+                  <div className="bg-white border border-gray-100 rounded-[2.5rem] p-10 shadow-soft">
+                    <h3 className="text-[10px] font-bold text-primary-950 uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-primary-600" />
+                      Operational Capabilities
                     </h3>
-                    <div className="flex flex-wrap gap-2.5">
+                    <div className="flex flex-wrap gap-3">
                       {resource.services_offered.map((service: string, index: number) => (
-                        <Badge key={index} variant="outline" className="bg-white/5 border-white/5 text-slate-300 font-bold px-4 py-1.5 rounded-lg">
+                        <Badge key={index} variant="outline" className="bg-gray-50/50 border-gray-100 text-gray-500 font-bold px-5 py-2 rounded-xl text-xs uppercase tracking-tight">
                           {service}
                         </Badge>
                       ))}
@@ -200,14 +200,14 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
                 )}
 
                 {resource.population_served && resource.population_served.length > 0 && (
-                  <div className="glass-card p-8 group">
-                    <h3 className="text-xl font-black text-white mb-6 flex items-center gap-3">
+                  <div className="bg-white border border-gray-100 rounded-[2.5rem] p-10 shadow-soft">
+                    <h3 className="text-[10px] font-bold text-primary-950 uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
                       <div className="w-2 h-2 rounded-full bg-primary-400" />
-                      Who We Serve
+                      Focus Population
                     </h3>
-                    <div className="flex flex-wrap gap-2.5">
+                    <div className="flex flex-wrap gap-3">
                       {resource.population_served.map((population: string, index: number) => (
-                        <Badge key={index} variant="outline" className="bg-white/5 border-white/5 text-slate-300 font-bold px-4 py-1.5 rounded-lg">
+                        <Badge key={index} variant="outline" className="bg-gray-50/50 border-gray-100 text-gray-500 font-bold px-5 py-2 rounded-xl text-xs uppercase tracking-tight">
                           {population}
                         </Badge>
                       ))}
@@ -219,16 +219,18 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
 
             {/* Hours of Operation */}
             {hours && (
-              <div className="glass-card p-10">
-                <h3 className="text-2xl font-black text-white mb-8 flex items-center gap-4">
-                  <Clock className="h-6 w-6 text-primary-400" />
-                  Hours of Operation
+              <div className="bg-white border border-gray-100 rounded-[3rem] p-12 shadow-soft">
+                <h3 className="text-3xl font-serif font-bold text-primary-950 mb-10 flex items-center gap-6">
+                  <div className="w-14 h-14 bg-primary-50 rounded-2xl flex items-center justify-center">
+                    <Clock className="h-7 w-7 text-primary-600" />
+                  </div>
+                  Availability Matrix
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-2">
                   {hours.map((dayHours, index) => (
-                    <div key={index} className="flex justify-between items-center py-3 border-b border-white/5 last:border-0 md:last:border-b">
-                      <span className="font-bold text-slate-200">{dayHours.day}</span>
-                      <span className={cn("text-sm font-medium", dayHours.hours === 'Closed' ? "text-slate-500" : "text-primary-400")}>
+                    <div key={index} className="flex justify-between items-center py-5 border-b border-gray-50 last:border-0">
+                      <span className="text-xs font-bold text-primary-950 uppercase tracking-widest">{dayHours.day}</span>
+                      <span className={cn("text-xs font-bold uppercase tracking-tight", dayHours.hours === 'Closed' ? "text-gray-300" : "text-primary-700")}>
                         {dayHours.hours}
                       </span>
                     </div>
@@ -239,19 +241,22 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-8">
+          <div className="space-y-10">
             {/* Contact Information Card */}
-            <div className="glass-card p-8 bg-primary-500/[0.03] border-primary-500/10">
-              <h3 className="text-xl font-black text-white mb-8">Contact Information</h3>
-              <div className="space-y-8">
+            <div className="bg-primary-950 rounded-[3rem] p-10 text-white shadow-2xl shadow-primary-950/20 relative overflow-hidden">
+              <div className="absolute bottom-0 right-0 w-64 h-64 bg-primary-800/20 blur-[80px] rounded-full -mb-32 -mr-32 pointer-events-none" />
+
+              <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary-400 mb-10">Communication Channels</h3>
+
+              <div className="space-y-10 relative z-10">
                 {resource.contact_info?.phone && (
-                  <div className="flex items-center gap-4 group">
-                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary-500/10 group-hover:border-primary-500/30">
+                  <div className="flex items-center gap-6 group">
+                    <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary-800 group-hover:border-primary-700">
                       <Phone className="h-5 w-5 text-primary-400" />
                     </div>
                     <div>
-                      <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Phone Number</p>
-                      <p className="text-lg font-bold text-white transition-colors group-hover:text-primary-300">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-primary-500 mb-1">Direct Line</p>
+                      <p className="text-xl font-bold text-white transition-colors group-hover:text-primary-300">
                         {formatPhoneNumber(resource.contact_info.phone)}
                       </p>
                     </div>
@@ -259,12 +264,12 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
                 )}
 
                 {resource.contact_info?.email && (
-                  <div className="flex items-center gap-4 group">
-                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary-500/10 group-hover:border-primary-500/30">
+                  <div className="flex items-center gap-6 group">
+                    <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary-800 group-hover:border-primary-700">
                       <Globe className="h-5 w-5 text-primary-400" />
                     </div>
                     <div>
-                      <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Email Address</p>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-primary-500 mb-1">Official Email</p>
                       <p className="text-lg font-bold text-white transition-colors group-hover:text-primary-300 break-all">
                         {resource.contact_info.email}
                       </p>
@@ -273,22 +278,22 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
                 )}
 
                 {resource.address && (
-                  <div className="flex items-start gap-4 group">
-                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary-500/10 group-hover:border-primary-500/30 shrink-0">
+                  <div className="flex items-start gap-6 group">
+                    <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary-800 group-hover:border-primary-700 shrink-0">
                       <MapPin className="h-5 w-5 text-primary-400" />
                     </div>
                     <div>
-                      <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Our Location</p>
-                      <p className="text-lg font-bold text-white leading-tight mb-2">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-primary-500 mb-1">Tactical Location</p>
+                      <p className="text-lg font-bold text-white leading-tight mb-4">
                         {resource.address}
                       </p>
                       <a
                         href={`https://maps.google.com/?q=${encodeURIComponent(resource.address)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs font-black text-primary-400 uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2"
+                        className="text-[10px] font-bold text-primary-400 uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2"
                       >
-                        Navigate on Maps
+                        Launch Directions
                         <ArrowRight className="h-3 w-3" />
                       </a>
                     </div>
@@ -297,32 +302,32 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
               </div>
 
               {resource.website && (
-                <div className="mt-10 pt-8 border-t border-white/5">
+                <div className="mt-12 pt-10 border-t border-white/5">
                   <a
                     href={resource.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn btn-primary w-full h-14 rounded-2xl font-semibold text-sm text-white hover:text-white no-underline inline-flex items-center justify-center"
+                    className="w-full h-16 rounded-2xl font-bold uppercase tracking-widest text-[10px] bg-white text-primary-950 hover:bg-primary-50 no-underline inline-flex items-center justify-center transition-all shadow-xl shadow-black/20"
                   >
                     <Globe className="h-4 w-4 mr-2" />
-                    Visit Site
+                    Operational Website
                   </a>
                 </div>
               )}
             </div>
 
-            {/* Quick Links Card */}
-            <div className="glass-card p-8">
-              <h3 className="text-lg font-black text-white mb-6">Quick Links</h3>
+            {/* Quick Actions Card */}
+            <div className="bg-white border border-gray-100 rounded-[2.5rem] p-10 shadow-soft">
+              <h3 className="text-[10px] font-bold text-primary-950 uppercase tracking-widest mb-8">Intelligence</h3>
               <div className="space-y-3">
-                <Link href="/submit-resource" className="btn btn-ghost w-full h-12 justify-start px-4 font-semibold text-slate-400 hover:text-white hover:bg-white/5 rounded-xl border border-transparent hover:border-white/10 no-underline inline-flex items-center">
-                  Suggest Changes
+                <Link href="/submit-resource" className="w-full h-14 justify-start px-6 font-bold text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary-950 hover:bg-gray-50 rounded-2xl border border-transparent hover:border-gray-100 transition-all no-underline inline-flex items-center">
+                  Suggest Correction
                 </Link>
-                <Link href="/volunteer" className="btn btn-ghost w-full h-12 justify-start px-4 font-semibold text-slate-400 hover:text-white hover:bg-white/5 rounded-xl border border-transparent hover:border-white/10 no-underline inline-flex items-center">
-                  Volunteer Here
+                <Link href="/volunteer" className="w-full h-14 justify-start px-6 font-bold text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary-950 hover:bg-gray-50 rounded-2xl border border-transparent hover:border-gray-100 transition-all no-underline inline-flex items-center">
+                  Volunteer Recruitment
                 </Link>
-                <Link href="/career" className="btn btn-ghost w-full h-12 justify-start px-4 font-semibold text-slate-400 hover:text-white hover:bg-white/5 rounded-xl border border-transparent hover:border-white/10 no-underline inline-flex items-center">
-                  Job Opportunities
+                <Link href="/career" className="w-full h-14 justify-start px-6 font-bold text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary-950 hover:bg-gray-50 rounded-2xl border border-transparent hover:border-gray-100 transition-all no-underline inline-flex items-center">
+                  Career Vacancies
                 </Link>
               </div>
             </div>
@@ -331,14 +336,16 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
 
         {/* Related Resources */}
         {relatedResources && relatedResources.length > 0 && (
-          <div className="mt-24 pt-20 border-t border-white/5">
-            <div className="flex items-center gap-4 mb-10">
-              <div className="w-2 h-10 bg-primary-500 rounded-full" />
-              <h2 className="text-4xl font-black text-white tracking-tighter">
-                Explore <span className="text-gradient-logo">Similar</span>
+          <div className="mt-32 pt-24 border-t border-gray-50">
+            <div className="flex items-center gap-6 mb-16">
+              <Badge variant="outline" className="px-5 py-2 border-primary-100 bg-primary-50/50 text-primary-700 font-bold uppercase tracking-[0.2em] text-[10px] rounded-full">
+                Related Intelligence
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-primary-950 tracking-tight">
+                Similar <span className="text-primary-700">Hub</span> Nodes
               </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {relatedResources.map((relatedResource) => (
                 <ResourceCard
                   key={relatedResource.id}

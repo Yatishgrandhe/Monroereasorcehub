@@ -291,436 +291,85 @@ export function ResourceSubmissionForm() {
     }
   };
 
-  const renderStepContent = () => {
-    switch (currentStep) {
-      case 1:
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4">The Basics</h3>
-              <div className="space-y-4">
-                <Input
-                  label="Organization Name *"
-                  value={formData.name}
-                  onChange={(e) => updateFormData('name', e.target.value)}
-                  placeholder="What's the name of the organization?"
-                  required
-                />
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Description *
-                  </label>
-                  <textarea
-                    className="textarea"
-                    rows={4}
-                    value={formData.description}
-                    onChange={(e) => updateFormData('description', e.target.value)}
-                    placeholder="Tell us a bit about what they do and how they help the community..."
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Category *
-                  </label>
-                  <select
-                    className="input"
-                    value={formData.category}
-                    onChange={(e) => updateFormData('category', e.target.value)}
-                    required
-                  >
-                    <option value="">What kind of resource is this?</option>
-                    {categoriesData.map(category => (
-                      <option key={category.id} value={category.name}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <Input
-                  label="Website"
-                  type="url"
-                  value={formData.website}
-                  onChange={(e) => updateFormData('website', e.target.value)}
-                  placeholder="https://www.example.com"
-                  icon={<Globe className="h-4 w-4" />}
-                />
-              </div>
-            </div>
-          </div>
-        );
-
-      case 2:
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4">Services & People</h3>
-
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-3">
-                    What services do they offer? *
-                  </label>
-                  <div className="space-y-3">
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {formData.services_offered.map((service, index) => (
-                        <Badge key={index} variant="primary" className="flex items-center gap-1">
-                          {service}
-                          <button
-                            type="button"
-                            onClick={() => removeService(service)}
-                            className="ml-1 hover:text-red-500"
-                          >
-                            ×
-                          </button>
-                        </Badge>
-                      ))}
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                      {commonServices.map(service => (
-                        <button
-                          key={service}
-                          type="button"
-                          onClick={() => addService(service)}
-                          disabled={formData.services_offered.includes(service)}
-                          className="text-left p-2 text-sm border border-slate-600 rounded hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {service}
-                        </button>
-                      ))}
-                    </div>
-                    <Input
-                      placeholder="Type to add another service..."
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          const input = e.target as HTMLInputElement;
-                          if (input.value.trim()) {
-                            addService(input.value.trim());
-                            input.value = '';
-                          }
-                        }
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-3">
-                    Who is this for? *
-                  </label>
-                  <div className="space-y-3">
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {formData.population_served.map((population, index) => (
-                        <Badge key={index} variant="secondary" className="flex items-center gap-1">
-                          {population}
-                          <button
-                            type="button"
-                            onClick={() => removePopulation(population)}
-                            className="ml-1 hover:text-red-500"
-                          >
-                            ×
-                          </button>
-                        </Badge>
-                      ))}
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                      {populationOptions.map(population => (
-                        <button
-                          key={population}
-                          type="button"
-                          onClick={() => addPopulation(population)}
-                          disabled={formData.population_served.includes(population)}
-                          className="text-left p-2 text-sm border border-slate-600 rounded hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {population}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 3:
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4">Contact Info & Hours</h3>
-
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    label="Email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => updateFormData('email', e.target.value)}
-                    placeholder="contact@organization.com"
-                    icon={<Mail className="h-4 w-4" />}
-                  />
-                  <Input
-                    label="Phone"
-                    value={formData.phone}
-                    onChange={(e) => updateFormData('phone', e.target.value)}
-                    placeholder="(704) 123-4567"
-                    icon={<Phone className="h-4 w-4" />}
-                  />
-                </div>
-
-                <Input
-                  label="Address"
-                  value={formData.address}
-                  onChange={(e) => updateFormData('address', e.target.value)}
-                  placeholder="123 Main Street, Monroe, NC 28112"
-                  icon={<MapPin className="h-4 w-4" />}
-                />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    label="Contact Person (Optional)"
-                    value={formData.contact_person}
-                    onChange={(e) => updateFormData('contact_person', e.target.value)}
-                    placeholder="Who should we ask for?"
-                  />
-                  <Input
-                    label="Title (Optional)"
-                    value={formData.contact_title}
-                    onChange={(e) => updateFormData('contact_title', e.target.value)}
-                    placeholder="e.g. Director"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-3">
-                    When are they open?
-                  </label>
-                  <div className="space-y-3">
-                    {daysOfWeek.map(day => (
-                      <div key={day.key} className="flex items-center gap-4">
-                        <div className="w-20 text-sm font-medium text-slate-300">
-                          {day.label}
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={formData.hours[day.key as keyof typeof formData.hours].closed}
-                            onChange={(e) => updateHours(day.key, 'closed', e.target.checked)}
-                            className="mr-2"
-                          />
-                          <span className="text-sm text-slate-400">Closed</span>
-                        </div>
-                        {!formData.hours[day.key as keyof typeof formData.hours].closed && (
-                          <div className="flex items-center gap-2">
-                            <input
-                              type="time"
-                              value={formData.hours[day.key as keyof typeof formData.hours].open}
-                              onChange={(e) => updateHours(day.key, 'open', e.target.value)}
-                              className="input w-32"
-                            />
-                            <span className="text-slate-400">to</span>
-                            <input
-                              type="time"
-                              value={formData.hours[day.key as keyof typeof formData.hours].close}
-                              onChange={(e) => updateHours(day.key, 'close', e.target.value)}
-                              className="input w-32"
-                            />
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Anything else we should know?
-                  </label>
-                  <textarea
-                    className="textarea"
-                    rows={4}
-                    value={formData.additional_info}
-                    onChange={(e) => updateFormData('additional_info', e.target.value)}
-                    placeholder="Parking info, specific requirements, etc..."
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 4:
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4">Does this look right?</h3>
-
-              <div className="space-y-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>The Basics</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    <p><strong>Name:</strong> {formData.name}</p>
-                    <p><strong>Category:</strong> {formData.category}</p>
-                    <p><strong>Description:</strong> {formData.description}</p>
-                    {formData.website && <p><strong>Website:</strong> {formData.website}</p>}
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Services & People</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div>
-                      <strong>Services Offered:</strong>
-                      <div className="flex flex-wrap gap-1 mt-1">
-                        {formData.services_offered.map((service, index) => (
-                          <Badge key={index} variant="outline" size="sm">
-                            {service}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <strong>Who it's for:</strong>
-                      <div className="flex flex-wrap gap-1 mt-1">
-                        {formData.population_served.map((population, index) => (
-                          <Badge key={index} variant="secondary" size="sm">
-                            {population}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Contact Info</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    {formData.email && <p><strong>Email:</strong> {formData.email}</p>}
-                    {formData.phone && <p><strong>Phone:</strong> {formData.phone}</p>}
-                    {formData.address && <p><strong>Address:</strong> {formData.address}</p>}
-                    {formData.contact_person && <p><strong>Contact Person:</strong> {formData.contact_person}</p>}
-                    {formData.contact_title && <p><strong>Title:</strong> {formData.contact_title}</p>}
-                  </CardContent>
-                </Card>
-
-                {formData.files.length > 0 && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Attached Files</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-2">
-                        {formData.files.map((file, index) => (
-                          <div key={index} className="flex items-center justify-between p-2 bg-slate-800 rounded">
-                            <span className="text-sm">{file.name}</span>
-                            <button
-                              type="button"
-                              onClick={() => removeFile(index)}
-                              className="text-red-500 hover:text-red-700"
-                            >
-                              Remove
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-
-                <div className="bg-primary-50 p-4 rounded-lg">
-                  <div className="flex items-start gap-3">
-                    <AlertCircle className="h-5 w-5 text-primary-600 mt-0.5" />
-                    <div>
-                      <h4 className="font-medium text-primary-900 mb-1">What happens next?</h4>
-                      <p className="text-sm text-primary-800">
-                        Our team will take a look at your submission to make sure everything is accurate.
-                        We'll send you an email as soon as it's approved and live on the site!
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      default:
-        return null;
-    }
+  const renderStepContentWrapper = () => {
+    return renderStepContent(
+      currentStep,
+      formData,
+      updateFormData,
+      updateHours,
+      addService,
+      removeService,
+      addPopulation,
+      removePopulation,
+      removeFile,
+      categoriesData
+    );
   };
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
+      <div className="min-h-screen bg-white pt-20">
         <div className="container-custom section-padding pt-32">
-          <Card className="max-w-2xl mx-auto glass-card border-emerald-500/20 bg-emerald-500/5 overflow-hidden">
-            <CardContent className="p-16 text-center">
-              <div className="w-24 h-24 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-10 shadow-2xl shadow-emerald-500/20">
-                <CheckCircle className="h-12 w-12 text-emerald-400" />
+          <div className="max-w-2xl mx-auto bg-white border border-emerald-100 rounded-[3rem] shadow-soft overflow-hidden">
+            <div className="p-16 text-center">
+              <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-10 shadow-sm border border-emerald-100">
+                <CheckCircle className="h-12 w-12 text-emerald-600" />
               </div>
-              <h1 className="text-4xl font-black text-white mb-6 tracking-tight uppercase">
-                Resource <span className="text-emerald-400">Captured</span>
+              <h1 className="text-4xl font-bold text-primary-950 mb-6 tracking-tight font-serif">
+                Resource <span className="text-emerald-600">Captured</span>
               </h1>
-              <p className="text-xl text-slate-400 mb-12 leading-relaxed font-medium">
+              <p className="text-xl text-gray-600 mb-12 leading-relaxed font-medium">
                 We've received your submission. Our team will review the details to ensure community standards are met before publishing.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button variant="gradient" className="h-14 px-10 rounded-2xl font-bold" asChild href="/resources">
+                <Button variant="outline" className="h-14 px-10 rounded-2xl font-bold border-primary-100 text-primary-700" asChild href="/resources">
                   <span className="flex items-center">
                     <LayoutGrid className="mr-2 h-5 w-5" />
                     Browse Directory
                   </span>
                 </Button>
-                <Button variant="outline" className="h-14 px-10 rounded-2xl border-white/10 text-white hover:bg-white/5 font-bold" asChild href="/">
+                <Button variant="outline" className="h-14 px-10 rounded-2xl border-gray-100 text-gray-400 hover:bg-gray-50 font-bold" asChild href="/">
                   Return Home
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 mesh-bg pt-20">
-      <div className="container-custom section-padding">
-        <div className="mb-12 relative z-10">
+    <div className="min-h-screen bg-white pt-20 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none" />
+
+      <div className="container-custom section-padding relative z-10">
+        <div className="mb-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-500/20 text-primary-400 font-bold uppercase tracking-widest text-[10px]">
+            <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-200 text-primary-700 font-bold uppercase tracking-widest text-[10px] bg-primary-50/50">
               <Sparkles className="w-3.5 h-3.5 mr-2" /> Community Growth
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
-              Share a <span className="text-gradient-logo">Resource</span>
+            <h1 className="text-4xl md:text-7xl font-bold text-primary-950 mb-6 tracking-tight font-serif">
+              Share a <span className="text-primary-700">Resource</span>
             </h1>
-            <p className="text-xl text-slate-400 max-w-3xl leading-relaxed">
+            <p className="text-xl text-gray-600 max-w-3xl leading-relaxed">
               Help us expand the Monroe Resource Hub. Every entry empowers your neighbors to find the support they need.
             </p>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
           {/* Progress Sidebar */}
           <div className="lg:col-span-1">
-            <Card className="glass-card border-white/10 rounded-3xl overflow-hidden backdrop-blur-2xl">
-              <CardHeader className="p-8 border-b border-white/5 bg-white/[0.02]">
-                <CardTitle className="text-white text-lg font-black uppercase tracking-widest">Progress</CardTitle>
-                <CardDescription className="text-slate-500 font-bold">
+            <div className="bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-soft">
+              <div className="p-8 border-b border-gray-50 bg-gray-50/50">
+                <h3 className="text-primary-950 text-sm font-bold uppercase tracking-widest">Progress</h3>
+                <p className="text-gray-400 font-bold text-[10px] uppercase mt-1">
                   Stage {currentStep} OF {steps.length}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-3">
+                </p>
+              </div>
+              <div className="p-6">
+                <div className="space-y-2">
                   {steps.map((step) => {
                     const IconComponent = step.icon;
                     const isActive = currentStep === step.id;
@@ -732,91 +381,363 @@ export function ResourceSubmissionForm() {
                         className={cn(
                           "flex items-center gap-4 p-4 rounded-2xl transition-all duration-300",
                           isActive
-                            ? "bg-primary-500 text-white shadow-xl shadow-primary-500/20 font-black scale-[1.02] border border-primary-400/20"
+                            ? "bg-primary-950 text-white shadow-xl shadow-primary-950/20 font-bold scale-[1.02]"
                             : isCompleted
-                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                              : "text-slate-500 border border-transparent"
+                              ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                              : "text-gray-400 border border-transparent"
                         )}
                       >
                         <div className={cn(
                           "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
-                          isActive ? "bg-white/20" : isCompleted ? "bg-emerald-500/20" : "bg-white/5"
+                          isActive ? "bg-white/20" : isCompleted ? "bg-white shadow-sm" : "bg-gray-100"
                         )}>
                           <IconComponent className="h-4 w-4" />
                         </div>
-                        <span className="text-sm tracking-tight">{step.name}</span>
+                        <span className="text-xs font-bold uppercase tracking-tight">{step.name}</span>
                       </div>
                     );
                   })}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
 
           {/* Main Form */}
           <div className="lg:col-span-3">
-            <Card className="glass-card border-white/5 rounded-3xl overflow-hidden backdrop-blur-2xl">
-              <CardHeader className="p-8 border-b border-white/5 bg-white/[0.02]">
+            <div className="bg-white border border-gray-100 rounded-[3rem] overflow-hidden shadow-soft relative">
+              <div className="p-8 border-b border-gray-50 bg-gray-50/30">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div>
-                    <CardTitle className="text-3xl font-black text-white tracking-tight uppercase mb-1">{steps[currentStep - 1]?.name}</CardTitle>
-                    <CardDescription className="text-slate-500 font-bold tracking-widest text-[10px] uppercase">
+                    <h2 className="text-3xl font-bold text-primary-950 tracking-tight font-serif uppercase mb-1">{steps[currentStep - 1]?.name}</h2>
+                    <p className="text-gray-400 font-bold tracking-widest text-[10px] uppercase">
                       Operational Module {currentStep} OF {steps.length}
-                    </CardDescription>
+                    </p>
                   </div>
                   <div className="flex gap-3">
                     {currentStep > 1 && (
                       <Button
-                        variant="outline"
+                        variant="ghost"
                         size="lg"
                         onClick={() => setCurrentStep(currentStep - 1)}
-                        className="h-12 rounded-xl border-white/10 text-white hover:bg-white/5"
+                        className="h-12 rounded-xl text-gray-500 font-bold"
                       >
                         Back
                       </Button>
                     )}
                     {currentStep < steps.length ? (
                       <Button
-                        variant="gradient"
+                        variant="primary"
                         size="lg"
                         onClick={() => setCurrentStep(currentStep + 1)}
                         disabled={!validateStep(currentStep)}
-                        className="h-12 rounded-xl px-10 shadow-lg shadow-primary-500/20"
+                        className="h-12 rounded-xl px-10 shadow-lg shadow-primary-950/10 font-bold bg-primary-950 hover:bg-black text-white"
                       >
                         Proceed
                       </Button>
                     ) : (
                       <Button
-                        variant="gradient"
+                        variant="primary"
                         size="lg"
                         onClick={handleSubmit}
                         loading={loading}
                         disabled={!validateStep(currentStep)}
-                        className="h-12 rounded-xl px-10 shadow-lg shadow-primary-500/20"
+                        className="h-12 rounded-xl px-10 shadow-lg shadow-emerald-900/10 font-bold bg-emerald-600 hover:bg-emerald-700 text-white"
                       >
                         Submit Mission
                       </Button>
                     )}
                   </div>
                 </div>
-              </CardHeader>
-              <CardContent className="p-10">
-                {error && (
-                  <div className="mb-6 p-4 bg-error-50 border border-error-200 rounded-lg">
-                    <div className="flex items-center gap-2 text-error-700">
-                      <AlertCircle className="h-5 w-5" />
-                      <span className="font-medium">Something went wrong</span>
-                    </div>
-                    <p className="mt-1 text-error-600">{error}</p>
-                  </div>
-                )}
+              </div>
 
-                {renderStepContent()}
+              <CardContent className="p-12">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentStep}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {renderStepContentWrapper()}
+                  </motion.div>
+                </AnimatePresence>
+
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-8 p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-600 font-bold text-sm"
+                  >
+                    <AlertCircle className="h-5 w-5" />
+                    {error}
+                  </motion.div>
+                )}
               </CardContent>
-            </Card>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+// Update the renderStepContent helper to use the white theme
+const renderStepContent = (currentStep: number, formData: FormData, updateFormData: any, updateHours: any, addService: any, removeService: any, addPopulation: any, removePopulation: any, removeFile: any, categoriesData: any) => {
+  switch (currentStep) {
+    case 1:
+      return (
+        <div className="space-y-8">
+          <div className="grid grid-cols-1 gap-8">
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Organization Name *</label>
+              <Input
+                value={formData.name}
+                onChange={(e) => updateFormData('name', e.target.value)}
+                placeholder="What's the name of the organization?"
+                className="h-14 bg-gray-50 border-gray-100 rounded-2xl px-6 focus:ring-primary-950/10 focus:border-primary-950 font-medium"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Mission Description *</label>
+              <textarea
+                className="w-full min-h-[160px] p-6 bg-gray-50 border border-gray-100 rounded-3xl focus:ring-2 focus:ring-primary-950/10 focus:border-primary-950 outline-none transition-all font-medium text-primary-950 resize-none"
+                value={formData.description}
+                onChange={(e) => updateFormData('description', e.target.value)}
+                placeholder="Tell us a bit about what they do and how they help the community..."
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Resource Category *</label>
+                <select
+                  className="w-full h-14 px-6 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-primary-950/10 focus:border-primary-950 outline-none transition-all font-bold text-primary-950 appearance-none"
+                  value={formData.category}
+                  onChange={(e) => updateFormData('category', e.target.value)}
+                  required
+                >
+                  <option value="">What kind of resource is this?</option>
+                  {categoriesData.map((category: any) => (
+                    <option key={category.id} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Official Website</label>
+                <div className="relative">
+                  <Globe className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    type="url"
+                    value={formData.website}
+                    onChange={(e) => updateFormData('website', e.target.value)}
+                    placeholder="https://www.example.com"
+                    className="h-14 bg-gray-50 border-gray-100 rounded-2xl pl-14 pr-6 focus:ring-primary-950/10 focus:border-primary-950 font-medium"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 2:
+      return (
+        <div className="space-y-10">
+          <div className="space-y-4">
+            <h3 className="text-[10px] font-bold text-primary-950 uppercase tracking-widest ml-1 px-4 py-1.5 bg-primary-50 rounded-full inline-block">Service Capabilities</h3>
+            <div className="space-y-6">
+              <div className="flex flex-wrap gap-2 min-h-[48px] p-2 bg-gray-50/50 rounded-2xl border border-dashed border-gray-200">
+                {formData.services_offered.length === 0 && <span className="text-xs text-gray-400 p-2 italic">Select services below or add custom ones...</span>}
+                {formData.services_offered.map((service, index) => (
+                  <Badge key={index} variant="secondary" className="bg-white border-gray-100 text-primary-950 py-1.5 px-4 rounded-xl shadow-sm group">
+                    {service}
+                    <button type="button" onClick={() => removeService(service)} className="ml-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+                  </Badge>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {commonServices.map(service => (
+                  <button
+                    key={service}
+                    type="button"
+                    onClick={() => addService(service)}
+                    disabled={formData.services_offered.includes(service)}
+                    className="text-left px-4 py-3 text-xs font-bold border border-gray-100 rounded-xl hover:bg-primary-50 hover:border-primary-200 disabled:bg-gray-50 disabled:text-gray-300 disabled:opacity-50 transition-all"
+                  >
+                    {service}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-[10px] font-bold text-primary-950 uppercase tracking-widest ml-1 px-4 py-1.5 bg-primary-50 rounded-full inline-block">Impact Population</h3>
+            <div className="space-y-6">
+              <div className="flex flex-wrap gap-2 min-h-[48px] p-2 bg-gray-50/50 rounded-2xl border border-dashed border-gray-200">
+                {formData.population_served.map((population, index) => (
+                  <Badge key={index} variant="secondary" className="bg-white border-gray-100 text-primary-950 py-1.5 px-4 rounded-xl shadow-sm group">
+                    {population}
+                    <button type="button" onClick={() => removePopulation(population)} className="ml-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+                  </Badge>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {populationOptions.map(population => (
+                  <button
+                    key={population}
+                    type="button"
+                    onClick={() => addPopulation(population)}
+                    disabled={formData.population_served.includes(population)}
+                    className="text-left px-4 py-3 text-xs font-bold border border-gray-100 rounded-xl hover:bg-primary-50 hover:border-primary-200 disabled:bg-gray-50 disabled:text-gray-300 disabled:opacity-50 transition-all"
+                  >
+                    {population}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 3:
+      return (
+        <div className="space-y-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Contact Email</label>
+              <div className="relative">
+                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => updateFormData('email', e.target.value)}
+                  placeholder="contact@organization.com"
+                  className="h-14 bg-gray-50 border-gray-100 rounded-2xl pl-14 pr-6 focus:ring-primary-950/10 focus:border-primary-950 font-medium"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Phone Number</label>
+              <div className="relative">
+                <Phone className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  value={formData.phone}
+                  onChange={(e) => updateFormData('phone', e.target.value)}
+                  placeholder="(704) 123-4567"
+                  className="h-14 bg-gray-50 border-gray-100 rounded-2xl pl-14 pr-6 focus:ring-primary-950/10 focus:border-primary-950 font-medium"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Physical Location</label>
+            <div className="relative">
+              <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                value={formData.address}
+                onChange={(e) => updateFormData('address', e.target.value)}
+                placeholder="123 Main Street, Monroe, NC 28112"
+                className="h-14 bg-gray-50 border-gray-100 rounded-2xl pl-14 pr-6 focus:ring-primary-950/10 focus:border-primary-950 font-medium"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <h3 className="text-[10px] font-bold text-primary-950 uppercase tracking-widest ml-1 px-4 py-1.5 bg-primary-50 rounded-full inline-block">Hours of Operation</h3>
+            <div className="space-y-3 bg-gray-50/50 p-6 rounded-[2rem] border border-gray-100">
+              {daysOfWeek.map(day => (
+                <div key={day.key} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-3 border-b border-gray-100 last:border-0">
+                  <div className="w-24 text-xs font-bold text-primary-950 uppercase tracking-tight">{day.label}</div>
+                  <div className="flex items-center gap-6">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.hours[day.key as keyof typeof formData.hours].closed}
+                        onChange={(e) => updateHours(day.key, 'closed', e.target.checked)}
+                        className="w-4 h-4 rounded border-gray-200 text-primary-950 focus:ring-primary-950/10"
+                      />
+                      <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Closed</span>
+                    </label>
+                    {!formData.hours[day.key as keyof typeof formData.hours].closed && (
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="time"
+                          value={formData.hours[day.key as keyof typeof formData.hours].open}
+                          onChange={(e) => updateHours(day.key, 'open', e.target.value)}
+                          className="bg-white border border-gray-100 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:ring-2 focus:ring-primary-950/10 shadow-sm"
+                        />
+                        <span className="text-[10px] font-bold text-gray-300 uppercase">to</span>
+                        <input
+                          type="time"
+                          value={formData.hours[day.key as keyof typeof formData.hours].close}
+                          onChange={(e) => updateHours(day.key, 'close', e.target.value)}
+                          className="bg-white border border-gray-100 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:ring-2 focus:ring-primary-950/10 shadow-sm"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+
+    case 4:
+      return (
+        <div className="space-y-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-4">
+              <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Basics</h4>
+              <div className="bg-gray-50 p-6 rounded-3xl border border-gray-100 space-y-4">
+                <div>
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Name</div>
+                  <div className="text-sm font-bold text-primary-950">{formData.name}</div>
+                </div>
+                <div>
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Category</div>
+                  <div className="text-sm font-bold text-primary-950">{formData.category}</div>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Contact</h4>
+              <div className="bg-gray-50 p-6 rounded-3xl border border-gray-100 space-y-4">
+                <div>
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email / Phone</div>
+                  <div className="text-sm font-bold text-primary-950">{formData.email || 'N/A'} • {formData.phone || 'N/A'}</div>
+                </div>
+                <div>
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Address</div>
+                  <div className="text-sm font-bold text-primary-950">{formData.address || 'N/A'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-primary-50 p-8 rounded-[2.5rem] border border-primary-100">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm border border-primary-100 shrink-0">
+                <AlertCircle className="h-6 w-6 text-primary-600" />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-primary-950 mb-2 font-serif">Submission Integrity</h4>
+                <p className="text-sm text-primary-800 leading-relaxed font-medium">
+                  By submitting this mission, you confirm that the organization details provided are accurate to the best of your knowledge. Our human vetting squad will verify the technical details before the resource goes live on the hub.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+  }
+};

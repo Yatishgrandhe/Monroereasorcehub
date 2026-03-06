@@ -24,8 +24,8 @@ export function ResourceMap() {
 
             mapInstanceRef.current = map;
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             }).addTo(map);
 
             L.control.zoom({ position: 'topright' }).addTo(map);
@@ -49,30 +49,32 @@ export function ResourceMap() {
                     data.forEach((resource: any) => {
                         const latlng = [resource.latitude, resource.longitude] as [number, number];
                         const marker = L.circleMarker(latlng, {
-                            radius: 8,
-                            fillColor: "#D97706", // Amber
+                            radius: 10,
+                            fillColor: "#000d1a",
                             color: "#ffffff",
-                            weight: 2,
+                            weight: 3,
                             opacity: 1,
-                            fillOpacity: 0.9,
+                            fillOpacity: 1,
                         }).addTo(map);
 
                         const categoryName = resource.categories?.name || 'Resource';
 
                         marker.bindPopup(`
-                            <div class="flex flex-col gap-2 min-w-[200px] p-2">
-                                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">${categoryName}</span>
-                                <h3 class="text-lg font-serif font-black text-primary-950 m-0 leading-tight">${resource.name}</h3>
-                                <p class="text-[13px] text-gray-600 leading-relaxed mt-1 mb-2 font-medium">${resource.description || ''}</p>
-                                <div class="mb-2 text-[11px] text-gray-400 italic flex items-center gap-1">
-                                    <span class="w-1 h-1 rounded-full bg-gray-400"></span>
+                            <div class="flex flex-col gap-4 min-w-[240px] p-4 bg-white rounded-3xl">
+                                <span class="text-[9px] font-black uppercase tracking-[0.3em] text-primary-700">${categoryName}</span>
+                                <h3 class="text-xl font-serif font-black text-primary-950 m-0 leading-tight italic">${resource.name}</h3>
+                                <p class="text-[13px] text-gray-500 leading-relaxed font-medium italic">${resource.description || ''}</p>
+                                <div class="flex items-center gap-2 text-[11px] text-gray-400 font-bold uppercase tracking-widest border-t border-gray-50 pt-4">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-primary-700 animate-pulse"></span>
                                     ${resource.address || 'Monroe, NC'}
                                 </div>
-                                <a href="/resources/${resource.id}" class="inline-block px-4 py-2 bg-primary-950 text-white text-[10px] font-bold uppercase tracking-widest rounded-lg text-center hover:bg-accent-600 transition-colors">
-                                    View Details
+                                <a href="/resources/${resource.id}" class="inline-block mt-2 px-6 py-3 bg-primary-950 text-white text-[9px] font-black uppercase tracking-[0.2em] rounded-xl text-center hover:bg-black transition-all shadow-xl shadow-primary-950/20">
+                                    Assess Resource
                                 </a>
                             </div>
-                        `);
+                        `, {
+                            className: 'civic-popup',
+                        });
                         marker.on('click', (e: any) => L.DomEvent.stopPropagation(e));
                     });
                 }
@@ -92,26 +94,27 @@ export function ResourceMap() {
     }, []);
 
     return (
-        <section className="py-32 bg-white dark:bg-[#000d1a] relative">
-            <div className="container-custom">
+        <section className="py-32 bg-white relative overflow-hidden">
+            <div className="container-custom relative z-10">
                 <Reveal width="100%">
-                    <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-10">
-                        <div className="max-w-2xl text-center md:text-left">
-                            <span className="text-accent-600 font-bold uppercase tracking-[0.2em] text-xs">Resource Localization</span>
-                            <h2 className="text-primary-950 dark:text-white mt-4 mb-6 text-5xl md:text-6xl font-serif font-black leading-[1.1]">
-                                Explore your <br /><span className="text-secondary-600 italic">local neighborood.</span>
+                    <div className="flex flex-col lg:flex-row justify-between items-center lg:items-end mb-16 gap-12 text-center lg:text-left">
+                        <div className="max-w-2xl">
+                            <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px]">Registry Localization</span>
+                            <h2 className="text-primary-950 mt-6 mb-8 text-5xl md:text-7xl font-serif font-black tracking-tighter leading-[0.9] italic relative inline-block">
+                                Urban <span className="text-primary-700 not-italic">Infrastructure.</span>
+                                <div className="absolute -bottom-4 left-0 w-1/2 h-1 bg-primary-950/5 rounded-full" />
                             </h2>
-                            <p className="text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
-                                Built in Monroe, for Monroe. Visualize every community resource in Union County at a glance.
+                            <p className="text-xl text-gray-500 font-serif italic leading-relaxed">
+                                Our community is built on proximity. Visualize every operational resource across Union County through our verified geospatial ledger.
                             </p>
                         </div>
-                        <div className="flex bg-gray-50 dark:bg-primary-900/30 border border-gray-100 dark:border-primary-800 rounded-2xl p-1.5 shadow-sm shrink-0">
-                            <button className="px-6 py-3 rounded-xl bg-primary-950 text-white text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-2 shadow-2xl transition-all">
+                        <div className="flex bg-primary-50 border border-primary-100 rounded-[2rem] p-2 shadow-sm shrink-0">
+                            <button className="px-8 py-4 rounded-[1.5rem] bg-primary-950 text-white text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 shadow-2xl transition-all">
                                 <MapIcon className="w-4 h-4" />
-                                Interactive Map
+                                Interactive Grid
                             </button>
-                            <Link href="/resources" className="px-6 py-3 rounded-xl text-primary-950 dark:text-primary-400 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white dark:hover:bg-primary-900/40 transition-all flex items-center gap-2">
-                                <Layers className="w-4 h-4" />
+                            <Link href="/resources" className="px-8 py-4 rounded-[1.5rem] text-primary-950 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white transition-all flex items-center gap-3">
+                                <Layers className="w-4 h-4 opacity-50" />
                                 List View
                             </Link>
                         </div>
@@ -119,21 +122,18 @@ export function ResourceMap() {
                 </Reveal>
 
                 <Reveal width="100%" delay={0.2}>
-                    <div className="relative w-full aspect-[4/5] sm:aspect-[16/9] md:aspect-[21/9] rounded-[3rem] overflow-hidden border border-gray-200 dark:border-primary-900 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] bg-gray-100 dark:bg-primary-950 group">
-                        <div
-                            id="map"
-                            ref={mapRef}
-                            className="absolute inset-0 z-0 grayscale-[0.5] group-hover:grayscale-0 transition-all duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-primary-950/30 via-transparent to-transparent pointer-events-none z-10" />
+                    <div className="relative w-full aspect-[4/5] sm:aspect-[16/9] md:aspect-[21/9] rounded-[4rem] overflow-hidden border border-gray-100 shadow-soft shadow-gray-200/50 bg-gray-50 group">
+                        <div id="map" ref={mapRef} className="absolute inset-0 z-0 grayscale transition-all duration-1000 group-hover:grayscale-0" />
 
-                        <div className="absolute bottom-8 right-8 flex items-center gap-4 z-20 pointer-events-none">
+                        <div className="absolute inset-0 bg-gradient-to-t from-primary-950/20 via-transparent to-transparent pointer-events-none z-10" />
+
+                        <div className="absolute bottom-10 right-10 flex items-center gap-4 z-20">
                             <Link
                                 href="/resources"
-                                className="pointer-events-auto px-10 py-5 bg-primary-950 text-white rounded-2xl font-bold text-[10px] uppercase tracking-[0.3em] shadow-2xl hover:bg-accent-600 hover:scale-105 active:scale-95 transition-all flex items-center gap-4"
+                                className="px-10 py-6 bg-primary-950 text-white rounded-3xl font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl hover:bg-black hover:-translate-y-1 active:translate-y-0 transition-all flex items-center gap-4 group/btn"
                             >
-                                <Search className="w-5 h-5" />
-                                Explore Full Directory
+                                <Search className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
+                                Full Directory Access
                             </Link>
                         </div>
                     </div>
