@@ -138,12 +138,12 @@ export function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation — all one line */}
+          {/* Desktop Navigation — scrollable so Information is never cut off */}
           <div className={cn(
-            "flex-1 min-w-0 flex items-center justify-center overflow-hidden",
+            "flex-1 min-w-0 flex items-center justify-center overflow-x-auto overflow-y-hidden",
             showDesktopNav ? "flex" : "hidden"
           )}>
-            <div className="flex items-center gap-0.5 xl:gap-1 flex-nowrap max-w-full">
+            <div className="flex items-center gap-0.5 xl:gap-1 flex-nowrap px-1 pr-2">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
