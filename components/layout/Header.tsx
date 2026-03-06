@@ -161,7 +161,7 @@ export function Header() {
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap ml-4 sm:ml-8 lg:ml-12">
             <Link
               href="/submit-resource"
               className={cn(
