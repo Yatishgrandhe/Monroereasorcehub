@@ -158,12 +158,14 @@ export default function CareerCenterPage() {
                 we provide the verified infrastructure you need to succeed in Monroe.
               </p>
               <div className="flex flex-col sm:flex-row gap-8 justify-center pt-8">
+                {/* Get Career Help — commented out for now
                 <Button asChild href="/contact" className="bg-primary-950 hover:bg-black text-white px-12 h-20 rounded-3xl uppercase tracking-[0.2em] text-[10px] font-black shadow-2xl shadow-primary-950/30 transition-all group flex items-center">
                   <>
                     Get Career Help
                     <ArrowRight className="ml-4 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </>
                 </Button>
+                */}
                 <Button asChild href="/resources?category=Career Support" variant="outline" className="px-12 h-20 border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[10px] rounded-3xl hover:bg-gray-50 transition-all shadow-soft">
                   All Career Resources
                 </Button>
