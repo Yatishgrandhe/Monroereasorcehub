@@ -27,7 +27,7 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
 
         <input
           type="text"
-          className="input pl-12 pr-12 bg-white/5 backdrop-blur-md border-white/10 hover:border-white/20 focus:border-primary-500/50 shadow-lg text-white placeholder-slate-400 min-h-[56px] rounded-2xl transition-all"
+          className="input-base pl-12 pr-12 text-base bg-white/5 backdrop-blur-md border-white/10 hover:border-white/20 focus:border-primary-500/50 shadow-lg text-white placeholder-slate-400 min-h-[56px] rounded-2xl transition-all"
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}

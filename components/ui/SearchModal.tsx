@@ -60,7 +60,7 @@ export function SearchModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                                 placeholder="Find food assistance, housing, or career support..."
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
-                                className="flex-1 bg-transparent border-none outline-none text-xl text-white placeholder:text-slate-500 font-medium"
+                                className="flex-1 bg-transparent border-none outline-none text-base sm:text-lg text-white placeholder:text-slate-500 font-medium"
                             />
                             <div className="flex items-center gap-2">
                                 <kbd className="hidden sm:flex items-center gap-1 px-2 py-1 bg-white/5 border border-white/10 rounded text-xs text-slate-400 font-mono">

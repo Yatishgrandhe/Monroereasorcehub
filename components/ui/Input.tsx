@@ -35,7 +35,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             type={type}
             className={cn(
-              'input',
+              'input-base text-base',
               icon && 'pl-10',
               error && 'border-error-300 focus:border-error-500 focus:ring-error-500',
               className

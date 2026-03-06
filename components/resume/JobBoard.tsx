@@ -479,6 +479,8 @@ export function JobBoard() {
                               className="bg-primary-950 hover:bg-black text-white px-10 h-16 rounded-[2rem] font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transform hover:-translate-y-1 transition-all shrink-0 w-full sm:w-auto"
                               asChild
                               href={job.applicationUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
                               <span className="flex items-center">
                                 Apply Now

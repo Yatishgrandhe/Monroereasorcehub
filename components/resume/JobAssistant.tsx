@@ -196,7 +196,7 @@ export function JobAssistant() {
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-2">Requirements Manifest</label>
                     <textarea
-                      className="w-full px-6 py-5 bg-gray-50 border-none rounded-3xl text-primary-950 text-sm font-medium focus:ring-2 ring-primary-500/20 outline-none transition-all placeholder:text-gray-300 min-h-[250px]"
+                      className="w-full px-6 py-5 text-base bg-gray-50 border-none rounded-3xl text-primary-950 font-medium focus:ring-2 ring-primary-500/20 outline-none transition-all placeholder:text-gray-300 min-h-[250px] resize-none"
                       rows={8}
                       value={jobPosting.description}
                       onChange={(e) => setJobPosting(p => ({ ...p, description: e.target.value }))}

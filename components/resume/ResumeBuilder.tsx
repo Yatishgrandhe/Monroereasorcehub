@@ -536,7 +536,7 @@ export function ResumeBuilder() {
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2">Target Job</label>
                   <input
-                    className="w-full h-14 px-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all"
+                    className="w-full h-14 px-5 text-base bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all"
                     placeholder="e.g. Software Engineer"
                     value={targetJob}
                     onChange={(e) => setTargetJob(e.target.value)}
@@ -545,7 +545,7 @@ export function ResumeBuilder() {
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2">Industry</label>
                   <select
-                    className="w-full h-14 px-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
+                    className="w-full h-14 px-5 text-base bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
                     value={industry}
                     onChange={(e) => setIndustry(e.target.value)}
                   >
@@ -558,7 +558,7 @@ export function ResumeBuilder() {
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2">Exp. Level</label>
                   <select
-                    className="w-full h-14 px-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
+                    className="w-full h-14 px-5 text-base bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
                     value={experienceLevel}
                     onChange={(e) => setExperienceLevel(e.target.value)}
                   >
@@ -609,7 +609,7 @@ export function ResumeBuilder() {
             )}
 
             <textarea
-              className="w-full min-h-[250px] p-8 bg-gray-50 border border-gray-200 rounded-3xl text-gray-800 text-lg leading-relaxed focus:border-primary-500 outline-none transition-all shadow-soft"
+              className="w-full min-h-[250px] p-8 text-base bg-gray-50 border border-gray-200 rounded-3xl text-gray-800 leading-relaxed focus:border-primary-500 outline-none transition-all shadow-soft resize-none"
               placeholder="Start typing your summary or use 'Magic Generate' to let local AI architect it for you based on your context..."
               value={resumeData.summary}
               onChange={(e) => setResumeData(prev => ({ ...prev, summary: e.target.value }))}
@@ -676,7 +676,7 @@ export function ResumeBuilder() {
                     {exp.achievements.map((ach, achIdx) => (
                       <div key={achIdx} className="group relative flex gap-3">
                         <textarea
-                          className="flex-1 px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 text-sm leading-relaxed focus:border-primary-500 outline-none transition-all min-h-[80px]"
+                          className="flex-1 px-5 py-4 text-base bg-gray-50 border border-gray-200 rounded-xl text-gray-800 leading-relaxed focus:border-primary-500 outline-none transition-all min-h-[80px] resize-none"
                           placeholder="Briefly mention a success or responsibility..."
                           value={ach}
                           onChange={(e) => {
@@ -745,7 +745,7 @@ export function ResumeBuilder() {
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2">Degree Type</label>
                       <select
-                        className="w-full h-14 px-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
+                        className="w-full h-14 px-5 text-base bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
                         value={edu.degree}
                         onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)}
                       >
@@ -758,7 +758,7 @@ export function ResumeBuilder() {
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2">Field of Study</label>
                       <select
-                        className="w-full h-14 px-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
+                        className="w-full h-14 px-5 text-base bg-gray-50 border border-gray-200 rounded-xl text-gray-800 focus:border-primary-500 outline-none transition-all appearance-none"
                         value={edu.field}
                         onChange={(e) => updateEducation(edu.id, 'field', e.target.value)}
                       >
@@ -805,7 +805,7 @@ export function ResumeBuilder() {
                   <input
                     value={skill}
                     onChange={(e) => updateSkill(idx, e.target.value)}
-                    className="flex-1 bg-transparent border-none text-gray-800 text-sm font-bold uppercase tracking-wider focus:outline-none"
+                    className="flex-1 bg-transparent border-none text-base text-gray-800 font-bold uppercase tracking-wider focus:outline-none"
                     placeholder="e.g. Project Architecture"
                   />
                   <Button
@@ -872,7 +872,7 @@ export function ResumeBuilder() {
                     <button onClick={() => removeLanguage(lang.id)} className="absolute top-2 right-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Trash2 className="h-3 w-3" />
                     </button>
-                    <input className="bg-transparent border-none text-gray-800 font-bold placeholder:text-gray-400 focus:outline-none" placeholder="Language" value={lang.language} onChange={(e) => updateLanguage(lang.id, 'language', e.target.value)} />
+                    <input className="bg-transparent border-none text-base text-gray-800 font-bold placeholder:text-gray-400 focus:outline-none" placeholder="Language" value={lang.language} onChange={(e) => updateLanguage(lang.id, 'language', e.target.value)} />
                     <select className="bg-white border border-gray-200 rounded-lg text-[10px] text-primary-600 font-black uppercase p-2 outline-none" value={lang.proficiency} onChange={(e) => updateLanguage(lang.id, 'proficiency', e.target.value)}>
                       {['Native', 'Fluent', 'Professional', 'Intermediate', 'Basic'].map(p => <option key={p} value={p} className="bg-white">{p}</option>)}
                     </select>

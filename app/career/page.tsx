@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { SPLINE_PAGES_URL } from '@/lib/spline';
 
 const services = [
@@ -76,11 +75,11 @@ export default function CareerCenterPage() {
                     {service.description}
                   </p>
 
-                  <Button asChild className="bg-primary-950 hover:bg-black text-white w-full !h-16 font-black uppercase tracking-[0.2em] text-[10px] rounded-2xl transition-all shadow-xl shadow-primary-950/20 translate-z-0">
-                    <Link href={service.href}>
+                  <Button asChild href={service.href} className="bg-primary-950 hover:bg-black text-white w-full !h-16 font-black uppercase tracking-[0.2em] text-[10px] rounded-2xl transition-all shadow-xl shadow-primary-950/20 translate-z-0">
+                    <>
                       {service.action}
                       <ArrowRight className="ml-4 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
+                    </>
                   </Button>
                 </div>
               </Reveal>
@@ -166,14 +165,14 @@ export default function CareerCenterPage() {
                 we provide the verified infrastructure you need to succeed in Monroe.
               </p>
               <div className="flex flex-col sm:flex-row gap-8 justify-center pt-8">
-                <Button asChild className="bg-primary-950 hover:bg-black text-white px-12 h-20 rounded-3xl uppercase tracking-[0.2em] text-[10px] font-black shadow-2xl shadow-primary-950/30 transition-all group">
-                  <Link href="/contact" className="flex items-center">
+                <Button asChild href="/contact" className="bg-primary-950 hover:bg-black text-white px-12 h-20 rounded-3xl uppercase tracking-[0.2em] text-[10px] font-black shadow-2xl shadow-primary-950/30 transition-all group flex items-center">
+                  <>
                     Get Career Help
                     <ArrowRight className="ml-4 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
+                  </>
                 </Button>
-                <Button asChild variant="outline" className="px-12 h-20 border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[10px] rounded-3xl hover:bg-gray-50 transition-all shadow-soft">
-                  <Link href="/resources?category=Career Support">All Career Resources</Link>
+                <Button asChild href="/resources?category=Career Support" variant="outline" className="px-12 h-20 border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[10px] rounded-3xl hover:bg-gray-50 transition-all shadow-soft">
+                  All Career Resources
                 </Button>
               </div>
             </div>

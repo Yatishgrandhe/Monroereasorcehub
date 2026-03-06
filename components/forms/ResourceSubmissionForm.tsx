@@ -522,7 +522,7 @@ const renderStepContent = (currentStep: number, formData: FormData, updateFormDa
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Mission Description *</label>
               <textarea
-                className="w-full min-h-[160px] p-6 bg-gray-50 border border-gray-100 rounded-3xl focus:ring-2 focus:ring-primary-950/10 focus:border-primary-950 outline-none transition-all font-medium text-primary-950 resize-none"
+                className="w-full min-h-[160px] p-6 text-base bg-gray-50 border border-gray-100 rounded-3xl focus:ring-2 focus:ring-primary-950/10 focus:border-primary-950 outline-none transition-all font-medium text-primary-950 resize-none"
                 value={formData.description}
                 onChange={(e) => updateFormData('description', e.target.value)}
                 placeholder="Tell us a bit about what they do and how they help the community..."
@@ -534,7 +534,7 @@ const renderStepContent = (currentStep: number, formData: FormData, updateFormDa
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Resource Category *</label>
                 <select
-                  className="w-full h-14 px-6 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-primary-950/10 focus:border-primary-950 outline-none transition-all font-bold text-primary-950 appearance-none"
+                  className="w-full h-14 px-6 text-base bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-primary-950/10 focus:border-primary-950 outline-none transition-all font-bold text-primary-950 appearance-none"
                   value={formData.category}
                   onChange={(e) => updateFormData('category', e.target.value)}
                   required
@@ -692,14 +692,14 @@ const renderStepContent = (currentStep: number, formData: FormData, updateFormDa
                           type="time"
                           value={formData.hours[day.key as keyof typeof formData.hours].open}
                           onChange={(e) => updateHours(day.key, 'open', e.target.value)}
-                          className="bg-white border border-gray-100 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:ring-2 focus:ring-primary-950/10 shadow-sm"
+                          className="bg-white border border-gray-100 rounded-lg px-3 py-2 text-base outline-none focus:ring-2 focus:ring-primary-950/10 shadow-sm"
                         />
                         <span className="text-[10px] font-bold text-gray-300 uppercase">to</span>
                         <input
                           type="time"
                           value={formData.hours[day.key as keyof typeof formData.hours].close}
                           onChange={(e) => updateHours(day.key, 'close', e.target.value)}
-                          className="bg-white border border-gray-100 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:ring-2 focus:ring-primary-950/10 shadow-sm"
+                          className="bg-white border border-gray-100 rounded-lg px-3 py-2 text-base outline-none focus:ring-2 focus:ring-primary-950/10 shadow-sm"
                         />
                       </div>
                     )}

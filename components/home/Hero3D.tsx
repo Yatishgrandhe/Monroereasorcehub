@@ -197,7 +197,7 @@ export function Hero3D() {
                                 <input
                                     type="text"
                                     placeholder="Find food assistance, housing, or career support in Monroe..."
-                                    className="bg-transparent border-none outline-none text-white text-lg w-full placeholder:text-slate-600 font-medium"
+                                    className="bg-transparent border-none outline-none text-white text-base sm:text-lg w-full placeholder:text-slate-600 font-medium"
                                 />
                                 <Button variant="gradient" className="rounded-full px-12 h-14 shadow-2xl shadow-primary-500/30 active:scale-95 transition-all text-base font-bold bg-gradient-to-r from-primary-600 to-accent-600">
                                     Search

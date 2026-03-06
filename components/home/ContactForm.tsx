@@ -108,7 +108,7 @@ export function ContactForm({ className }: { className?: string }) {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full h-14 px-6 rounded-2xl border border-gray-100 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-950 font-medium transition-all"
+                        className="w-full h-14 px-6 rounded-2xl border border-gray-100 bg-gray-50/50 text-base focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-950 font-medium transition-all"
                         placeholder="Name..."
                       />
                     </div>
@@ -123,7 +123,7 @@ export function ContactForm({ className }: { className?: string }) {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full h-14 px-6 rounded-2xl border border-gray-100 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-950 font-medium transition-all"
+                        className="w-full h-14 px-6 rounded-2xl border border-gray-100 bg-gray-50/50 text-base focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-950 font-medium transition-all"
                         placeholder="Email..."
                       />
                     </div>
@@ -139,7 +139,7 @@ export function ContactForm({ className }: { className?: string }) {
                       rows={5}
                       value={formData.message}
                       onChange={handleChange}
-                      className="w-full p-6 rounded-[2rem] border border-gray-100 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-950 font-medium transition-all resize-none"
+                      className="w-full p-6 rounded-[2rem] border border-gray-100 bg-gray-50/50 text-base focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-950 font-medium transition-all resize-none"
                       placeholder="Details of your request or suggestion..."
                     />
                   </div>

@@ -185,6 +185,36 @@
     color: var(--color-text-muted);
     font-weight: 400;
   }
+
+  /* Text boxes: consistent sizing and formatting */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="url"],
+  input[type="tel"],
+  input[type="search"],
+  input[type="number"],
+  input[type="month"],
+  input[type="date"],
+  input[type="time"],
+  textarea,
+  select {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-family: inherit;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    opacity: 0.6;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+  }
 }
 
 /* Section label above headings */
@@ -395,6 +425,22 @@
 
   .nav-link-active {
     @apply bg-primary-950 text-white shadow-xl shadow-primary-950/20;
+  }
+
+  /* Shared text box base styles */
+  .input-base {
+    @apply w-full min-h-[3.5rem] px-4 sm:px-6 py-3 text-base rounded-2xl border border-gray-200 bg-white dark:bg-white/5 text-gray-900 dark:text-white placeholder:text-gray-400 transition-all;
+    @apply focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500;
+  }
+
+  .textarea-base {
+    @apply w-full min-h-[8rem] px-4 sm:px-6 py-4 text-base rounded-2xl border border-gray-200 bg-white dark:bg-white/5 text-gray-900 dark:text-white placeholder:text-gray-400 transition-all resize-none;
+    @apply focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500;
+  }
+
+  .select-base {
+    @apply w-full min-h-[3.5rem] px-4 sm:px-6 py-3 text-base rounded-2xl border border-gray-200 bg-white dark:bg-white/5 text-gray-900 dark:text-white transition-all;
+    @apply focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500;
   }
 }
 
