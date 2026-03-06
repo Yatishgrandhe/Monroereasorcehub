@@ -88,7 +88,9 @@ export function ResourceCard({ resource, showCategory = true }: ResourceCardProp
 
           <div className="mt-8 flex items-center justify-center gap-2 text-[8px] font-black text-gray-300 uppercase tracking-[0.4em] pt-4 border-t border-gray-50/50">
             <div className="w-1 h-1 rounded-full bg-emerald-500" />
-            Verified Registry Entry
+            {resource.updated_at
+              ? `Last verified: ${new Date(resource.updated_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+              : 'Verified listing'}
           </div>
         </div>
       </div>

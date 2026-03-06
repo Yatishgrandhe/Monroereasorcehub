@@ -59,13 +59,13 @@ export function CategoryGrid() {
 
             <div className="container-custom relative z-10">
                 <Reveal width="100%">
-                    <div className="mb-24 text-center">
-                        <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px]">Resource Infrastructure</span>
-                        <h2 className="text-5xl md:text-7xl font-serif font-black text-primary-950 mt-6 mb-8 tracking-tighter">
-                            Community <span className="text-primary-700 italic">Pillars.</span>
+                    <div className="mb-20 text-center">
+                        <span className="text-primary-600 font-semibold uppercase tracking-widest text-xs">Browse by need</span>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-950 dark:text-white mt-4 mb-6 tracking-tight">
+                            What are you looking for?
                         </h2>
-                        <p className="text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto leading-relaxed font-serif italic">
-                            Every organization within these sectors is manually vetted to ensure operational reliability for Union County residents.
+                        <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                            Every organization below is manually verified so Monroe residents get accurate, up-to-date information.
                         </p>
                     </div>
                 </Reveal>
@@ -82,7 +82,7 @@ export function CategoryGrid() {
                                         <cat.icon className="h-7 w-7" />
                                     </div>
                                     <div className="px-5 py-2 rounded-full bg-gray-50 border border-gray-100 text-[9px] font-black text-gray-400 tracking-[0.2em] uppercase">
-                                        {cat.count} Operations
+                                        {cat.count} resources
                                     </div>
                                 </div>
                                 <h3 className="text-3xl font-serif font-black mb-6 text-primary-950 group-hover:text-primary-700 transition-colors">

@@ -37,16 +37,15 @@ export default function CareerCenterPage() {
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
 
       {/* Hero Header */}
-      <section className="relative pt-48 pb-24 z-10">
+      <section className="relative pt-36 pb-16 md:pt-40 md:pb-20 z-10">
         <div className="container-custom text-center">
           <Reveal width="100%">
-            <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-8 block">Workforce Infrastructure</span>
-            <h1 className="text-6xl md:text-9xl font-serif font-black text-primary-950 mt-4 mb-12 tracking-tighter leading-[0.8] italic">
-              Local <span className="text-primary-700 not-italic">Coordination.</span>
+            <span className="text-primary-600 font-semibold uppercase tracking-widest text-xs mb-4 block">Work & training</span>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-950 dark:text-white mt-2 mb-6 leading-tight">
+              Career Center
             </h1>
-            <p className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto leading-relaxed font-serif italic">
-              Elevate your professional path with verified local tools and human-led coordination.
-              The Monroe Career Center is your operational base for local growth in Union County.
+            <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+              Whether you&apos;re looking for your first job, re-entering the workforce, or building new skills — we have resources to help. Browse local job listings or use our free AI resume builder to create a professional resume.
             </p>
           </Reveal>
         </div>

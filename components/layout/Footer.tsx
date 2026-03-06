@@ -26,8 +26,8 @@ export function Footer() {
                 <span className="text-2xl font-bold tracking-tighter font-serif block leading-none">Monroe Resource <span className="text-accent-500 italic block">Hub.</span></span>
               </div>
             </Link>
-            <p className="text-gray-400 text-lg mb-10 max-w-sm leading-relaxed font-medium italic">
-              "The Unified Civic Infrastructure of Union County, North Carolina."
+            <p className="text-gray-400 text-base mb-8 max-w-sm leading-relaxed">
+              Monroe Resource Hub is a free, community-maintained directory of local services in Union County, NC. We connect residents with vital help and opportunity.
             </p>
             <div className="flex gap-4">
               {['X', 'FB', 'IG'].map(social => (
@@ -89,14 +89,16 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em] text-center md:text-left">
-            © {currentYear} MONROE RESOURCE HUB • BUILT FOR UNION COUNTY, BY UNION COUNTY RESIDENTS.
+        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="text-sm text-gray-500 text-center md:text-left space-y-1">
+            <p>© {currentYear} Monroe Resource Hub. Built for Union County, by Union County residents.</p>
+            <p className="text-xs text-gray-600">Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
           </div>
 
-          <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest">
+          <div className="flex gap-6 text-sm">
             <Link href="/privacy" className="text-gray-500 hover:text-white transition-colors">Privacy</Link>
             <Link href="/terms" className="text-gray-500 hover:text-white transition-colors">Terms</Link>
+            <Link href="/info" className="text-gray-500 hover:text-white transition-colors">Information</Link>
           </div>
         </div>
       </div>

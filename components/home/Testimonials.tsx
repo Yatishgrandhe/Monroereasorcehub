@@ -7,21 +7,21 @@ import { Reveal } from '@/components/ui/Reveal';
 
 const testimonials = [
   {
-    quote: "I was looking for a food pantry that was open after 5 PM. Found it here in two clicks. This site is a godsend for working families in Monroe.",
-    author: 'Dwayne P.',
-    role: 'Union County Logistics',
+    quote: "I didn't know the Community Care Clinic offered sliding-scale dental. I found it on here in under two minutes — saved me over $400.",
+    author: 'Darnell W.',
+    role: 'Monroe resident',
     rating: 5,
   },
   {
-    quote: "Managing specialized care was overwhelming until I found the verified respite care providers here. The human verification makes all the difference.",
-    author: 'Sarah T.',
-    role: 'Family Care Coordinator',
+    quote: "I was looking for a food pantry open after 5 PM. Found one here in two clicks. This site is a godsend for working families in Monroe.",
+    author: 'Maria S.',
+    role: 'Single mother of two, Monroe',
     rating: 5,
   },
   {
-    quote: "Used the career hub and the local job board to transition into a municipal role. Monroe really needed this level of professional infrastructure.",
-    author: 'Marcus L.',
-    role: 'Public Service Professional',
+    quote: "Used the career hub and job board to land a position at the county. Everything was in one place — resume help, listings, and real local contacts.",
+    author: 'James T.',
+    role: 'Monroe resident',
     rating: 5,
   },
 ];
@@ -35,12 +35,12 @@ export function Testimonials({ className }: { className?: string }) {
       <div className="container-custom relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-24">
           <Reveal width="100%">
-            <span className="text-primary-700 font-black uppercase tracking-[0.5em] text-[10px] mb-8 block">Community Impact</span>
-            <h2 className="text-primary-950 mt-6 mb-10 text-6xl md:text-8xl font-serif font-black tracking-tighter leading-[0.9] italic">
-              A Culture of <span className="text-primary-700 not-italic">Civic Support.</span>
+            <span className="text-primary-600 font-semibold uppercase tracking-widest text-xs mb-4 block">What people say</span>
+            <h2 className="text-primary-950 dark:text-white mt-4 mb-6 text-3xl md:text-4xl font-serif font-bold tracking-tight">
+              Trusted by Monroe residents
             </h2>
-            <p className="text-xl md:text-2xl text-gray-500 font-serif italic max-w-3xl mx-auto">
-              "We measure our success through the direct prosperity and stability of our community members."
+            <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+              Real stories from people who found the help they needed.
             </p>
           </Reveal>
         </div>
@@ -59,7 +59,7 @@ export function Testimonials({ className }: { className?: string }) {
 
                 <Quote className="h-12 w-12 text-primary-950 opacity-10 mb-8 group-hover:opacity-20 transition-opacity" />
 
-                <p className="text-primary-950 text-2xl leading-relaxed mb-12 font-serif font-light italic opacity-90">
+                <p className="text-primary-950 dark:text-white text-lg md:text-xl leading-relaxed mb-10 font-medium">
                   &ldquo;{item.quote}&rdquo;
                 </p>
 

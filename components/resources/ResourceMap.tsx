@@ -99,13 +99,12 @@ export function ResourceMap() {
                 <Reveal width="100%">
                     <div className="flex flex-col lg:flex-row justify-between items-center lg:items-end mb-16 gap-12 text-center lg:text-left">
                         <div className="max-w-2xl">
-                            <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px]">Registry Localization</span>
-                            <h2 className="text-primary-950 mt-6 mb-8 text-5xl md:text-7xl font-serif font-black tracking-tighter leading-[0.9] italic relative inline-block">
-                                Urban <span className="text-primary-700 not-italic">Infrastructure.</span>
-                                <div className="absolute -bottom-4 left-0 w-1/2 h-1 bg-primary-950/5 rounded-full" />
+                            <span className="text-accent-600 font-semibold uppercase tracking-wider text-xs">Map</span>
+                            <h2 className="text-primary-950 dark:text-white mt-4 mb-6 text-3xl md:text-4xl font-serif font-bold leading-tight">
+                                Resources near you
                             </h2>
-                            <p className="text-xl text-gray-500 font-serif italic leading-relaxed">
-                                Our community is built on proximity. Visualize every operational resource across Union County through our verified geospatial ledger.
+                            <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
+                                See where verified organizations are located across Union County. Click the map to open the full interactive view.
                             </p>
                         </div>
                         <div className="flex bg-primary-50 border border-primary-100 rounded-[2rem] p-2 shadow-sm shrink-0">

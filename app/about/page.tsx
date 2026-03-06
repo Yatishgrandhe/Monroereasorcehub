@@ -36,16 +36,15 @@ export default function AboutPage() {
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
 
       {/* Hero Header */}
-      <section className="relative pt-48 pb-24 z-10">
+      <section className="relative pt-36 pb-16 md:pt-40 md:pb-20 z-10">
         <div className="container-custom text-center">
           <Reveal width="100%">
-            <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-8 block">Our Mission Structure</span>
-            <h1 className="text-6xl md:text-9xl font-serif font-black text-primary-950 mt-4 mb-12 tracking-tighter leading-[0.8] italic">
-              Human <span className="text-primary-700 not-italic">Verified.</span>
+            <span className="text-primary-600 font-semibold uppercase tracking-widest text-xs mb-4 block">Our story</span>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-950 dark:text-white mt-2 mb-6 leading-tight">
+              Manually verified, locally managed
             </h1>
-            <p className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto leading-relaxed font-serif italic">
-              Monroe Resource Hub is a student-led operational project dedicated to connecting
-              Union County residents with verified safety nets. locally led and human-checked.
+            <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+              Monroe Resource Hub is a student-led project dedicated to connecting Union County residents with the help they need. Every listing is checked by a human before it goes live.
             </p>
           </Reveal>
         </div>
@@ -242,12 +241,11 @@ export default function AboutPage() {
               <div className="absolute top-0 right-0 w-1/3 h-full bg-primary-700/20 blur-[120px]" />
 
               <div className="relative z-10">
-                <h2 className="text-5xl md:text-7xl font-serif font-black mb-10 italic tracking-tighter leading-[0.9]">
-                  Protocol <br /><span className="text-primary-300 not-italic">Transparency.</span>
+                <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6 text-white">
+                  Transparency
                 </h2>
-                <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed font-serif italic mb-16 px-6">
-                  While we are student operators, we maintain professional-grade standards.
-                  Every resource pipeline is manually inspected — we reject automation in favor of human precision and neighborhood trust.
+                <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed mb-12 px-4">
+                  This platform was created by students passionate about civic tech and is maintained by community volunteers. Every resource is manually verified — we call each organization before adding them, and we remove outdated listings so you never show up somewhere that&apos;s closed.
                 </p>
                 <Button asChild className="bg-white text-primary-950 hover:bg-gray-100 px-16 h-20 rounded-3xl uppercase tracking-[0.2em] text-[10px] font-black shadow-2xl transition-all group">
                   <Link href="/contact" className="flex items-center">

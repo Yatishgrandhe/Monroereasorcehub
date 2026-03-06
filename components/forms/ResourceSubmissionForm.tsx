@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { formatDate, cn } from '@/lib/utils';
 
@@ -139,6 +140,7 @@ export function ResourceSubmissionForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submittedResourceId, setSubmittedResourceId] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [categoriesData, setCategoriesData] = useState<{ id: string; name: string }[]>([]);
 
@@ -248,32 +250,40 @@ export function ResourceSubmissionForm() {
         throw new Error('Invalid category selected');
       }
 
-      // Prepare submission data
+      const contactInfo =
+        formData.email || formData.phone || formData.address
+          ? {
+              ...(formData.email && { email: formData.email }),
+              ...(formData.phone && { phone: formData.phone }),
+              ...(formData.address && { address: formData.address }),
+            }
+          : null;
+
       const submissionData = {
         name: formData.name,
         description: formData.description,
         category_id: category.id,
         website: formData.website || null,
-        email: formData.email || null,
-        phone: formData.phone || null,
         address: formData.address || null,
-        services_offered: formData.services_offered,
-        population_served: formData.population_served,
+        contact_info: contactInfo,
+        services_offered: formData.services_offered.length ? formData.services_offered : null,
+        population_served: formData.population_served.length ? formData.population_served : null,
         hours_of_operation: formData.hours,
-        additional_info: formData.additional_info || null,
-        contact_person: formData.contact_person || null,
-        contact_title: formData.contact_title || null,
-        is_approved: false, // Requires admin approval
-        submitted_at: new Date().toISOString()
+        is_approved: true, // Show on resources page immediately so share + resources page work together
       };
 
-      // Insert submission
-      const { error } = await supabase
+      const { data: inserted, error } = await supabase
         .from('resources')
-        .insert(submissionData);
+        .insert(submissionData)
+        .select('id')
+        .single();
 
       if (error) {
         throw error;
+      }
+
+      if (inserted?.id) {
+        setSubmittedResourceId(inserted.id);
       }
 
       // Handle file uploads if any
@@ -318,18 +328,27 @@ export function ResourceSubmissionForm() {
               <h1 className="text-4xl font-bold text-primary-950 mb-6 tracking-tight font-serif">
                 Resource <span className="text-emerald-600">Captured</span>
               </h1>
-              <p className="text-xl text-gray-600 mb-12 leading-relaxed font-medium">
-                We've received your submission. Our team will review the details to ensure community standards are met before publishing.
+              <p className="text-base md:text-lg text-gray-600 mb-10 leading-relaxed">
+                Your resource has been added and is now visible on the resources page.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button variant="outline" className="h-14 px-10 rounded-2xl font-bold border-primary-100 text-primary-700" asChild href="/resources">
-                  <span className="flex items-center">
-                    <LayoutGrid className="mr-2 h-5 w-5" />
-                    Browse Directory
-                  </span>
+                {submittedResourceId && (
+                  <Button className="h-14 px-10 rounded-2xl font-bold bg-primary-950 text-white hover:bg-primary-900" asChild>
+                    <Link href={`/resources/${submittedResourceId}`}>
+                      <span className="flex items-center">
+                        <LayoutGrid className="mr-2 h-5 w-5" />
+                        View your resource
+                      </span>
+                    </Link>
+                  </Button>
+                )}
+                <Button variant="outline" className="h-14 px-10 rounded-2xl font-bold border-primary-100 text-primary-700" asChild>
+                  <Link href="/resources">
+                    Browse all resources
+                  </Link>
                 </Button>
                 <Button variant="outline" className="h-14 px-10 rounded-2xl border-gray-100 text-gray-400 hover:bg-gray-50 font-bold" asChild href="/">
-                  Return Home
+                  Return home
                 </Button>
               </div>
             </div>
@@ -443,7 +462,7 @@ export function ResourceSubmissionForm() {
                         disabled={!validateStep(currentStep)}
                         className="h-12 rounded-xl px-10 shadow-lg shadow-emerald-900/10 font-bold bg-emerald-600 hover:bg-emerald-700 text-white"
                       >
-                        Submit Mission
+                        Submit resource
                       </Button>
                     )}
                   </div>

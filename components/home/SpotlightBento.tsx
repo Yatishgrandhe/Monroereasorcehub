@@ -82,9 +82,9 @@ export function SpotlightBento() {
                 >
                   Verify Operations <ExternalLink className="ml-3 h-3.5 w-3.5 opacity-50" />
                 </a>
-                <Button asChild variant="ghost" className="h-10 px-6 text-[10px] font-bold uppercase tracking-widest rounded-xl hover:bg-gray-50 text-gray-400 hover:text-primary-950">
-                  <Link href={`/resources?search=${encodeURIComponent(org.name)}`}>
-                    Full Specs <ArrowRight className="ml-2 h-3 w-3" />
+                <Button asChild variant="ghost" size="sm" className="h-10 px-5 rounded-xl font-semibold text-gray-500 hover:text-primary-950 hover:bg-gray-50">
+                  <Link href={`/resources?q=${encodeURIComponent(org.name)}`}>
+                    View details <ArrowRight className="ml-2 h-3.5 w-3.5" />
                   </Link>
                 </Button>
               </div>

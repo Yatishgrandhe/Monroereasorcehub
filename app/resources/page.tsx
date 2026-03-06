@@ -1,155 +1,153 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Search, Filter, ArrowRight } from 'lucide-react';
 import { ResourceCard } from '@/components/resources/ResourceCard';
+import { useResourceSearch } from '@/hooks/useResourceSearch';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/client';
 
-// Dummy data for visual representation - in a real app this comes from Supabase
-const DUMMY_RESOURCES = [
-  {
-    id: '1',
-    name: 'Union County Community Care Clinic',
-    description: 'Providing free primary care and dental services for low-income, uninsured residents of Union County. A cornerstone of Monroe health equity.',
-    address: '410 E Franklin St, Monroe, NC',
-    contact_info: { phone: '7042260531' },
-    website: 'https://unionclinic.org',
-    categories: { name: 'Healthcare', icon: '⚕️' },
-    hours_of_operation: { monday: { open: '08:00', close: '17:00' } }
-  },
-  {
-    id: '2',
-    name: 'Loaves & Fishes / Friendship Trays',
-    description: 'Coordinating emergency food packages and nutritional support for Monroe households facing food insecurity.',
-    address: 'Serving all of Monroe, NC',
-    contact_info: { phone: '7043773100' },
-    website: 'https://loavesandfishes.org',
-    categories: { name: 'Food Assistance', icon: '🍎' }
-  },
-  {
-    id: '3',
-    name: 'South Piedmont Career Services',
-    description: 'Professional development hub offering career coaching, workforce training, and employment networking in Union County.',
-    address: '4209 Old Charlotte Hwy, Monroe, NC',
-    contact_info: { phone: '7042725300' },
-    website: 'https://spcc.edu/career-services',
-    categories: { name: 'Career Support', icon: '💼' }
-  },
-  {
-    id: '4',
-    name: 'Union County Crisis Assistance',
-    description: 'Providing technical and financial aid for essential infrastructure needs, including housing and utility support.',
-    address: '1333 W Roosevelt Blvd, Monroe, NC',
-    contact_info: { phone: '7042834571' },
-    website: 'https://unioncountycrisis.org',
-    categories: { name: 'Family Support', icon: '🏠' }
-  }
-];
+const DEFAULT_CATEGORIES = ['Food Assistance', 'Healthcare', 'Education', 'Housing', 'Family Support', 'Career Support'];
 
 export default function ResourcesPage() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const { state, results, totalCount, isLoading, updateQuery, updateFilters, updateSort } = useResourceSearch();
+  const [categoryOptions, setCategoryOptions] = useState<{ id: string; name: string }[]>([]);
+
+  useEffect(() => {
+    async function loadCategories() {
+      const supabase = createClient();
+      const { data } = await supabase.from('categories').select('id, name').order('name');
+      if (data) setCategoryOptions(data);
+    }
+    loadCategories();
+  }, []);
+
+  const categoryChips = categoryOptions.length > 0
+    ? ['All', ...categoryOptions.map((c) => c.name)]
+    : ['All', ...DEFAULT_CATEGORIES];
+  const activeCategory = state.filters.category[0] || 'All';
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* Background patterns */}
-      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
+    <div className="min-h-screen bg-white dark:bg-[#000d1a] relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
 
-      {/* Header Section */}
-      <section className="pt-48 pb-24 relative z-10">
+      <section className="pt-32 pb-16 md:pt-40 md:pb-24 relative z-10">
         <div className="container-custom">
           <Reveal width="100%">
-            <div className="max-w-4xl">
-              <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-6 block">Community Registry</span>
-              <h1 className="text-6xl md:text-8xl font-serif font-black text-primary-950 tracking-tighter leading-[0.9] mb-12 italic">
-                Verified Civic <span className="text-primary-700 not-italic">Infrastructure.</span>
-              </h1>
+            <span className="text-primary-600 dark:text-primary-400 font-semibold uppercase tracking-widest text-xs mb-4 block">Community resources</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-primary-950 dark:text-white tracking-tight leading-tight mb-6">
+              Find local help in Monroe
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mb-10">
+              Every listing is verified by our team. Search by name, zip code, or type of help.
+            </p>
 
-              <div className="max-w-3xl">
-                <div className="relative group">
-                  <div className="flex items-center bg-gray-50 border border-gray-100 rounded-[2.5rem] px-8 py-3 shadow-soft group-focus-within:bg-white group-focus-within:shadow-civic-hover transition-all duration-500">
-                    <Search className="w-5 h-5 text-primary-950/30 mr-6" />
-                    <Input
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Identify community resources in Monroe..."
-                      className="bg-transparent border-none text-xl h-16 focus-visible:ring-0 placeholder:text-primary-950/20 text-primary-950 font-serif font-medium"
-                    />
-                    <Button className="bg-primary-950 hover:bg-black text-white px-10 h-14 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] hidden md:flex shadow-xl shadow-primary-950/20">
-                      Query Registry
-                    </Button>
-                  </div>
-                </div>
+            <div className="max-w-2xl">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Input
+                  value={state.query}
+                  onChange={(e) => updateQuery(e.target.value)}
+                  placeholder="Search by name, zip code, or type of help..."
+                  className="pl-12 h-14 rounded-2xl border-gray-200 dark:border-primary-800 bg-white dark:bg-primary-950/50 text-base"
+                />
               </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Main Directory */}
-      <section className="pb-40 relative z-10">
+      <section className="pb-24 relative z-10">
         <div className="container-custom">
-          <div className="flex flex-col lg:flex-row gap-20">
-            {/* Control Sidebar */}
-            <aside className="lg:w-1/4">
-              <div className="sticky top-32 space-y-12">
-                <div>
-                  <h3 className="text-[10px] font-black text-primary-950 uppercase tracking-[0.3em] mb-8 flex items-center border-b border-gray-100 pb-4">
-                    <Filter className="w-3.5 h-3.5 mr-3 opacity-30" />
-                    Filter Taxonomy
-                  </h3>
-                  <div className="space-y-4">
-                    {['All Resources', 'Food Assistance', 'Healthcare', 'Education', 'Housing', 'Career Support'].map((cat) => (
-                      <button
-                        key={cat}
-                        className={cn(
-                          "w-full text-left px-8 py-5 rounded-2xl text-[10px] font-black transition-all uppercase tracking-[0.2em]",
-                          cat === 'All Resources'
-                            ? "bg-primary-950 text-white shadow-xl shadow-primary-950/20"
-                            : "text-gray-400 hover:text-primary-950 hover:bg-gray-50 bg-white shadow-soft"
-                        )}
-                      >
-                        {cat}
-                      </button>
-                    ))}
-                  </div>
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+            <aside className="lg:w-56 shrink-0">
+              <div className="sticky top-28">
+                <h3 className="text-xs font-bold text-primary-950 dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <Filter className="w-4 h-4 text-gray-500" />
+                  Category
+                </h3>
+                <div className="space-y-1">
+                  {categoryChips.map((label) => (
+                    <button
+                      key={label}
+                      onClick={() =>
+                        updateFilters({
+                          category: label === 'All' ? [] : [label],
+                        })
+                      }
+                      className={cn(
+                        'w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all',
+                        (label === 'All' && activeCategory === 'All') || activeCategory === label
+                          ? 'bg-primary-950 dark:bg-primary-700 text-white'
+                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-primary-900/50'
+                      )}
+                    >
+                      {label}
+                    </button>
+                  ))}
                 </div>
-
-                <div className="p-10 bg-primary-50 rounded-[3rem] border border-primary-100 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-white rounded-bl-[3rem] pointer-events-none opacity-40" />
-                  <h4 className="font-serif font-black text-primary-950 text-xl mb-4 italic leading-tight">Verification Inquiries</h4>
-                  <p className="text-sm text-gray-500 leading-relaxed mb-10 font-medium italic">
-                    Our human vetting squad ensures all listed resources maintain the highest community standards.
+                <div className="mt-8 p-4 rounded-2xl bg-primary-50 dark:bg-primary-950/50 border border-primary-100 dark:border-primary-800">
+                  <p className="text-sm text-primary-800 dark:text-primary-200 font-medium mb-3">
+                    Know an organization we should list?
                   </p>
-                  <Link href="/contact" className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-700 hover:text-primary-950 flex items-center gap-3 group">
-                    Request Verification <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <Link href="/submit-resource">
+                    <Button variant="outline" size="sm" className="w-full rounded-xl text-xs font-semibold">
+                      Share a resource
+                      <ArrowRight className="ml-2 h-3.5 w-3.5" />
+                    </Button>
                   </Link>
                 </div>
               </div>
             </aside>
 
-            {/* Registry Grid */}
-            <main className="lg:w-3/4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-8 mb-16 pb-8 border-b border-gray-100">
-                <p className="text-[10px] text-gray-400 font-black uppercase tracking-[0.3em]">
-                  Registry Count: <span className="text-primary-950">128 Authenticated Entries</span>
+            <main className="flex-1 min-w-0">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {isLoading ? (
+                    <span className="flex items-center gap-2">
+                      <span className="inline-block w-4 h-4 border-2 border-primary-200 border-t-primary-600 rounded-full animate-spin" />
+                      Loading...
+                    </span>
+                  ) : (
+                    <>
+                      <span className="font-semibold text-primary-950 dark:text-white">{totalCount}</span> resources
+                    </>
+                  )}
                 </p>
-                <div className="flex items-center gap-3 px-6 py-3 bg-gray-50 rounded-2xl border border-gray-100">
-                  <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Sequence:</span>
-                  <select className="bg-transparent border-none text-[9px] font-black text-primary-950 focus:ring-0 cursor-pointer uppercase tracking-widest outline-none">
-                    <option>Alphabetical (A-Z)</option>
-                    <option>Recency Index</option>
-                    <option>Operational Priority</option>
-                  </select>
-                </div>
+                <select
+                  value={`${state.sortBy}-${state.sortOrder}`}
+                  onChange={(e) => {
+                    const [sortBy, sortOrder] = e.target.value.split('-');
+                    updateSort(sortBy as 'name' | 'created_at' | 'relevance', sortOrder as 'asc' | 'desc');
+                  }}
+                  className="rounded-xl border border-gray-200 dark:border-primary-800 bg-white dark:bg-primary-950/50 px-4 py-2 text-sm text-primary-950 dark:text-white focus:ring-2 focus:ring-primary-500/20 outline-none"
+                >
+                  <option value="relevance-desc">Relevance</option>
+                  <option value="name-asc">Name (A–Z)</option>
+                  <option value="created_at-desc">Recently added</option>
+                </select>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12">
-                {[...DUMMY_RESOURCES, ...DUMMY_RESOURCES].map((resource, i) => (
-                  <Reveal key={`${resource.id}-${i}`} delay={(i % 2) * 0.1}>
+              {!isLoading && results.length === 0 && (
+                <div className="rounded-2xl border border-gray-200 dark:border-primary-800 bg-gray-50 dark:bg-primary-950/30 p-12 text-center">
+                  <p className="text-gray-600 dark:text-gray-400 mb-6">
+                    {state.query || state.filters.category.length
+                      ? 'No resources match your search. Try a different filter or keyword.'
+                      : "We're adding more organizations — submit one here."}
+                  </p>
+                  <Link href="/submit-resource">
+                    <Button className="rounded-xl font-semibold">Share a resource</Button>
+                  </Link>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+                {results.map((resource, i) => (
+                  <Reveal key={resource.id} delay={i % 2 ? 0.05 : 0}>
                     <ResourceCard resource={resource} />
                   </Reveal>
                 ))}
