@@ -383,4 +383,13 @@
   .civic-popup .leaflet-popup-tip {
     @apply bg-white;
   }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

@@ -11,7 +11,7 @@ import { supabase } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import { SearchModal } from '@/components/ui/SearchModal';
 
-const COMPACT_NAV_BREAKPOINT = 960;
+const COMPACT_NAV_BREAKPOINT = 1100;
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -140,10 +140,10 @@ export function Header() {
 
           {/* Desktop Navigation — scrollable so Information is never cut off */}
           <div className={cn(
-            "flex-1 min-w-0 flex items-center justify-center overflow-x-auto overflow-y-hidden",
+            "flex-1 min-w-0 flex items-center justify-start sm:justify-center overflow-x-auto overflow-y-hidden scrollbar-hide",
             showDesktopNav ? "flex" : "hidden"
           )}>
-            <div className="flex items-center gap-0.5 xl:gap-1 flex-nowrap px-1 pr-2">
+            <div className="flex items-center gap-0.5 xl:gap-1 flex-nowrap px-4">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
@@ -161,7 +161,7 @@ export function Header() {
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap ml-8 sm:ml-12 lg:ml-20">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap ml-4 sm:ml-6 lg:ml-8">
             <Link
               href="/submit-resource"
               className={cn(
