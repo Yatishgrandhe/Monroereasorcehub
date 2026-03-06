@@ -107,18 +107,18 @@ export function Header() {
       </div>
       <nav
         className={cn(
-          'navbar pointer-events-auto w-full min-w-0 max-w-full rounded-2xl transition-all duration-500 ease-in-out',
+          'navbar pointer-events-auto w-full min-w-0 max-w-full rounded-2xl transition-all duration-500 ease-in-out overflow-hidden',
           scrolled
             ? 'navbar-scrolled bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-2xl border border-[var(--color-border)] shadow-[0_8px_30px_rgba(0,0,0,0.12)] py-2'
             : 'bg-white/90 dark:bg-[#0f172a]/90 backdrop-blur-xl border border-white/20 shadow-lg py-3'
         )}
         aria-label="Global"
       >
-        <div className="flex items-center min-w-0 w-full h-12 sm:h-14">
-          <Link
-            href="/"
-            className="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0"
-          >
+        <div className="flex items-center min-w-0 w-full h-12 sm:h-14 gap-2 sm:gap-4">
+            <Link
+              href="/"
+              className="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0 overflow-hidden"
+            >
             <div
               className="rounded-xl overflow-hidden shadow-sm border border-[var(--color-border)] shrink-0 w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 bg-white dark:bg-white/5 flex items-center justify-center p-1.5 group-hover:scale-105 transition-transform duration-200"
             >
@@ -251,16 +251,16 @@ export function Header() {
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="overflow-hidden"
             >
-              <div className="px-6 pb-10 pt-4 space-y-2 border-t border-gray-50">
+              <div className="px-4 sm:px-6 pb-10 pt-4 space-y-2 border-t border-gray-100 dark:border-white/10">
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'flex items-center justify-between px-5 py-3.5 rounded-xl text-[11px] sm:text-[12px] font-semibold transition-all whitespace-nowrap',
+                      'flex items-center justify-between px-5 py-4 rounded-xl text-sm font-semibold transition-all whitespace-nowrap min-h-[48px]',
                       pathname === item.href
                         ? 'bg-[var(--color-primary)] text-white shadow-md'
-                        : 'text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50'
+                        : 'text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50 active:bg-[var(--color-border)]/70'
                     )}
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -269,19 +269,26 @@ export function Header() {
                   </Link>
                 ))}
 
-                <div className="mt-4 pt-4 border-t border-[var(--color-border)] flex flex-col gap-2">
+                <div className="mt-4 pt-4 border-t border-[var(--color-border)] flex flex-col gap-3">
                   <Link href="/submit-resource" className="w-full" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" className="w-full h-11 rounded-xl text-sm font-semibold border-2 border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10 whitespace-nowrap">
+                    <Button variant="outline" className="w-full h-12 rounded-xl text-sm font-semibold border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 whitespace-nowrap">
                       <PlusCircle className="h-4 w-4 mr-2 shrink-0" />
                       Share Resource
                     </Button>
                   </Link>
                   {!user && (
-                    <Link href="/auth/signin" className="w-full">
-                      <Button variant="outline" className="w-full h-11 rounded-xl text-sm font-semibold border-[var(--color-border)] text-[var(--color-text)] hover:bg-[var(--color-border)]/50 whitespace-nowrap">
-                        Sign In
-                      </Button>
-                    </Link>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Link href="/auth/signin" className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                        <Button variant="outline" className="w-full h-12 rounded-xl text-sm font-semibold border-[var(--color-border)] text-[var(--color-text)] hover:bg-[var(--color-border)]/50 whitespace-nowrap">
+                          Login
+                        </Button>
+                      </Link>
+                      <Link href="/auth/signup" className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                        <Button className="w-full h-12 rounded-xl text-sm font-semibold bg-[var(--color-secondary)] text-white hover:brightness-110 whitespace-nowrap">
+                          Join Hub
+                        </Button>
+                      </Link>
+                    </div>
                   )}
                 </div>
               </div>

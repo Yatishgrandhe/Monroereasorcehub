@@ -194,7 +194,7 @@ export default function SavedResumesPage() {
             </div>
             <Button size="lg" asChild className="bg-primary-950 hover:bg-black text-white px-10 h-16 rounded-3xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transition-all transform hover:-translate-y-1 active:translate-y-0" href="/career/resume-builder">
               <Plus className="h-4 w-4 mr-3" />
-              New Archive
+              New Resume
             </Button>
           </div>
         </div>
@@ -204,7 +204,7 @@ export default function SavedResumesPage() {
         {/* Guest User Notice */}
         {!user && (
           <div className="mb-16">
-            <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-soft relative overflow-hidden group">
+            <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-soft hover:shadow-[0_20px_40px_-15px_rgba(52,97,173,0.12)] hover:border-primary-100 transition-all duration-300 ease-out relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-bl-[4rem] pointer-events-none opacity-50" />
               <div className="flex items-start gap-8">
                 <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-950 shrink-0">
@@ -247,7 +247,7 @@ export default function SavedResumesPage() {
               </p>
               <Button size="lg" asChild className="bg-primary-950 hover:bg-black text-white px-12 h-20 rounded-[2.5rem] font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transition-all transform hover:-translate-y-1 active:translate-y-0" href="/career/resume-builder">
                 <Plus className="h-5 w-5 mr-3" />
-                Architect Resume
+                New Resume
               </Button>
             </div>
           </div>
@@ -260,7 +260,7 @@ export default function SavedResumesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7 }}
               >
-                <div className="bg-white p-12 lg:p-14 h-full flex flex-col border border-gray-50 rounded-[4rem] shadow-soft hover:shadow-civic-hover hover:-translate-y-2 transition-all duration-700 group relative overflow-hidden">
+                <div className="bg-white p-12 lg:p-14 h-full flex flex-col border border-gray-100 rounded-[4rem] shadow-soft hover:shadow-[0_25px_50px_-12px_rgba(52,97,173,0.18)] hover:-translate-y-2 hover:border-primary-200 transition-all duration-300 ease-out group relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-bl-[4rem] pointer-events-none opacity-50" />
 
                   <div className="flex items-start justify-between mb-10">
@@ -272,7 +272,7 @@ export default function SavedResumesPage() {
                         {resume.title.split(' - ')[1] || 'Professional Archive'}
                       </span>
                     </div>
-                    <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-950 group-hover:bg-primary-950 group-hover:text-white transition-all duration-500 shadow-sm">
+                    <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-950 group-hover:bg-primary-950 group-hover:text-white transition-all duration-300 ease-out shadow-sm">
                       <FileText className="h-7 w-7" />
                     </div>
                   </div>
@@ -297,7 +297,7 @@ export default function SavedResumesPage() {
                       variant="outline"
                       size="sm"
                       onClick={() => handleView(resume.resume_data, resume.id)}
-                      className="rounded-2xl border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[9px] h-14 hover:bg-gray-50 shadow-soft"
+                      className="rounded-2xl border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[9px] h-14 hover:bg-primary-50 hover:border-primary-200 shadow-soft transition-all duration-200"
                     >
                       <Eye className="h-4 w-4 mr-3" />
                       View
@@ -307,7 +307,7 @@ export default function SavedResumesPage() {
                       size="sm"
                       onClick={() => handleExport(resume.resume_data)}
                       loading={exporting === (resume.resume_data?.personalInfo?.firstName || 'export')}
-                      className="rounded-2xl bg-primary-50 text-primary-950 hover:bg-primary-100 font-black uppercase tracking-[0.2em] text-[9px] h-14 shadow-sm"
+                      className="rounded-2xl bg-primary-50 text-primary-950 hover:bg-primary-100 hover:text-primary-950 font-black uppercase tracking-[0.2em] text-[9px] h-14 shadow-sm transition-all duration-200"
                     >
                       <Download className="h-4 w-4 mr-3" />
                       PDF
