@@ -45,14 +45,14 @@ const nextConfig = {
         source: '/documents/student-copyright-checklist.pdf',
         headers: [
           { key: 'Content-Type', value: 'application/pdf' },
-          { key: 'Content-Disposition', value: 'inline' },
+          { key: 'Content-Disposition', value: 'inline; filename="Student Copyright Checklist.pdf"' },
         ],
       },
       {
         source: '/documents/work-log.pdf',
         headers: [
           { key: 'Content-Type', value: 'application/pdf' },
-          { key: 'Content-Disposition', value: 'inline' },
+          { key: 'Content-Disposition', value: 'inline; filename="Work Log.pdf"' },
         ],
       },
     ];
