@@ -231,7 +231,7 @@ export function Header() {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'nav-link-bar whitespace-nowrap px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[1.5rem]',
+                    'nav-link-bar whitespace-nowrap px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[2rem]',
                     pathname === item.href
                       ? 'bg-[var(--color-primary)] text-white shadow-lg'
                       : 'text-[var(--color-text)] dark:text-gray-300 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5'
@@ -252,7 +252,7 @@ export function Header() {
                   onClick={() => setMoreOpen(!moreOpen)}
                   onMouseEnter={() => setMoreOpen(true)}
                   className={cn(
-                    'flex items-center gap-1 px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[1.5rem]',
+                    'flex items-center gap-1 px-4 py-2 rounded-xl font-bold tracking-tight transition-all duration-300 shrink-0 text-[2rem]',
                     secondaryNav.some(item => pathname === item.href)
                       ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]'
                       : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-[var(--color-primary)]/5'
