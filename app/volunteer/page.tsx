@@ -94,37 +94,20 @@ export default function VolunteerPage() {
       {/* Background patterns */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
 
-      {/* Hero Section */}
       <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="45vh">
-        <div className="container-custom text-center w-full">
+        <div className="container-custom w-full">
           <Reveal width="100%">
-            <span className="section-label block mb-4 text-[var(--color-accent-soft)]">Community Service</span>
-            <h1 className="text-4xl md:text-6xl font-serif font-bold text-white mt-4 mb-6 tracking-tight leading-tight">
-              Volunteer
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed font-serif italic mb-8">
-              Find meaningful ways to contribute to the local ecosystem. From vetted food banks to academic tutoring, we coordinate verified local opportunities in Monroe.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-8 justify-center">
-              <Button
-                asChild
-                className="bg-primary-950 hover:bg-black text-white px-12 h-20 rounded-3xl uppercase tracking-[0.2em] text-[10px] font-black shadow-2xl shadow-primary-950/30 transition-all group"
-              >
-                <Link href="#opportunities">
-                  <Users className="mr-4 h-5 w-5" />
-                  Browse Operations
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                className="px-12 h-20 border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[10px] rounded-3xl hover:bg-gray-50 transition-all shadow-soft group"
-                asChild
-              >
-                <Link href="/resources">
-                  <Calendar className="mr-4 h-5 w-5 opacity-40" />
-                  Explore Registry
-                </Link>
-              </Button>
+            <div className="flex flex-col items-start gap-4 text-left">
+              <span className="px-5 py-2 rounded-full bg-accent-500/10 border border-accent-400/20 text-accent-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-md">
+                Active Service
+              </span>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-4">
+                Volunteer<span className="text-secondary-500 not-italic">.</span>
+              </h1>
+              <div className="w-24 h-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full mb-6" />
+              <p className="text-xl md:text-2xl text-blue-50/70 max-w-3xl leading-relaxed italic font-medium">
+                Connect with vetted local institutions to build Monroe&apos;s shared resilience through coordinated community action.
+              </p>
             </div>
           </Reveal>
         </div>

@@ -213,20 +213,25 @@ export default function InfoPage() {
       <div className="absolute inset-0 bg-[radial-gradient(var(--color-border)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:32px_32px] opacity-40 pointer-events-none" />
 
       <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="34vh">
-        <div className="container-custom w-full text-center">
+        <div className="container-custom w-full">
           <Reveal width="100%">
-            <span className="section-label block mb-4 text-[var(--color-accent-soft)]">Project transparency</span>
-            <h1 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight leading-tight mb-4">
-              Information
-            </h1>
-            <p className="text-base md:text-lg text-gray-200 max-w-2xl mx-auto">
-              Technology stack, data sources, and legal documents for Monroe Resource Hub.
-            </p>
-            <div className="inline-flex items-center gap-2 mt-6 px-4 py-2 rounded-full bg-white/10 border border-white/20">
-              <Shield className="h-4 w-4 text-[var(--color-accent-soft)]" />
-              <span className="text-xs font-medium text-gray-200">
-                CATA TSA 2026 Submission
+            <div className="flex flex-col items-start gap-4 text-left">
+              <span className="px-5 py-2 rounded-full bg-accent-500/10 border border-accent-400/20 text-accent-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-md">
+                Transparency Ledger
               </span>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-4">
+                Information<span className="text-secondary-500 not-italic">.</span>
+              </h1>
+              <div className="w-24 h-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full mb-6" />
+              <p className="text-xl md:text-2xl text-blue-50/70 max-w-3xl leading-relaxed italic font-medium">
+                The architectural framework, data provenance, and regional compliance standards of the Monroe Resource Hub.
+              </p>
+              <div className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
+                <Shield className="h-4 w-4 text-accent-400" />
+                <span className="text-[10px] font-black text-gray-200 uppercase tracking-widest">
+                  CATA TSA 2026 Submission
+                </span>
+              </div>
             </div>
           </Reveal>
         </div>
@@ -261,10 +266,10 @@ export default function InfoPage() {
                     </div>
                   </div>
                   <p className="text-[var(--color-text-muted)] text-sm leading-relaxed mb-6">{doc.description}</p>
-                  <Button variant="outline" className="w-full h-12 rounded-xl font-semibold border-[var(--color-border)] text-[var(--color-primary)] hover:bg-[var(--color-border)]/30" asChild>
-                    <a href={doc.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                  <Button variant="outline" className="w-full h-14 rounded-2xl font-black uppercase tracking-widest text-[10px] border-[var(--color-border)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-all shadow-soft" asChild>
+                    <a href={doc.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3">
                       <Download className="h-4 w-4" />
-                      Download
+                      Open
                     </a>
                   </Button>
                 </div>
