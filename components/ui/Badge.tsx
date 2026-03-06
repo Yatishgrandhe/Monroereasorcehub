@@ -4,7 +4,7 @@ import { HTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
 export interface BadgeProps extends HTMLAttributes<HTMLDivElement> {
-  variant?: 'primary' | 'secondary' | 'accent' | 'success' | 'outline';
+  variant?: 'primary' | 'secondary' | 'accent' | 'success' | 'outline' | 'warning';
   size?: 'sm' | 'md' | 'lg';
 }
 
@@ -16,6 +16,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
       secondary: 'bg-secondary-50 text-secondary-950 border-secondary-200 dark:bg-secondary-900/40 dark:text-secondary-100 dark:border-secondary-800',
       accent: 'bg-accent-50 text-accent-700 border-accent-200 dark:bg-accent-950/40 dark:text-accent-400 dark:border-accent-900',
       success: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900',
+      warning: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-900',
       outline: 'bg-transparent text-gray-600 border-gray-200 dark:text-gray-400 dark:border-primary-900',
     }[variant] || 'bg-primary-50 text-primary-950 border-primary-200';
 
