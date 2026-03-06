@@ -657,8 +657,8 @@ export function ResumeBuilder() {
                     <Input label="Corporation" value={exp.company} onChange={(e) => updateExperience(exp.id, 'company', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" placeholder="e.g. Stark Industries" />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <Input label="Start Date" type="month" value={exp.startDate} onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
-                    <Input label="End Date" type="month" value={exp.endDate} onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)} disabled={exp.current} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
+                    <Input label="Start Date" type="date" value={exp.startDate} onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
+                    <Input label="End Date" type="date" value={exp.endDate} onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)} disabled={exp.current} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
                     <div className="flex items-center gap-3 pt-8 pb-2">
                       <input
                         type="checkbox"
@@ -685,29 +685,17 @@ export function ResumeBuilder() {
                             updateExperience(exp.id, 'achievements', updated);
                           }}
                         />
-                        <div className="flex flex-col gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => enhanceBulletPoint(exp.id, achIdx)}
-                            loading={aiLoading || aiStatus === 'loading'}
-                            className="bg-primary-50/50 text-primary-600 hover:bg-primary-100 rounded-xl h-10 w-10 p-0"
-                            title="Enhance with Local AI"
-                          >
-                            <Sparkles className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              const updated = exp.achievements.filter((_, i) => i !== achIdx);
-                              updateExperience(exp.id, 'achievements', updated);
-                            }}
-                            className="text-gray-400 hover:text-red-500 rounded-xl h-10 w-10 p-0"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            const updated = exp.achievements.filter((_, i) => i !== achIdx);
+                            updateExperience(exp.id, 'achievements', updated);
+                          }}
+                          className="text-gray-400 hover:text-red-500 rounded-xl h-10 w-10 p-0 shrink-0"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     ))}
                     <Button variant="ghost" size="sm" onClick={() => updateExperience(exp.id, 'achievements', [...exp.achievements, ''])} className="text-primary-600 font-bold uppercase tracking-widest text-[10px] hover:bg-primary-50/50">
@@ -771,8 +759,8 @@ export function ResumeBuilder() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Input label="Start Date" type="month" value={edu.startDate} onChange={(e) => updateEducation(edu.id, 'startDate', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
-                    <Input label="End Date (Expected)" type="month" value={edu.endDate} onChange={(e) => updateEducation(edu.id, 'endDate', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
+                    <Input label="Start Date" type="date" value={edu.startDate} onChange={(e) => updateEducation(edu.id, 'startDate', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
+                    <Input label="End Date (Expected)" type="date" value={edu.endDate} onChange={(e) => updateEducation(edu.id, 'endDate', e.target.value)} className="bg-gray-50 border-gray-200 text-gray-800 h-14 rounded-xl" />
                   </div>
                 </CardContent>
               </Card>
@@ -782,21 +770,9 @@ export function ResumeBuilder() {
       case 5:
         return (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="flex items-center justify-between mb-4">
-              <div className="space-y-1">
-                <h3 className="text-2xl font-serif font-black text-primary-950 uppercase tracking-tight italic">Strategic Skills</h3>
-                <p className="text-sm text-gray-500 font-medium">Map your core competencies to the target role.</p>
-              </div>
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={suggestSkills}
-                loading={aiLoading}
-                className="rounded-xl px-6 shadow-lg bg-primary-950 text-white hover:bg-black"
-              >
-                <Sparkles className="w-4 h-4 mr-2" />
-                Auto-Suggest
-              </Button>
+            <div className="space-y-1 mb-4">
+              <h3 className="text-2xl font-serif font-black text-primary-950 uppercase tracking-tight italic">Strategic Skills</h3>
+              <p className="text-sm text-gray-500 font-medium">Map your core competencies to the target role.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
