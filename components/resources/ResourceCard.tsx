@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { MapPin, Phone, Globe, Clock, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { formatPhoneNumber, truncateText } from '@/lib/utils';
+import { formatPhoneNumber, truncateText, ensureProtocol } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
 interface ResourceCardProps {
@@ -72,17 +72,15 @@ export function ResourceCard({ resource, showCategory = true }: ResourceCardProp
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-[var(--color-border)] dark:border-white/10 mt-auto">
-            <Button asChild className="rounded-xl font-semibold bg-[var(--color-primary)] hover:opacity-90 text-white h-11 flex-1">
-              <Link href={`/resources/${resource.id}`}>
+            <Button asChild href={`/resources/${resource.id}`} className="rounded-xl font-semibold bg-[var(--color-primary)] hover:opacity-90 text-white h-11 flex-1">
+              <span className="flex items-center justify-center">
                 View details
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+              </span>
             </Button>
             {resource.website && (
-              <Button asChild variant="outline" className="rounded-xl h-11 px-4 border-[var(--color-border)] text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]">
-                <a href={resource.website} target="_blank" rel="noopener noreferrer">
-                  <Globe className="h-4 w-4" />
-                </a>
+              <Button asChild variant="outline" href={ensureProtocol(resource.website)} target="_blank" rel="noopener noreferrer" className="rounded-xl h-11 px-4 border-[var(--color-border)] text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]">
+                <Globe className="h-4 w-4" />
               </Button>
             )}
           </div>

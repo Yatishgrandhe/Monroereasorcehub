@@ -80,16 +80,12 @@ export default function HomePage() {
                 Whether you need help or want to help others, the Hub is your central place for community resources in Union County.
               </p>
               <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                <Link href="/resources" className="w-full sm:w-auto">
-                  <Button className="bg-[var(--color-secondary)] hover:brightness-110 text-white !h-20 !px-16 text-[10px] font-black uppercase tracking-[0.3em] w-full rounded-2xl shadow-2xl shadow-red-900/40 transform-gpu hover:-translate-y-1 transition-all">
-                    Find Support Now
-                  </Button>
-                </Link>
-                <Link href="/about" className="w-full sm:w-auto">
-                  <Button className="bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-3xl !h-20 !px-14 text-[10px] font-black uppercase tracking-[0.2em] w-full rounded-2xl transition-all">
-                    Our Mission
-                  </Button>
-                </Link>
+                <Button asChild href="/resources" className="bg-[var(--color-secondary)] hover:brightness-110 text-white !h-20 !px-16 text-[10px] font-black uppercase tracking-[0.3em] w-full sm:w-auto rounded-2xl shadow-2xl shadow-red-900/40 transform-gpu hover:-translate-y-1 transition-all">
+                  <span>Find Support Now</span>
+                </Button>
+                <Button asChild href="/about" className="bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-3xl !h-20 !px-14 text-[10px] font-black uppercase tracking-[0.2em] w-full sm:w-auto rounded-2xl transition-all">
+                  <span>Our Mission</span>
+                </Button>
               </div>
             </Reveal>
           </div>

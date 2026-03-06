@@ -8,6 +8,7 @@ import { ResourceCard } from '@/components/resources/ResourceCard';
 import { createClient } from '@/lib/supabase/server';
 import { Database } from '@/types/database';
 import { formatPhoneNumber, formatDate, cn } from '@/lib/utils';
+import { ResourceActions } from '@/components/resources/ResourceActions';
 
 type Resource = Database['public']['Tables']['resources']['Row'] & {
   categories: Database['public']['Tables']['categories']['Row'];
@@ -154,23 +155,8 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 w-full md:w-auto">
-                  <Button variant="outline" size="lg" className="flex-1 md:flex-none h-14 rounded-2xl font-bold uppercase tracking-widest text-[10px] border-gray-100 text-gray-500 hover:bg-gray-50 bg-white">
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share
-                  </Button>
-                  {resource.website && (
-                    <a
-                      href={resource.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 md:flex-none h-14 rounded-2xl font-bold uppercase tracking-widest text-[10px] bg-primary-950 hover:bg-black text-white shadow-lg shadow-primary-950/10 inline-flex items-center justify-center px-10 no-underline transition-all"
-                    >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Visit Website
-                    </a>
-                  )}
-                </div>
+                <ResourceActions resourceName={resource.name} website={resource.website || undefined} />
+
               </div>
 
               {resource.description && (
@@ -303,15 +289,18 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
 
               {resource.website && (
                 <div className="mt-12 pt-10 border-t border-white/5">
-                  <a
+                  <Button
+                    asChild
                     href={resource.website}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full h-16 rounded-2xl font-bold uppercase tracking-widest text-[10px] bg-white text-primary-950 hover:bg-primary-50 no-underline inline-flex items-center justify-center transition-all shadow-xl shadow-black/20"
                   >
-                    <Globe className="h-4 w-4 mr-2" />
-                    Operational Website
-                  </a>
+                    <span className="flex items-center justify-center">
+                      <Globe className="h-4 w-4 mr-2" />
+                      Operational Website
+                    </span>
+                  </Button>
                 </div>
               )}
             </div>
@@ -320,15 +309,15 @@ export default async function ResourceDetailPage({ params }: ResourceDetailPageP
             <div className="bg-white border border-gray-100 rounded-[2.5rem] p-10 shadow-soft">
               <h3 className="text-[10px] font-bold text-primary-950 uppercase tracking-widest mb-8">Intelligence</h3>
               <div className="space-y-3">
-                <Link href="/submit-resource" className="w-full h-14 justify-start px-6 font-bold text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary-950 hover:bg-gray-50 rounded-2xl border border-transparent hover:border-gray-100 transition-all no-underline inline-flex items-center">
-                  Suggest Correction
-                </Link>
-                <Link href="/volunteer" className="w-full h-14 justify-start px-6 font-bold text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary-950 hover:bg-gray-50 rounded-2xl border border-transparent hover:border-gray-100 transition-all no-underline inline-flex items-center">
-                  Volunteer Recruitment
-                </Link>
-                <Link href="/career" className="w-full h-14 justify-start px-6 font-bold text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary-950 hover:bg-gray-50 rounded-2xl border border-transparent hover:border-gray-100 transition-all no-underline inline-flex items-center">
-                  Career Vacancies
-                </Link>
+                <Button asChild href="/submit-resource" variant="ghost" className="w-full h-14 justify-start px-6 font-bold text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary-950 hover:bg-gray-50 rounded-2xl border border-transparent hover:border-gray-100 transition-all no-underline inline-flex items-center">
+                  <span>Suggest Correction</span>
+                </Button>
+                <Button asChild href="/volunteer" variant="ghost" className="w-full h-14 justify-start px-6 font-bold text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary-950 hover:bg-gray-50 rounded-2xl border border-transparent hover:border-gray-100 transition-all no-underline inline-flex items-center">
+                  <span>Volunteer Recruitment</span>
+                </Button>
+                <Button asChild href="/career" variant="ghost" className="w-full h-14 justify-start px-6 font-bold text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary-950 hover:bg-gray-50 rounded-2xl border border-transparent hover:border-gray-100 transition-all no-underline inline-flex items-center">
+                  <span>Career Vacancies</span>
+                </Button>
               </div>
             </div>
           </div>

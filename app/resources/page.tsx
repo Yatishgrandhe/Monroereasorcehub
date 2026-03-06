@@ -116,12 +116,12 @@ export default function ResourcesPage() {
                   <p className="text-sm text-[var(--color-text)] dark:text-gray-200 font-medium mb-3">
                     Know an organization we should list?
                   </p>
-                  <Link href="/submit-resource">
-                    <Button className="w-full rounded-xl text-sm font-semibold bg-[var(--color-primary)] hover:opacity-90 text-white">
+                  <Button asChild href="/submit-resource" className="w-full rounded-xl text-sm font-semibold bg-[var(--color-primary)] hover:opacity-90 text-white">
+                    <span className="flex items-center justify-center">
                       Share a resource
                       <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
+                    </span>
+                  </Button>
                 </div>
               </div>
             </aside>
@@ -149,11 +149,9 @@ export default function ResourcesPage() {
                       ? 'No resources match your search. Try a different filter or keyword.'
                       : "We're adding more organizations — submit one here."}
                   </p>
-                  <Link href="/submit-resource">
-                    <Button className="rounded-xl font-semibold bg-[var(--color-primary)] text-white hover:opacity-90">
-                      Share a resource
-                    </Button>
-                  </Link>
+                  <Button asChild href="/submit-resource" className="rounded-xl font-semibold bg-[var(--color-primary)] text-white hover:opacity-90">
+                    <span>Share a resource</span>
+                  </Button>
                 </div>
               )}
 

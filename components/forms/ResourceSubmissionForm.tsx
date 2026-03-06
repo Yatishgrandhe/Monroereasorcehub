@@ -334,22 +334,18 @@ export function ResourceSubmissionForm() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 {submittedResourceId && (
-                  <Button className="h-14 px-10 rounded-2xl font-bold bg-primary-950 text-white hover:bg-primary-900" asChild>
-                    <Link href={`/resources/${submittedResourceId}`}>
-                      <span className="flex items-center">
-                        <LayoutGrid className="mr-2 h-5 w-5" />
-                        View your resource
-                      </span>
-                    </Link>
+                  <Button asChild href={`/resources/${submittedResourceId}`} className="h-14 px-10 rounded-2xl font-bold bg-primary-950 text-white hover:bg-primary-900">
+                    <span className="flex items-center">
+                      <LayoutGrid className="mr-2 h-5 w-5" />
+                      View your resource
+                    </span>
                   </Button>
                 )}
-                <Button variant="outline" className="h-14 px-10 rounded-2xl font-bold border-primary-100 text-primary-700" asChild>
-                  <Link href="/resources">
-                    Browse all resources
-                  </Link>
+                <Button asChild href="/resources" variant="outline" className="h-14 px-10 rounded-2xl font-bold border-primary-100 text-primary-700">
+                  <span>Browse all resources</span>
                 </Button>
-                <Button variant="outline" className="h-14 px-10 rounded-2xl border-gray-100 text-gray-400 hover:bg-gray-50 font-bold" asChild href="/">
-                  Return home
+                <Button asChild href="/" variant="outline" className="h-14 px-10 rounded-2xl border-gray-100 text-gray-400 hover:bg-gray-50 font-bold">
+                  <span>Return home</span>
                 </Button>
               </div>
             </div>

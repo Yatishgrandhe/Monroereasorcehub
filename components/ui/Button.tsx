@@ -54,11 +54,19 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
 
     if (asChild && href) {
+      const isExternal = href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:') || href.endsWith('.pdf');
+
       return (
-        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="inline-block">
-          <Link href={href} className={baseClasses} {...(props as any)}>
-            {content}
-          </Link>
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="inline-block w-full">
+          {isExternal ? (
+            <a href={href} className={baseClasses} {...(props as any)}>
+              {content}
+            </a>
+          ) : (
+            <Link href={href} className={baseClasses} {...(props as any)}>
+              {content}
+            </Link>
+          )}
         </motion.div>
       );
     }

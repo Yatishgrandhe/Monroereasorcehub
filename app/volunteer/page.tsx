@@ -209,11 +209,12 @@ export default function VolunteerPage() {
                         variant="outline"
                         className="w-full mt-10 h-16 rounded-2xl border-gray-100 bg-white text-primary-950 hover:bg-gray-50 font-black uppercase tracking-[0.2em] text-[10px] shadow-soft group"
                         asChild
+                        href={`tel:${volunteer.phone.replace(/\D/g, '')}`}
                       >
-                        <Link href={`tel:${volunteer.phone.replace(/\D/g, '')}`} className="flex items-center justify-center">
+                        <span className="flex items-center justify-center">
                           <Phone className="h-4 w-4 mr-4 opacity-40 group-hover:opacity-100 transition-opacity" />
                           Connect: {volunteer.phone}
-                        </Link>
+                        </span>
                       </Button>
                     )}
                   </div>
@@ -288,11 +289,12 @@ export default function VolunteerPage() {
                           <Button
                             className="bg-primary-950 hover:bg-black text-white h-18 !h-20 px-10 text-[10px] flex-1 uppercase tracking-[0.2em] font-black rounded-3xl shadow-xl shadow-primary-950/20 group/btn"
                             asChild
+                            href={`tel:${opportunity.phone.replace(/\D/g, '')}`}
                           >
-                            <Link href={`tel:${opportunity.phone.replace(/\D/g, '')}`} className="flex items-center justify-center">
+                            <span className="flex items-center justify-center">
                               <Phone className="h-5 w-5 mr-4 group-hover/btn:scale-110 transition-transform" />
                               Initiate Contact
-                            </Link>
+                            </span>
                           </Button>
                         )}
                         {opportunity.website && (
@@ -300,11 +302,13 @@ export default function VolunteerPage() {
                             variant="outline"
                             className="h-18 !h-20 px-10 text-[10px] flex-1 border-gray-100 bg-white text-primary-950 hover:bg-gray-50 font-black uppercase tracking-[0.2em] rounded-3xl shadow-soft"
                             asChild
+                            href={opportunity.website}
+                            target="_blank"
                           >
-                            <Link href={opportunity.website} target="_blank" className="flex items-center justify-center">
+                            <span className="flex items-center justify-center">
                               <ExternalLink className="h-5 w-5 mr-4 opacity-40" />
                               Organization Hub
-                            </Link>
+                            </span>
                           </Button>
                         )}
                       </div>
@@ -364,22 +368,24 @@ export default function VolunteerPage() {
               <div className="flex flex-col sm:flex-row gap-8 justify-center pt-8">
                 <Button
                   asChild
+                  href="#opportunities"
                   className="bg-primary-950 hover:bg-black text-white px-12 h-20 rounded-3xl uppercase tracking-[0.2em] text-[10px] font-black shadow-2xl shadow-primary-950/30 transition-all group"
                 >
-                  <Link href="#opportunities" className="flex items-center">
+                  <span className="flex items-center">
                     <Heart className="mr-4 h-5 w-5 group-hover:scale-110 transition-transform" />
                     Start Serving
-                  </Link>
+                  </span>
                 </Button>
                 <Button
                   variant="outline"
-                  className="px-12 h-20 border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[10px] rounded-3xl hover:bg-gray-50 transition-all shadow-soft group"
                   asChild
+                  href="/contact"
+                  className="px-12 h-20 border-gray-100 bg-white text-primary-950 font-black uppercase tracking-[0.2em] text-[10px] rounded-3xl hover:bg-gray-50 transition-all shadow-soft group"
                 >
-                  <Link href="/contact" className="flex items-center">
+                  <span className="flex items-center">
                     Coordinate Partnering
                     <ArrowRight className="ml-4 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
+                  </span>
                 </Button>
               </div>
             </div>

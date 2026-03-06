@@ -266,11 +266,11 @@ export default function InfoPage() {
                     </div>
                   </div>
                   <p className="text-[var(--color-text-muted)] text-sm leading-relaxed mb-6">{doc.description}</p>
-                  <Button variant="outline" className="w-full h-14 rounded-2xl font-black uppercase tracking-widest text-[10px] border-[var(--color-border)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-all shadow-soft" asChild>
-                    <a href={doc.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3">
+                  <Button variant="outline" className="w-full h-14 rounded-2xl font-black uppercase tracking-widest text-[10px] border-[var(--color-border)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-all shadow-soft" asChild href={doc.href} target="_blank" rel="noopener noreferrer">
+                    <span className="flex items-center justify-center gap-3">
                       <Download className="h-4 w-4" />
                       Open PDF
-                    </a>
+                    </span>
                   </Button>
                 </div>
               );
