@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { Reveal } from '@/components/ui/Reveal';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { formatDate, cn } from '@/lib/utils';
