@@ -253,10 +253,10 @@ export function ResourceSubmissionForm() {
       const contactInfo =
         formData.email || formData.phone || formData.address
           ? {
-              ...(formData.email && { email: formData.email }),
-              ...(formData.phone && { phone: formData.phone }),
-              ...(formData.address && { address: formData.address }),
-            }
+            ...(formData.email && { email: formData.email }),
+            ...(formData.phone && { phone: formData.phone }),
+            ...(formData.address && { address: formData.address }),
+          }
           : null;
 
       const submissionData = {
@@ -363,18 +363,21 @@ export function ResourceSubmissionForm() {
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none" />
 
       <div className="container-custom section-padding relative z-10">
-        <div className="mb-12">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary-200 text-primary-700 font-bold uppercase tracking-widest text-[10px] bg-primary-50/50">
-              <Sparkles className="w-3.5 h-3.5 mr-2" /> Community Growth
-            </Badge>
-            <h1 className="text-4xl md:text-7xl font-bold text-primary-950 mb-6 tracking-tight font-serif">
-              Share a <span className="text-primary-700">Resource</span>
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl leading-relaxed">
-              Help us expand the Monroe Resource Hub. Every entry empowers your neighbors to find the support they need.
-            </p>
-          </motion.div>
+        <div className="mb-16">
+          <Reveal width="100%">
+            <div className="flex flex-col items-start gap-4">
+              <span className="px-5 py-2 rounded-full bg-accent-500/10 border border-accent-400/20 text-accent-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-md">
+                Growth & Registration
+              </span>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-primary-950 tracking-tighter leading-none italic mb-4">
+                Share Resource<span className="text-secondary-500 not-italic">.</span>
+              </h1>
+              <div className="w-24 h-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full mb-6" />
+              <p className="text-xl md:text-2xl text-gray-500 max-w-3xl leading-relaxed italic font-medium">
+                Help us expand the Monroe Resource Hub archive. Every entry empowers your neighbors to find the support they need.
+              </p>
+            </div>
+          </Reveal>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">

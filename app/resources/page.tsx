@@ -40,29 +40,63 @@ export default function ResourcesPage() {
       <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="38vh">
         <div className="container-custom w-full">
           <Reveal width="100%">
-            <span className="section-label block mb-4 text-[var(--color-accent-soft)]">Community resources</span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white tracking-tight leading-tight mb-4">
-              Resources
-            </h1>
-            <p className="text-lg text-gray-200 max-w-2xl mb-6">
-              Every listing is verified by our team. Search by name, zip code, or type of help.
-            </p>
+            <div className="flex flex-col items-start gap-4">
+              <span className="px-5 py-2 rounded-full bg-accent-500/10 border border-accent-400/20 text-accent-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-md">
+                Verified Directory
+              </span>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-4">
+                Resources<span className="text-secondary-500 not-italic">.</span>
+              </h1>
+              <div className="w-24 h-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full mb-6" />
+              <p className="text-xl md:text-2xl text-blue-50/70 max-w-2xl leading-relaxed italic font-medium">
+                Find every verified organization, initiative, and resource driving Monroe forward.
+              </p>
+            </div>
           </Reveal>
         </div>
       </PageSplineBanner>
 
-      <section className="pb-16 md:pb-24 relative z-10 -mt-4">
+      <section className="relative z-20 -mt-16 sm:-mt-24 pb-20">
         <div className="container-custom">
           <Reveal width="100%">
-            <div className="max-w-2xl mb-10">
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <Input
-                  value={state.query}
-                  onChange={(e) => updateQuery(e.target.value)}
-                  placeholder="Search by name, zip code, or type of help..."
-                  className="pl-12 h-14 rounded-2xl border-gray-200 dark:border-primary-800 bg-white dark:bg-primary-950/50 text-base"
-                />
+            <div className="bg-white/80 dark:bg-primary-950/80 rounded-[3rem] p-6 sm:p-8 shadow-2xl border border-white/20 dark:border-primary-800/50 backdrop-blur-2xl ring-1 ring-black/5">
+              <div className="flex flex-col md:flex-row gap-6">
+                <div className="relative flex-1 group">
+                  <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
+                    <Search className="h-6 w-6 text-primary-500 transition-transform group-focus-within:scale-110" />
+                  </div>
+                  <Input
+                    value={state.query}
+                    onChange={(e) => updateQuery(e.target.value)}
+                    placeholder="Search by mission, zip code, or organization..."
+                    className="pl-16 h-16 sm:h-24 rounded-[2rem] border-none bg-primary-50/50 dark:bg-primary-900/30 text-xl sm:text-2xl font-medium placeholder:text-gray-400 focus-visible:ring-4 focus-visible:ring-primary-500/10 transition-all shadow-inner"
+                  />
+                  {state.query && (
+                    <button
+                      onClick={() => updateQuery('')}
+                      className="absolute right-6 top-1/2 -translate-y-1/2 p-2 hover:bg-white dark:hover:bg-white/10 rounded-full transition-colors"
+                    >
+                      <span className="text-xs font-black uppercase tracking-widest text-gray-400">Clear</span>
+                    </button>
+                  )}
+                </div>
+                <div className="flex gap-4 sm:min-w-[240px]">
+                  <div className="relative flex-1">
+                    <div className="absolute left-6 top-4 text-[10px] font-black uppercase tracking-[0.2em] text-primary-400 pointer-events-none">Sort By</div>
+                    <select
+                      value={`${state.sortBy}-${state.sortOrder}`}
+                      onChange={(e) => {
+                        const [sortBy, sortOrder] = e.target.value.split('-');
+                        updateSort(sortBy as 'name' | 'created_at' | 'relevance', sortOrder as 'asc' | 'desc');
+                      }}
+                      className="w-full h-16 sm:h-24 pt-8 pb-3 px-6 sm:px-8 rounded-[2rem] border-none bg-primary-50/50 dark:bg-primary-900/30 text-sm font-bold uppercase tracking-widest text-primary-950 dark:text-white outline-none focus:ring-4 focus:ring-primary-500/10 transition-all cursor-pointer shadow-inner appearance-none"
+                    >
+                      <option value="relevance-desc">Relevance</option>
+                      <option value="name-asc">Alphabetical</option>
+                      <option value="created_at-desc">Newest Added</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
           </Reveal>
@@ -88,24 +122,30 @@ export default function ResourcesPage() {
                         })
                       }
                       className={cn(
-                        'w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all',
+                        'w-full text-left px-5 py-3.5 rounded-2xl text-[13px] font-bold tracking-wide transition-all duration-300',
                         (label === 'All' && activeCategory === 'All') || activeCategory === label
-                          ? 'bg-primary-950 dark:bg-primary-700 text-white'
-                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-primary-900/50'
+                          ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/20'
+                          : 'text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-primary-900/30 hover:text-primary-500 hover:shadow-sm'
                       )}
                     >
-                      {label}
+                      <div className="flex items-center justify-between">
+                        {label}
+                        {((label === 'All' && activeCategory === 'All') || activeCategory === label) && (
+                          <div className="w-1.5 h-1.5 rounded-full bg-white shadow-glow" />
+                        )}
+                      </div>
                     </button>
                   ))}
                 </div>
-                <div className="mt-8 p-4 rounded-2xl bg-primary-50 dark:bg-primary-950/50 border border-primary-100 dark:border-primary-800">
-                  <p className="text-sm text-primary-800 dark:text-primary-200 font-medium mb-3">
+                <div className="mt-8 p-6 rounded-[2rem] bg-secondary-50 dark:bg-secondary-950/20 border border-secondary-100 dark:border-secondary-900/30 shadow-sm relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-secondary-100 dark:bg-secondary-900/20 rounded-bl-[2rem] pointer-events-none transition-transform group-hover:scale-110" />
+                  <p className="text-sm text-secondary-900 dark:text-secondary-200 font-bold mb-4 relative z-10">
                     Know an organization we should list?
                   </p>
-                  <Link href="/submit-resource">
-                    <Button variant="outline" size="sm" className="w-full rounded-xl text-xs font-semibold">
+                  <Link href="/submit-resource" className="relative z-10">
+                    <Button variant="secondary" size="sm" className="w-full rounded-xl text-[10px] font-black uppercase tracking-[0.2em] h-11">
                       Share a resource
-                      <ArrowRight className="ml-2 h-3.5 w-3.5" />
+                      <ArrowRight className="ml-2 h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
                 </div>
@@ -113,31 +153,19 @@ export default function ResourcesPage() {
             </aside>
 
             <main className="flex-1 min-w-0">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {isLoading ? (
-                    <span className="flex items-center gap-2">
-                      <span className="inline-block w-4 h-4 border-2 border-primary-200 border-t-primary-600 rounded-full animate-spin" />
-                      Loading...
-                    </span>
-                  ) : (
-                    <>
-                      <span className="font-semibold text-primary-950 dark:text-white">{totalCount}</span> resources
-                    </>
-                  )}
-                </p>
-                <select
-                  value={`${state.sortBy}-${state.sortOrder}`}
-                  onChange={(e) => {
-                    const [sortBy, sortOrder] = e.target.value.split('-');
-                    updateSort(sortBy as 'name' | 'created_at' | 'relevance', sortOrder as 'asc' | 'desc');
-                  }}
-                  className="rounded-xl border border-gray-200 dark:border-primary-800 bg-white dark:bg-primary-950/50 px-4 py-2 text-sm text-primary-950 dark:text-white focus:ring-2 focus:ring-primary-500/20 outline-none"
-                >
-                  <option value="relevance-desc">Relevance</option>
-                  <option value="name-asc">Name (A–Z)</option>
-                  <option value="created_at-desc">Recently added</option>
-                </select>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                  <p className="text-sm font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                    {isLoading ? (
+                      "Scanning Database..."
+                    ) : (
+                      <>
+                        <span className="text-primary-950 dark:text-white">{totalCount}</span> Results Found
+                      </>
+                    )}
+                  </p>
+                </div>
               </div>
 
               {!isLoading && results.length === 0 && (

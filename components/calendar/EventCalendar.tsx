@@ -11,6 +11,7 @@ import { FilterPanel, FilterGroup } from '@/components/ui/FilterPanel';
 import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
 import { createClient } from '@/lib/supabase/client';
 import { formatDate, formatTime, isToday, isTomorrow, getRelativeTime, cn } from '@/lib/utils';
+import { Reveal } from '@/components/ui/Reveal';
 import { Database } from '@/types/database';
 import { SPLINE_PAGES_URL } from '@/lib/spline';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -202,18 +203,20 @@ export function EventCalendar() {
 
   const eventsHero = (
     <div className="container-custom w-full">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <Badge variant="outline" className="mb-4 px-5 py-2 border-primary-200 text-[var(--color-accent-soft)] font-bold uppercase tracking-[0.2em] text-[10px] bg-primary-950/30 rounded-full">
-          <Sparkles className="w-3.5 h-3.5 mr-2" />
-          Community Calendar
-        </Badge>
-        <h1 className="text-4xl md:text-6xl font-serif font-bold text-white mb-4 tracking-tight leading-tight">
-          Events
-        </h1>
-        <p className="text-xl md:text-2xl text-gray-200 max-w-3xl leading-relaxed font-medium">
-          Discover workshops, social gatherings, and civic initiatives driving Monroe forward through verified community operations.
-        </p>
-      </motion.div>
+      <Reveal width="100%">
+        <div className="flex flex-col items-start gap-4">
+          <span className="px-5 py-2 rounded-full bg-accent-500/10 border border-accent-400/20 text-accent-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-md">
+            Community Schedule
+          </span>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-4">
+            Events Hub<span className="text-secondary-500 not-italic">.</span>
+          </h1>
+          <div className="w-24 h-2 bg-gradient-to-r from-primary-500 via-accent-500 to-secondary-500 rounded-full mb-6" />
+          <p className="text-xl md:text-2xl text-blue-50/70 max-w-3xl leading-relaxed italic font-medium">
+            Discover workshops, social gatherings, and civic initiatives driving Monroe forward through verified community operations.
+          </p>
+        </div>
+      </Reveal>
     </div>
   );
 

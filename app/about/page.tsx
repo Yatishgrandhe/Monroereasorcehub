@@ -39,15 +39,20 @@ export default function AboutPage() {
 
       {/* Hero with optional Spline background */}
       <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="42vh">
-        <div className="container-custom text-center w-full">
+        <div className="container-custom w-full">
           <Reveal width="100%">
-            <span className="section-label block mb-4 text-[var(--color-accent-soft)]">Our story</span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mt-2 mb-6 leading-tight">
-              About Us
-            </h1>
-            <p className="text-base md:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
-              Monroe Resource Hub is a student-led project dedicated to connecting Union County residents with the help they need. Every listing is checked by a human before it goes live.
-            </p>
+            <div className="flex flex-col items-start gap-4">
+              <span className="px-5 py-2 rounded-full bg-accent-500/10 border border-accent-400/20 text-accent-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-md">
+                Our Mission & Foundation
+              </span>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-4">
+                About Us<span className="text-secondary-500 not-italic">.</span>
+              </h1>
+              <div className="w-24 h-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full mb-6" />
+              <p className="text-xl md:text-2xl text-blue-50/70 max-w-3xl leading-relaxed italic font-medium">
+                Monroe Resource Hub is a student-led initiative dedicated to rebuilding community trust through verified, high-bandwidth data transparency.
+              </p>
+            </div>
           </Reveal>
         </div>
       </PageSplineBanner>
@@ -134,14 +139,14 @@ export default function AboutPage() {
             <Reveal width="100%">
               <div className="relative group rounded-[4rem] overflow-hidden h-[500px] md:h-[700px] shadow-soft border border-gray-100">
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Union_County_Courthouse%2C_Monroe%2C_NC_September_2017%2C_front_view.jpg"
-                  alt="Historic Union County Courthouse Front"
+                  src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=2000"
+                  alt="Monroe Civic Heritage"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-12 md:p-20">
                   <div className="max-w-md">
-                    <h3 className="text-4xl font-serif font-black text-white mb-4 italic tracking-tight leading-tight">Union County Courthouse</h3>
-                    <p className="text-gray-300 font-serif italic text-lg leading-relaxed">The architectural and civic centerpiece of downtown Monroe since its establishment in 1886.</p>
+                    <h3 className="text-4xl font-serif font-black text-white mb-4 italic tracking-tight leading-tight">Civic Heritage</h3>
+                    <p className="text-gray-300 font-serif italic text-lg leading-relaxed">The architectural and civic foundation of Monroe, preserved for future generations.</p>
                   </div>
                 </div>
               </div>
@@ -149,14 +154,14 @@ export default function AboutPage() {
             <Reveal width="100%" delay={0.2}>
               <div className="relative group rounded-[4rem] overflow-hidden h-[500px] md:h-[700px] shadow-soft border border-gray-100">
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/2/23/Union_County_Courthouse%2C_Monroe%2C_NC_September_2017%2C_side_view.jpg"
-                  alt="Union County Courthouse Side Entrance"
+                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000"
+                  alt="Modern Monroe Architecture"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-12 md:p-20">
                   <div className="max-w-md">
-                    <h3 className="text-4xl font-serif font-black text-white mb-4 italic tracking-tight leading-tight">Preserving Legacy</h3>
-                    <p className="text-gray-300 font-serif italic text-lg leading-relaxed">These historic structures reflect our community's enduring spirit and the foundation upon which we build.</p>
+                    <h3 className="text-4xl font-serif font-black text-white mb-4 italic tracking-tight leading-tight">Future Legacy</h3>
+                    <p className="text-gray-300 font-serif italic text-lg leading-relaxed">Looking forward while honoring the architectural spirit that defines Union County.</p>
                   </div>
                 </div>
               </div>

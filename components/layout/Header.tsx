@@ -125,15 +125,23 @@ export function Header() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <div className="flex flex-col min-w-0 hidden sm:block">
+            <div className="flex flex-col min-w-0">
               <span className={cn(
                 "text-base lg:text-lg font-bold tracking-tight font-[var(--font-heading)] text-[var(--color-text)] dark:text-white truncate whitespace-nowrap",
                 showDesktopNav ? "inline" : "hidden"
               )}>
-                Monroe Resource <span className="text-[var(--color-primary)] dark:text-emerald-400 italic">Hub</span>
+                {pathname === '/' ? (
+                  <>Monroe Resource <span className="text-[var(--color-primary)] dark:text-emerald-400 italic">Hub</span></>
+                ) : (
+                  <span className="text-[var(--color-primary)] dark:text-emerald-400">
+                    {navigation.find(n => n.href === pathname)?.name || 'Resource Hub'}
+                  </span>
+                )}
+              </span>
+              <span className={cn("text-base font-bold font-[var(--font-heading)] text-[var(--color-text)] dark:text-white shrink-0 sm:hidden whitespace-nowrap", showDesktopNav ? "hidden" : "inline")}>
+                {pathname === '/' ? 'MRH' : (navigation.find(n => n.href === pathname)?.name || 'MRH')}
               </span>
             </div>
-            <span className={cn("text-base font-bold font-[var(--font-heading)] text-[var(--color-text)] dark:text-white shrink-0 sm:hidden whitespace-nowrap", showDesktopNav ? "hidden" : "inline")}>MRH</span>
           </Link>
 
           {/* Desktop Navigation — all one line */}
@@ -163,21 +171,21 @@ export function Header() {
             <Link
               href="/submit-resource"
               className={cn(
-                'whitespace-nowrap flex items-center gap-1.5 h-9 sm:h-10 px-3 sm:px-4 rounded-lg text-[13px] sm:text-sm font-semibold border-2 border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10 transition-all duration-200 shrink-0',
-                pathname === '/submit-resource' && 'bg-[var(--color-accent)]/15'
+                'whitespace-nowrap flex items-center gap-2 h-10 sm:h-12 px-4 sm:px-6 rounded-xl text-[13px] sm:text-sm font-bold border-2 border-[var(--color-primary)] bg-[var(--color-primary)] text-white hover:brightness-110 shadow-lg shadow-blue-500/20 transition-all duration-300 transform-gpu hover:-translate-y-0.5 active:translate-y-0 shrink-0 flex-nowrap',
+                pathname === '/submit-resource' && 'ring-4 ring-[var(--color-primary)]/10'
               )}
             >
               <PlusCircle className="h-4 w-4 shrink-0" />
-              <span className="hidden lg:inline">Share Resource</span>
+              <span className="hidden sm:inline uppercase tracking-widest text-[10px]">Share Resource</span>
             </Link>
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              className="h-9 w-9 sm:h-10 sm:w-10 p-0 rounded-lg text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50 shrink-0 flex items-center justify-center whitespace-nowrap"
+              className="h-10 w-10 sm:h-12 sm:w-12 p-0 rounded-xl border-2 border-[var(--color-border)] bg-white text-[var(--color-primary)] hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 hover:shadow-md transition-all duration-300 shrink-0 flex items-center justify-center whitespace-nowrap"
               onClick={() => setSearchOpen(true)}
               title="Search (⌘K)"
             >
-              <Search className="h-4 w-4 sm:h-5 sm:w-5" />
+              <Search className="h-5 w-5 sm:h-6 w-6 stroke-[2.5]" />
             </Button>
 
             {user ? (
@@ -199,13 +207,13 @@ export function Header() {
               </div>
             ) : (
               <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap">
-                <Link href="/auth/signin" className="hidden lg:block shrink-0">
-                  <Button variant="ghost" className="h-9 sm:h-10 px-3 sm:px-4 rounded-lg text-[13px] sm:text-sm font-semibold text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50 whitespace-nowrap">
+                <Link href="/auth/signin" className="hidden sm:block shrink-0">
+                  <Button variant="ghost" className="h-10 sm:h-12 px-4 sm:px-6 rounded-xl text-[11px] font-black uppercase tracking-widest text-[var(--color-text)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)]/50 whitespace-nowrap transition-all">
                     Login
                   </Button>
                 </Link>
                 <Link href="/auth/signup" className="shrink-0">
-                  <Button className="bg-[var(--color-primary)] hover:opacity-90 text-white px-4 sm:px-5 h-9 sm:h-10 rounded-lg text-[13px] sm:text-sm font-semibold shadow-[0_4px_14px_var(--color-shadow)] whitespace-nowrap transition-all duration-200 active:scale-95">
+                  <Button className="bg-[var(--color-secondary)] hover:brightness-110 text-white px-5 sm:px-8 h-10 sm:h-12 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] shadow-xl shadow-red-500/20 whitespace-nowrap transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
                     Join Hub
                   </Button>
                 </Link>

@@ -14,8 +14,8 @@ export function Footer() {
       <div className="container-custom relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-16 lg:gap-24 mb-20">
           <div className="md:col-span-5">
-            <Link href="/" className="flex items-center gap-4 mb-8 group">
-              <div className="w-12 h-12 rounded-2xl overflow-hidden shadow-2xl border border-white/10 shrink-0 bg-white/5 backdrop-blur-md flex items-center justify-center p-2 group-hover:scale-105 transition-transform">
+            <Link href="/" className="flex items-center gap-4 mb-8 group shrink-0">
+              <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-2xl border border-white/20 shrink-0 bg-white backdrop-blur-md flex items-center justify-center p-2.5 group-hover:scale-105 transition-transform duration-500">
                 <img
                   src="/logo.png"
                   alt="Monroe Resource Hub Logo"
@@ -23,7 +23,9 @@ export function Footer() {
                 />
               </div>
               <div>
-                <span className="text-2xl font-bold tracking-tighter font-serif block leading-none">Monroe Resource <span className="text-accent-500 italic block">Hub.</span></span>
+                <span className="text-3xl font-black tracking-tighter font-serif block leading-none text-white whitespace-nowrap">
+                  Monroe Resource <span className="text-accent-500 italic block">Hub.</span>
+                </span>
               </div>
             </Link>
             <p className="text-gray-400 text-base mb-8 max-w-sm leading-relaxed">

@@ -20,8 +20,8 @@ export interface PageSplineBannerProps {
 
 export function PageSplineBanner({
   sceneUrl,
-  overlayClassName = 'bg-gradient-to-b from-primary-950/80 via-primary-950/50 to-transparent',
-  height = '40vh',
+  overlayClassName = 'bg-gradient-to-br from-primary-950/95 via-primary-950/60 to-transparent',
+  height = '42vh',
   children,
 }: PageSplineBannerProps) {
   if (sceneUrl) {
@@ -30,12 +30,13 @@ export function PageSplineBanner({
         <SplineBackground
           sceneUrl={sceneUrl}
           height={height}
-          fallbackColor="#0f172a"
-          mobileBreakpoint={768}
+          fallbackColor="#000d1a"
+          mobileBreakpoint={1024}
           className="absolute inset-0"
         >
           <div className={`absolute inset-0 pointer-events-none ${overlayClassName}`} />
-          <div className="relative z-10 flex items-end pb-8 pt-28 md:pt-32">
+          <div className="absolute inset-0 bg-primary-950/20 backdrop-blur-[2px] pointer-events-none" />
+          <div className="relative z-10 flex items-center h-full min-h-[inherit] pt-32 pb-16">
             {children}
           </div>
         </SplineBackground>
@@ -45,11 +46,12 @@ export function PageSplineBanner({
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-gradient-to-b from-primary-950/95 to-primary-950/50 dark:from-primary-950"
+      className="relative w-full overflow-hidden bg-primary-950"
       style={{ minHeight: height }}
     >
       <div className={`absolute inset-0 pointer-events-none ${overlayClassName}`} />
-      <div className="relative z-10 flex items-end pb-8 pt-28 md:pt-32">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(52,97,173,0.15),transparent_50%)]" />
+      <div className="relative z-10 flex items-center h-full min-h-[inherit] pt-32 pb-16">
         {children}
       </div>
     </section>

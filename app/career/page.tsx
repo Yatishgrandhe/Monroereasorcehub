@@ -40,15 +40,20 @@ export default function CareerCenterPage() {
 
       {/* Hero with optional Spline background */}
       <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="42vh">
-        <div className="container-custom text-center w-full">
+        <div className="container-custom w-full">
           <Reveal width="100%">
-            <span className="section-label block mb-4 text-[var(--color-accent-soft)]">Work & training</span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mt-2 mb-6 leading-tight">
-              Career Center
-            </h1>
-            <p className="text-base md:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
-              Whether you&apos;re looking for your first job, re-entering the workforce, or building new skills — we have resources to help. Browse local job listings or use our free AI resume builder to create a professional resume.
-            </p>
+            <div className="flex flex-col items-start gap-4">
+              <span className="px-5 py-2 rounded-full bg-accent-500/10 border border-accent-400/20 text-accent-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-md">
+                Operational Schedule
+              </span>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-4">
+                Events Hub<span className="text-secondary-500 not-italic">.</span>
+              </h1>
+              <div className="w-24 h-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full mb-6" />
+              <p className="text-xl md:text-2xl text-blue-50/70 max-w-3xl leading-relaxed italic font-medium">
+                Discover workshops, social gatherings, and civic initiatives driving Monroe forward through verified community operations.
+              </p>
+            </div>
           </Reveal>
         </div>
       </PageSplineBanner>

@@ -55,11 +55,11 @@ export function LogoCloud({ className, title = 'Community Alignment' }: LogoClou
       <div className="container-custom">
         <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
           <div>
-            <span className="text-primary-700 font-black uppercase tracking-[0.4em] text-[10px] mb-3 block">Civic Network</span>
-            <h2 className="text-3xl font-serif font-black text-primary-950 italic tracking-tight">Verified <span className="text-primary-700 not-italic">Partnerships.</span></h2>
+            <span className="section-label block mb-3">Partners</span>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-[var(--color-primary)] tracking-tight">Trusted by Monroe</h2>
           </div>
           <div className="h-px flex-1 bg-gray-100 hidden md:block mx-12" />
-          <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Operational Integrity Ledger</p>
+          <p className="text-sm text-[var(--color-text-muted)]">Real organizations serving Union County.</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-12">

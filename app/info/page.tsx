@@ -226,7 +226,7 @@ export default function InfoPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-7xl lg:text-9xl font-bold text-primary-950 mb-8 tracking-tighter leading-tight font-serif"
           >
-            Technical <span className="text-primary-700">Transparency</span>
+            Information
           </motion.h1>
           <p className="text-lg md:text-xl mb-12 text-gray-600 max-w-3xl mx-auto leading-relaxed">
             A comprehensive overview of the Monroe Resource Hub architecture, human-led data sources, and legal fulfillment documents.

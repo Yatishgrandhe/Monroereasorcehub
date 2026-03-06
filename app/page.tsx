@@ -65,30 +65,29 @@ export default function HomePage() {
       {/* 7. CONTACT */}
       <ContactForm />
 
-      {/* 8. CTA — Final conversion */}
       <section className="py-12 px-6 lg:px-12 pb-24 bg-white dark:bg-[#000d1a] relative">
-        <div className="container-custom mx-auto bg-primary-950 rounded-3xl relative overflow-hidden py-20 md:py-24 px-8 md:px-12 text-center">
-          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:40px_40px] opacity-30" />
-          <div className="absolute top-0 right-0 w-1/3 h-full bg-accent-500/10 blur-[120px]" />
-          <div className="absolute bottom-0 left-0 w-1/3 h-full bg-primary-700/10 blur-[120px]" />
+        <div className="container-custom mx-auto bg-primary-950 rounded-[4rem] relative overflow-hidden py-32 px-10 md:px-20 text-center shadow-[0_32px_128px_-16px_rgba(52,97,173,0.3)]">
+          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.05)_1.5px,transparent_1.5px)] [background-size:48px_48px] opacity-40" />
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-accent-500/15 blur-[140px]" />
+          <div className="absolute bottom-0 left-0 w-1/3 h-full bg-secondary-500/15 blur-[140px]" />
 
-          <div className="relative z-10 max-w-3xl mx-auto">
+          <div className="relative z-10 max-w-4xl mx-auto">
             <Reveal width="100%">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mb-6 leading-tight">
-                Empowering Monroe <span className="text-accent-500 italic">together</span>
+              <h2 className="text-5xl md:text-7xl font-serif font-black text-white mb-8 leading-tight tracking-tighter italic">
+                Empowering Monroe <span className="text-accent-400 not-italic">together.</span>
               </h2>
-              <p className="text-base md:text-lg mb-12 text-gray-300 leading-relaxed max-w-xl mx-auto">
+              <p className="text-xl md:text-2xl mb-16 text-blue-50/70 leading-relaxed max-w-2xl mx-auto font-medium">
                 Whether you need help or want to help others, the Hub is your central place for community resources in Union County.
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
                 <Link href="/resources" className="w-full sm:w-auto">
-                  <Button className="bg-accent-500 hover:bg-accent-400 text-primary-950 !h-16 !px-12 text-[10px] font-black uppercase tracking-[0.2em] w-full rounded-2xl shadow-xl shadow-accent-500/20">
+                  <Button className="bg-[var(--color-secondary)] hover:brightness-110 text-white !h-20 !px-16 text-[10px] font-black uppercase tracking-[0.3em] w-full rounded-2xl shadow-2xl shadow-red-900/40 transform-gpu hover:-translate-y-1 transition-all">
                     Find Support Now
                   </Button>
                 </Link>
-                <Link href="/career" className="w-full sm:w-auto">
-                  <Button className="bg-white/10 hover:bg-white/20 text-white border border-white/10 backdrop-blur-md !h-14 !px-10 font-semibold w-full rounded-xl transition-all">
-                    Career Center
+                <Link href="/about" className="w-full sm:w-auto">
+                  <Button className="bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-3xl !h-20 !px-14 text-[10px] font-black uppercase tracking-[0.2em] w-full rounded-2xl transition-all">
+                    Our Mission
                   </Button>
                 </Link>
               </div>
