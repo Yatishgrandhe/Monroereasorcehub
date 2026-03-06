@@ -221,10 +221,10 @@ export function EventCalendar() {
   );
 
   return (
-    <div className="min-h-screen bg-white pt-20 relative overflow-hidden">
+    <div className="min-h-screen bg-white pt-16 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none" />
 
-      <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="38vh">
+      <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="28vh" innerClassName="pt-20 pb-8">
         {eventsHero}
       </PageSplineBanner>
 

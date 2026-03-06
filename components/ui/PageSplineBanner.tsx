@@ -15,15 +15,21 @@ export interface PageSplineBannerProps {
   overlayClassName?: string;
   /** Min height of the banner (default 40vh) */
   height?: string;
+  /** Optional override for inner content padding (default pt-40 pb-20) */
+  innerClassName?: string;
   children: React.ReactNode;
 }
+
+const defaultInner = 'pt-40 pb-20';
 
 export function PageSplineBanner({
   sceneUrl,
   overlayClassName = 'bg-gradient-to-br from-primary-950/95 via-primary-950/60 to-transparent',
   height = '42vh',
+  innerClassName = defaultInner,
   children,
 }: PageSplineBannerProps) {
+  const inner = innerClassName || defaultInner;
   if (sceneUrl) {
     return (
       <section className="relative w-full overflow-hidden" style={{ minHeight: height }}>
@@ -37,7 +43,7 @@ export function PageSplineBanner({
           <div className={`absolute inset-0 pointer-events-none z-0 ${overlayClassName}`} />
           <div className="absolute inset-0 bg-gradient-to-b from-primary-950/80 via-transparent to-transparent z-0 pointer-events-none" />
           <div className="absolute inset-0 bg-primary-950/20 backdrop-blur-[1px] pointer-events-none z-0" />
-          <div className="relative z-10 flex items-center h-full min-h-[inherit] pt-40 pb-20">
+          <div className={`relative z-10 flex items-center h-full min-h-[inherit] ${inner}`}>
             {children}
           </div>
         </SplineBackground>
@@ -53,7 +59,7 @@ export function PageSplineBanner({
       <div className={`absolute inset-0 pointer-events-none ${overlayClassName}`} />
       <div className="absolute inset-0 bg-gradient-to-b from-primary-950/80 via-transparent to-transparent z-0 pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(52,97,173,0.15),transparent_50%)]" />
-      <div className="relative z-10 flex items-center h-full min-h-[inherit] pt-40 pb-20">
+      <div className={`relative z-10 flex items-center h-full min-h-[inherit] ${inner}`}>
         {children}
       </div>
     </section>
