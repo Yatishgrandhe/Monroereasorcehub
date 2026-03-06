@@ -751,7 +751,7 @@ const renderStepContent = (currentStep: number, formData: FormData, updateFormDa
               <div>
                 <h4 className="text-lg font-bold text-primary-950 mb-2 font-serif">Submission Integrity</h4>
                 <p className="text-sm text-primary-800 leading-relaxed font-medium">
-                  By submitting this mission, you confirm that the organization details provided are accurate to the best of your knowledge. Our human vetting squad will verify the technical details before the resource goes live on the hub.
+                  By submitting this mission, you confirm that the organization details provided are accurate to the best of your knowledge. Your resource will appear on the hub immediately after submission.
                 </p>
               </div>
             </div>
