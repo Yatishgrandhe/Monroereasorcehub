@@ -14,7 +14,7 @@ function renderTextWithBold(text: string) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((p, i) =>
     p.startsWith('**') && p.endsWith('**') ? (
-      <strong key={i} className="font-semibold text-[var(--color-text)]">{p.slice(2, -2)}</strong>
+      <strong key={i} className="font-semibold text-slate-900">{p.slice(2, -2)}</strong>
     ) : (
       <span key={i}>{p}</span>
     )
@@ -157,9 +157,9 @@ export function LocalChatbot() {
             >
               {showWelcome && (
                 <div className="flex justify-start">
-                  <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-[var(--color-border)]/40 px-4 py-3 text-sm text-[var(--color-text)]">
+                  <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-slate-100 px-4 py-3 text-[15px] text-slate-800 leading-relaxed">
                     <p className="leading-relaxed">{WELCOME}</p>
-                    <p className="mt-3 text-xs text-[var(--color-text-muted)]">
+                    <p className="mt-3 text-xs text-slate-500">
                       {formatTime(new Date())}
                     </p>
                   </div>
@@ -172,17 +172,17 @@ export function LocalChatbot() {
                   className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
+                    className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                       m.role === 'user'
                         ? 'rounded-tr-sm bg-[var(--color-primary)] text-white'
-                        : 'rounded-tl-sm bg-[var(--color-border)]/40 text-[var(--color-text)]'
+                        : 'rounded-tl-sm bg-slate-100 text-slate-800'
                     }`}
                   >
-                    <p className="leading-relaxed">
+                    <p className="leading-relaxed text-[15px]">
                       {m.role === 'bot' ? renderTextWithBold(m.text) : m.text}
                     </p>
                     <p
-                      className={`mt-2 text-xs ${m.role === 'user' ? 'text-white/80' : 'text-[var(--color-text-muted)]'}`}
+                      className={`mt-2 text-xs ${m.role === 'user' ? 'text-white/90' : 'text-slate-500'}`}
                     >
                       {formatTime(m.at)}
                     </p>
@@ -192,7 +192,7 @@ export function LocalChatbot() {
 
               {typing && (
                 <div className="flex justify-start">
-                  <div className="rounded-2xl rounded-tl-sm bg-[var(--color-border)]/40 px-4 py-3">
+                  <div className="rounded-2xl rounded-tl-sm bg-slate-100 px-4 py-3">
                     <span className="inline-flex gap-1">
                       <span className="w-2 h-2 rounded-full bg-[var(--color-text-muted)] animate-bounce [animation-delay:0ms]" />
                       <span className="w-2 h-2 rounded-full bg-[var(--color-text-muted)] animate-bounce [animation-delay:150ms]" />
