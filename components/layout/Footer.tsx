@@ -12,8 +12,8 @@ export function Footer() {
       <div className="absolute top-0 right-0 w-1/3 h-full bg-accent-500/5 blur-[120px] pointer-events-none" />
 
       <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 lg:gap-24 mb-20">
-          <div className="md:col-span-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-16 lg:gap-24 mb-20">
+          <div className="sm:col-span-2 lg:col-span-2">
             <Link href="/" className="flex items-center gap-4 mb-8 group shrink-0">
               <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-2xl border border-white/20 shrink-0 bg-white backdrop-blur-md flex items-center justify-center p-2.5 group-hover:scale-105 transition-transform duration-500">
                 <img
@@ -47,49 +47,64 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="md:col-span-3">
-            <h3 className="text-accent-500 font-bold mb-8 text-[10px] uppercase tracking-[0.3em]">Link Directory</h3>
+          <div>
+            <h3 className="text-accent-500 font-bold mb-8 text-[10px] uppercase tracking-[0.3em]">Find Help</h3>
             <ul className="space-y-4">
               <li>
-                <Link href="/resources" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                <Link href="/resources" className="link-underline text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
                   Resources
                 </Link>
               </li>
               <li>
-                <Link href="/events" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                <Link href="/events" className="link-underline text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
                   Events
                 </Link>
               </li>
               <li>
-                <Link href="/career" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                <Link href="/career" className="link-underline text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
                   Career Center
                 </Link>
               </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-accent-500 font-bold mb-8 text-[10px] uppercase tracking-[0.3em]">Get Involved</h3>
+            <ul className="space-y-4">
               <li>
-                <Link href="/volunteer" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                <Link href="/volunteer" className="link-underline text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
                   Volunteer
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                <Link href="/submit-resource" className="link-underline text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                  Share a Resource
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-accent-500 font-bold mb-8 text-[10px] uppercase tracking-[0.3em]">About & Legal</h3>
+            <ul className="space-y-4">
+              <li>
+                <Link href="/about" className="link-underline text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/info" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                <Link href="/info" className="link-underline text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
                   Information
                 </Link>
               </li>
               <li>
-                <Link href="/submit-resource" className="text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
-                  Submit a Resource
+                <Link href="/privacy" className="link-underline text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                  Privacy
                 </Link>
               </li>
             </ul>
           </div>
 
-          <div className="md:col-span-4">
-            <h3 className="text-accent-500 font-bold mb-8 text-[10px] uppercase tracking-[0.3em]">Contact & Operations</h3>
+          <div>
+            <h3 className="text-accent-500 font-bold mb-8 text-[10px] uppercase tracking-[0.3em]">Contact</h3>
             <div className="space-y-8">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">

@@ -4,6 +4,7 @@ import { Briefcase, ArrowRight, CheckCircle, FilePlus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { cn } from '@/lib/utils';
 import { SPLINE_PAGES_URL } from '@/lib/spline';
 
@@ -53,6 +54,7 @@ export default function CareerCenterPage() {
       {/* Services Grid */}
       <section className="py-32 relative z-10">
         <div className="container-custom">
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Career Center' }]} className="mb-8" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
             {services.map((service, i) => (
               <Reveal key={service.title} delay={i * 0.1} width="100%">

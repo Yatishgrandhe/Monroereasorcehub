@@ -14,10 +14,12 @@ import { ContactForm } from '@/components/home/ContactForm';
 
 import { LogoCloud } from '@/components/home/LogoCloud';
 import { FeaturePills } from '@/components/home/FeaturePills';
+import { OnboardingTour } from '@/components/ui/OnboardingTour';
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
+      <OnboardingTour />
       {/* 1. HERO — Civic Professionalism */}
       <CivicHero />
 
@@ -70,7 +72,7 @@ export default function HomePage() {
       <ContactForm />
 
       <section className="cta-section py-12 px-6 lg:px-12 pb-24 bg-white relative">
-        <div className="container-custom mx-auto bg-primary-950 rounded-[4rem] relative overflow-hidden py-32 px-10 md:px-20 text-center shadow-[0_32px_128px_-16px_rgba(52,97,173,0.3)] max-w-[860px]">
+        <div className="container-custom mx-auto bg-primary-950 rounded-b-[4rem] rounded-t-[3.5rem] relative overflow-hidden py-32 px-10 md:px-20 text-center shadow-[0_32px_128px_-16px_rgba(52,97,173,0.3)] max-w-[860px]">
           <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.05)_1.5px,transparent_1.5px)] [background-size:48px_48px] opacity-40" />
           <div className="absolute top-0 right-0 w-1/3 h-full bg-accent-500/15 blur-[140px]" />
           <div className="absolute bottom-0 left-0 w-1/3 h-full bg-secondary-500/15 blur-[140px]" />

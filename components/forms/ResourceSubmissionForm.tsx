@@ -323,9 +323,19 @@ export function ResourceSubmissionForm() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-white pt-20">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="min-h-screen bg-white pt-20"
+      >
         <div className="container-custom section-padding pt-32">
-          <div className="max-w-2xl mx-auto bg-white border border-emerald-100 rounded-[3rem] shadow-soft overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-2xl mx-auto bg-white border border-emerald-100 rounded-[3rem] shadow-soft overflow-hidden"
+          >
             <div className="p-16 text-center">
               <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-10 shadow-sm border border-emerald-100">
                 <CheckCircle className="h-12 w-12 text-emerald-600" />
@@ -353,9 +363,9 @@ export function ResourceSubmissionForm() {
                 </Button>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     );
   }
 

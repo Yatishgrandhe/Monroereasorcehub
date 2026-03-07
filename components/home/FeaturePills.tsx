@@ -36,6 +36,7 @@ export function FeaturePills() {
               <Link
                 key={f.href}
                 href={f.href}
+                data-tour={f.href === '/career/resume-builder' ? 'resume-builder' : undefined}
                 className="feature-pill flex items-center gap-3 bg-white border border-[var(--color-border)] rounded-xl px-5 py-3.5 text-left no-underline transition-all duration-200 hover:border-[var(--color-primary)] hover:shadow-[0_8px_24px_rgba(52,97,173,0.12)] hover:-translate-y-1"
               >
                 <span className="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center text-primary-700 shrink-0">

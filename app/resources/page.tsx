@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
 import { SPLINE_PAGES_URL } from '@/lib/spline';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 const DEFAULT_CATEGORIES = ['Food Assistance', 'Healthcare', 'Education', 'Housing', 'Family Support', 'Career Support'];
 
@@ -58,16 +59,17 @@ export default function ResourcesPage() {
 
       <section className="relative z-20 pt-10 pb-16 md:pt-12 md:pb-24">
         <div className="container-custom">
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Resources' }]} className="mb-6" />
           <Reveal width="100%">
-            <div className="bg-[var(--color-surface)] rounded-2xl p-4 sm:p-6 shadow-sm border border-[var(--color-border)] mb-10">
+            <div className="bg-[var(--color-surface)] rounded-2xl p-4 sm:p-6 shadow-sm border border-[var(--color-border)] mb-10 transition-shadow duration-200 focus-within:shadow-md focus-within:border-[var(--color-primary)]/40">
               <div className="flex flex-col sm:flex-row gap-4">
-                <div className="relative flex-1">
+                <div className="relative flex-1 transition-[max-width] duration-300 ease-out focus-within:max-w-full">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--color-text-muted)]" />
                   <Input
                     value={state.query}
                     onChange={(e) => updateQuery(e.target.value)}
                     placeholder="Search by name, zip code, or type of help..."
-                    className="pl-12 h-12 rounded-xl border-[var(--color-border)] bg-white text-[var(--color-text)] placeholder:text-[var(--color-text-light)] focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+                    className="pl-12 h-12 rounded-xl border-[var(--color-border)] bg-white text-[var(--color-text)] placeholder:text-[var(--color-text-light)] focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:border-[var(--color-primary)] transition-all duration-200"
                   />
                 </div>
                 <div className="flex gap-3 items-center shrink-0">
@@ -155,6 +157,20 @@ export default function ResourcesPage() {
                 </div>
               )}
 
+              {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8" aria-busy="true" aria-label="Loading resources">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <div key={i} className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 animate-pulse">
+                    <div className="h-5 w-24 bg-[var(--color-border)] rounded mb-4" />
+                    <div className="h-6 w-3/4 bg-[var(--color-border)] rounded mb-3" />
+                    <div className="h-4 w-full bg-[var(--color-border)]/70 rounded mb-2" />
+                    <div className="h-4 w-5/6 bg-[var(--color-border)]/70 rounded mb-6" />
+                    <div className="h-4 w-1/2 bg-[var(--color-border)]/70 rounded mb-4" />
+                    <div className="h-11 w-full bg-[var(--color-border)] rounded-xl mt-4" />
+                  </div>
+                ))}
+              </div>
+            ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                 {results.map((resource, i) => (
                   <Reveal key={resource.id} delay={i % 2 ? 0.05 : 0}>
@@ -162,6 +178,7 @@ export default function ResourcesPage() {
                   </Reveal>
                 ))}
               </div>
+            )}
             </main>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import { Shield, Zap, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Reveal } from '@/components/ui/Reveal';
+import { motion } from 'framer-motion';
 
 const valueItems = [
   {
@@ -42,19 +43,24 @@ export function ValueProposition({ className }: { className?: string }) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
           {valueItems.map((item, i) => (
-            <Reveal key={item.title} delay={i * 0.1} width="100%">
-              <div className="flex flex-col items-center text-center p-8 md:p-10 bg-white  rounded-2xl border border-gray-100 dark:border-primary-800 shadow-sm hover:shadow-md transition-all group relative overflow-hidden">
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col items-center text-center p-8 md:p-10 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all group relative overflow-hidden"
+            >
                 <div className="w-14 h-14 rounded-xl bg-primary-100  flex items-center justify-center mb-6 text-primary-950 ">
                   <item.icon className="h-7 w-7" />
                 </div>
                 <h3 className="text-xl font-serif font-bold mb-4 text-primary-950  tracking-tight">
                   {item.title}
                 </h3>
-                <p className="text-gray-600  leading-relaxed text-sm md:text-base">
+                <p className="text-gray-600 leading-relaxed text-sm md:text-base">
                   {item.description}
                 </p>
-              </div>
-            </Reveal>
+            </motion.div>
           ))}
         </div>
       </div>

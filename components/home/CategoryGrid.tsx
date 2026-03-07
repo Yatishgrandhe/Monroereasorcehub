@@ -17,7 +17,7 @@ const categories = [
 
 export function CategoryGrid() {
     return (
-        <section className="py-32 bg-white relative">
+        <section className="py-32 bg-white relative" data-tour="categories">
             {/* Background Texture */}
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
 

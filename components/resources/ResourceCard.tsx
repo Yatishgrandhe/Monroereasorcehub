@@ -27,7 +27,7 @@ export function ResourceCard({ resource, showCategory = true }: ResourceCardProp
       viewport={{ once: true }}
       className="h-full"
     >
-      <div className="h-full flex flex-col rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-shadow)] hover:border-[var(--color-primary-light)]">
+      <div className="h-full flex flex-col rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden transition-transform transition-shadow duration-200 hover:-translate-y-[3px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.12)] hover:border-[var(--color-primary)]/30">
         <div className="p-6 flex-1 flex flex-col">
           <div className="flex items-start justify-between gap-3 mb-4">
             {showCategory && resource.categories?.name && (

@@ -63,6 +63,7 @@ export function Header() {
     width: number;
   } | null>(null);
   const [useCompactNav, setUseCompactNav] = useState(true);
+  const [sharePulse, setSharePulse] = useState(false);
   const showDesktopNav = !useCompactNav;
   const pathname = usePathname();
   const router = useRouter();
@@ -148,6 +149,17 @@ export function Header() {
     const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD_PX);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (typeof sessionStorage === 'undefined') return;
+    if (sessionStorage.getItem('share-cta-pulsed')) return;
+    setSharePulse(true);
+    const t = setTimeout(() => {
+      sessionStorage.setItem('share-cta-pulsed', '1');
+      setSharePulse(false);
+    }, 1800);
+    return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
@@ -348,11 +360,13 @@ export function Header() {
           <div className="flex items-center gap-2 shrink-0 ml-auto">
             <Link
               href="/submit-resource"
+              data-tour="share-resource"
               className={cn(
-                'hidden sm:flex items-center gap-2 h-9 sm:h-10 px-4 rounded-lg font-semibold text-sm transition-colors shrink-0',
+                'hidden sm:flex items-center gap-2 h-9 sm:h-10 px-4 rounded-lg font-semibold text-sm transition-all duration-200 shrink-0 hover:-translate-y-0.5 hover:shadow-md',
                 isTransparent
                   ? 'bg-white/20 text-white hover:bg-white/30 border border-white/30'
-                  : 'bg-[#2563EB] text-white hover:bg-[#1d4ed8] border-0 shadow-sm'
+                  : 'bg-[#2563EB] text-white hover:bg-[#1d4ed8] border-0 shadow-sm',
+                sharePulse && 'share-cta-pulse'
               )}
             >
               <PlusCircle className="h-4 w-4 shrink-0" />
@@ -362,6 +376,7 @@ export function Header() {
               variant="ghost"
               size="icon"
               aria-label="Search (⌘K)"
+              data-tour="search"
               onClick={() => setSearchOpen(true)}
               className={cn(
                 'h-9 w-9 sm:h-10 sm:w-10 p-0 rounded-lg shrink-0 transition-colors',

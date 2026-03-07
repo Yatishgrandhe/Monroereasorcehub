@@ -217,14 +217,14 @@ export default function SignInPage() {
               </div>
 
               {error && (
-                <div className="text-red-600 text-sm font-medium bg-red-50  p-4 rounded-xl border border-red-200 ">
+                <div key={error} className="error-shake text-red-600 text-sm font-medium bg-red-50 p-4 rounded-xl border border-red-200">
                   {error}
                 </div>
               )}
 
               <Button
                 type="submit"
-                className="w-full h-14 rounded-2xl font-bold bg-[var(--color-primary)] hover:bg-primary-700 text-white"
+                className="w-full h-14 rounded-2xl font-bold bg-[var(--color-primary)] hover:bg-primary-700 hover:-translate-y-0.5 hover:shadow-lg text-white transition-all duration-200"
                 loading={loading}
                 disabled={loading}
               >
@@ -262,7 +262,7 @@ export default function SignInPage() {
 
             <p className="mt-8 text-center text-sm text-[var(--color-text-muted)]">
               Don&apos;t have an account?{' '}
-              <Link href="/auth/signup" className="font-semibold text-[var(--color-primary)] hover:text-primary-700 transition-colors">
+              <Link href="/auth/signup" className="link-underline font-semibold text-[var(--color-primary)] hover:text-primary-700 transition-colors">
                 Create account
               </Link>
             </p>
