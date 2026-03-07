@@ -24,11 +24,11 @@ export function CategoryGrid() {
             <div className="container-custom relative z-10">
                 <Reveal width="100%">
                     <div className="mb-20 text-center">
-                        <span className="text-primary-600 font-semibold uppercase tracking-widest text-xs">Browse by need</span>
+                        <span className="text-secondary-500 font-bold uppercase tracking-widest text-xs font-sans">Browse by need</span>
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-950 mt-4 mb-6 tracking-tight">
-                            What are you looking for?
+                            What are you looking for<span className="text-secondary-500">.</span>
                         </h2>
-                        <p className="text-base md:text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-base md:text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed font-sans">
                             Every organization below is manually verified so Monroe residents get accurate, up-to-date information.
                         </p>
                     </div>
@@ -40,20 +40,20 @@ export function CategoryGrid() {
                             <Link
                                 href={cat.href}
                                 className={cn(
-                                    "category-card group flex flex-col h-full p-7 bg-white border border-[var(--color-border)] rounded-2xl relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_48px_rgba(52,97,173,0.12)]",
+                                    "category-card group flex flex-col h-full p-7 bg-white border border-[var(--color-border)] rounded-2xl relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_48px_#3461ad1f]",
                                     cat.accent === 'primary' && "hover:border-primary-500 [&_.card-bar]:bg-primary-500 [&_.card-count]:text-primary-600",
                                     cat.accent === 'accent' && "hover:border-accent-500 [&_.card-bar]:bg-accent-500 [&_.card-count]:text-accent-600",
                                     cat.accent === 'secondary' && "hover:border-secondary-500 [&_.card-bar]:bg-secondary-500 [&_.card-count]:text-secondary-600"
                                 )}
                             >
-                                <div className="card-bar absolute top-0 left-0 right-0 h-1 bg-primary-500 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300" />
-                                <div className="card-count absolute top-4 right-4 text-[0.7rem] font-bold text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full tracking-wider">
+                                <div className="card-bar absolute top-0 left-0 right-0 h-1 bg-[var(--color-primary)] scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300" />
+                                <div className="card-count absolute top-4 right-4 text-[0.7rem] font-bold text-white bg-slate-900 px-3 py-1 rounded-full tracking-wider font-sans group-hover:bg-primary-500 transition-colors">
                                     {cat.count}
                                 </div>
-                                <div className="w-14 h-14 rounded-xl bg-primary-50 flex items-center justify-center text-primary-700 mb-4 group-hover:scale-110 group-hover:rotate-[-4deg] transition-transform duration-200">
+                                <div className="w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center text-primary-500 mb-4 group-hover:scale-110 group-hover:rotate-[-4deg] transition-transform duration-200">
                                     <cat.icon className="h-7 w-7" />
                                 </div>
-                                <h3 className="text-2xl font-serif font-black mb-4 text-primary-950 group-hover:text-primary-700 transition-colors">
+                                <h3 className="text-2xl font-serif font-bold mb-4 text-primary-950 group-hover:text-primary-600 transition-colors">
                                     {cat.name}
                                 </h3>
                                 <p className="text-gray-500 text-base leading-relaxed mb-8 flex-1">

@@ -28,31 +28,30 @@ const features = [
 export function FeaturePills() {
   return (
     <div className="container-custom -mt-8 relative z-20">
-      <Reveal width="100%">
-        <div className="flex flex-wrap gap-4 justify-center">
-          {features.map((f, i) => {
-            const Icon = f.icon;
-            return (
+      <div className="flex flex-wrap gap-4 justify-center">
+        {features.map((f, i) => {
+          const Icon = f.icon;
+          return (
+            <Reveal key={f.href} delay={i * 0.15} direction="up">
               <Link
-                key={f.href}
                 href={f.href}
                 data-tour={f.href === '/career/resume-builder' ? 'resume-builder' : undefined}
-                className="feature-pill flex items-center gap-3 bg-white border border-[var(--color-border)] rounded-xl px-5 py-3.5 text-left no-underline transition-all duration-200 hover:border-[var(--color-primary)] hover:shadow-[0_8px_24px_rgba(52,97,173,0.12)] hover:-translate-y-1"
+                className="feature-pill flex items-center gap-4 bg-white border border-[var(--color-border)] border-l-4 border-l-accent-500 rounded-xl px-6 py-4 text-left no-underline transition-all duration-300 hover:border-l-[var(--color-primary)] hover:border-y-[var(--color-primary)] hover:border-r-[var(--color-primary)] hover:shadow-[0_12px_24px_#3461ad1f] hover:-translate-y-[6px]"
               >
-                <span className="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center text-primary-700 shrink-0">
-                  <Icon className="w-5 h-5" />
+                <span className="w-12 h-12 rounded-full bg-primary-50 flex items-center justify-center text-primary-500 shrink-0">
+                  <Icon className="w-6 h-6" />
                 </span>
                 <div>
-                  <strong className="block text-[0.88rem] font-bold text-[var(--color-text)] font-[var(--font-heading)]">
+                  <strong className="block text-base font-bold text-[var(--color-text)] font-sans">
                     {f.title}
                   </strong>
-                  <span className="text-[0.75rem] text-[var(--color-text-muted)]">{f.desc}</span>
+                  <span className="text-sm text-[var(--color-text-muted)] font-sans">{f.desc}</span>
                 </div>
               </Link>
-            );
-          })}
-        </div>
-      </Reveal>
+            </Reveal>
+          );
+        })}
+      </div>
     </div>
   );
 }

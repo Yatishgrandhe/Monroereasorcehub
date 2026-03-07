@@ -364,10 +364,10 @@ export function Header() {
               href="/submit-resource"
               data-tour="tour-share-resource"
               className={cn(
-                'hidden sm:flex items-center gap-2 h-9 sm:h-10 px-4 rounded-lg font-semibold text-sm transition-all duration-200 shrink-0 hover:-translate-y-0.5 hover:shadow-md',
+                'hidden sm:flex items-center gap-2 h-9 sm:h-10 px-4 rounded-lg font-bold text-sm transition-all duration-300 shrink-0 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-[0.97]',
                 isTransparent
                   ? 'bg-white/20 text-white hover:bg-white/30 border border-white/30'
-                  : 'bg-[#2563EB] text-white hover:bg-[#1d4ed8] border-0 shadow-sm',
+                  : 'bg-primary-[var(--color-primary)] bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)] shadow-[0_4px_14px_#3461ad59] border-0',
                 sharePulse && 'share-cta-pulse'
               )}
             >
@@ -446,7 +446,7 @@ export function Header() {
                 <Link href="/auth/signup">
                   <Button
                     size="sm"
-                    className="h-9 rounded-lg font-semibold text-sm bg-[#2563EB] hover:bg-[#1d4ed8] text-white border-0 shadow-md"
+                    className="h-9 rounded-lg font-bold text-sm bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white border-0 shadow-[0_4px_14px_#3461ad59] transition-all hover:-translate-y-0.5"
                   >
                     Sign Up
                   </Button>
@@ -578,7 +578,7 @@ export function Header() {
                         </Button>
                       </Link>
                       <Link href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
-                        <Button className="w-full justify-center rounded-xl bg-[#2563EB] text-white">
+                        <Button className="w-full justify-center rounded-xl bg-[var(--color-primary)] text-white font-bold opacity-100 hover:opacity-90">
                           Sign Up
                         </Button>
                       </Link>

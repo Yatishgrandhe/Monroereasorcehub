@@ -24,11 +24,11 @@ export function Footer() {
               </div>
               <div>
                 <span className="text-3xl font-black tracking-tighter font-serif block leading-none text-white whitespace-nowrap">
-                  Monroe Resource <span className="text-accent-500 italic block">Hub.</span>
+                  Monroe Resource <span className="text-secondary-500 italic block">Hub.</span>
                 </span>
               </div>
             </Link>
-            <p className="footer-mission text-gray-400 text-[0.85rem] mb-8 max-w-md leading-relaxed">
+            <p className="footer-mission text-slate-400 text-[0.85rem] mb-8 max-w-md leading-relaxed font-sans">
               Monroe Resource Hub is a free, community-maintained directory of local services in Union County, NC. Built and maintained by volunteers.
             </p>
             <p className="footer-meta text-gray-500 text-[0.8rem] mb-6">
@@ -48,20 +48,20 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-accent-500 font-bold mb-8 text-[10px] uppercase tracking-[0.3em]">Find Help</h3>
+            <h3 className="text-secondary-500 font-bold mb-8 text-[10px] uppercase tracking-[0.3em] font-sans">Find Help</h3>
             <ul className="space-y-4">
               <li>
-                <Link href="/resources" className="link-underline text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                <Link href="/resources" className="link-underline text-slate-400 hover:text-white transition-colors text-sm font-bold uppercase tracking-widest font-sans">
                   Resources
                 </Link>
               </li>
               <li>
-                <Link href="/events" className="link-underline text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                <Link href="/events" className="link-underline text-slate-400 hover:text-white transition-colors text-sm font-bold uppercase tracking-widest font-sans">
                   Events
                 </Link>
               </li>
               <li>
-                <Link href="/career" className="link-underline text-gray-400 hover:text-accent-500 transition-colors text-sm font-bold uppercase tracking-widest">
+                <Link href="/career" className="link-underline text-slate-400 hover:text-white transition-colors text-sm font-bold uppercase tracking-widest font-sans">
                   Career Center
                 </Link>
               </li>
@@ -131,14 +131,14 @@ export function Footer() {
         </div>
 
         <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-sm text-gray-500 text-center md:text-left">
+          <div className="text-sm text-slate-500 text-center md:text-left font-sans">
             <p>© {currentYear} Monroe Resource Hub. Built for Union County, by Union County residents.</p>
           </div>
 
-          <div className="flex gap-6 text-sm">
-            <Link href="/privacy" className="text-gray-500 hover:text-white transition-colors">Privacy</Link>
-            <Link href="/terms" className="text-gray-500 hover:text-white transition-colors">Terms</Link>
-            <Link href="/info" className="text-gray-500 hover:text-white transition-colors">Information</Link>
+          <div className="flex gap-6 text-sm font-sans font-bold">
+            <Link href="/privacy" className="text-slate-500 hover:text-white transition-colors">Privacy</Link>
+            <Link href="/terms" className="text-slate-500 hover:text-white transition-colors">Terms</Link>
+            <Link href="/info" className="text-slate-500 hover:text-white transition-colors">Information</Link>
           </div>
         </div>
       </div>

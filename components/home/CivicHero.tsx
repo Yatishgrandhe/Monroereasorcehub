@@ -10,51 +10,65 @@ import { SPLINE_HERO_URL } from '@/lib/spline';
 export function CivicHero() {
   const heroContent = (
     <div className="container-custom w-full pt-32 pb-24 flex items-center min-h-[85vh]">
-      <div className="max-w-4xl">
+      <div className="max-w-4xl relative z-10">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-1 bg-gradient-to-r from-accent-500 to-transparent rounded-full" />
-            <span className="text-accent-400 font-black uppercase tracking-[0.4em] text-[10px]">Monroe, North Carolina</span>
-          </div>
-          <h1 className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-black leading-[1.05] mb-8 tracking-tighter italic drop-shadow-2xl">
+            <motion.div
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={{ opacity: 1, scaleX: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="h-[3px] w-[60px] rounded-full bg-gradient-to-r from-primary-500 to-accent-500 origin-left"
+            />
             <motion.span
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="text-white font-bold uppercase tracking-[0.2em] text-xs font-sans"
+            >
+              Monroe, North Carolina
+            </motion.span>
+          </div>
+
+          <h1 className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-serif font-bold leading-[1.05] mb-8 drop-shadow-2xl">
+            <motion.span
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
               className="block"
             >
               Your community.
             </motion.span>
             <motion.span
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="text-accent-500 not-italic block"
+              transition={{ duration: 0.6, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
+              className="block"
             >
-              All in one place.
+              All in one place<span className="text-secondary-500">.</span>
             </motion.span>
           </h1>
+
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="text-xl md:text-2xl text-blue-50/80 mb-12 leading-relaxed max-w-2xl font-medium"
+            transition={{ duration: 0.6, delay: 0.30, ease: [0.22, 1, 0.36, 1] }}
+            className="text-xl md:text-2xl text-slate-300 mb-12 leading-relaxed max-w-2xl font-sans"
           >
             Free access to food, healthcare, housing, jobs, and more — built for every resident of Union County.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col sm:flex-row gap-6 flex-nowrap"
           >
             <Link href="/resources" className="w-full sm:w-auto shrink-0">
-              <Button className="bg-[var(--color-secondary)] hover:brightness-110 text-white !h-16 sm:!h-20 px-8 sm:px-14 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] w-full sm:w-auto shadow-2xl shadow-red-500/20 whitespace-nowrap group transition-all duration-200 transform-gpu hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.15)] active:translate-y-0">
+              <Button className="bg-primary-500 text-white hover:bg-primary-600 !h-16 sm:!h-20 px-8 sm:px-14 rounded-2xl font-bold text-base w-full sm:w-auto shadow-[0_4px_24px_#3461ad73] whitespace-nowrap group transition-all duration-300 transform-gpu hover:-translate-y-1 active:translate-y-0 active:scale-[0.97]">
                 <span className="flex items-center justify-center gap-4">
                   <span>Find Resources</span>
                   <ArrowRight className="h-5 w-5 shrink-0 group-hover:translate-x-1 transition-transform" />
@@ -62,7 +76,7 @@ export function CivicHero() {
               </Button>
             </Link>
             <Link href="/submit-resource" className="w-full sm:w-auto shrink-0">
-              <Button variant="outline" className="!h-16 sm:!h-20 px-8 sm:px-12 rounded-2xl border-white/20 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.15)] w-full sm:w-auto font-black uppercase tracking-[0.2em] text-[10px] whitespace-nowrap transition-all duration-200">
+              <Button variant="outline" className="!h-16 sm:!h-20 px-8 sm:px-12 rounded-2xl border border-white/30 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:-translate-y-1 w-full sm:w-auto font-bold text-base whitespace-nowrap transition-all duration-300 active:translate-y-0 active:scale-[0.97]">
                 Add an Organization
               </Button>
             </Link>
@@ -94,51 +108,20 @@ export function CivicHero() {
   }
 
   return (
-    <section className="relative w-full min-h-[85vh] flex items-center overflow-hidden bg-white">
+    <section className="relative w-full min-h-[85vh] flex items-center overflow-hidden bg-civic-gradient">
       <div className="hero-orb-before" aria-hidden="true" />
       <div className="hero-orb-after" aria-hidden="true" />
+      <div className="svg-grain-overlay" />
       <div className="absolute inset-0 z-0">
         <img
           src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=2000"
           alt="Monroe Civic Architecture"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-[0.18]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-950/95 via-primary-950/80 to-primary-950/50" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
       </div>
 
-      <div className="container-custom relative z-10 w-full pt-28 pb-20">
-        <div className="max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-6 drop-shadow-lg">
-              Your community. All in one place.
-            </h1>
-            <p className="text-lg md:text-xl text-primary-100/90 mb-10 leading-relaxed max-w-2xl">
-              Free access to food, healthcare, housing, jobs, and more — built for every resident of Union County.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 flex-nowrap">
-              <Link href="/resources" className="w-full sm:w-auto shrink-0">
-                <Button className="bg-[var(--color-accent)] text-[var(--color-text)] hover:opacity-90 h-12 sm:h-14 px-6 sm:px-10 rounded-xl font-bold text-base w-full sm:w-auto shadow-[0_4px_14px_var(--color-shadow)] whitespace-nowrap group transition-all duration-200 active:scale-[0.98]">
-                  <span className="flex items-center justify-center gap-2">
-                    <span>Find Resources</span>
-                    <ArrowRight className="h-5 w-5 shrink-0 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Button>
-              </Link>
-              <Link href="/submit-resource" className="w-full sm:w-auto shrink-0">
-                <Button variant="outline" className="h-12 sm:h-14 px-6 sm:px-10 rounded-xl border-2 border-white/50 text-white hover:bg-white/10 w-full sm:w-auto font-semibold whitespace-nowrap">
-                  Add an Organization
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </div>
+      {heroContent}
 
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none" />
     </section>

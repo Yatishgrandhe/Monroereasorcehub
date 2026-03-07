@@ -46,22 +46,22 @@ export function SpotlightBento() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
       {FEATURED_ORGS.map((org, i) => (
-        <Reveal key={org.name} delay={i * 0.1} width="100%">
-          <div className="bg-white border-l-4 border-l-primary-500 border border-gray-100 rounded-[2.5rem] p-4 shadow-soft hover:shadow-civic-hover transition-all duration-500 group">
+        <Reveal key={org.name} delay={i * 0.1} width="100%" direction="up">
+          <div className="bg-white border-l-4 border-l-primary-500 border border-[var(--color-border)] rounded-[2.5rem] p-4 shadow-soft hover:shadow-civic-hover hover:-translate-y-2 transition-all duration-300 group">
             <div className="p-8">
-              <span className="inline-block px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider text-primary-700 bg-primary-50 mb-4">
+              <span className="inline-block px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider text-white bg-slate-900 mb-4 group-hover:bg-primary-500 transition-colors font-sans">
                 {org.tag}
               </span>
-              <h3 className="text-2xl font-serif font-black text-primary-950 mb-4 group-hover:text-primary-700 transition-colors leading-tight">
+              <h3 className="text-2xl font-serif font-bold text-primary-950 mb-4 group-hover:text-primary-600 transition-colors leading-tight">
                 {org.name}
               </h3>
-              <p className="text-gray-500 text-sm mb-10 flex-1 leading-relaxed italic font-medium opacity-80">
+              <p className="text-slate-500 text-sm mb-10 flex-1 leading-relaxed font-sans">
                 {org.description}
               </p>
 
-              <div className="space-y-6 mb-10">
-                <div className="flex items-center text-sm text-gray-600">
-                  <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center mr-4 text-primary-700 shrink-0">
+              <div className="space-y-6 mb-10 font-sans">
+                <div className="flex items-center text-sm text-slate-600">
+                  <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center mr-4 text-primary-500 shrink-0">
                     <Phone className="h-4 w-4" />
                   </div>
                   <div>
@@ -69,8 +69,8 @@ export function SpotlightBento() {
                     <span className="font-bold">{org.phone}</span>
                   </div>
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center mr-4 text-primary-700 shrink-0">
+                <div className="flex items-center text-sm text-slate-600">
+                  <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center mr-4 text-primary-500 shrink-0">
                     <MapPin className="h-4 w-4" />
                   </div>
                   <div>

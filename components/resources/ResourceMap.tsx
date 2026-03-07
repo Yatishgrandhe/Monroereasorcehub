@@ -10,19 +10,19 @@ import 'leaflet/dist/leaflet.css';
 const MONROE_CENTER: [number, number] = [34.9854, -80.5495];
 
 const FALLBACK_PINS: Array<{ name: string; lat: number; lng: number; category: string; address: string }> = [
-  { name: 'Union County DSS', lat: 34.982, lng: -80.553, category: 'Government', address: '1212 W Roosevelt Blvd, Monroe, NC' },
-  { name: 'Second Harvest Food Bank (Union)', lat: 34.988, lng: -80.545, category: 'Food', address: 'Serving Monroe, NC' },
-  { name: 'Community Care Clinic', lat: 34.981, lng: -80.551, category: 'Healthcare', address: 'Monroe, NC' },
+    { name: 'Union County DSS', lat: 34.982, lng: -80.553, category: 'Government', address: '1212 W Roosevelt Blvd, Monroe, NC' },
+    { name: 'Second Harvest Food Bank (Union)', lat: 34.988, lng: -80.545, category: 'Food', address: 'Serving Monroe, NC' },
+    { name: 'Community Care Clinic', lat: 34.981, lng: -80.551, category: 'Healthcare', address: 'Monroe, NC' },
 ];
 
 type ResourceWithCoords = {
-  id: string;
-  name: string;
-  description: string | null;
-  address: string | null;
-  latitude: number | null;
-  longitude: number | null;
-  categories?: { name: string } | { name: string }[] | null;
+    id: string;
+    name: string;
+    description: string | null;
+    address: string | null;
+    latitude: number | null;
+    longitude: number | null;
+    categories?: { name: string } | { name: string }[] | null;
 };
 
 export function ResourceMap() {
@@ -123,14 +123,14 @@ export function ResourceMap() {
             const itemsToPin = hasDbPins
                 ? pinsToShow
                 : FALLBACK_PINS.map((p) => ({
-                        id: p.name,
-                        name: p.name,
-                        description: null,
-                        address: p.address,
-                        latitude: p.lat,
-                        longitude: p.lng,
-                        categories: { name: p.category },
-                    }));
+                    id: p.name,
+                    name: p.name,
+                    description: null,
+                    address: p.address,
+                    latitude: p.lat,
+                    longitude: p.lng,
+                    categories: { name: p.category },
+                }));
 
             itemsToPin.forEach((resource: any) => {
                 const lat = resource.latitude ?? resource.lat;
@@ -158,15 +158,15 @@ export function ResourceMap() {
                 const linkText = /^[0-9a-f-]{36}$/i.test(String(resource.id || '')) ? 'View Details' : 'View Resources';
 
                 marker.bindPopup(`
-                    <div class="flex flex-col gap-4 min-w-[240px] p-4 bg-white rounded-3xl">
-                        <span class="text-[9px] font-black uppercase tracking-[0.3em] text-primary-700">${categoryName}</span>
-                        <h3 class="text-xl font-serif font-black text-primary-950 m-0 leading-tight italic">${resource.name}</h3>
-                        <p class="text-[13px] text-gray-500 leading-relaxed font-medium italic">${resource.description || ''}</p>
-                        <div class="flex items-center gap-2 text-[11px] text-gray-400 font-bold uppercase tracking-widest border-t border-gray-50 pt-4">
-                            <span class="w-1.5 h-1.5 rounded-full bg-primary-700 animate-pulse"></span>
+                    <div class="flex flex-col gap-4 min-w-[240px] p-4 bg-white rounded-3xl font-sans">
+                        <span class="text-[9px] font-bold uppercase tracking-[0.3em] text-primary-500">${categoryName}</span>
+                        <h3 class="text-2xl font-serif font-bold text-primary-950 m-0 leading-tight">${resource.name}</h3>
+                        <p class="text-[14px] text-slate-500 leading-relaxed font-sans">${resource.description || ''}</p>
+                        <div class="flex items-center gap-2 text-[11px] text-slate-400 font-bold uppercase tracking-widest border-t border-[var(--color-border)] pt-4 mt-2">
+                            <span class="aqua-pulse-dot"></span>
                             ${address}
                         </div>
-                        <a href="${detailUrl}" class="inline-block mt-2 px-6 py-3 bg-primary-950 text-white text-[9px] font-black uppercase tracking-[0.2em] rounded-xl text-center hover:bg-black transition-all shadow-xl shadow-primary-950/20">
+                        <a href="${detailUrl}" class="inline-block mt-4 px-6 py-3 bg-primary-[var(--color-primary)] bg-[var(--color-primary)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-xl text-center hover:bg-[var(--color-primary-dark)] transition-all shadow-[0_4px_14px_#3461ad59]">
                             ${linkText}
                         </a>
                     </div>
@@ -193,13 +193,13 @@ export function ResourceMap() {
                 <Reveal width="100%">
                     <div className="flex flex-col lg:flex-row justify-between items-center lg:items-end mb-16 gap-12 text-center lg:text-left">
                         <div className="max-w-2xl">
-                            <span className="text-accent-600 font-semibold uppercase tracking-wider text-xs">
+                            <span className="text-secondary-500 font-bold uppercase tracking-wider text-xs font-sans">
                                 {viewMode === 'map' ? 'MAP VIEW' : 'LIST VIEW'}
                             </span>
-                            <h2 className="text-primary-950 mt-4 mb-6 text-3xl md:text-4xl font-serif font-bold leading-tight">
-                                Resources Near You
+                            <h2 className="text-primary-950 mt-4 mb-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold leading-tight">
+                                Resources Near You<span className="text-secondary-500">.</span>
                             </h2>
-                            <p className="text-base md:text-lg text-gray-500 leading-relaxed">
+                            <p className="text-base md:text-lg text-slate-500 leading-relaxed font-sans">
                                 {viewMode === 'map'
                                     ? 'See where verified organizations are located across Union County. Click the map to open the full interactive view.'
                                     : 'Browse all verified resources. Data is pulled from our database and refreshed on demand.'}
@@ -217,22 +217,20 @@ export function ResourceMap() {
                             <div className="flex bg-primary-50 border border-primary-100 rounded-[2rem] p-2 shadow-sm">
                                 <button
                                     onClick={() => setViewMode('map')}
-                                    className={`px-8 py-4 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 transition-all ${
-                                        viewMode === 'map'
-                                            ? 'bg-primary-950 text-white shadow-2xl'
-                                            : 'text-primary-950 hover:bg-white'
-                                    }`}
+                                    className={`px-8 py-4 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 transition-all ${viewMode === 'map'
+                                        ? 'bg-primary-950 text-white shadow-2xl'
+                                        : 'text-primary-950 hover:bg-white'
+                                        }`}
                                 >
                                     <MapIcon className="w-4 h-4" />
                                     Map View
                                 </button>
                                 <button
                                     onClick={() => setViewMode('list')}
-                                    className={`px-8 py-4 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 transition-all ${
-                                        viewMode === 'list'
-                                            ? 'bg-primary-950 text-white shadow-2xl'
-                                            : 'text-primary-950 hover:bg-white'
-                                    }`}
+                                    className={`px-8 py-4 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 transition-all ${viewMode === 'list'
+                                        ? 'bg-primary-950 text-white shadow-2xl'
+                                        : 'text-primary-950 hover:bg-white'
+                                        }`}
                                 >
                                     <Layers className="w-4 h-4" />
                                     List View
@@ -250,9 +248,8 @@ export function ResourceMap() {
                                     type="text"
                                     inputMode="numeric"
                                     placeholder="Enter your zip code (e.g. 28112)"
-                                    className={`zip-input w-full sm:w-64 px-4 py-3 rounded-xl border bg-white text-[var(--color-text)] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all ${
-                                        zipLookupError ? 'border-red-500 focus:border-red-500' : 'border-[var(--color-border)] focus:border-primary-500'
-                                    }`}
+                                    className={`zip-input w-full sm:w-64 px-4 py-3 rounded-xl border bg-white text-[var(--color-text)] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all ${zipLookupError ? 'border-red-500 focus:border-red-500' : 'border-[var(--color-border)] focus:border-primary-500'
+                                        }`}
                                     maxLength={5}
                                     value={zipQuery}
                                     onChange={(e) => {
