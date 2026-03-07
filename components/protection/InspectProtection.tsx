@@ -178,7 +178,7 @@ export function InspectProtection() {
                 box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
               }
             </style>
-            <div class="devtools-container gradient-bg" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',system-ui,-apple-system,sans-serif;color:#fff;padding:40px 20px;text-align:center;position:relative;overflow:hidden;">
+            <div class="devtools-container gradient-bg" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui,-apple-system,sans-serif;color:#fff;padding:40px 20px;text-align:center;position:relative;overflow:hidden;">
               <div style="position:absolute;top:0;right:0;width:500px;height:500px;background:rgba(255,255,255,0.08);border-radius:50%;filter:blur(100px);transform:translate(25%,-25%);animation:float 6s ease-in-out infinite;"></div>
               <div style="position:absolute;bottom:0;left:0;width:500px;height:500px;background:rgba(255,255,255,0.08);border-radius:50%;filter:blur(100px);transform:translate(-25%,25%);animation:float 8s ease-in-out infinite reverse;"></div>
               <div style="position:relative;z-index:10;max-width:750px;width:100%;">

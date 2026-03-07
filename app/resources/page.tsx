@@ -42,14 +42,14 @@ export default function ResourcesPage() {
           <Reveal width="100%">
             <div className="flex flex-col items-start gap-4 text-left">
               <span className="px-5 py-2 rounded-full bg-accent-500/10 border border-accent-400/20 text-accent-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-md">
-                Verified Registry
+                Community Verified
               </span>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-4">
                 Resources<span className="text-secondary-500 not-italic">.</span>
               </h1>
               <div className="w-24 h-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full mb-6" />
               <p className="text-xl md:text-2xl text-blue-50/70 max-w-3xl leading-relaxed italic font-medium">
-                Every listing is verified by our team. Search by name, zip code, or community need.
+                Every listing is community verified. Search by name, zip code, or type of help.
               </p>
             </div>
           </Reveal>
@@ -136,7 +136,7 @@ export default function ResourcesPage() {
                     </span>
                   ) : (
                     <>
-                      <span className="font-semibold text-[var(--color-text)]">{totalCount}</span> resources
+                      <span className="font-semibold text-[var(--color-text)]">{totalCount}</span> community-verified resources
                     </>
                   )}
                 </p>
