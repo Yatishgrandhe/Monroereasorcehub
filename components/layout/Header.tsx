@@ -33,12 +33,12 @@ const primaryNav = [
   { name: 'Career', href: '/career' },
   { name: 'Volunteer', href: '/volunteer' },
   { name: 'About', href: '/about' },
+  { name: 'Information', href: '/info' },
 ];
 
 const mobileDrawerLinks = [
   ...primaryNav,
   { name: 'My Resumes', href: '/career/saved-resumes' },
-  { name: 'Information', href: '/info' },
   { name: 'Submit a Resource', href: '/submit-resource' },
 ];
 
