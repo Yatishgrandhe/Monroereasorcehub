@@ -205,7 +205,7 @@ export default function SavedResumesPage() {
                 <span className="px-5 py-2 rounded-full bg-accent-500/10 border border-accent-400/20 text-accent-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-md mb-4 inline-block">
                   Personal Archives
                 </span>
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-6">
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-6 whitespace-nowrap">
                   My Resumes<span className="text-secondary-500 not-italic">.</span>
                 </h1>
                 <div className="w-24 h-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full mb-6" />
