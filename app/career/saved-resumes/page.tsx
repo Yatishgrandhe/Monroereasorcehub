@@ -35,6 +35,10 @@ import {
 } from '@/lib/utils/guest-resumes';
 import type { User } from '@supabase/supabase-js';
 import { motion } from 'framer-motion';
+import { PageSplineBanner } from '@/components/ui/PageSplineBanner';
+import { Reveal } from '@/components/ui/Reveal';
+import { SPLINE_PAGES_URL } from '@/lib/spline';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 const GUEST_EXPIRY_WARNING_KEY = 'guest_resumes_expiry_warning_shown';
 
@@ -193,37 +197,42 @@ export default function SavedResumesPage() {
     <div className="min-h-screen bg-white relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-20 pointer-events-none" />
 
-      <div className="pt-32 pb-16 bg-primary-50 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(52,97,173,0.1),transparent)]" />
-        <div className="container-custom relative z-10">
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
-            <div className="max-w-3xl">
-              <span className="text-primary-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block">
-                Personal Archives
-              </span>
-              <h1 className="text-5xl md:text-7xl font-serif font-black text-primary-950 tracking-tighter leading-none italic mb-6">
-                My Resumes<span className="text-primary-700 not-italic">.</span>
-              </h1>
-              <p className="text-xl text-gray-400 font-serif italic max-w-2xl">
-                {user
-                  ? 'Professional infrastructure for auditing and exporting your career documentation.'
-                  : 'Local browser storage. Sign up to save resumes to the cloud and access them anywhere.'}
-              </p>
+      <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="40vh">
+        <div className="container-custom w-full">
+          <Reveal width="100%">
+            <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 w-full text-left">
+              <div className="max-w-3xl">
+                <span className="px-5 py-2 rounded-full bg-accent-500/10 border border-accent-400/20 text-accent-400 font-black uppercase tracking-[0.3em] text-[10px] backdrop-blur-md mb-4 inline-block">
+                  Personal Archives
+                </span>
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-white tracking-tighter leading-none italic mb-6">
+                  My Resumes<span className="text-secondary-500 not-italic">.</span>
+                </h1>
+                <div className="w-24 h-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full mb-6" />
+                <p className="text-xl md:text-2xl text-blue-50/70 max-w-2xl leading-relaxed italic font-medium">
+                  {user
+                    ? 'Professional infrastructure for auditing and exporting your career documentation.'
+                    : 'Local browser storage. Sign up to save resumes to the cloud and access them anywhere.'}
+                </p>
+              </div>
+              <Button
+                size="lg"
+                asChild
+                className="bg-white hover:bg-blue-50 text-primary-950 px-10 h-16 rounded-3xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl transition-all transform hover:-translate-y-1 active:translate-y-0 shrink-0 mb-4"
+                href="/career/resume-builder"
+              >
+                <>
+                  <Plus className="h-4 w-4 mr-3" />
+                  New Resume
+                </>
+              </Button>
             </div>
-            <Button
-              size="lg"
-              asChild
-              className="bg-primary-950 hover:bg-black text-white px-10 h-16 rounded-3xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20 transition-all transform hover:-translate-y-1 active:translate-y-0"
-              href="/career/resume-builder"
-            >
-              <Plus className="h-4 w-4 mr-3" />
-              New Resume
-            </Button>
-          </div>
+          </Reveal>
         </div>
-      </div>
+      </PageSplineBanner>
 
-      <div className="container-custom py-24 relative z-10">
+      <div className="container-custom py-12 relative z-10">
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Career Center', href: '/career' }, { label: 'My Resumes' }]} className="mb-6" />
         {/* Guest banner */}
         {isGuest && (
           <div className="mb-10 rounded-2xl border border-primary-200 bg-primary-50/80 p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -240,7 +249,7 @@ export default function SavedResumesPage() {
                 </p>
               </div>
             </div>
-            <Button asChild className="bg-[#2563EB] hover:bg-[#1d4ed8] text-white shrink-0 rounded-xl">
+            <Button asChild className="bg-primary-950 hover:bg-black text-white shrink-0 rounded-xl px-8 h-12">
               <Link href="/auth/signup">
                 <LogIn className="h-4 w-4 mr-2" />
                 Sign Up
@@ -282,11 +291,13 @@ export default function SavedResumesPage() {
             <Button
               size="lg"
               asChild
-              className="bg-[#2563EB] hover:bg-[#1d4ed8] text-white px-12 h-14 rounded-2xl font-semibold"
+              className="bg-primary-950 hover:bg-black text-white px-12 h-16 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-primary-950/20"
               href="/career/resume-builder"
             >
-              <Plus className="h-5 w-5 mr-2" />
-              Build your first resume
+              <>
+                <Plus className="h-5 w-5 mr-2" />
+                Build your first resume
+              </>
             </Button>
           </div>
         ) : (

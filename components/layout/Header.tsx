@@ -288,6 +288,7 @@ export function Header() {
           {/* Logo — left */}
           <Link
             href="/"
+            data-tour="tour-logo"
             className={cn(
               'flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0 overflow-hidden transition-colors',
               isTransparent ? 'text-white' : 'text-[var(--color-text)]'
@@ -339,6 +340,7 @@ export function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
+                  data-tour={item.href === '/' ? 'tour-home' : `tour-${item.href.replace('/', '').replace('/', '-')}`}
                   className={cn(
                     'nav-link-bar whitespace-nowrap px-3 py-2 rounded-lg font-semibold text-sm transition-all duration-200',
                     pathname === item.href
@@ -360,7 +362,7 @@ export function Header() {
           <div className="flex items-center gap-2 shrink-0 ml-auto">
             <Link
               href="/submit-resource"
-              data-tour="share-resource"
+              data-tour="tour-share-resource"
               className={cn(
                 'hidden sm:flex items-center gap-2 h-9 sm:h-10 px-4 rounded-lg font-semibold text-sm transition-all duration-200 shrink-0 hover:-translate-y-0.5 hover:shadow-md',
                 isTransparent
@@ -389,7 +391,7 @@ export function Header() {
             </Button>
 
             {user ? (
-              <div className="hidden sm:block">
+              <div className="hidden sm:block" data-tour="tour-auth">
                 <button
                   ref={profileButtonRef}
                   type="button"
@@ -412,7 +414,7 @@ export function Header() {
                 </button>
               </div>
             ) : (
-              <div className="hidden sm:flex items-center gap-2">
+              <div className="hidden sm:flex items-center gap-2" data-tour="tour-auth">
                 <Link
                   href="/career/saved-resumes"
                   className={cn(

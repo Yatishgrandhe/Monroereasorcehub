@@ -3,6 +3,7 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { BackToTop } from '@/components/ui/BackToTop';
+import { LocalChatbot } from '@/components/ui/LocalChatbot';
 
 export const metadata: Metadata = {
   title: {
@@ -81,6 +82,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <BackToTop />
+          <LocalChatbot />
         </div>
       </body>
     </html>
