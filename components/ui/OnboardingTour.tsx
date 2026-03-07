@@ -19,6 +19,9 @@ export function OnboardingTour() {
         showProgress: true,
         allowClose: true,
         overlayColor: 'rgba(0,0,0,0.5)',
+        nextBtnText: 'Next →',
+        prevBtnText: '← Back',
+        doneBtnText: 'Done',
         steps: [
           {
             element: '[data-tour="search"]',
@@ -57,8 +60,13 @@ export function OnboardingTour() {
             },
           },
         ],
-        onDestroyStarted: () => {
+        onDestroyStarted: (_element, _step, opts) => {
           sessionStorage.setItem(TOUR_STORAGE_KEY, '1');
+          opts.driver.destroy();
+        },
+        onCloseClick: (_element, _step, opts) => {
+          sessionStorage.setItem(TOUR_STORAGE_KEY, '1');
+          opts.driver.destroy();
         },
       });
 
