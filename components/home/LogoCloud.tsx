@@ -28,7 +28,7 @@ export function LogoCloud({ className }: LogoCloudProps) {
           {duplicated.map((name, i) => (
             <span
               key={`${name}-${i}`}
-              className="trust-chip shrink-0 bg-white dark:bg-white/5 border border-[var(--color-border)] dark:border-white/10 rounded-full px-5 py-2 text-[0.82rem] font-semibold text-primary-950 dark:text-primary-200 whitespace-nowrap shadow-sm"
+              className="trust-chip shrink-0 bg-white border border-[var(--color-border)] rounded-full px-5 py-2 text-[0.82rem] font-semibold text-primary-950 whitespace-nowrap shadow-sm"
             >
               {name}
             </span>

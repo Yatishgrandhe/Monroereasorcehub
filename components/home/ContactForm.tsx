@@ -89,7 +89,7 @@ export function ContactForm({ className }: { className?: string }) {
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-bl-[4rem] pointer-events-none opacity-50" />
 
               {submitted ? (
-                <div className="form-success flex items-center gap-4 bg-accent-50 dark:bg-accent-950/20 border border-accent-200 dark:border-accent-800 rounded-2xl p-6 text-accent-800 dark:text-accent-200">
+                <div className="form-success flex items-center gap-4 bg-accent-50 border border-accent-200 rounded-2xl p-6 text-accent-800">
                   <CheckCircle className="h-10 w-10 shrink-0" />
                   <div>
                     <h3 className="font-bold text-lg mb-1">Message received</h3>

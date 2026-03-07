@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -26,16 +25,6 @@
   --color-shadow: rgba(52, 97, 173, 0.1);
   --font-heading: 'Bitter', Georgia, serif;
   --font-body: 'Source Sans 3', sans-serif;
-}
-
-.dark {
-  --color-bg: #0f172a;
-  --color-surface: #1e293b;
-  --color-text: #f1f5f9;
-  --color-text-muted: #94a3b8;
-  --color-text-light: #64748b;
-  --color-border: #334155;
-  --color-shadow: rgba(0, 0, 0, 0.2);
 }
 
 @layer base {
@@ -467,17 +456,17 @@
 
   /* Shared text box base styles */
   .input-base {
-    @apply w-full min-h-[3.5rem] px-4 sm:px-6 py-3 text-base rounded-2xl border border-gray-200 bg-white dark:bg-white/5 text-gray-900 dark:text-white placeholder:text-gray-400 transition-all;
+    @apply w-full min-h-[3.5rem] px-4 sm:px-6 py-3 text-base rounded-2xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 transition-all;
     @apply focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500;
   }
 
   .textarea-base {
-    @apply w-full min-h-[8rem] px-4 sm:px-6 py-4 text-base rounded-2xl border border-gray-200 bg-white dark:bg-white/5 text-gray-900 dark:text-white placeholder:text-gray-400 transition-all resize-none;
+    @apply w-full min-h-[8rem] px-4 sm:px-6 py-4 text-base rounded-2xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 transition-all resize-none;
     @apply focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500;
   }
 
   .select-base {
-    @apply w-full min-h-[3.5rem] px-4 sm:px-6 py-3 text-base rounded-2xl border border-gray-200 bg-white dark:bg-white/5 text-gray-900 dark:text-white transition-all;
+    @apply w-full min-h-[3.5rem] px-4 sm:px-6 py-3 text-base rounded-2xl border border-gray-200 bg-white text-gray-900 transition-all;
     @apply focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500;
   }
 }

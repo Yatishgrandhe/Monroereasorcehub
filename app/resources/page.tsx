@@ -34,8 +34,8 @@ export default function ResourcesPage() {
   const activeCategory = state.filters.category[0] || 'All';
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] dark:bg-[#0f172a] relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(var(--color-border)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:32px_32px] opacity-40 pointer-events-none" />
+    <div className="min-h-screen bg-[var(--color-bg)] relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(var(--color-border)_1px,transparent_1px)] [background-size:32px_32px] opacity-40 pointer-events-none" />
 
       <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="38vh">
         <div className="container-custom w-full">
@@ -59,7 +59,7 @@ export default function ResourcesPage() {
       <section className="relative z-20 pt-10 pb-16 md:pt-12 md:pb-24">
         <div className="container-custom">
           <Reveal width="100%">
-            <div className="bg-[var(--color-surface)] dark:bg-[#1e293b] rounded-2xl p-4 sm:p-6 shadow-sm border border-[var(--color-border)] dark:border-white/10 mb-10">
+            <div className="bg-[var(--color-surface)] rounded-2xl p-4 sm:p-6 shadow-sm border border-[var(--color-border)] mb-10">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="relative flex-1">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--color-text-muted)]" />
@@ -67,7 +67,7 @@ export default function ResourcesPage() {
                     value={state.query}
                     onChange={(e) => updateQuery(e.target.value)}
                     placeholder="Search by name, zip code, or type of help..."
-                    className="pl-12 h-12 rounded-xl border-[var(--color-border)] bg-white dark:bg-white/5 text-[var(--color-text)] placeholder:text-[var(--color-text-light)] focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+                    className="pl-12 h-12 rounded-xl border-[var(--color-border)] bg-white text-[var(--color-text)] placeholder:text-[var(--color-text-light)] focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
                   />
                 </div>
                 <div className="flex gap-3 items-center shrink-0">
@@ -78,7 +78,7 @@ export default function ResourcesPage() {
                       const [sortBy, sortOrder] = e.target.value.split('-');
                       updateSort(sortBy as 'name' | 'created_at' | 'relevance', sortOrder as 'asc' | 'desc');
                     }}
-                    className="h-12 px-4 rounded-xl border border-[var(--color-border)] bg-white dark:bg-white/5 text-sm font-medium text-[var(--color-text)] dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none cursor-pointer"
+                    className="h-12 px-4 rounded-xl border border-[var(--color-border)] bg-white text-sm font-medium text-[var(--color-text)] focus:ring-2 focus:ring-[var(--color-primary)] outline-none cursor-pointer"
                   >
                     <option value="relevance-desc">Relevance</option>
                     <option value="name-asc">A–Z</option>
@@ -112,8 +112,8 @@ export default function ResourcesPage() {
                     </button>
                   ))}
                 </div>
-                <div className="mt-6 p-4 rounded-xl bg-[var(--color-border)]/30 dark:bg-white/5 border border-[var(--color-border)] dark:border-white/10">
-                  <p className="text-sm text-[var(--color-text)] dark:text-gray-200 font-medium mb-3">
+                <div className="mt-6 p-4 rounded-xl bg-[var(--color-border)]/30 border border-[var(--color-border)]">
+                  <p className="text-sm text-[var(--color-text)] font-medium mb-3">
                     Know an organization we should list?
                   </p>
                   <Button asChild href="/submit-resource" className="w-full rounded-xl text-sm font-semibold bg-[var(--color-primary)] hover:opacity-90 text-white">
@@ -136,14 +136,14 @@ export default function ResourcesPage() {
                     </span>
                   ) : (
                     <>
-                      <span className="font-semibold text-[var(--color-text)] dark:text-white">{totalCount}</span> resources
+                      <span className="font-semibold text-[var(--color-text)]">{totalCount}</span> resources
                     </>
                   )}
                 </p>
               </div>
 
               {!isLoading && results.length === 0 && (
-                <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] dark:bg-white/5 p-12 text-center">
+                <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-12 text-center">
                   <p className="text-[var(--color-text-muted)] mb-6">
                     {state.query || (activeCategory !== 'All' && activeCategory)
                       ? 'No resources match your search. Try a different filter or keyword.'

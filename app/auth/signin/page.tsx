@@ -153,18 +153,18 @@ export default function SignInPage() {
           </p>
         </div>
 
-        <div className="bg-white dark:bg-white/5 rounded-[2.5rem] border border-gray-100 dark:border-white/10 shadow-soft shadow-gray-200/50 overflow-hidden relative">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 dark:bg-primary-950/30 rounded-bl-[2.5rem] pointer-events-none opacity-50" />
+        <div className="bg-white  rounded-[2.5rem] border border-gray-100  shadow-soft shadow-gray-200/50 overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50  rounded-bl-[2.5rem] pointer-events-none opacity-50" />
 
           <div className="p-8 relative z-10">
             {(hasLocalData || (typeof window !== 'undefined' && hasGuestResumesToMigrate())) && (
-              <div className="mb-6 p-4 bg-primary-50 dark:bg-primary-950/30 rounded-2xl border border-primary-100 dark:border-primary-900/50 text-left">
+              <div className="mb-6 p-4 bg-primary-50  rounded-2xl border border-primary-100  text-left">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-primary-100  flex items-center justify-center shrink-0">
                     <Database className="h-5 w-5 text-primary-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-primary-950 dark:text-white mb-1">Local data found</p>
+                    <p className="text-sm font-bold text-primary-950  mb-1">Local data found</p>
                     <p className="text-xs text-[var(--color-text-muted)] leading-relaxed">
                       {hasGuestResumesToMigrate()
                         ? `You have ${getGuestResumesMigrationCount()} resume(s) saved on this device. After signing in, you can import them to your account.`
@@ -177,7 +177,7 @@ export default function SignInPage() {
 
             <form onSubmit={handleSignIn} className="space-y-5">
               <div className="space-y-2">
-                <label htmlFor="email" className="block text-[10px] font-bold tracking-wider text-primary-950 dark:text-white uppercase">
+                <label htmlFor="email" className="block text-[10px] font-bold tracking-wider text-primary-950  uppercase">
                   Email
                 </label>
                 <Input
@@ -187,12 +187,12 @@ export default function SignInPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className="h-14 rounded-2xl border-2 border-[var(--color-border)] bg-white dark:bg-white/5 text-[var(--color-text)] focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+                  className="h-14 rounded-2xl border-2 border-[var(--color-border)] bg-white  text-[var(--color-text)] focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                 />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="password" className="block text-[10px] font-bold tracking-wider text-primary-950 dark:text-white uppercase">
+                <label htmlFor="password" className="block text-[10px] font-bold tracking-wider text-primary-950  uppercase">
                   Password
                 </label>
                 <div className="relative">
@@ -203,7 +203,7 @@ export default function SignInPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
                     required
-                    className="h-14 rounded-2xl border-2 border-[var(--color-border)] bg-white dark:bg-white/5 text-[var(--color-text)] focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 pr-12"
+                    className="h-14 rounded-2xl border-2 border-[var(--color-border)] bg-white  text-[var(--color-text)] focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 pr-12"
                   />
                   <button
                     type="button"
@@ -217,7 +217,7 @@ export default function SignInPage() {
               </div>
 
               {error && (
-                <div className="text-red-600 text-sm font-medium bg-red-50 dark:bg-red-950/30 p-4 rounded-xl border border-red-200 dark:border-red-900/50">
+                <div className="text-red-600 text-sm font-medium bg-red-50  p-4 rounded-xl border border-red-200 ">
                   {error}
                 </div>
               )}
@@ -239,14 +239,14 @@ export default function SignInPage() {
                   <div className="w-full border-t border-[var(--color-border)]" />
                 </div>
                 <div className="relative flex justify-center text-xs font-semibold text-[var(--color-text-muted)]">
-                  <span className="px-4 bg-white dark:bg-white/5">or continue with</span>
+                  <span className="px-4 bg-white ">or continue with</span>
                 </div>
               </div>
 
               <Button
                 type="button"
                 variant="outline"
-                className="w-full h-14 rounded-2xl mt-6 border-2 border-[var(--color-border)] text-[var(--color-text)] hover:bg-gray-50 dark:hover:bg-white/5"
+                className="w-full h-14 rounded-2xl mt-6 border-2 border-[var(--color-border)] text-[var(--color-text)] hover:bg-gray-50 "
                 onClick={handleGoogleSignIn}
                 disabled={loading}
               >

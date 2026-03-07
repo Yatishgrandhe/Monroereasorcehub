@@ -218,7 +218,7 @@ export function Header() {
             left: profileDropdownRect.left,
             width: profileDropdownRect.width,
           }}
-          className="z-[9999] bg-white dark:bg-[#1e293b] border border-[var(--color-border)] rounded-xl shadow-xl overflow-hidden py-2"
+          className="z-[9999] bg-white border border-[var(--color-border)] rounded-xl shadow-xl overflow-hidden py-2"
           role="menu"
           aria-label="User menu"
         >
@@ -228,7 +228,7 @@ export function Header() {
                 key={item.name}
                 type="button"
                 onClick={handleSignOut}
-                className="flex w-full items-center gap-3 px-4 py-3 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors text-sm font-semibold"
+                className="flex w-full items-center gap-3 px-4 py-3 text-left text-red-600 hover:bg-red-50 transition-colors text-sm font-semibold"
                 role="menuitem"
               >
                 <item.icon className="h-4 w-4 shrink-0" />
@@ -243,7 +243,7 @@ export function Header() {
                   'flex w-full items-center gap-3 px-4 py-3 text-left transition-colors text-sm font-semibold',
                   pathname === item.href
                     ? 'text-[var(--color-primary)] bg-[var(--color-primary)]/10'
-                    : 'text-[var(--color-text)] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                    : 'text-[var(--color-text)] hover:bg-gray-50'
                 )}
                 role="menuitem"
               >
@@ -268,7 +268,7 @@ export function Header() {
           'navbar pointer-events-auto w-full min-w-0 max-w-full rounded-2xl transition-all duration-300 ease-out overflow-hidden',
           isTransparent
             ? 'navbar-transparent bg-transparent border border-white/20 shadow-none py-2 lg:py-2.5'
-            : 'navbar-scrolled bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-xl border border-[var(--color-border)] shadow-[0_8px_30px_rgba(0,0,0,0.12)] py-2'
+            : 'navbar-scrolled bg-white/95 backdrop-blur-xl border border-[var(--color-border)] shadow-[0_8px_30px_rgba(0,0,0,0.12)] py-2'
         )}
         aria-label="Global navigation"
       >
@@ -286,7 +286,7 @@ export function Header() {
                 'rounded-xl overflow-hidden shadow-sm shrink-0 w-9 h-9 sm:w-10 sm:h-10 border flex items-center justify-center p-1.5 group-hover:scale-105 transition-all duration-200',
                 isTransparent
                   ? 'border-white/30 bg-white/10'
-                  : 'border-[var(--color-border)] bg-white dark:bg-white/5'
+                  : 'border-[var(--color-border)] bg-white'
               )}
             >
               <img
@@ -299,7 +299,7 @@ export function Header() {
               className={cn(
                 'navbar-logo-text tracking-tighter font-[var(--font-heading)] truncate whitespace-nowrap leading-none font-bold',
                 showDesktopNav ? 'inline' : 'hidden',
-                isTransparent ? 'text-white' : 'text-[var(--color-text)] dark:text-white'
+                isTransparent ? 'text-white' : 'text-[var(--color-text)]'
               )}
             >
               Monroe Resource <span className="italic opacity-90">Hub.</span>
@@ -308,7 +308,7 @@ export function Header() {
               className={cn(
                 'font-black font-[var(--font-heading)] shrink-0 sm:hidden whitespace-nowrap',
                 showDesktopNav ? 'hidden' : 'inline',
-                isTransparent ? 'text-white' : 'text-[var(--color-text)] dark:text-white'
+                isTransparent ? 'text-white' : 'text-[var(--color-text)]'
               )}
             >
               MRH.
@@ -335,7 +335,7 @@ export function Header() {
                         : 'bg-[var(--color-primary)] text-white'
                       : isTransparent
                         ? 'text-white/90 hover:bg-white/15 hover:text-white'
-                        : 'text-[var(--color-text)] dark:text-gray-300 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10'
+                        : 'text-[var(--color-text)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10'
                   )}
                 >
                   {item.name}
@@ -386,7 +386,7 @@ export function Header() {
                     'flex items-center gap-2 h-9 sm:h-10 px-3 rounded-lg font-semibold text-sm transition-all',
                     isTransparent
                       ? 'text-white/90 hover:bg-white/15 border border-white/20'
-                      : 'text-[var(--color-text)] dark:text-white border border-[var(--color-border)] hover:bg-gray-50 dark:hover:bg-gray-800'
+                      : 'text-[var(--color-text)] border border-[var(--color-border)] hover:bg-gray-50'
                   )}
                 >
                   <UserCircle className="h-5 w-5 shrink-0" />
@@ -446,7 +446,7 @@ export function Header() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={cn(
                 'lg:hidden h-10 w-10 p-0 rounded-lg shrink-0',
-                isTransparent ? 'text-white hover:bg-white/15' : 'text-[var(--color-text)] hover:bg-gray-100 dark:hover:bg-gray-800'
+                isTransparent ? 'text-white hover:bg-white/15' : 'text-[var(--color-text)] hover:bg-gray-100'
               )}
             >
               <AnimatePresence mode="wait">
@@ -492,7 +492,7 @@ export function Header() {
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 transition={{ type: 'spring', damping: 28, stiffness: 200 }}
-                className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm min-h-[80dvh] bg-white dark:bg-[#0f172a] shadow-2xl z-50 flex flex-col pointer-events-auto overflow-y-auto lg:hidden"
+                className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm min-h-[80dvh] bg-white shadow-2xl z-50 flex flex-col pointer-events-auto overflow-y-auto lg:hidden"
                 role="dialog"
                 aria-modal="true"
                 aria-label="Mobile menu"
@@ -500,7 +500,7 @@ export function Header() {
                 <div className="flex items-center justify-between p-4 border-b border-[var(--color-border)]">
                   <div className="flex items-center gap-2">
                     <img src="/logo.png" alt="" className="w-8 h-8 object-contain" />
-                    <span className="font-bold text-lg text-[var(--color-text)] dark:text-white">
+                    <span className="font-bold text-lg text-[var(--color-text)]">
                       Monroe Hub.
                     </span>
                   </div>
@@ -525,7 +525,7 @@ export function Header() {
                         'flex items-center justify-between px-4 py-3.5 rounded-xl font-semibold text-base transition-colors',
                         pathname === item.href
                           ? 'bg-[var(--color-primary)] text-white'
-                          : 'text-[var(--color-text)] dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
+                          : 'text-[var(--color-text)] hover:bg-gray-100'
                       )}
                     >
                       {item.name}
@@ -548,7 +548,7 @@ export function Header() {
                           setMobileMenuOpen(false);
                           handleSignOut();
                         }}
-                        className="w-full justify-center rounded-xl text-red-600 dark:text-red-400"
+                        className="w-full justify-center rounded-xl text-red-600"
                       >
                         Sign Out
                       </Button>

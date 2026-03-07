@@ -209,8 +209,8 @@ const documents = [
 
 export default function InfoPage() {
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] dark:bg-[#0f172a] relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(var(--color-border)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:32px_32px] opacity-40 pointer-events-none" />
+    <div className="min-h-screen bg-[var(--color-bg)] relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(var(--color-border)_1px,transparent_1px)] [background-size:32px_32px] opacity-40 pointer-events-none" />
 
       <PageSplineBanner sceneUrl={SPLINE_PAGES_URL || undefined} height="34vh">
         <div className="container-custom w-full">
@@ -242,7 +242,7 @@ export default function InfoPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <span className="section-label block mb-3">Documents</span>
-            <h2 className="text-2xl md:text-4xl font-serif font-bold text-[var(--color-primary)] dark:text-white mb-4 tracking-tight">
+            <h2 className="text-2xl md:text-4xl font-serif font-bold text-[var(--color-primary)] mb-4 tracking-tight">
               Project documents
             </h2>
             <p className="text-[var(--color-text-muted)] max-w-2xl mx-auto">
@@ -254,14 +254,14 @@ export default function InfoPage() {
             {documents.map((doc, index) => {
               const IconComponent = doc.icon;
               return (
-                <div key={index} className="bg-[var(--color-surface)] dark:bg-[#1e293b] border border-[var(--color-border)] dark:border-white/10 rounded-2xl p-6 transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-shadow)]">
+                <div key={index} className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-shadow)]">
                   <div className="flex items-center gap-4 mb-4">
                     <div className={cn("w-14 h-14 rounded-xl flex items-center justify-center",
                       index === 0 ? "bg-[var(--color-primary)]/10 text-[var(--color-primary)]" : "bg-[var(--color-accent)]/10 text-[var(--color-accent)]")}>
                       <IconComponent className="h-7 w-7" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-serif font-bold text-[var(--color-text)] dark:text-white tracking-tight">{doc.name}</h3>
+                      <h3 className="text-lg font-serif font-bold text-[var(--color-text)] tracking-tight">{doc.name}</h3>
                       <p className="text-xs text-[var(--color-text-muted)] mt-0.5">PDF download</p>
                     </div>
                   </div>
@@ -309,7 +309,7 @@ export default function InfoPage() {
         <div className="container-custom">
           <div className="text-center mb-16">
             <span className="section-label block mb-3">Technology & references</span>
-            <h2 className="text-2xl md:text-4xl font-serif font-bold text-[var(--color-primary)] dark:text-white mb-4 tracking-tight">
+            <h2 className="text-2xl md:text-4xl font-serif font-bold text-[var(--color-primary)] mb-4 tracking-tight">
               Stack & sources
             </h2>
             <p className="text-[var(--color-text-muted)] max-w-2xl mx-auto">
@@ -327,7 +327,7 @@ export default function InfoPage() {
                     {sectionIndex === 2 && <Globe className="h-5 w-5" />}
                     {sectionIndex === 3 && <Book className="h-5 w-5" />}
                   </span>
-                  <h3 className="text-xl font-serif font-bold text-[var(--color-text)] dark:text-white tracking-tight">
+                  <h3 className="text-xl font-serif font-bold text-[var(--color-text)] tracking-tight">
                     {section.category}
                   </h3>
                   <div className="h-px flex-1 bg-[var(--color-border)]" />
@@ -335,9 +335,9 @@ export default function InfoPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {section.items.map((item, itemIndex) => (
-                    <div key={itemIndex} className="bg-[var(--color-surface)] dark:bg-[#1e293b] border border-[var(--color-border)] dark:border-white/10 rounded-2xl p-6 flex flex-col h-full transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-shadow)]">
+                    <div key={itemIndex} className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 flex flex-col h-full transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-shadow)]">
                       <div className="flex items-start justify-between gap-3 mb-3">
-                        <h4 className="text-base font-serif font-bold text-[var(--color-text)] dark:text-white tracking-tight">
+                        <h4 className="text-base font-serif font-bold text-[var(--color-text)] tracking-tight">
                           {item.name}
                         </h4>
                         {item.url && (
@@ -350,10 +350,10 @@ export default function InfoPage() {
                         {item.type}
                       </span>
                       <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4 flex-1">{item.description}</p>
-                      <div className="pt-4 border-t border-[var(--color-border)] dark:border-white/10 space-y-2">
+                      <div className="pt-4 border-t border-[var(--color-border)]  space-y-2">
                         <div className="flex justify-between text-xs text-[var(--color-text-muted)]">
                           <span>License</span>
-                          <span className="font-medium text-[var(--color-text)] dark:text-white">{item.license}</span>
+                          <span className="font-medium text-[var(--color-text)]">{item.license}</span>
                         </div>
                         <p className="text-xs text-[var(--color-text-light)] leading-relaxed">{item.usage}</p>
                       </div>
@@ -369,27 +369,27 @@ export default function InfoPage() {
       {/* Licensing */}
       <section className="section-padding relative z-20">
         <div className="container-custom">
-          <div className="max-w-3xl mx-auto border border-[var(--color-border)] dark:border-white/10 bg-[var(--color-surface)] dark:bg-[#1e293b] p-8 md:p-12 rounded-2xl">
+          <div className="max-w-3xl mx-auto border border-[var(--color-border)] bg-[var(--color-surface)] p-8 md:p-12 rounded-2xl">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-12 h-12 rounded-xl bg-[var(--color-primary)]/10 flex items-center justify-center">
                 <Shield className="h-6 w-6 text-[var(--color-primary)]" />
               </div>
               <div>
                 <span className="section-label block">Legal & compliance</span>
-                <h2 className="text-xl font-serif font-bold text-[var(--color-text)] dark:text-white tracking-tight">
+                <h2 className="text-xl font-serif font-bold text-[var(--color-text)] tracking-tight">
                   Licensing & attribution
                 </h2>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
               <div>
-                <h4 className="text-sm font-semibold text-[var(--color-text)] dark:text-white uppercase tracking-wider mb-2">Images</h4>
+                <h4 className="text-sm font-semibold text-[var(--color-text)] uppercase tracking-wider mb-2">Images</h4>
                 <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">
                   Photos are from Unsplash under their license. No restricted or royalty-managed content is used.
                 </p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-[var(--color-text)] dark:text-white uppercase tracking-wider mb-2">Code & design</h4>
+                <h4 className="text-sm font-semibold text-[var(--color-text)] uppercase tracking-wider mb-2">Code & design</h4>
                 <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">
                   Backend, typography, and layout are original work by the CATA student development team.
                 </p>
@@ -410,9 +410,9 @@ export default function InfoPage() {
                 { label: 'Region', val: 'Union County, NC' },
                 { label: 'Release', val: '2026' }
               ].map((meta, i) => (
-                <div key={i} className="text-center p-4 rounded-xl bg-[var(--color-surface)] dark:bg-white/5 border border-[var(--color-border)] dark:border-white/10">
+                <div key={i} className="text-center p-4 rounded-xl bg-[var(--color-surface)]  border border-[var(--color-border)] ">
                   <p className="text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider mb-2">{meta.label}</p>
-                  <p className="text-sm font-bold text-[var(--color-text)] dark:text-white font-serif">{meta.val}</p>
+                  <p className="text-sm font-bold text-[var(--color-text)] font-serif">{meta.val}</p>
                 </div>
               ))}
             </div>

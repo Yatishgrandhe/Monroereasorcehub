@@ -37,16 +37,16 @@ export default function HomePage() {
       <ResourceMap />
 
       {/* 5. SPOTLIGHT — Featured partners */}
-      <section className="py-20 md:py-28 bg-white dark:bg-[#000d1a] relative">
+      <section className="py-20 md:py-28 bg-white relative">
         <div className="container-custom relative z-10">
           <Reveal width="100%">
             <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-8 text-center md:text-left">
               <div className="max-w-2xl">
-                <span className="text-primary-600 dark:text-primary-400 font-semibold uppercase tracking-wider text-xs">Featured</span>
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-950 dark:text-white mt-3 mb-4 leading-tight">
+                <span className="text-primary-600 font-semibold uppercase tracking-wider text-xs">Featured</span>
+                <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-950 mt-3 mb-4 leading-tight">
                   Featured community partners
                 </h2>
-                <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
+                <p className="text-base md:text-lg text-gray-500 leading-relaxed">
                   Real Monroe and Union County organizations we verify and list. Contact them directly or view full details on our resources page.
                 </p>
               </div>
@@ -69,7 +69,7 @@ export default function HomePage() {
       {/* 7. CONTACT */}
       <ContactForm />
 
-      <section className="cta-section py-12 px-6 lg:px-12 pb-24 bg-white dark:bg-[#000d1a] relative">
+      <section className="cta-section py-12 px-6 lg:px-12 pb-24 bg-white relative">
         <div className="container-custom mx-auto bg-primary-950 rounded-[4rem] relative overflow-hidden py-32 px-10 md:px-20 text-center shadow-[0_32px_128px_-16px_rgba(52,97,173,0.3)] max-w-[860px]">
           <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.05)_1.5px,transparent_1.5px)] [background-size:48px_48px] opacity-40" />
           <div className="absolute top-0 right-0 w-1/3 h-full bg-accent-500/15 blur-[140px]" />

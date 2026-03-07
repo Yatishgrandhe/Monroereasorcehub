@@ -63,13 +63,13 @@ export function CivicHero() {
           <div className="absolute inset-0 bg-gradient-to-r from-primary-950/95 via-primary-950/80 to-primary-950/50 pointer-events-none" />
           {heroContent}
         </SplineBackground>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white dark:from-[#000d1a] to-transparent pointer-events-none z-10" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none z-10" />
       </section>
     );
   }
 
   return (
-    <section className="relative w-full min-h-[85vh] flex items-center overflow-hidden bg-white dark:bg-[#000d1a]">
+    <section className="relative w-full min-h-[85vh] flex items-center overflow-hidden bg-white">
       <div className="hero-orb-before" aria-hidden="true" />
       <div className="hero-orb-after" aria-hidden="true" />
       <div className="absolute inset-0 z-0">
@@ -114,7 +114,7 @@ export function CivicHero() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white dark:from-[#000d1a] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none" />
     </section>
   );
 }

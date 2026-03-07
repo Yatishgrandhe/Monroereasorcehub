@@ -260,6 +260,10 @@ export function ResourceSubmissionForm() {
           }
           : null;
 
+      const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const;
+      const hasAnyHours = days.some(
+        (d) => !formData.hours[d].closed && (formData.hours[d].open || formData.hours[d].close)
+      );
       const submissionData = {
         name: formData.name,
         description: formData.description,
@@ -269,8 +273,8 @@ export function ResourceSubmissionForm() {
         contact_info: contactInfo,
         services_offered: formData.services_offered.length ? formData.services_offered : null,
         population_served: formData.population_served.length ? formData.population_served : null,
-        hours_of_operation: formData.hours,
-        is_approved: true, // Show on resources page immediately so share + resources page work together
+        hours_of_operation: hasAnyHours ? formData.hours : null,
+        is_approved: true,
       };
 
       const { data: inserted, error } = await supabase
@@ -671,7 +675,7 @@ const renderStepContent = (currentStep: number, formData: FormData, updateFormDa
           </div>
 
           <div className="space-y-6">
-            <h3 className="text-[10px] font-bold text-primary-950 uppercase tracking-widest ml-1 px-4 py-1.5 bg-primary-50 rounded-full inline-block">Hours of Operation</h3>
+            <h3 className="text-[10px] font-bold text-primary-950 uppercase tracking-widest ml-1 px-4 py-1.5 bg-primary-50 rounded-full inline-block">Hours of Operation <span className="text-gray-400 font-normal normal-case">(optional)</span></h3>
             <div className="space-y-3 bg-gray-50/50 p-6 rounded-[2rem] border border-gray-100">
               {daysOfWeek.map(day => (
                 <div key={day.key} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-3 border-b border-gray-100 last:border-0">

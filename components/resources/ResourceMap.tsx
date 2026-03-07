@@ -188,7 +188,7 @@ export function ResourceMap() {
     }, [viewMode, resources]);
 
     return (
-        <section className="py-32 bg-white dark:bg-[#0f172a] relative overflow-hidden">
+        <section className="py-32 bg-white relative overflow-hidden">
             <div className="container-custom relative z-10">
                 <Reveal width="100%">
                     <div className="flex flex-col lg:flex-row justify-between items-center lg:items-end mb-16 gap-12 text-center lg:text-left">
@@ -196,10 +196,10 @@ export function ResourceMap() {
                             <span className="text-accent-600 font-semibold uppercase tracking-wider text-xs">
                                 {viewMode === 'map' ? 'MAP VIEW' : 'LIST VIEW'}
                             </span>
-                            <h2 className="text-primary-950 dark:text-white mt-4 mb-6 text-3xl md:text-4xl font-serif font-bold leading-tight">
+                            <h2 className="text-primary-950 mt-4 mb-6 text-3xl md:text-4xl font-serif font-bold leading-tight">
                                 Resources Near You
                             </h2>
-                            <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
+                            <p className="text-base md:text-lg text-gray-500 leading-relaxed">
                                 {viewMode === 'map'
                                     ? 'See where verified organizations are located across Union County. Click the map to open the full interactive view.'
                                     : 'Browse all verified resources. Data is pulled from our database and refreshed on demand.'}
@@ -209,18 +209,18 @@ export function ResourceMap() {
                             <button
                                 onClick={fetchResources}
                                 disabled={loading}
-                                className="p-2.5 rounded-xl border border-[var(--color-border)] bg-white dark:bg-white/5 text-[var(--color-text)] hover:bg-gray-50 dark:hover:bg-white/10 transition-all disabled:opacity-50"
+                                className="p-2.5 rounded-xl border border-[var(--color-border)] bg-white text-[var(--color-text)] hover:bg-gray-50 transition-all disabled:opacity-50"
                                 title="Refresh listings"
                             >
                                 <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
                             </button>
-                            <div className="flex bg-primary-50 dark:bg-primary-950/30 border border-primary-100 dark:border-primary-900 rounded-[2rem] p-2 shadow-sm">
+                            <div className="flex bg-primary-50 border border-primary-100 rounded-[2rem] p-2 shadow-sm">
                                 <button
                                     onClick={() => setViewMode('map')}
                                     className={`px-8 py-4 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 transition-all ${
                                         viewMode === 'map'
                                             ? 'bg-primary-950 text-white shadow-2xl'
-                                            : 'text-primary-950 dark:text-gray-300 hover:bg-white dark:hover:bg-white/10'
+                                            : 'text-primary-950 hover:bg-white'
                                     }`}
                                 >
                                     <MapIcon className="w-4 h-4" />
@@ -231,7 +231,7 @@ export function ResourceMap() {
                                     className={`px-8 py-4 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 transition-all ${
                                         viewMode === 'list'
                                             ? 'bg-primary-950 text-white shadow-2xl'
-                                            : 'text-primary-950 dark:text-gray-300 hover:bg-white dark:hover:bg-white/10'
+                                            : 'text-primary-950 hover:bg-white'
                                     }`}
                                 >
                                     <Layers className="w-4 h-4" />
@@ -250,7 +250,7 @@ export function ResourceMap() {
                                     type="text"
                                     inputMode="numeric"
                                     placeholder="Enter your zip code (e.g. 28112)"
-                                    className={`zip-input w-full sm:w-64 px-4 py-3 rounded-xl border bg-white dark:bg-white/5 text-[var(--color-text)] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all ${
+                                    className={`zip-input w-full sm:w-64 px-4 py-3 rounded-xl border bg-white text-[var(--color-text)] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all ${
                                         zipLookupError ? 'border-red-500 focus:border-red-500' : 'border-[var(--color-border)] focus:border-primary-500'
                                     }`}
                                     maxLength={5}
@@ -277,14 +277,14 @@ export function ResourceMap() {
                                 </button>
                             </div>
                             {zipLookupError && (
-                                <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+                                <p className="text-sm text-red-600" role="alert">
                                     {zipLookupError}
                                 </p>
                             )}
                         </div>
 
                         <Reveal width="100%" delay={0.2}>
-                            <div className="relative w-full aspect-[4/5] sm:aspect-[16/9] md:aspect-[21/9] rounded-[4rem] overflow-hidden border border-gray-100 dark:border-white/10 shadow-soft shadow-gray-200/50 bg-gray-50 dark:bg-white/5 group">
+                            <div className="relative w-full aspect-[4/5] sm:aspect-[16/9] md:aspect-[21/9] rounded-[4rem] overflow-hidden border border-gray-100 shadow-soft shadow-gray-200/50 bg-gray-50 group">
                                 <div id="map" ref={mapRef} className="absolute inset-0 z-0 grayscale transition-all duration-1000 group-hover:grayscale-0" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-primary-950/20 via-transparent to-transparent pointer-events-none z-10" />
                                 <div className="absolute bottom-10 right-10 flex items-center gap-4 z-20">
@@ -301,7 +301,7 @@ export function ResourceMap() {
                     </>
                 ) : (
                     <Reveal width="100%">
-                        <div className="rounded-2xl border border-gray-100 dark:border-white/10 bg-white dark:bg-white/5 overflow-hidden">
+                        <div className="rounded-2xl border border-gray-100 bg-white overflow-hidden">
                             {loading ? (
                                 <div className="py-24 text-center">
                                     <RefreshCw className="w-10 h-10 animate-spin mx-auto mb-4 text-primary-500" />
@@ -316,22 +316,22 @@ export function ResourceMap() {
                                     </Link>
                                 </div>
                             ) : (
-                                <ul className="divide-y divide-gray-100 dark:divide-white/10 max-h-[600px] overflow-y-auto">
+                                <ul className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto">
                                     {resources.map((r) => (
                                         <li key={r.id}>
                                             <Link
                                                 href={`/resources/${r.id}`}
-                                                className="flex flex-col sm:flex-row sm:items-center gap-3 p-6 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group"
+                                                className="flex flex-col sm:flex-row sm:items-center gap-3 p-6 hover:bg-gray-50 transition-colors group"
                                             >
                                                 <div className="flex-1 min-w-0">
-                                                    <span className="text-[10px] font-bold uppercase tracking-wider text-primary-600 dark:text-primary-400">
+                                                    <span className="text-[10px] font-bold uppercase tracking-wider text-primary-600">
                                                         {Array.isArray(r.categories) ? r.categories[0]?.name : r.categories?.name || 'Resource'}
                                                     </span>
-                                                    <h3 className="text-lg font-serif font-bold text-primary-950 dark:text-white group-hover:text-primary-700 truncate">
+                                                    <h3 className="text-lg font-serif font-bold text-primary-950 group-hover:text-primary-700 truncate">
                                                         {r.name}
                                                     </h3>
                                                     {r.address && (
-                                                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-2">
+                                                        <p className="text-sm text-gray-500 mt-1 flex items-center gap-2">
                                                             <MapPin className="w-4 h-4 shrink-0" />
                                                             {r.address}
                                                         </p>
@@ -347,7 +347,7 @@ export function ResourceMap() {
                                 </ul>
                             )}
                             {resources.length > 0 && (
-                                <div className="p-4 border-t border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-white/5 text-center">
+                                <div className="p-4 border-t border-gray-100 bg-gray-50/50 text-center">
                                     <Link
                                         href="/resources"
                                         className="inline-flex items-center gap-2 text-primary-600 font-semibold hover:text-primary-700"

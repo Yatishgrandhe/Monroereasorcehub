@@ -49,14 +49,14 @@ CardHeader.displayName = 'CardHeader';
 
 const CardTitle = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
-    <h3 ref={ref} className={cn('text-2xl font-bold dark:text-white', className)} {...props} />
+    <h3 ref={ref} className={cn('text-2xl font-bold text-[var(--color-text)]', className)} {...props} />
   )
 );
 CardTitle.displayName = 'CardTitle';
 
 const CardDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => (
-    <p ref={ref} className={cn('text-sm text-secondary-500 dark:text-secondary-400', className)} {...props} />
+    <p ref={ref} className={cn('text-sm text-secondary-500', className)} {...props} />
   )
 );
 CardDescription.displayName = 'CardDescription';
@@ -70,7 +70,7 @@ CardContent.displayName = 'CardContent';
 
 const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('flex items-center pt-6 mt-6 border-t border-secondary-100 dark:border-secondary-800', className)} {...props} />
+    <div ref={ref} className={cn('flex items-center pt-6 mt-6 border-t border-secondary-100', className)} {...props} />
   )
 );
 CardFooter.displayName = 'CardFooter';

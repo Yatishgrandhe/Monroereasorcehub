@@ -36,13 +36,13 @@ export function FeaturePills() {
               <Link
                 key={f.href}
                 href={f.href}
-                className="feature-pill flex items-center gap-3 bg-white dark:bg-white/5 border border-[var(--color-border)] dark:border-white/10 rounded-xl px-5 py-3.5 text-left no-underline transition-all duration-200 hover:border-[var(--color-primary)] hover:shadow-[0_8px_24px_rgba(52,97,173,0.12)] hover:-translate-y-1"
+                className="feature-pill flex items-center gap-3 bg-white border border-[var(--color-border)] rounded-xl px-5 py-3.5 text-left no-underline transition-all duration-200 hover:border-[var(--color-primary)] hover:shadow-[0_8px_24px_rgba(52,97,173,0.12)] hover:-translate-y-1"
               >
-                <span className="w-10 h-10 rounded-lg bg-primary-50 dark:bg-primary-950/50 flex items-center justify-center text-primary-700 dark:text-primary-400 shrink-0">
+                <span className="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center text-primary-700 shrink-0">
                   <Icon className="w-5 h-5" />
                 </span>
                 <div>
-                  <strong className="block text-[0.88rem] font-bold text-[var(--color-text)] dark:text-white font-[var(--font-heading)]">
+                  <strong className="block text-[0.88rem] font-bold text-[var(--color-text)] font-[var(--font-heading)]">
                     {f.title}
                   </strong>
                   <span className="text-[0.75rem] text-[var(--color-text-muted)]">{f.desc}</span>

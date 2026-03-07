@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic';
 const Spline = dynamic(() => import('@splinetool/react-spline'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full bg-gradient-to-br from-primary-50/50 via-secondary-50 to-accent-50/50 dark:from-secondary-900 dark:via-secondary-950 dark:to-secondary-900 animate-pulse" />
+    <div className="w-full h-full bg-gradient-to-br from-primary-50/50 via-secondary-50 to-accent-50/50  animate-pulse" />
   ),
 });
 
@@ -22,7 +22,7 @@ class ErrorBoundary extends Component<{ children: React.ReactNode }, { hasError:
   render() {
     if (this.state.hasError) {
       return (
-        <div className="w-full h-full bg-gradient-to-br from-primary-100/30 to-accent-100/30 dark:from-secondary-900 dark:to-secondary-950 flex items-center justify-center" />
+        <div className="w-full h-full bg-gradient-to-br from-primary-100/30 to-accent-100/30  flex items-center justify-center" />
       );
     }
     return this.props.children;
@@ -50,7 +50,7 @@ export default function SplineScene({ scene, className, disableOnMobile = true }
   if (!shouldLoad) {
     return (
       <div className={className}>
-        <div className="w-full h-full bg-gradient-to-br from-primary-50/50 via-secondary-50 to-accent-50/50 dark:from-primary-950/20 dark:via-secondary-950 dark:to-accent-950/20" />
+        <div className="w-full h-full bg-gradient-to-br from-primary-50/50 via-secondary-50 to-accent-50/50 " />
       </div>
     );
   }
@@ -59,7 +59,7 @@ export default function SplineScene({ scene, className, disableOnMobile = true }
     <div className={`relative ${className ?? ''}`}>
       {/* Fallback background - hidden once Spline loads */}
       <div
-        className={`absolute inset-0 bg-gradient-to-br from-primary-50/50 via-secondary-50 to-accent-50/50 dark:from-primary-950/20 dark:via-secondary-950 dark:to-accent-950/20 transition-opacity duration-500 ${loaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+        className={`absolute inset-0 bg-gradient-to-br from-primary-50/50 via-secondary-50 to-accent-50/50  transition-opacity duration-500 ${loaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
       />
       <ErrorBoundary>
         <Suspense fallback={<div className="w-full h-full bg-mesh opacity-30 animate-pulse" />}>

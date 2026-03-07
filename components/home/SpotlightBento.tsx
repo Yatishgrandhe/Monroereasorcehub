@@ -47,12 +47,12 @@ export function SpotlightBento() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
       {FEATURED_ORGS.map((org, i) => (
         <Reveal key={org.name} delay={i * 0.1} width="100%">
-          <div className="bg-white dark:bg-white/5 border-l-4 border-l-primary-500 border border-gray-100 dark:border-white/10 rounded-[2.5rem] p-4 shadow-soft hover:shadow-civic-hover transition-all duration-500 group">
+          <div className="bg-white border-l-4 border-l-primary-500 border border-gray-100 rounded-[2.5rem] p-4 shadow-soft hover:shadow-civic-hover transition-all duration-500 group">
             <div className="p-8">
-              <span className="inline-block px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider text-primary-700 bg-primary-50 dark:bg-primary-950/30 mb-4">
+              <span className="inline-block px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider text-primary-700 bg-primary-50 mb-4">
                 {org.tag}
               </span>
-              <h3 className="text-2xl font-serif font-black text-primary-950 dark:text-white mb-4 group-hover:text-primary-700 transition-colors leading-tight">
+              <h3 className="text-2xl font-serif font-black text-primary-950 mb-4 group-hover:text-primary-700 transition-colors leading-tight">
                 {org.name}
               </h3>
               <p className="text-gray-500 text-sm mb-10 flex-1 leading-relaxed italic font-medium opacity-80">

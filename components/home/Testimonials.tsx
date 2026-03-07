@@ -36,10 +36,10 @@ export function Testimonials({ className }: { className?: string }) {
         <div className="text-center max-w-4xl mx-auto mb-24">
           <Reveal width="100%">
             <span className="text-primary-600 font-semibold uppercase tracking-widest text-xs mb-4 block">What people say</span>
-            <h2 className="text-primary-950 dark:text-white mt-4 mb-6 text-3xl md:text-4xl font-serif font-bold tracking-tight">
+            <h2 className="text-primary-950 mt-4 mb-6 text-3xl md:text-4xl font-serif font-bold tracking-tight">
               Trusted by Monroe residents
             </h2>
-            <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-gray-500 max-w-2xl mx-auto">
               Real stories from people who found the help they needed.
             </p>
           </Reveal>
@@ -59,7 +59,7 @@ export function Testimonials({ className }: { className?: string }) {
 
                 <Quote className="h-12 w-12 text-primary-950 opacity-10 mb-8 group-hover:opacity-20 transition-opacity" />
 
-                <p className="text-primary-950 dark:text-white text-lg md:text-xl leading-relaxed mb-10 font-medium">
+                <p className="text-primary-950 text-lg md:text-xl leading-relaxed mb-10 font-medium">
                   &ldquo;{item.quote}&rdquo;
                 </p>
 

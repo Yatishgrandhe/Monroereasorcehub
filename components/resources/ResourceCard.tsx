@@ -27,7 +27,7 @@ export function ResourceCard({ resource, showCategory = true }: ResourceCardProp
       viewport={{ once: true }}
       className="h-full"
     >
-      <div className="h-full flex flex-col rounded-2xl border border-[var(--color-border)] dark:border-white/10 bg-[var(--color-surface)] dark:bg-[#1e293b] overflow-hidden transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-shadow)] hover:border-[var(--color-primary-light)] dark:hover:border-white/20">
+      <div className="h-full flex flex-col rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-shadow)] hover:border-[var(--color-primary-light)]">
         <div className="p-6 flex-1 flex flex-col">
           <div className="flex items-start justify-between gap-3 mb-4">
             {showCategory && resource.categories?.name && (
@@ -42,7 +42,7 @@ export function ResourceCard({ resource, showCategory = true }: ResourceCardProp
             )}
           </div>
 
-          <h3 className="text-xl font-serif font-bold text-[var(--color-primary)] dark:text-white mb-2 leading-tight">
+          <h3 className="text-xl font-serif font-bold text-[var(--color-primary)] mb-2 leading-tight">
             {resource.name}
           </h3>
 
@@ -71,7 +71,7 @@ export function ResourceCard({ resource, showCategory = true }: ResourceCardProp
             )}
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-[var(--color-border)] dark:border-white/10 mt-auto">
+          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-[var(--color-border)] mt-auto">
             <Button asChild href={`/resources/${resource.id}`} className="rounded-xl font-semibold bg-[var(--color-primary)] hover:opacity-90 text-white h-11 flex-1">
               <span className="flex items-center justify-center">
                 View details
