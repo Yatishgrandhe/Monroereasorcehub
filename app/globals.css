@@ -440,30 +440,144 @@
   animation: errorShake 0.3s ease;
 }
 
-/* Onboarding tour — Skip Tour ghost button */
-.driver-popover-skip-tour {
-  all: unset;
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  padding: 6px 10px;
-  margin-right: auto;
-  border-radius: 6px;
-  transition: color 0.2s ease, background-color 0.2s ease;
-}
-
-.driver-popover-skip-tour:hover,
-.driver-popover-skip-tour:focus {
-  color: var(--color-text);
-  background-color: rgba(0, 0, 0, 0.06);
-  outline: none;
-}
-
+/* Onboarding tour — Popover & Buttons */
 .monroe-tour-popover {
+  background-color: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 1.5rem !important;
+  padding: 1.5rem !important;
+  box-shadow: 0 32px 128px -16px #3461ad40 !important;
+  max-width: 360px !important;
   z-index: 2147483647 !important;
 }
+
+.monroe-tour-popover .driver-popover-title {
+  font-family: var(--font-heading) !important;
+  font-size: 1.75rem !important;
+  font-weight: 700 !important;
+  color: var(--color-primary-dark) !important;
+  margin-bottom: 0.75rem !important;
+  line-height: 1.1 !important;
+  display: block !important;
+}
+
+.monroe-tour-popover .driver-popover-title::after {
+  content: ".";
+  color: var(--color-secondary);
+}
+
+.monroe-tour-popover .driver-popover-description {
+  font-family: var(--font-body) !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.6 !important;
+  color: var(--color-text-muted) !important;
+  margin-bottom: 0 !important;
+}
+
+.monroe-tour-popover .driver-popover-footer {
+  margin-top: 1.75rem !important;
+  padding-top: 1.25rem !important;
+  border-top: 1px solid var(--color-border) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  justify-content: flex-end !important;
+}
+
+/* Progress context */
+.monroe-tour-popover .driver-popover-progress-text {
+  font-family: var(--font-body) !important;
+  font-size: 0.6875rem !important;
+  font-weight: 800 !important;
+  color: var(--color-accent) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.2em !important;
+  margin-right: auto !important;
+}
+
+/* Control Buttons */
+.monroe-tour-popover .driver-popover-next-btn,
+.monroe-tour-popover .driver-popover-prev-btn {
+  font-family: var(--font-body) !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  padding: 0.75rem 1.25rem !important;
+  border-radius: 0.875rem !important;
+  transition: all 0.3s var(--ease-out-expo) !important;
+  text-shadow: none !important;
+  border: 1px solid transparent !important;
+}
+
+.monroe-tour-popover .driver-popover-next-btn {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+}
+
+.monroe-tour-popover .driver-popover-next-btn:hover {
+  background-color: var(--color-primary-dark) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 16px #3461ad40 !important;
+}
+
+.monroe-tour-popover .driver-popover-prev-btn {
+  background-color: transparent !important;
+  color: var(--color-text-muted) !important;
+  border-color: var(--color-border) !important;
+}
+
+.monroe-tour-popover .driver-popover-prev-btn:hover {
+  background-color: var(--color-bg) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-primary-dark) !important;
+}
+
+/* Skip Tour — ghost button, subtle but clear and accessible */
+.driver-popover-skip-tour {
+  all: unset;
+  font-family: var(--font-body) !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: var(--color-text-muted) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  cursor: pointer !important;
+  padding: 0.5rem 0.875rem !important;
+  margin-right: auto !important;
+  border-radius: 0.5rem !important;
+  border: 1px solid var(--color-border) !important;
+  background-color: transparent !important;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 2.25rem !important;
+  box-sizing: border-box !important;
+}
+
+.driver-popover-skip-tour:hover {
+  color: var(--color-text) !important;
+  background-color: var(--color-bg) !important;
+  border-color: var(--color-text-light) !important;
+}
+
+.driver-popover-skip-tour:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-primary) !important;
+}
+
+.driver-popover-skip-tour:active {
+  transform: scale(0.98) !important;
+}
+
+/* Arrow styling */
+.monroe-tour-popover .driver-popover-arrow {
+  border-color: var(--color-surface) !important;
+}
+
 
 /* Reduced motion — accessibility */
 @media (prefers-reduced-motion: reduce) {
@@ -485,6 +599,10 @@
 
   .card-hover:hover {
     transform: none;
+  }
+
+  .driver-popover-skip-tour:active {
+    transform: none !important;
   }
 
   .trust-track:hover {
